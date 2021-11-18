@@ -1,0 +1,62 @@
+<form action="/action_page.php">
+    <h1>Create Algorithm</h1>
+    <label for="aName">Algorithm Name</label><br>
+    <input type="text" id="aName" name="aName" placeholder="Eg. your text here"><br>
+    <br>
+    <label for="tSymbol">Stock Ticker Symbol</label><br>
+    <input type="text" id="tSymbol" name="tSymbol" placeholder="Eg. AAPL, TSLA"><br><br>
+    <label for="tInterval">Time Interval</label>
+    <select name="tInterval" id="tInterval">
+        <option value="1Min">1 Minute</option>
+        <option value="3Min">3 Minutes</option>
+        <option value="5Min">5 Minutes</option>
+        <option value="10Min">10 Minutes</option>
+        <option value="15Min">15 Minutes</option>
+        <option value="30Min">30 Minutes</option>
+        <option value="1Hour">1 Hour</option>
+        <option value="1Day">1 Day</option>
+    </select>
+    <br><br>
+    <label for="indicator">Indicator</label>
+    <select name="indicator" id="indicator">
+        <option value="SMA"> Simple Moving Average</option>
+    </select>
+    <br><br>
+    <label for="pOne">Period 1</label>
+    <select name="pOne" id="pOne">
+        <option value="close20"> (close) 20</option>
+        <option value="close50"> (close) 50</option>
+    </select>
+    <br><br>
+    <label for="comp">Comparator</label>
+    <select name="comp" id="comp">
+        <option value="gAbove"> Goes Above</option>
+        <option value="equal"> Equal To</option>
+        <option value="lower"> Goes Lower Than</option>
+    </select>
+    <br><br>
+    <label for="pTwo">Period 2</label>
+    <select name="pTwo" id="pTwo">
+        <option value="close20"> (close) 20</option>
+        <option value="close50"> (close) 50</option>
+    </select>
+    <br><br>
+    <label for="action">Action</label>
+    <select name="action" id="action">
+        <option value="buy"> Buy</option>
+        <option value="sell"> Sell</option>
+    </select>
+    <br><br>
+    <label for="runtime">Algorithm Running Time</label>
+    <select name="runtime" id="runtime">
+        <option value="1Day">1 Day</option>
+        <option value="3Day">3 Days</option>
+        <option value="7Day">7 Days</option>
+        <option value="10Day">10 Days</option>
+        <option value="14Day">14 Days</option>
+        <option value="30Day">30 Days</option>
+    </select>
+    <br><br>
+    <input type="saveAndBacktest" value="SAVE AND BACKTEST ALGORITHM">
+    <input type="share" value="SHARE">
+  </form>
