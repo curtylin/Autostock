@@ -1,5 +1,5 @@
 # Running Development
-run the following code in the WSL terminal
+run the following code in the WSL terminal (MAKE SURE YOU ARE IN THE auto-stock DIRECTORY !! VERY IMPORTANT)
 ```
 npm run develop
 ```
