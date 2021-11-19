@@ -1,1 +1,4 @@
-Gatsby branch
+# Running Development
+```
+npm run develop
+```
