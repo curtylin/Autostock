@@ -10,6 +10,8 @@ venv
 
 # testing
 /coverage
+coverage
+.pnp
 
 # production
 /build
