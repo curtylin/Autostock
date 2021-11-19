@@ -81,6 +81,20 @@ const badgeStyle = {
 // data
 const links = [
   {
+    text: "My Algorithms",
+    url: "/algorithms",
+    description:
+      "Create Algorithms page.. still a WIP and needs bootstrap/material design",
+    color: "#059A76",
+  },
+  {
+    text: "Create Algorithm",
+    url: "/createAlgorithm",
+    description:
+      "Create Algorithm page.. still a WIP and needs bootstrap/material design",
+    color: "#059A76",
+  },
+  {
     text: "Tutorial",
     url: "https://www.gatsbyjs.com/docs/tutorial/",
     description:
