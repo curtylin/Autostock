@@ -9,3 +9,7 @@ def not_found(error):
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
+
+@app.route('/poggers')
+def jonnyLikesMen():
+    return 'True'

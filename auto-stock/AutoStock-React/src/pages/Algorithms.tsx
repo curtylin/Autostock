@@ -1,7 +1,11 @@
 import * as React from "react"
 
+import Layout from "../components/layout"
+import Seo from "../components/seo"
+
 const Algorithms = () => (
-  <>
+  <Layout>
+    <Seo title="AutoStock" />
     <title>My Algorithms</title>
     <h1>My Algorithms</h1>
     <div className="mdc-data-table">
@@ -28,7 +32,7 @@ const Algorithms = () => (
       </div>
 
 
-  </>
+  </Layout>
 )
 
 export default Algorithms
