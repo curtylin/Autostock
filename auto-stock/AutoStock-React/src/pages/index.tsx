@@ -8,6 +8,8 @@ const IndexPage = () => (
   <Layout>
     <Seo title="AutoStock" />
     <Link to='/CreateAlgorithm'>Create New Algorithm</Link>
+    <Link to='/MyAlgorithm'>My Algorithms</Link>
+    <Link to='/Algorithms'> Created Algorithms</Link>
   </Layout>
 )
 
