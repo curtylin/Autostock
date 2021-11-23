@@ -11,5 +11,5 @@ def index():
     return app.send_static_file('index.html')
 
 @app.route('/poggers')
-def jonnyLikesMen():
+def poggersTest():
     return 'True'
