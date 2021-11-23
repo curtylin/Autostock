@@ -8,7 +8,7 @@ interface HeaderProps {
 const Header = ({ siteTitle }: HeaderProps) => (
   <header
     style={{
-      background: `rebeccapurple`,
+      background: `#059a76`,
       marginBottom: `1.45rem`,
     }}
   >
