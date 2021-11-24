@@ -4,17 +4,13 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json yarn.lock ./
 COPY ./src ./src
 COPY ./public ./public
-RUN yarn install
-RUN yarn build
+RUN npm install
+RUN npm build
 
 FROM python:3.9
 WORKDIR /app
 COPY --from=build-step /app/build ./build
 
-RUN mkdir ./api
-COPY api/requirements.txt api/api.py api/.flaskenv ./api/
-RUN pip install -r ./api/requirements.txt
-ENV FLASK_ENV production
 
 # TA Lib for Python
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
@@ -24,6 +20,13 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
     sudo make install
 
 RUN rm ta-lib-0.4.0-src.tar.gz && rm -rf ta-lib
+
+RUN pip install TA-Lib
+
+RUN mkdir ./api
+COPY api/requirements.txt api/api.py api/.flaskenv ./api/
+RUN pip install -r ./api/requirements.txt
+ENV FLASK_ENV production
 
 
 EXPOSE 3000
