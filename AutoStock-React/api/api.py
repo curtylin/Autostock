@@ -1,6 +1,13 @@
 from flask import Flask 
+import firebase_admin
+from firebase_admin import credentials, firestore, initialize_app
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
+
+cred = credentials.Certificate("firestore_apikey.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
 
 @app.errorhandler(404)
 def not_found(error):
