@@ -20,3 +20,8 @@ def index():
 @app.route('/test')
 def test():
     return {'test': 'test'}
+
+@app.route()
+def addAlgorithm(data):
+    await db.collection("algorithms").document("one").set(data)
+    return 'True'
