@@ -27,7 +27,7 @@ def createAlgorithm(data):
 
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run 
-@app.route('/add', methods=['POST'])
+@app.route('/create', methods=['POST'])
 def create():
     """
         create() : Add document to Firestore collection with request body.
