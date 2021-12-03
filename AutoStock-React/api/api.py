@@ -27,8 +27,8 @@ def createAlgorithm(data):
 
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run 
-@app.route('/create', methods=['POST'])
-def create():
+@app.route('/create-algorithm', methods=['POST'])
+def algo_create():
     """
         create() : Add document to Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
@@ -41,8 +41,8 @@ def create():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-@app.route('/listAlgorithms', methods=['GET'])
-def read():
+@app.route('/list-algorithm', methods=['GET'])
+def algo_read():
     """
         read() : Fetches documents from Firestore collection as JSON.
         todo : Return document that matches query ID.
@@ -60,8 +60,8 @@ def read():
     except Exception as e:
         return f"An Error Occured: {e}
 
-@app.route('/update', methods=['POST', 'PUT'])
-def update():
+@app.route('/update-algorithm', methods=['POST', 'PUT'])
+def algo_update():
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
@@ -74,8 +74,8 @@ def update():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-@app.route('/delete', methods=['GET', 'DELETE'])
-def delete():
+@app.route('/delete-algorithm', methods=['GET', 'DELETE'])
+def algo_delete():
     """
         delete() : Delete a document from Firestore collection.
     """
@@ -86,6 +86,4 @@ def delete():
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
-
-
 ## End algo CRUD Block
