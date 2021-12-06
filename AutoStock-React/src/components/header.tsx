@@ -18,29 +18,30 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
+import './header.css'
 
 
 export default function Header() {
   return (
     <>
-      <Box bg='#059a76' px={4}>
+      <Box className='navbar' h='90' px={50} >
         <Flex>
-          <Box p='20'  pt='40'>
-            <h1><Link to='/Index'>AutoStock</Link></h1>
+          <Box p='20'  pt='20'>
+            <h1><Link to='/' className='autostock-link'>AutoStock</Link></h1>
           </Box>
-          <HStack p='' spacing='20px'>
+          <HStack p='20' spacing='50px' pt='5'>
             <p></p>
-            <h4><Link to='/CreateAlgorithm'>Create New Algorithm</Link></h4>
-            <h4><Link to='/MyAlgorithm'>My Algorithms</Link></h4>
-            <h4><Link to='/Algorithms'> Created Algorithms</Link></h4>
+            <h4><Link to='/CreateAlgorithm' className='text-link'>Create New Algorithm</Link></h4>
+            <h4><Link to='/MyAlgorithm' className='text-link'>My Algorithms</Link></h4>
+            <h4><Link to='/Algorithms' className='text-link'> Created Algorithms</Link></h4>  
           </HStack>
           <Spacer />
-          <Box p='20'  pt='50'>
-            <Button colorScheme='blue' mr='4'>
+          <Box p='20'  pt='25'>
+            <Button colorScheme='teal' size='xs' mr='4'>
               Sign Up
             </Button>
-            <Button colorScheme='blue'>Log in</Button>
+            <Button className='button-style'>Log in</Button>
           </Box>
         </Flex>
       </Box>
@@ -49,9 +50,9 @@ export default function Header() {
 }
 //export default Header
 
-interface HeaderProps { 
-  siteTitle: string
-}
+// interface HeaderProps { 
+//   siteTitle: string
+// }
 
 // const Header = ({ siteTitle }: HeaderProps) => (
 //   <header
