@@ -8,7 +8,6 @@ import {
   Heading,
   Spacer,
   IconButton,
-  Button,
   ButtonGroup,
   Menu,
   MenuButton,
@@ -20,15 +19,15 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import './header.css'
+import Button from '@mui/material/Button';
 
 
-export default function Header() {
-  return (
+const Header = ({siteTitle }: HeaderProps) =>   (
     <>
       <Box className='navbar' h='90' px={50} >
         <Flex>
           <Box p='20'  pt='20'>
-            <h1><Link to='/' className='autostock-link'>AutoStock</Link></h1>
+            <h1><Link to='/' className='autostock-link'>{siteTitle}</Link></h1>
           </Box>
           <HStack p='20' spacing='50px' pt='5'>
             <p></p>
@@ -38,21 +37,19 @@ export default function Header() {
           </HStack>
           <Spacer />
           <Box p='20'  pt='25'>
-            <Button colorScheme='teal' size='xs' mr='4'>
-              Sign Up
-            </Button>
-            <Button className='button-style'>Log in</Button>
+            <Button variant="contained" sx={{ mr: 2 }}>Sign Up</Button>
+            <Button variant="contained">Log In</Button>
           </Box>
         </Flex>
       </Box>
     </>
-  );
-}
-//export default Header
+  )
 
-// interface HeaderProps { 
-//   siteTitle: string
-// }
+export default Header
+
+interface HeaderProps { 
+  siteTitle: string
+}
 
 // const Header = ({ siteTitle }: HeaderProps) => (
 //   <header
