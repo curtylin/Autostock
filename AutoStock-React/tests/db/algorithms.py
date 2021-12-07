@@ -1,5 +1,4 @@
-import api.api as algo
-
+import api.api as api
 
 #TODO data structuring subject to change. 
 data = {
@@ -18,10 +17,10 @@ data = {
 
 
 def main():
-    algo.get() #Check if not present.
-    algo.create(data)
-    algo.get() #Check if created
-    algo.edit()  
-    algo.get() #Check if it was edited
-    algo.delete()
-    algo.get() #Check if deleted
+    api.algo_read() #Check if not present.
+    api.algo_create(data)
+    api.algo_read() #Check if created
+    api.algo_update()  
+    api.algo_read() #Check if it was edited
+    api.algo_delete()
+    api.algo.algo_read() #Check if deleted
