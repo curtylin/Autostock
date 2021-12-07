@@ -58,14 +58,16 @@ interface HeaderProps {
 }
 
 const pages = [
-  <Link to='/CreateAlgorithm' style={{ color: 'white', textDecoration: 'none' }}>Create Algorithm</Link>, 
-  <Link to='/MyAlgorithm' style={{ color: 'white', textDecoration: 'none' }}>My Algorithms</Link>, 
-  <Link to='/Algorithms' style={{ color: 'white', textDecoration: 'none' }}>Created Algorithms</Link>];
+  <Link to='/CreateAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>Create Algorithm</Link>, 
+  <Link to='/MyAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>My Algorithms</Link>, 
+  <Link to='/Algorithms' style={{ color: 'black', textDecoration: 'none' }}>Created Algorithms</Link>];
+  
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = ({siteTitle }: HeaderProps) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElAlg, setAnchorElAlg] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -73,11 +75,16 @@ const Header = ({siteTitle }: HeaderProps) => {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
+  const handleOpenAlgMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElAlg(event.currentTarget);
+  };
 
+  const handleCloseAlgMenu = () => {
+    setAnchorElAlg(null);
+  };
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -134,7 +141,9 @@ const Header = ({siteTitle }: HeaderProps) => {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            
+            {/* Algorithm Links */}
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -142,7 +151,34 @@ const Header = ({siteTitle }: HeaderProps) => {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
+
+            <Button onClick={handleOpenAlgMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
+                Algorithms
+            </Button>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElAlg}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElAlg)}
+              onClose={handleCloseAlgMenu}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
