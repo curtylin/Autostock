@@ -13,7 +13,6 @@ const IndexPage = () => (
     <div></div>
     <Link to='/Algorithms'> Created Algorithms</Link>
     <div></div>
-    <Link to='https://www.youtube.com/watch?v=rTgj1HxmUbg'>Gatsby Tutorial</Link>
   </Layout>
 )
 
