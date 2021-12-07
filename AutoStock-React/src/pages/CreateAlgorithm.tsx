@@ -7,9 +7,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+// import SendIcon from '@mui/icons-material/Send';
+import Tooltip from '@mui/material/Tooltip';
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+
 const theme = {
   spacing: 8,
 }
@@ -18,79 +21,151 @@ const CreateAlgorithm = () => (
   <Layout>
     <Seo title="AutoStock" />
     <h2>Create Algorithm</h2>
-
-    <form>
-    <div className="form-check">
-      <TextField sx={{ mr: 2 }} id="outlined-search" label="Algorithm Name" type="search" />
-      <TextField id="outlined-search" label="Ticker Symbol" type="search" />
-    </div>
-    <FormControl  sx={{ mt:1, mr: 2, minWidth: 200 }}>
-        <InputLabel id="demo-simple-select-standard-label">Time Interval</InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          label="Time Interval"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>1 Hour</MenuItem>
-          <MenuItem value={20}>1 Day</MenuItem>
-          <MenuItem value={30}>1 Week</MenuItem>
-        </Select>
-        
-      </FormControl>
-      <FormControl  sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel id="demo-simple-select-standard-label">Indicator</InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          label="Indicator"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Simple Moving Average (SMA)</MenuItem>
-        </Select> 
-      </FormControl>
     
-      <div className="form-check">
-        <label>Period 1 </label>
-        <select className="form-control">
-          <option>(close) 20</option>
-        </select>
+    <form>
+      <div>
+        {/* Algorithm Name */}
+        <Tooltip title="Give it a name!" placement="left" arrow>       
+          <TextField required sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300}} id="outlined-search" label="Algorithm Name" type="search" />
+        </Tooltip>
       </div>
-      <div className="form-check">
-        <label>Comparator </label>
-        <select className="form-control">
-          <option>Goes Above</option>
-          <option>Goes Below</option>
-        </select>
+      <div>
+        {/* Stock Symbol */}
+        <FormControl  sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
+          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>       
+            <TextField required id="outlined-search" label="Stock" type="search" />
+          </Tooltip>
+        </FormControl>
+        {/* Time Interval */}
+        <FormControl  sx={{ my: 2, mr: 5, minWidth: 300 }}>
+         
+            <InputLabel required id="demo-simple-select-standard-label">Time Interval</InputLabel>
+            <Tooltip title="How often?" placement="right" arrow>    
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                label="Time Interval"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>1 Hour</MenuItem>
+                <MenuItem value={20}>1 Day</MenuItem>
+                <MenuItem value={30}>1 Week</MenuItem>
+              </Select>  
+            </Tooltip>
+        </FormControl>
       </div>
-      <div className="form-check">
-        <label>Period 2 </label>
-        <select className="form-control">
-          <option>(close) 50</option>
-        </select>
-      </div>
-      <div className="form-check">
-        <label>Action </label>
-        <select className="form-control">
-          <option>Buy</option>
-          <option>Sell</option>
-        </select>
-      </div>
-      <div className="form-check">
-        <label>Algorithm Running Time </label>
-        <select className="form-control">
-          <option>14 Days (a fortnite)</option>
-        </select>
-      </div>
-      
-      <button type="submit" className="btn btn-primary" >Save and Backtest Algorithm</button>
-      <button type="submit" className="btn btn-primary">Share</button>
+        {/* Indicator */}
+        <FormControl  sx={{ my: 2, mr: 5, minWidth: 200, maxWidth:200 }}>
+          <InputLabel required id="demo-simple-select-standard-label">Indicator</InputLabel>
+          <Tooltip title="Which Indicator?" placement="left" arrow> 
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Indicator"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Simple Moving Average (SMA)</MenuItem>
+            </Select>
+          </Tooltip>       
+        </FormControl>
+        {/* Period 1 */}
+        <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">Period 1</InputLabel>
+          <Tooltip title="Period 1" placement="bottom" arrow> 
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Period 1"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>(close) 20</MenuItem>
+            </Select>
+          </Tooltip>     
+        </FormControl>
+        {/* Comparator */}
+        <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">Comparator</InputLabel>
+          <Tooltip title="Comparator" placement="bottom" arrow> 
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Comparator"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Goes Above</MenuItem>
+              <MenuItem value={10}>Goes Below</MenuItem>
+            </Select>     
+          </Tooltip>
+        </FormControl>
+        {/* Period 2 */}
+        <FormControl required sx={{ my: 2, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">Period 2</InputLabel>
+          <Tooltip title="Period 2" placement="bottom" arrow> 
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Period 2"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>(close) 20</MenuItem>
+            </Select>   
+          </Tooltip>  
+        </FormControl>
+        <div>
+        {/* Action */}
+        <FormControl required sx={{ my: 2, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">Action</InputLabel>
+          <Tooltip title="Buy or Sell" placement="right" arrow> 
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Action"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Buy</MenuItem>
+              <MenuItem value={10}>Sell</MenuItem>
+            </Select>   
+          </Tooltip>  
+        </FormControl>
+        </div>
+          {/* Running Time */}
+          <FormControl required sx={{ my: 2, minWidth: 500 }}>
+              <InputLabel id="demo-simple-select-standard-label">Algorithm Running Time</InputLabel>
+              <Tooltip title="How long will this run?" placement="right" arrow> 
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  label="Algorithm Running Time"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>1 Day</MenuItem>
+                  <MenuItem value={10}>3 Days</MenuItem>
+                  <MenuItem value={10}>1 Week</MenuItem>
+                  <MenuItem value={10}>1 Month</MenuItem>
+                </Select> 
+              </Tooltip>    
+            </FormControl>
+        <div>
 
-    </form>
+        <Button type="submit" variant="contained" color="primary" sx={{ my: 2, mr:5, minWidth: 300 }}>Save and Backtest Algorithm</Button>
+
+        <Button type="submit" variant="contained" color="secondary">Share</Button>
+        </div>
+      </form>
 
   </Layout>
 )
