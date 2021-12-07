@@ -94,12 +94,12 @@ const Header = ({siteTitle }: HeaderProps) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography 
-            fontFamily="Arial"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}
             style={{ color: 'black'}}
           >
             <Link to='/' style={{ color: 'black', textDecoration: 'none' }} className='autostock-link'>{siteTitle}</Link>
@@ -153,8 +153,16 @@ const Header = ({siteTitle }: HeaderProps) => {
               </Button>
             ))} */}
 
-            <Button onClick={handleOpenAlgMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-                Algorithms
+            <Button onClick={handleOpenAlgMenu} sx={{ mt: 1, mx: 5, color: 'white', display: 'block' }}>
+            <Typography 
+              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+              fontWeight="medium"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', md: 'flex' } }}
+            >
+              Algorithms
+            </Typography>
             </Button>
             <Menu
               sx={{ mt: '45px' }}
@@ -178,7 +186,17 @@ const Header = ({siteTitle }: HeaderProps) => {
                 </MenuItem>
               ))}
             </Menu>
-
+            <Button sx={{ mt: 1, color: 'white', display: 'block' }}>
+            <Typography 
+              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+              fontWeight="medium"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', md: 'flex' } }}
+            >
+              Leaderboards
+            </Typography>
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
