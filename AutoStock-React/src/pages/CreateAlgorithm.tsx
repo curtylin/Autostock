@@ -75,7 +75,7 @@ const CreateAlgorithm = () => (
         {/* Period 1 */}
         <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">Period 1</InputLabel>
-          <Tooltip title="Period 1" placement="bottom" arrow> 
+          <Tooltip title="Period 1" placement="left" arrow> 
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
@@ -91,7 +91,7 @@ const CreateAlgorithm = () => (
         {/* Comparator */}
         <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">Comparator</InputLabel>
-          <Tooltip title="Comparator" placement="bottom" arrow> 
+          <Tooltip title="Comparator" placement="left" arrow> 
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
@@ -108,7 +108,7 @@ const CreateAlgorithm = () => (
         {/* Period 2 */}
         <FormControl required sx={{ my: 2, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">Period 2</InputLabel>
-          <Tooltip title="Period 2" placement="bottom" arrow> 
+          <Tooltip title="Period 2" placement="left" arrow> 
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
