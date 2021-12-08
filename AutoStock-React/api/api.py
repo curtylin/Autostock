@@ -39,7 +39,7 @@ def algo_create():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## NOTE: THIS one might be deleted since we dont really want other users to see all algorithms in our database? FOR TESTING PURPOSES ONLY/ADMIN PANEL?
+## Returns all public algorithms
 @app.route('/list-algorithm', methods=['GET'])
 def algo_read():
     """
@@ -48,14 +48,8 @@ def algo_read():
         all_todos : Return all documents.
     """
     try:
-        # Check if ID was passed to URL query
-        id = request.args.get('id')
-        if id:
-            algorithms = algorithms_ref.document(userID).get()
-            return jsonify(todo.to_dict()), 200
-        else:
-            algorithms = [doc.to_dict() for doc in algorithms_ref.stream()]
-            return jsonify(algorithms), 200
+        algorithms = [doc.to_dict() for doc in algorithms_ref.where("public", "==", True).stream()]
+        return jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
@@ -71,13 +65,9 @@ def algo_read_user_id(id):
     try:
         # Check if ID was passed to URL query
         # id = request.args.get('id')
-        if id:
-            userID = id
-            algorithms = [doc.to_dict() for doc in algorithms_ref.where("userID", "==", userID).stream()]
-            return jsonify(algorithms), 200
-        else:
-            algorithms = [doc.to_dict() for doc in algorithms_ref.stream()]
-            return jsonify(algorithms), 200
+        userID = id
+        algorithms = [doc.to_dict() for doc in algorithms_ref.where("userID", "==", userID).stream()]
+        return jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
