@@ -34,9 +34,7 @@ def algo_create():
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
     try:
-        data = request.json
-        # print(data)
-        algorithms_ref.document(data).set(request.json)
+        algorithms_ref.document().set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -63,6 +61,7 @@ def algo_read():
 @app.route('/list-algorithm/<id>', methods=['GET'])
 def algo_read_user_id(id):
     """
+        id : is the user id. Gets all algorithms by this user id. 
         read() : Fetches documents from Firestore collection as JSON.
         todo : Return document that matches query ID.
         all_todos : Return all documents.
@@ -96,6 +95,19 @@ def algo_update():
 
 @app.route('/delete-algorithm', methods=['GET', 'DELETE'])
 def algo_delete():
+    """
+        delete() : Delete a document from Firestore collection.
+    """
+    try:
+        # Check for ID in URL query
+        algorithm_id = request.args.get('id')
+        algorithms_ref.document(algorithm_id).delete()
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+@app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
+def algo_delete_id(id):
     """
         delete() : Delete a document from Firestore collection.
     """
