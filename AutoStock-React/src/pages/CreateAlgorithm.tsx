@@ -7,6 +7,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+
 // import SendIcon from '@mui/icons-material/Send';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -16,7 +19,9 @@ import Seo from "../components/seo"
 const theme = {
   spacing: 8,
 }
-
+const handleDelete = () => {
+  console.info('You clicked the delete icon.');
+}
 const CreateAlgorithm = () => (
   <Layout>
     <Seo title="AutoStock" />
@@ -33,12 +38,15 @@ const CreateAlgorithm = () => (
         {/* Stock Symbol */}
         <FormControl  sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>       
-            <TextField required id="outlined-search" label="Stock" type="search" />
+            <TextField required type="search" id="outlined-search" label="Stock" />
           </Tooltip>
+          {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
+            <Chip id="chp1" label="Deletable" onDelete={handleDelete} />
+            <Chip label="Deletable" onDelete={handleDelete}/>
+          </Stack> */}
         </FormControl>
         {/* Time Interval */}
         <FormControl  sx={{ my: 2, mr: 5, minWidth: 300 }}>
-         
             <InputLabel required id="demo-simple-select-standard-label">Time Interval</InputLabel>
             <Tooltip title="How often?" placement="right" arrow>    
               <Select
