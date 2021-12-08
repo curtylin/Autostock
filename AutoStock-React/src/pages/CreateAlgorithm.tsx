@@ -1,18 +1,11 @@
 import * as React from "react"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { FormGroup } from '@mui/material';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-
-// import SendIcon from '@mui/icons-material/Send';
 import Tooltip from '@mui/material/Tooltip';
-
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
@@ -22,6 +15,9 @@ const theme = {
 const handleDelete = () => {
   console.info('You clicked the delete icon.');
 }
+
+
+
 const CreateAlgorithm = () => (
   <Layout>
     <Seo title="AutoStock" />
@@ -169,11 +165,13 @@ const CreateAlgorithm = () => (
             </FormControl>
         <div>
 
-        <Button type="submit" variant="contained" color="primary" sx={{ my: 2, mr:5, minWidth: 300 }}>Save and Backtest Algorithm</Button>
+        <Button type="submit" variant="contained" color="primary" sx={{ my: 2, mr:5, minWidth: 300 }}>Save</Button>
 
         <Button type="submit" variant="contained" color="secondary">Share</Button>
         </div>
       </form>
+
+    <div id="container" className="chart"></div>
 
   </Layout>
 )
