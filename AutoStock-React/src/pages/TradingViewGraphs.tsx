@@ -1,13 +1,17 @@
 import * as React from "react"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import Highcharts from 'highcharts';
+import Highcharts from 'highcharts'
+
 
 /// will fix once i figure out the component name
 
 
 const TradingViewGraphs = () => (
 
+  var Highcharts = require('highcharts/highstock');  
+  // Load Highcharts Maps as a module
+  require('highcharts/modules/map')(Highcharts);
   Highcharts.getJSON('https://demo-live-data.highcharts.com/aapl-ohlcv.json', function (data:any) {
 
     // split the data set into ohlc and volume
@@ -18,11 +22,11 @@ const TradingViewGraphs = () => (
 
     for (i; i < dataLength; i += 1) {
         ohlc.push([
-            data[i][0], // the date
-            data[i][1], // open
-            data[i][2], // high
-            data[i][3], // low
-            data[i][4] // close
+            data[i][0], // startinvalue
+            data[i][1], // Symbol
+            data[i][2], // Indicicator
+            data[i][3], // operator
+            data[i][4]
         ]);
 
         volume.push([

@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "highcharts": "^9.3.2"
+    "highcharts": "github:highcharts/highcharts-dist#nightly"
   }
 }
