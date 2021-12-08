@@ -39,6 +39,7 @@ def algo_create():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+## NOTE: THIS one might be deleted since we dont really want other users to see all algorithms in our database? FOR TESTING PURPOSES ONLY/ADMIN PANEL?
 @app.route('/list-algorithm', methods=['GET'])
 def algo_read():
     """
@@ -58,6 +59,7 @@ def algo_read():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+## Be sure to pass in the user id in the url
 @app.route('/list-algorithm/<id>', methods=['GET'])
 def algo_read_user_id(id):
     """
@@ -79,6 +81,7 @@ def algo_read_user_id(id):
     except Exception as e:
         return f"An Error Occured: {e}"
 
+## TODO test this one out.
 @app.route('/update-algorithm', methods=['POST', 'PUT'])
 def algo_update():
     """
@@ -93,6 +96,7 @@ def algo_update():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+## Might be legacy code.. will probably delete since deleting through URL is probably easier.
 @app.route('/delete-algorithm', methods=['GET', 'DELETE'])
 def algo_delete():
     """
@@ -106,6 +110,7 @@ def algo_delete():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+## Be sure to pass in the algorithm id in the url
 @app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
 def algo_delete_id(id):
     """
@@ -113,7 +118,7 @@ def algo_delete_id(id):
     """
     try:
         # Check for ID in URL query
-        algorithm_id = request.args.get('id')
+        algorithm_id = id
         algorithms_ref.document(algorithm_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
