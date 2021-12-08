@@ -9,7 +9,6 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 algorithms_ref = db.collection('algorithms')
 
-
 @app.errorhandler(404)
 def not_found(error):
     return app.send_static_file('index.html')
@@ -18,15 +17,10 @@ def not_found(error):
 def index():
     return app.send_static_file('index.html')
 
-
-@app.route('/addAlgorithm', methods=['POST'])
-def createAlgorithm(data):
-    await db.collection("algorithms").document("one").set(data)
-    return 'True'
-
-
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run 
+## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
+## NOTE: for POST and GET requests, you need to pass in the data into the URL: https://stackoverflow.com/questions/27577922/how-to-pass-a-json-array-as-a-parameter-in-url 
 @app.route('/create-algorithm', methods=['POST'])
 def algo_create():
     """
@@ -35,8 +29,9 @@ def algo_create():
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
     try:
-        id = request.json['id']
-        algorithms_ref.document(id).set(request.json)
+        data = request.json
+        print(data)
+        algorithms_ref.document(data).set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -50,15 +45,15 @@ def algo_read():
     """
     try:
         # Check if ID was passed to URL query
-        algorithm_id = request.args.get('id')
-        if algorithm_id:
-            algorithms = algorithms_ref.document(algorithm_id).get()
+        user_id = request.args.get('id')
+        if user_id:
+            algorithms = algorithms_ref.document(user_id).get()
             return jsonify(algorithms.to_dict()), 200
         else:
             algorithms = [doc.to_dict() for doc in algorithms.stream()]
             return jsonify(algorithms), 200
     except Exception as e:
-        return f"An Error Occured: {e}
+        return f"An Error Occured: {e}"
 
 @app.route('/update-algorithm', methods=['POST', 'PUT'])
 def algo_update():
