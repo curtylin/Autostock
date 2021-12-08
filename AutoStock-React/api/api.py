@@ -72,15 +72,14 @@ def algo_read_user_id(id):
         return f"An Error Occured: {e}"
 
 ## TODO test this one out.
-@app.route('/update-algorithm', methods=['POST', 'PUT'])
-def algo_update():
+@app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
+def algo_update(id):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
     try:
-        id = request.json['id']
         algorithms_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
