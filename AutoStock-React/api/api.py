@@ -1,11 +1,9 @@
-from flask import Flask 
+from flask import Flask, request
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
-
-from backtesting import Backtest, Strategy
-from backtesting.lib import crossover
-
-from backtesting.test import SMA, GOOG
+from datetime import datetime
+import json
+import backtrader as bt
 
 
 
@@ -25,73 +23,55 @@ def index():
     return app.send_static_file('index.html')
 
 
-@app.route('/api/backtest')
-def backtest():
-    strategy = Strategy(
-        {
-            GOOG: SMA(
-                short_window=10,
-                long_window=30,
-                overbought=80,
-                oversold=20,
-            ),
-        },
-        simulate=True,
-    )
-    backtest = Backtest(
-        strategy,
-        start=datetime.datetime(2018, 1, 1),
-        end=datetime.datetime(2018, 12, 31),
-        initial_equity=100000.0,
-    )
-    backtest.run()
-    return backtest.results.to_json()
-
-@app.route('/api/backtest/<symbol>')
-def backtest_symbol(symbol):
-    strategy = Strategy(
-        {
-            symbol: SMA(
-                short_window=10,
-                long_window=30,
-                overbought=80,
-                oversold=20,
-            ),
-        },
-        simulate=True,
-    )
-    backtest = Backtest(
-        strategy,
-        start=datetime.datetime(2018, 1, 1),
-        end=datetime.datetime(2018, 12, 31),
-        initial_equity=100000.0,
-    )
-    backtest.run()
-    return backtest.results.to_json()
+@app.route('/backtest', methods=['POST'])
+def backtest(stockInformation):
+    data = request.json
+    dataDict = json.loads(data)
 
 
-
-@app.route('/testbacktesting')
-def testbacktesting():
-    class SmaCross(Strategy):
-        def init(self):
-            price = self.data.Close
-            self.ma1 = self.I(SMA, price, 10)
-            self.ma2 = self.I(SMA, price, 20)
-
+    class Strategy(bt.Strategy):
+        def __init__(self):
+            if(dataDict['indicatorOne'] == 'SMA'):
+                self.sma = btind.SimpleMovingAverage(period=dataDict['timeInterval'])
+            if(dataDict['indicatorTwo'] == 'EMA'):
+                self.ema = btind.ExponentialMovingAverage(period=dataDict['timeInterval'])
         def next(self):
-            if crossover(self.ma1, self.ma2):
-                self.buy()
-            elif crossover(self.ma2, self.ma1):
-                self.sell()
+            func = eval('lambda x: self.indicatorOne operator self.indicatorTwo')
+            if(func(self.data.close[0])):
+                if(dataDict['action'] == "buy"):
+                    self.buy()
 
 
-    bt = Backtest(GOOG, SmaCross, commission=.002,
-                  exclusive_orders=True)
-    stats = bt.run()
-    return stats.to_json()
+
+    cerebro = bt.Cerebro()
+    cerebro.broker.setcash(dataDict['cash'])
+    cerebro.broker.setcommission(commission=0.0)
+    cerebro.addstrategy(bt.Strategy)
+
+    financeData = bt.feeds.YahooFinanceCSVData(dataname=dataDict['symbol'],
+                                        fromdate=dataDict['startDate'],
+                                        todate=dataDict['endDate'],
+                                        reverse=False)
+
+    response = {}
+
+    cerebro.adddata(financeData)
+
+    response["startingValue"] = cerebro.broker.getvalue()
+    cerebro.run()
+    response["EndingValue"] = cerebro.broker.getvalue()
+    response["PnL"] = response["EndingValue"] - response["startingValue"]
+    response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+
+    return response
+
+
+
+
 
 
 @app.route('/test')
 def test():
-    return {'test': 'test'}
+    test = {}
+    test["Entry"] = "Test"
+    return test
