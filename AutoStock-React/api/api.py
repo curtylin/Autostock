@@ -71,7 +71,7 @@ def algo_read_user_id(id):
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## TODO test this one out.
+## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body. 
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
     """
