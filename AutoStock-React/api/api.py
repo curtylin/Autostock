@@ -1,8 +1,12 @@
 from flask import Flask , request, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app)
 
 cred = credentials.Certificate("firestore_apikey.json")
 # firebase_admin.initialize_app(cred)
@@ -40,6 +44,7 @@ def algo_create():
         return f"An Error Occured: {e}"
 
 ## Returns all public algorithms
+@cross_origin()
 @app.route('/list-algorithm', methods=['GET'])
 def algo_read():
     """
