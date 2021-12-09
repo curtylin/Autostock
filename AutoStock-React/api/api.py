@@ -46,11 +46,10 @@ def algo_create():
 ## Returns all public algorithms
 @cross_origin()
 @app.route('/list-algorithm', methods=['GET'])
-def algo_read():
+def algo_read_public():
     """
         read() : Fetches documents from Firestore collection as JSON.
-        todo : Return document that matches query ID.
-        all_todos : Return all documents.
+        algorithms : Return all public algorithms.
     """
     try:
         algorithms = [doc.to_dict() for doc in algorithms_ref.where("public", "==", True).stream()]
@@ -64,8 +63,7 @@ def algo_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id. 
         read() : Fetches documents from Firestore collection as JSON.
-        todo : Return document that matches query ID.
-        all_todos : Return all documents.
+        algorithms : Return document(s) that matches query userID.
     """
     try:
         # Check if ID was passed to URL query
@@ -73,6 +71,21 @@ def algo_read_user_id(id):
         userID = id
         algorithms = [doc.to_dict() for doc in algorithms_ref.where("userID", "==", userID).stream()]
         return jsonify(algorithms), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Be sure to pass in the user id in the url
+@app.route('/get-algorithm/<id>', methods=['GET'])
+def algo_read(id):
+    """
+        id : is the user id. Gets all algorithms by this user id. 
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        algorithm = algorithms_ref.document(id).get()
+        return jsonify(algorithm.to_dict()), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
