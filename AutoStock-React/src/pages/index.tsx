@@ -11,7 +11,7 @@ const IndexPage = () => (
     <div></div>
     <Link to='/MyAlgorithm'>My Algorithms</Link>
     <div></div>
-    <Link to='/Algorithms'> Created Algorithms</Link>
+    <Link to='/publicAlgorithms'> Public Algorithms</Link>
     <div></div>
   </Layout>
 )
