@@ -31,7 +31,7 @@ const MyAlgorithm = () => {
   <Layout>
     <Seo title="AutoStock" />
       <title>My Algorithms</title>
-      <h1>129487458's Algorithms</h1>
+      <h1>My Algorithms</h1>
       <div className="mdc-data-table">
           <div className="mdc-data-table__table-container">
             <table className="mdc-data-table__table" aria-label="my-algorithms">
