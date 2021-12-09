@@ -1,4 +1,5 @@
 import * as React from "react"
+import Button from '@mui/material/Button';
 
 
 import Layout from "../components/layout"
@@ -24,15 +25,15 @@ const MyAlgorithm = () => (
                   <th className="mdc-data-table__cell" scope="row">Algo 1</th>
                   <td className="mdc-data-table__cell mdc-data-table__cell--numeric">20%</td>
                   <td className="mdc-data-table__cell">
-                    <button className="mdc-button mdc-button--raised">
+                    <Button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__label">Edit</span>
-                    </button>
-                    <button className="mdc-button mdc-button--raised">
+                    </Button>
+                    <Button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__label">Share</span>
-                    </button>
-                    <button className="mdc-button mdc-button--raised">
+                    </Button>
+                    <Button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__label">Delete</span>
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               </tbody>
