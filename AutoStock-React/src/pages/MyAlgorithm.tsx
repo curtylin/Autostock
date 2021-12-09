@@ -1,14 +1,37 @@
-import * as React from "react"
+import React, { useState, useEffect } from "react"
 import Button from '@mui/material/Button';
 
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-const MyAlgorithm = () => (
+const MyAlgorithm = () => {
+  const [algorithms, setAlgorithms] = useState([])
+  useEffect(() => {
+    getAlgorithmsDB()
+    console.log(algorithms)
+  }, [])
+  const getAlgorithmsDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-algorithm/129487458", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setAlgorithms(result)
+      })
+  }
+
+  return (
   <Layout>
     <Seo title="AutoStock" />
       <title>My Algorithms</title>
-      <h1>My Algorithms</h1>
+      <h1>129487458's Algorithms</h1>
       <div className="mdc-data-table">
           <div className="mdc-data-table__table-container">
             <table className="mdc-data-table__table" aria-label="my-algorithms">
@@ -21,26 +44,33 @@ const MyAlgorithm = () => (
                 </tr>
               </thead>
               <tbody className="mdc-data-table__content">
-                <tr className="mdc-data-table__row">
-                  <th className="mdc-data-table__cell" scope="row">Algo 1</th>
-                  <td className="mdc-data-table__cell mdc-data-table__cell--numeric">20%</td>
-                  <td className="mdc-data-table__cell">
-                    <Button className="mdc-button mdc-button--raised">
-                      <span className="mdc-button__label">Edit</span>
-                    </Button>
-                    <Button className="mdc-button mdc-button--raised">
-                      <span className="mdc-button__label">Share</span>
-                    </Button>
-                    <Button className="mdc-button mdc-button--raised">
-                      <span className="mdc-button__label">Delete</span>
-                    </Button>
-                  </td>
-                </tr>
+                {algorithms.map((algorithm: any, key: any) => {
+                  return(
+                    <tr className="mdc-data-table__row" key={key}>
+                      <td className="mdc-data-table__cell" scope="row">
+                        {algorithm.name}
+                      </td>
+                      <td className="mdc-data-table__cell mdc-data-table__cell--numeric">20%</td>
+                      <td className="mdc-data-table__cell">
+                        <Button className="mdc-button mdc-button--raised">
+                          <span className="mdc-button__label">Edit</span>
+                        </Button>
+                        <Button className="mdc-button mdc-button--raised">
+                          <span className="mdc-button__label">Share</span>
+                        </Button>
+                        <Button className="mdc-button mdc-button--raised">
+                          <span className="mdc-button__label">Delete</span>
+                        </Button>
+                      </td>
+                  </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
         </div>
   </Layout>
-)
+  )
+}
 
 export default MyAlgorithm
