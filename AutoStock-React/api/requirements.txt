@@ -4,6 +4,7 @@ aniso8601==9.0.1
 async-timeout==3.0.1
 attrs==21.2.0
 Backtesting==0.3.2
+backtrader==1.9.76.123
 bokeh==2.4.2
 CacheControl==0.12.10
 cachetools==4.2.4

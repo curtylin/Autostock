@@ -2,6 +2,10 @@ from flask import Flask , request, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
 from flask_cors import CORS, cross_origin
+import backtrader as bt
+import json
+from datetime import datetime
+from dateutil.parser import *
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -23,12 +27,46 @@ def not_found(error):
 def index():
     return app.send_static_file('index.html')
 
+@cross_origin()
+@app.route('/backtest', methods=['POST'])
+def backtest():
+#     dataDict = jsonify(request.get_json(force=True))
+#     print(dataDict)
+    dataDict = request.json
+
+    class StrategyTest(bt.SignalStrategy):
+        def __init__(self):
+            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+            crossover = bt.ind.CrossOver(sma1, sma2)
+            self.signal_add(bt.SIGNAL_LONG, crossover)
+
+
+    cerebro = bt.Cerebro()
+    cerebro.broker.setcash(dataDict['cash'])
+    cerebro.broker.setcommission(commission=0.0)
+    cerebro.addstrategy(StrategyTest)
+
+    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
+
+    cerebro.adddata(financeData)
+
+    response = {}
+    response["startingValue"] = cerebro.broker.getvalue()
+    cerebro.run()
+    response["EndingValue"] = cerebro.broker.getvalue()
+    response["PnL"] = response["EndingValue"] - response["startingValue"]
+    response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+
+    return response
+
+
+
 @app.route('/test')
 def test():
     return "this works"
 
 ## Start CRUD algorithm block
-## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run 
+## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
 @app.route('/create-algorithm', methods=['POST'])
 def algo_create():
@@ -61,7 +99,7 @@ def algo_read_public():
 @app.route('/list-algorithm/<id>', methods=['GET'])
 def algo_read_user_id(id):
     """
-        id : is the user id. Gets all algorithms by this user id. 
+        id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
         algorithms : Return document(s) that matches query userID.
     """
@@ -78,7 +116,7 @@ def algo_read_user_id(id):
 @app.route('/get-algorithm/<id>', methods=['GET'])
 def algo_read(id):
     """
-        id : is the user id. Gets all algorithms by this user id. 
+        id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
         algorithm : Return document that matches query ID.
     """
@@ -89,7 +127,7 @@ def algo_read(id):
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body. 
+## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
     """
