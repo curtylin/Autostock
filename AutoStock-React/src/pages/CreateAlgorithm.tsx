@@ -1,31 +1,29 @@
-import * as React from "react"
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Tooltip from '@mui/material/Tooltip';
+import React, { useState, useEffect } from "react"
+import Button from "@mui/material/Button"
+import TextField from "@mui/material/TextField"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
+import Tooltip from "@mui/material/Tooltip"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { useEffect, useState } from "react";
-import Highcharts from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
-import Indicators from "highcharts/indicators/indicators-all.js";
-import DragPanes from "highcharts/modules/drag-panes.js";
-import AnnotationsAdvanced from "highcharts/modules/annotations-advanced.js";
-import PriceIndicator from "highcharts/modules/price-indicator.js";
-import FullScreen from "highcharts/modules/full-screen.js";
-import StockTools from "highcharts/modules/stock-tools.js";
+import Highcharts from "highcharts/highstock"
+import HighchartsReact from "highcharts-react-official"
+import Indicators from "highcharts/indicators/indicators-all.js"
+import DragPanes from "highcharts/modules/drag-panes.js"
+import AnnotationsAdvanced from "highcharts/modules/annotations-advanced.js"
+import PriceIndicator from "highcharts/modules/price-indicator.js"
+import FullScreen from "highcharts/modules/full-screen.js"
+import StockTools from "highcharts/modules/stock-tools.js"
 
 // init the module
-Indicators(Highcharts);
-DragPanes(Highcharts);
-AnnotationsAdvanced(Highcharts);
-PriceIndicator(Highcharts);
-FullScreen(Highcharts);
-StockTools(Highcharts);
-
+Indicators(Highcharts)
+DragPanes(Highcharts)
+AnnotationsAdvanced(Highcharts)
+PriceIndicator(Highcharts)
+FullScreen(Highcharts)
+StockTools(Highcharts)
 
 const theme = {
   spacing: 8,
@@ -36,14 +34,14 @@ const handleDelete = () => {
 
 const options = {
   title: {
-    text: 'My stock chart'
+    text: "My stock chart",
   },
   series: [
     {
-      data: [1, 2, 1, 4, 3, 6, 7, 3, 8, 6, 9]
-    }
-  ]
-};
+      data: [1, 2, 1, 4, 3, 6, 7, 3, 8, 6, 9],
+    },
+  ],
+}
 
 const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
@@ -68,17 +66,20 @@ const CreateAlgorithm = () => {
       })
   }
 
-
   const handleSubmit = () => {
+    let currDate = new Date()
     //create json object
     let obj = {
       symbol: stock,
-      timeInterval: timeInterval,
-      indicatorOne: indicator,
+      cash: "1000",
+      startDate: `${currDate.getDate()}/${currDate.getMonth()}/${currDate.getFullYear()}`,
+      endDate: `${
+        currDate.getDate() + 12
+      }/${currDate.getMonth()}/${currDate.getFullYear()}`,
     }
 
     //fetch post to localhost
-    fetch("localhost:5000/backtest", {
+    fetch("http://localhost:5000/backtest", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -310,10 +311,10 @@ const CreateAlgorithm = () => {
       </form>
       <div>
         <HighchartsReact
-        highcharts={Highcharts}
-        constructorType={'stockChart'}
-        options={options}
-      />
+          highcharts={Highcharts}
+          constructorType={"stockChart"}
+          options={options}
+        />
       </div>
     </Layout>
   )
