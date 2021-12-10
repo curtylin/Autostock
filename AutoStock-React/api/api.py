@@ -27,7 +27,7 @@ def not_found(error):
 def index():
     return app.send_static_file('index.html')
 
-
+@cross_origin()
 @app.route('/backtest', methods=['POST'])
 def backtest():
     dataDict = request.json
