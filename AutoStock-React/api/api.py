@@ -30,6 +30,8 @@ def index():
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
 def backtest():
+#     dataDict = jsonify(request.get_json(force=True))
+#     print(dataDict)
     dataDict = request.json
 
     class StrategyTest(bt.SignalStrategy):
