@@ -32,24 +32,68 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
+// split the data set into ohlc and volume
+var fakeData = [],
+volume = [],
+dataLength = 100,
+i = 0;
+
+for (i; i < dataLength; i += 1) {
+fakeData.push([
+  "Dec "+i, // the date
+  3+Math.random(), // open
+  4+Math.random(), // high
+  1+Math.random(), // low
+  2+Math.random() // close
+]);
+
+volume.push([
+  "Dec " + i, // the date
+   i *Math.random() // the volume
+]);
+}
 const options = {
   title: {
-    text: "My stock chart",
+    text: 'AAPL'
   },
-  series: [
-    {
-      data: [1, 2, 1, 4, 3, 6, 7, 3, 8, 6, 9],
-    },
-  ],
-}
+  yAxis: [
+   {
+     height: "80%"
+   },
+   {
+     top: "100%",
+     height: "20%",
+     offset: 0
+   }
+ ],
+ xAxis: [
+   { 
+     outerWidth: "100%"
+   }
+ ],
+ 
+ series: [
+   {
+     type: "line",
+     data: fakeData,
+     yAxis: 0
+   },
+   {
+    type: 'column',
+    id: 'aapl-volume',
+    name: 'AAPL Volume',
+    data: volume,
+    yAxis: 1
+  }]
+};
 
 const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
-  const [indicator, setIndicator] = useState("")
+  const [indicator1, setIndicator1] = useState("")
   const [period1, setPeriod1] = useState("")
-  const [comparator, setComparator] = useState("")
+  const [indicator2, setIndicator2] = useState("")
   const [period2, setPeriod2] = useState("")
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
@@ -67,6 +111,7 @@ const CreateAlgorithm = () => {
   }
 
   const handleSubmit = () => {
+    
     let currDate = new Date()
     //create json object
     let obj = {
@@ -157,16 +202,16 @@ const CreateAlgorithm = () => {
         {/* Indicator */}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel required id="demo-simple-select-standard-label">
-            Indicator
+            Indicator 1
           </InputLabel>
           <Tooltip title="Which Indicator?" placement="left" arrow>
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Indicator"
-              value={indicator}
+              label="Indicator 1"
+              value={indicator1}
               onChange={e => {
-                setIndicator(e.target.value)
+                setIndicator1(e.target.value)
               }}
             >
               <MenuItem value="">
@@ -198,19 +243,19 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
-        {/* Comparator */}
+        {/* Indicator 2 */}
         <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
-            Comparator
+            Indicator 2
           </InputLabel>
-          <Tooltip title="Comparator" placement="left" arrow>
+          <Tooltip title="Indicator 2" placement="left" arrow>
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Comparator"
-              value={comparator}
+              label="Indicator2"
+              value={indicator2}
               onChange={e => {
-                setComparator(e.target.value)
+                setIndicator2(e.target.value)
               }}
             >
               <MenuItem value="">
@@ -301,7 +346,7 @@ const CreateAlgorithm = () => {
             sx={{ my: 2, mr: 5, minWidth: 300 }}
             onClick={handleSubmit}
           >
-            Save and Backtest Algorithm
+            Save Algorithm
           </Button>
 
           <Button type="submit" variant="contained" color="secondary">
@@ -309,7 +354,7 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
-      <div>
+      <div id="chart" >
         <HighchartsReact
           highcharts={Highcharts}
           constructorType={"stockChart"}
