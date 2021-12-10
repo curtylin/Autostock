@@ -2,6 +2,7 @@ node_modules
 package-lock.json
 .cache
 .idea
+firestore_apikey.json
 
 # dependencies
 /node_modules
