@@ -2,6 +2,9 @@ from flask import Flask , request, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
 from flask_cors import CORS, cross_origin
+import backtrader as bt
+import json
+from datetime import datetime
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -25,27 +28,16 @@ def index():
 
 
 @app.route('/backtest', methods=['POST'])
-def backtest(stockInformation):
-    data = request.json
-    dataDict = json.loads(data)
+def backtest():
+    dataDict = request.json
+    # dataDict = json.loads(data)
 
 
-    class StrategyTest(bt.Strategy):
+    class StrategyTest(bt.SignalStrategy):
         def __init__(self):
             sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
             crossover = bt.ind.CrossOver(sma1, sma2)
             self.signal_add(bt.SIGNAL_LONG, crossover)
-#         def __init__(self):
-#             if(dataDict['indicatorOne'] == 'SMA'):
-#                 self.sma = btind.SimpleMovingAverage(period=dataDict['timeInterval'])
-#             if(dataDict['indicatorTwo'] == 'EMA'):
-#                 self.ema = btind.ExponentialMovingAverage(period=dataDict['timeInterval'])
-#         def next(self):
-#             func = eval('lambda x: self.indicatorOne operator self.indicatorTwo')
-#             if(func(self.data.close[0])):
-#                 if(dataDict['action'] == "buy"):
-#                     self.buy()
-
 
 
     cerebro = bt.Cerebro()
@@ -53,16 +45,21 @@ def backtest(stockInformation):
     cerebro.broker.setcommission(commission=0.0)
     cerebro.addstrategy(StrategyTest)
 
-    financeData = bt.feeds.YahooFinanceCSVData(dataname=dataDict['symbol'],
-                                        fromdate=dataDict['startDate'],
-                                        todate=dataDict['endDate'],
-                                        reverse=False)
+    startDateList = [int(x) for x in dataDict['startDate'].split("-")]
+    endDateList = [int(x) for x in dataDict['endDate'].split("-")]
+
+
+    # # financeData = bt.feeds.YahooFinanceCSVData(dataname=dataDict['symbol'], fromdate=datetime(startDateList[0], startDateList[1], startDateList[2]), todate=datetime(endDateList[0], endDateList[1], endDateList[2]), reverse=False)
+    
+
+    financeData = bt.feeds.YahooFinanceData(dataname='AAPL', fromdate=datetime(2011, 1, 1), todate=datetime(2012, 12, 31))
+    cerebro.adddata(financeData)
 
     response = {}
 
-    cerebro.adddata(financeData)
 
     response["startingValue"] = cerebro.broker.getvalue()
+    # return "hit here"
     cerebro.run()
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
