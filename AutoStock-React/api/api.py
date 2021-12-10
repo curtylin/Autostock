@@ -35,24 +35,28 @@ def backtest(stockInformation):
     dataDict = json.loads(data)
 
 
-    class Strategy(bt.Strategy):
+    class StrategyTest(bt.Strategy):
         def __init__(self):
-            if(dataDict['indicatorOne'] == 'SMA'):
-                self.sma = btind.SimpleMovingAverage(period=dataDict['timeInterval'])
-            if(dataDict['indicatorTwo'] == 'EMA'):
-                self.ema = btind.ExponentialMovingAverage(period=dataDict['timeInterval'])
-        def next(self):
-            func = eval('lambda x: self.indicatorOne operator self.indicatorTwo')
-            if(func(self.data.close[0])):
-                if(dataDict['action'] == "buy"):
-                    self.buy()
+            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+            crossover = bt.ind.CrossOver(sma1, sma2)
+            self.signal_add(bt.SIGNAL_LONG, crossover)
+#         def __init__(self):
+#             if(dataDict['indicatorOne'] == 'SMA'):
+#                 self.sma = btind.SimpleMovingAverage(period=dataDict['timeInterval'])
+#             if(dataDict['indicatorTwo'] == 'EMA'):
+#                 self.ema = btind.ExponentialMovingAverage(period=dataDict['timeInterval'])
+#         def next(self):
+#             func = eval('lambda x: self.indicatorOne operator self.indicatorTwo')
+#             if(func(self.data.close[0])):
+#                 if(dataDict['action'] == "buy"):
+#                     self.buy()
 
 
 
     cerebro = bt.Cerebro()
     cerebro.broker.setcash(dataDict['cash'])
     cerebro.broker.setcommission(commission=0.0)
-    cerebro.addstrategy(bt.Strategy)
+    cerebro.addstrategy(StrategyTest)
 
     financeData = bt.feeds.YahooFinanceCSVData(dataname=dataDict['symbol'],
                                         fromdate=dataDict['startDate'],
