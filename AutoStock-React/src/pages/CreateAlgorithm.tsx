@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { useEffect, useState } from "react";
+import Highcharts from "highcharts";
 
 const theme = {
   spacing: 8,
@@ -31,6 +32,15 @@ const CreateAlgorithm = () => {
   useEffect(() => {
     console.log(timeInterval)
   })
+
+  const loadStocks = () => {
+    fetch("https://api.iextrading.com/1.0/ref-data/symbols")
+      .then(res => res.json())
+      .then(data => {
+        setStocks(data)
+      })
+  }
+
 
   const handleSubmit = () => {
     //create json object
@@ -57,7 +67,6 @@ const CreateAlgorithm = () => {
     <Layout>
       <Seo title="AutoStock" />
       <h2>Create Algorithm</h2>
-
       <form>
         <div>
           {/* Algorithm Name */}
@@ -271,8 +280,13 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
+
+      <div id="container" className="chart"></div>
     </Layout>
   )
 }
+
+
+
 
 export default CreateAlgorithm
