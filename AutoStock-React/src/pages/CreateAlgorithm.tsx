@@ -111,14 +111,15 @@ const CreateAlgorithm = () => {
   }
 
   const handleSubmit = () => {
+    console.log("I've been clicked")
     
     let currDate = new Date()
     //create json object
     let obj = {
       symbol: stock,
-      cash: "1000",
-      startDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}`,
-      endDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()+12}`,
+      cash: 1000,
+      startDate: `${currDate.getFullYear()-1}-${currDate.getMonth()}-${currDate.getDate()}`,
+      endDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}`,
 
     }
 
@@ -126,12 +127,14 @@ const CreateAlgorithm = () => {
     fetch("http://localhost:5000/backtest", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        contentType : "application/json",
       },
       method: "POST",
-      body: JSON.stringify(obj),
+      mode: 'no-cors',
+      body: JSON.stringify(obj)
     }).then(res => {
       console.log(res)
+      alert(res)
     })
   }
 
