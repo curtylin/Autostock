@@ -9,7 +9,23 @@ import Tooltip from '@mui/material/Tooltip';
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { useEffect, useState } from "react";
-import Highcharts from "highcharts";
+import Highcharts from "highcharts/highstock";
+import HighchartsReact from "highcharts-react-official";
+import Indicators from "highcharts/indicators/indicators-all.js";
+import DragPanes from "highcharts/modules/drag-panes.js";
+import AnnotationsAdvanced from "highcharts/modules/annotations-advanced.js";
+import PriceIndicator from "highcharts/modules/price-indicator.js";
+import FullScreen from "highcharts/modules/full-screen.js";
+import StockTools from "highcharts/modules/stock-tools.js";
+
+// init the module
+Indicators(Highcharts);
+DragPanes(Highcharts);
+AnnotationsAdvanced(Highcharts);
+PriceIndicator(Highcharts);
+FullScreen(Highcharts);
+StockTools(Highcharts);
+
 
 const theme = {
   spacing: 8,
@@ -17,6 +33,17 @@ const theme = {
 const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
+
+const options = {
+  title: {
+    text: 'My stock chart'
+  },
+  series: [
+    {
+      data: [1, 2, 1, 4, 3, 6, 7, 3, 8, 6, 9]
+    }
+  ]
+};
 
 const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
@@ -67,6 +94,7 @@ const CreateAlgorithm = () => {
     <Layout>
       <Seo title="AutoStock" />
       <h2>Create Algorithm</h2>
+
       <form>
         <div>
           {/* Algorithm Name */}
@@ -280,13 +308,15 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
-
-      <div id="container" className="chart"></div>
+      <div>
+        <HighchartsReact
+        highcharts={Highcharts}
+        constructorType={'stockChart'}
+        options={options}
+      />
+      </div>
     </Layout>
   )
 }
-
-
-
 
 export default CreateAlgorithm
