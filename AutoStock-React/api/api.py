@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 import backtrader as bt
 import json
 from datetime import datetime
+from dateutil.parser import *
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -30,8 +31,6 @@ def index():
 @app.route('/backtest', methods=['POST'])
 def backtest():
     dataDict = request.json
-    # dataDict = json.loads(data)
-
 
     class StrategyTest(bt.SignalStrategy):
         def __init__(self):
@@ -45,30 +44,18 @@ def backtest():
     cerebro.broker.setcommission(commission=0.0)
     cerebro.addstrategy(StrategyTest)
 
-    startDateList = [int(x) for x in dataDict['startDate'].split("-")]
-    endDateList = [int(x) for x in dataDict['endDate'].split("-")]
+    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
 
-
-    # # financeData = bt.feeds.YahooFinanceCSVData(dataname=dataDict['symbol'], fromdate=datetime(startDateList[0], startDateList[1], startDateList[2]), todate=datetime(endDateList[0], endDateList[1], endDateList[2]), reverse=False)
-    
-
-    financeData = bt.feeds.YahooFinanceData(dataname='AAPL', fromdate=datetime(2011, 1, 1), todate=datetime(2012, 12, 31))
     cerebro.adddata(financeData)
 
     response = {}
-
-
     response["startingValue"] = cerebro.broker.getvalue()
-    # return "hit here"
     cerebro.run()
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
     return response
-
-
-
 
 
 

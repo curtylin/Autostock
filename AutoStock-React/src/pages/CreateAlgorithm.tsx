@@ -72,10 +72,9 @@ const CreateAlgorithm = () => {
     let obj = {
       symbol: stock,
       cash: "1000",
-      startDate: `${currDate.getDate()}/${currDate.getMonth()}/${currDate.getFullYear()}`,
-      endDate: `${
-        currDate.getDate() + 12
-      }/${currDate.getMonth()}/${currDate.getFullYear()}`,
+      startDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}`,
+      endDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()+12}`,
+
     }
 
     //fetch post to localhost
