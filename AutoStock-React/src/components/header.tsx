@@ -60,7 +60,7 @@ interface HeaderProps {
 const pages = [
   <Link to='/CreateAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>Create Algorithm</Link>, 
   <Link to='/MyAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>My Algorithms</Link>, 
-  <Link to='/Algorithms' style={{ color: 'black', textDecoration: 'none' }}>Created Algorithms</Link>];
+  <Link to='/publicAlgorithms' style={{ color: 'black', textDecoration: 'none' }}>Public Algorithms</Link>];
   
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
