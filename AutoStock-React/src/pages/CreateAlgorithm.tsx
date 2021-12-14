@@ -138,8 +138,8 @@ const CreateAlgorithm = () => {
         // })
         const headers = new Headers();
         headers.append('content-type', 'application/json');
-
-        const body = `{
+        
+        let body = `{
         "symbol": "${stock}",
         "cash": 1000,
         "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
@@ -147,13 +147,48 @@ const CreateAlgorithm = () => {
         }
         `;
 
-        const init = {
+        let init = {
             method: 'POST',
             headers,
             body
         };
 
         fetch('http://127.0.0.1:5000/backtest', init)
+            .then((response) => {
+                return response.json(); // or .text() or .blob() ...
+            })
+            .then((text) => {
+                // text is the response body
+                console.log(text);
+                alert(JSON.stringify(text))
+            })
+            .catch((e) => {
+                // error in e.message
+            });
+
+        body = `{
+            "name": "${algoName}",
+            "ticker": "${stock}",
+            "indicator": "${indicator1}",
+            "indicator": "${timeInterval}",
+            "comparator": "${indicator2}",
+            "runtime": "${runningTime}",
+            "period1": "${period1}",
+            "period2": "${period2}",
+            "public": false,
+            "userID": "sample1",
+            "action": "${action}"
+            }
+            `;
+        
+
+        init = {
+            method: 'POST',
+            headers,
+            body
+        };
+
+        fetch('http://127.0.0.1:5000/create-algorithm', init)
             .then((response) => {
                 return response.json(); // or .text() or .blob() ...
             })
