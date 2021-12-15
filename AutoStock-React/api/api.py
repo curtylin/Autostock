@@ -18,7 +18,7 @@ default_app = initialize_app(cred)
 db = firestore.client()
 algorithms_ref = db.collection('algorithms')
 competitions_ref = db.collection('competitions')
-competitiors_ref = db.collection('competitors')
+competitors_ref = db.collection('competitors')
 
 @app.errorhandler(404)
 def not_found(error):
@@ -215,7 +215,7 @@ def comp_read_user_id(id):
         # Check if ID was passed to URL query
         # id = request.args.get('id')
         userID = id
-        competitions = [doc.to_dict() for doc in competitiors_ref.where("competitor", "==", userID).stream()]
+        competitions = [doc.to_dict() for doc in competitors_ref.where("competitor", "==", userID).stream()]
         # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
         return jsonify(competitions), 200
     except Exception as e:
@@ -232,7 +232,9 @@ def comp_read(id):
     try:
         # Check if ID was passed to URL query
         competition = competitions_ref.document(id).get()
-        return jsonify(competition.to_dict()), 200
+        compDict = competition.to_dict()
+        compDict['competitiors'] = len([doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
+        return jsonify(compDict), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
@@ -288,7 +290,7 @@ def comp_enter_user():
         algorithms : Return document(s) that matches query userID.
     """
     try:
-        competitiors_ref.document().set(request.json)
+        competitors_ref.document().set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -302,7 +304,7 @@ def comp_edit_competition_algorithm(id):
         algorithms : Return document(s) that matches query userID.
     """
     try:
-        competitiors_ref.document(id).update(request.json)
+        competitors_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -316,7 +318,7 @@ def comp_unregister_competition(id):
     try:
         # Check for ID in URL query
         competition_id = id
-        competitiors_ref.document(competition_id).delete()
+        competitors_ref.document(competition_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
