@@ -136,7 +136,7 @@ const CreateAlgorithm = () => {
                 setStocks(data)
             })
     }
-    const handleBacktest = () => {
+    const handleBacktest = (event: any) => {
         let currDate = new Date()
         //create json object
         let obj = {
@@ -176,9 +176,10 @@ const CreateAlgorithm = () => {
             .catch(e => {
                 // error in e.message
             })
+        event.preventDefault();
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (event: any) => {
         let body = `{
             "name": "${algoName}",
             "ticker": "${stock}",
@@ -217,6 +218,7 @@ const CreateAlgorithm = () => {
             .catch(e => {
                 // error in e.message
             })
+        event.preventDefault();
     }
 
     return (
