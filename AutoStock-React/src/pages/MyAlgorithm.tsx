@@ -5,6 +5,48 @@ import Button from '@mui/material/Button';
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 const MyAlgorithm = () => {
+
+  const handleShare = (event: any) => {
+    let body = `{
+        "public": false
+        }
+        `
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+        method: "PUT",
+        headers,
+        body,
+    }
+
+    fetch("http://127.0.0.1:5000/edit-algorithm/{algo-id}", init)
+        .then(response => {
+            return response.json() // or .text() or .blob() ...
+        })
+        .catch(e => {
+            // error in e.message
+        })
+    event.preventDefault();
+}
+
+  const handleDelete = (event: any) => {
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+        method: "GET",
+        headers,
+    }
+
+    fetch("http://127.0.0.1:5000/delete-algorithm/{algo-id}", init)
+        .then(response => {
+            return response.json() // or .text() or .blob() ...
+        })
+        .catch(e => {
+            // error in e.message
+        })
+    event.preventDefault();
+  }
+
   const [algorithms, setAlgorithms] = useState([])
   useEffect(() => {
     getAlgorithmsDB()
@@ -55,10 +97,10 @@ const MyAlgorithm = () => {
                         <Button className="mdc-button mdc-button--raised">
                           <span className="mdc-button__label">Edit</span>
                         </Button>
-                        <Button className="mdc-button mdc-button--raised">
+                        <Button className="mdc-button mdc-button--raised" onClick={handleShare}>
                           <span className="mdc-button__label">Share</span>
                         </Button>
-                        <Button className="mdc-button mdc-button--raised">
+                        <Button className="mdc-button mdc-button--raised" onClick={handleDelete}>
                           <span className="mdc-button__label">Delete</span>
                         </Button>
                       </td>
