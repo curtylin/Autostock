@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
-import Select, {SelectChangeEvent} from "@mui/material/Select"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
 import Tooltip from "@mui/material/Tooltip"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -54,37 +54,56 @@ for (i; i < dataLength; i += 1) {
 }
 const options = {
     title: {
-        text: 'AAPL'
+        text: 'BACKTESTING STOCK (Fake Data)'
     },
-    yAxis: [
-        {
-            height: "80%"
+    yAxis: [{
+        labels: {
+            align: 'left'
         },
-        {
-            top: "100%",
-            height: "20%",
-            offset: 0
+        height: '80%',
+        resize: {
+            enabled: true
         }
-    ],
-    xAxis: [
-        {
-            outerWidth: "100%"
-        }
-    ],
-
+    }, {
+        labels: {
+            align: 'left'
+        },
+        top: '80%',
+        height: '20%',
+        offset: 0
+    }],
+    tooltip: {
+        shape: 'square',
+        headerShape: 'callout',
+        borderWidth: 0,
+        shadow: false,
+    },
     series: [
         {
+            name: 'Stock Price',
             type: "line",
             data: fakeData,
             yAxis: 0
         },
         {
             type: 'column',
-            id: 'aapl-volume',
-            name: 'AAPL Volume',
+            id: 'stock-volume',
+            name: 'Stock Volume',
             data: volume,
             yAxis: 1
+        }],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 800
+            },
+            chartOptions: {
+                rangeSelector: {
+                    inputEnabled: false
+                }
+            }
         }]
+    }
 };
 
 const CreateAlgorithm = () => {
@@ -138,8 +157,8 @@ const CreateAlgorithm = () => {
         // })
         const headers = new Headers();
         headers.append('content-type', 'application/json');
-
-        const body = `{
+        
+        let body = `{
         "symbol": "${stock}",
         "cash": 1000,
         "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
@@ -147,7 +166,7 @@ const CreateAlgorithm = () => {
         }
         `;
 
-        const init = {
+        let init = {
             method: 'POST',
             headers,
             body
@@ -165,11 +184,46 @@ const CreateAlgorithm = () => {
             .catch((e) => {
                 // error in e.message
             });
+
+        body = `{
+            "name": "${algoName}",
+            "ticker": "${stock}",
+            "indicator": "${indicator1}",
+            "indicator": "${timeInterval}",
+            "comparator": "${indicator2}",
+            "runtime": "${runningTime}",
+            "period1": "${period1}",
+            "period2": "${period2}",
+            "public": false,
+            "userID": "sample1",
+            "action": "${action}"
+            }
+            `;
+        
+
+        init = {
+            method: 'POST',
+            headers,
+            body
+        };
+
+        fetch('http://127.0.0.1:5000/create-algorithm', init)
+            .then((response) => {
+                return response.json(); // or .text() or .blob() ...
+            })
+            .then((text) => {
+                // text is the response body
+                console.log(text);
+                alert(JSON.stringify(text))
+            })
+            .catch((e) => {
+                // error in e.message
+            });
     }
 
     return (
         <Layout>
-            <Seo title="AutoStock"/>
+            <Seo title="AutoStock" />
             <h2>Create Algorithm</h2>
 
             <form>
@@ -181,7 +235,7 @@ const CreateAlgorithm = () => {
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setAlgoName(e.target.value)
                             }}
-                            sx={{my: 2, mr: 5, minWidth: 300, maxWidth: 300}}
+                            sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
                             id="outlined-search"
                             label="Algorithm Name"
                             type="search"
@@ -190,7 +244,7 @@ const CreateAlgorithm = () => {
                 </div>
                 <div>
                     {/* Stock Symbol */}
-                    <FormControl sx={{my: 2, mr: 5, minWidth: 300, maxWidth: 300}}>
+                    <FormControl sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
                         <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
                             <TextField
                                 required
@@ -208,7 +262,7 @@ const CreateAlgorithm = () => {
           </Stack> */}
                     </FormControl>
                     {/* Time Interval */}
-                    <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
+                    <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
                         <InputLabel required id="demo-simple-select-standard-label">
                             Time Interval
                         </InputLabel>
@@ -231,7 +285,7 @@ const CreateAlgorithm = () => {
                     </FormControl>
                 </div>
                 {/* Indicator */}
-                <FormControl sx={{my: 2, mr: 5, minWidth: 200, maxWidth: 200}}>
+                <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
                     <InputLabel required id="demo-simple-select-standard-label">
                         Indicator 1
                     </InputLabel>
@@ -253,7 +307,7 @@ const CreateAlgorithm = () => {
                     </Tooltip>
                 </FormControl>
                 {/* Period 1 */}
-                <FormControl required sx={{my: 2, mr: 5, minWidth: 200}}>
+                <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Period 1
                     </InputLabel>
@@ -275,7 +329,7 @@ const CreateAlgorithm = () => {
                     </Tooltip>
                 </FormControl>
                 {/* Indicator 2 */}
-                <FormControl required sx={{my: 2, mr: 5, minWidth: 200}}>
+                <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Indicator 2
                     </InputLabel>
@@ -298,7 +352,7 @@ const CreateAlgorithm = () => {
                     </Tooltip>
                 </FormControl>
                 {/* Period 2 */}
-                <FormControl required sx={{my: 2, minWidth: 200}}>
+                <FormControl required sx={{ my: 2, minWidth: 200 }}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Period 2
                     </InputLabel>
@@ -321,7 +375,7 @@ const CreateAlgorithm = () => {
                 </FormControl>
                 <div>
                     {/* Action */}
-                    <FormControl required sx={{my: 2, minWidth: 200}}>
+                    <FormControl required sx={{ my: 2, minWidth: 200 }}>
                         <InputLabel id="demo-simple-select-standard-label">
                             Action
                         </InputLabel>
@@ -345,7 +399,7 @@ const CreateAlgorithm = () => {
                     </FormControl>
                 </div>
                 {/* Running Time */}
-                <FormControl required sx={{my: 2, minWidth: 500}}>
+                <FormControl required sx={{ my: 2, minWidth: 500 }}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Algorithm Running Time
                     </InputLabel>
@@ -374,7 +428,7 @@ const CreateAlgorithm = () => {
                         type="submit"
                         variant="contained"
                         color="primary"
-                        sx={{my: 2, mr: 5, minWidth: 300}}
+                        sx={{ my: 2, mr: 5, minWidth: 300 }}
                         onClick={handleSubmit}
                     >
                         Save Algorithm
