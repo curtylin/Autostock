@@ -193,7 +193,7 @@ def comp_create():
 def comp_list_all():
     """
         read() : Fetches documents from Firestore collection as JSON.
-        algorithms : Return all public algorithms.
+        competitions : Return all competitions.
     """
     try:
         competitions = [doc.to_dict() for doc in competitions_ref.stream()]
@@ -207,7 +207,7 @@ def comp_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
-        algorithms : Return document(s) that matches query userID.
+        competitions : Return document(s) that matches query userID.
     """
     try:
         # Check if ID was passed to URL query
@@ -225,7 +225,7 @@ def comp_read(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
-        algorithm : Return document that matches query ID.
+        competitions : Return document that matches query ID.
     """
     try:
         # Check if ID was passed to URL query
@@ -285,7 +285,7 @@ def comp_enter_user():
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
-        algorithms : Return document(s) that matches query userID.
+        competitions : Return document(s) that matches query userID.
     """
     try:
         competitors_ref.document().set(request.json)
@@ -295,11 +295,11 @@ def comp_enter_user():
 
 ## edits user submitted algorithm in competition
 @app.route('/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
-def comp_edit_competition_algorithm(id):
+def comp_edit_algorithm(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
-        algorithms : Return document(s) that matches query userID.
+        competitions : Return document(s) that matches query userID.
     """
     try:
         competitors_ref.document(id).update(request.json)
