@@ -11,7 +11,7 @@ const jsConfetti = new JSConfetti()
 
 const IndexPage = () => {
 
-    confetti();
+    // confetti();
 
     return (
         <Layout>
@@ -26,22 +26,22 @@ const IndexPage = () => {
     )
 }
 
-function confetti() {
-    for(var i = 0; i < 1000; i++) {
-        (function(index) {
-            setTimeout(function() {
-                jsConfetti.addConfetti({
-                    // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸'],
-                    emojis: ['😂','🍆','📈','👌','💦','🍑','💯'],
-                    // emojiSize: 100,
+// function confetti() {
+//     for(var i = 0; i < 1000; i++) {
+//         (function(index) {
+//             setTimeout(function() {
+//                 jsConfetti.addConfetti({
+//                     // emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸'],
+//                     emojis: ['😂','🍆','📈','👌','💦','🍑','💯'],
+//                     // emojiSize: 100,
 
-                })
-                jsConfetti.addConfetti();
+//                 })
+//                 jsConfetti.addConfetti();
 
-                }, index*1000);
-        })(i);
-    }
-}
+//                 }, index*1000);
+//         })(i);
+//     }
+// }
 
 
 export default IndexPage
