@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, {useState, useEffect} from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
-import Select, { SelectChangeEvent } from "@mui/material/Select"
+import Select, {SelectChangeEvent} from "@mui/material/Select"
 import Tooltip from "@mui/material/Tooltip"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -16,6 +16,7 @@ import AnnotationsAdvanced from "highcharts/modules/annotations-advanced.js"
 import PriceIndicator from "highcharts/modules/price-indicator.js"
 import FullScreen from "highcharts/modules/full-screen.js"
 import StockTools from "highcharts/modules/stock-tools.js"
+import JSConfetti from "js-confetti"
 
 // init the module
 Indicators(Highcharts)
@@ -25,6 +26,7 @@ PriceIndicator(Highcharts)
 FullScreen(Highcharts)
 StockTools(Highcharts)
 
+const jsConfetti = new JSConfetti();
 const theme = {
     spacing: 8,
 }
@@ -141,7 +143,7 @@ const CreateAlgorithm = () => {
             symbol: stock,
             cash: 1000,
             startDate: `${currDate.getFullYear() - 1
-                }-${currDate.getMonth()}-${currDate.getDate()}`,
+            }-${currDate.getMonth()}-${currDate.getDate()}`,
             endDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}`,
         }
         const headers = new Headers()
@@ -151,7 +153,7 @@ const CreateAlgorithm = () => {
       "symbol": "${stock}",
       "cash": 1000,
       "startDate": "${currDate.getFullYear() - 1
-            }-${currDate.getMonth()}-${currDate.getDate()}",
+        }-${currDate.getMonth()}-${currDate.getDate()}",
       "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}"
       }
       `
@@ -205,7 +207,12 @@ const CreateAlgorithm = () => {
             })
             .then(text => {
                 // text is the response body
-                console.log(text)
+                console.log(text);
+                jsConfetti.addConfetti({
+                    emojis: ['😂', '📈', '👌', '💦', '🍑', '💯'],
+                    // emojiSize: 100,
+                })
+                jsConfetti.addConfetti();
             })
             .catch(e => {
                 // error in e.message
@@ -214,7 +221,7 @@ const CreateAlgorithm = () => {
 
     return (
         <Layout>
-            <Seo title="AutoStock" />
+            <Seo title="AutoStock"/>
             <h2>Create Algorithm</h2>
 
             <form>
@@ -226,7 +233,7 @@ const CreateAlgorithm = () => {
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setAlgoName(e.target.value)
                             }}
-                            sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
+                            sx={{my: 2, mr: 5, minWidth: 300, maxWidth: 300}}
                             id="outlined-search"
                             label="Algorithm Name"
                             type="search"
@@ -235,7 +242,7 @@ const CreateAlgorithm = () => {
                 </div>
                 <div>
                     {/* Stock Symbol */}
-                    <FormControl sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
+                    <FormControl sx={{my: 2, mr: 5, minWidth: 300, maxWidth: 300}}>
                         <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
                             <TextField
                                 required
@@ -253,7 +260,7 @@ const CreateAlgorithm = () => {
           </Stack> */}
                     </FormControl>
                     {/* Time Interval */}
-                    <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+                    <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
                         <InputLabel required id="demo-simple-select-standard-label">
                             Time Interval
                         </InputLabel>
@@ -276,44 +283,44 @@ const CreateAlgorithm = () => {
                     </FormControl>
                 </div>
                 {/* Indicator */}
-                <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+                <FormControl sx={{my: 2, mr: 5, minWidth: 200, maxWidth: 200}}>
                     <InputLabel required id="demo-simple-select-standard-label">
                         Indicator 1
                     </InputLabel>
                     {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            label="Indicator 1"
-                            value={indicator1}
-                            onChange={e => {
-                                setIndicator1(e.target.value)
-                            }}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={1}>SMA - Simple Moving Average </MenuItem>
-                            <MenuItem value={2}>BBANDS - Bollinger Bands</MenuItem>
-                            <MenuItem value={3}>EMA - Exponential Moving Average</MenuItem>
-                            <MenuItem value={4}>DEMA - Double Exponential Moving Average</MenuItem>
-                            <MenuItem value={5}>HT_TRENDLINE - Hilbert Transform - Instantaneous Trendline</MenuItem>
-                            <MenuItem value={6}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
-                            <MenuItem value={7}>MA - Moving average</MenuItem>
-                            <MenuItem value={8}>MAMA - MESA Adaptive Moving Average</MenuItem>
-                            <MenuItem value={9}>MAVP - Moving average with variable period</MenuItem>
-                            <MenuItem value={10}>MIDPOINT - MidPoint over period</MenuItem>
-                            <MenuItem value={11}>SAR - Parabolic SAR</MenuItem>
-                            <MenuItem value={12}>SAREXT - Parabolic SAR - Extended</MenuItem>
-                            <MenuItem value={13}>T3 - Triple Exponential Moving Average</MenuItem>
-                            <MenuItem value={14}>TEMA - Triple Exponential Moving Average</MenuItem>
-                            <MenuItem value={15}>TRIMA - Triangular Moving Average</MenuItem>
-                            <MenuItem value={16}>WMA - Weighted Moving Average</MenuItem>
-                        </Select>
+                    <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        label="Indicator 1"
+                        value={indicator1}
+                        onChange={e => {
+                            setIndicator1(e.target.value)
+                        }}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={1}>SMA - Simple Moving Average </MenuItem>
+                        <MenuItem value={2}>BBANDS - Bollinger Bands</MenuItem>
+                        <MenuItem value={3}>EMA - Exponential Moving Average</MenuItem>
+                        <MenuItem value={4}>DEMA - Double Exponential Moving Average</MenuItem>
+                        <MenuItem value={5}>HT_TRENDLINE - Hilbert Transform - Instantaneous Trendline</MenuItem>
+                        <MenuItem value={6}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
+                        <MenuItem value={7}>MA - Moving average</MenuItem>
+                        <MenuItem value={8}>MAMA - MESA Adaptive Moving Average</MenuItem>
+                        <MenuItem value={9}>MAVP - Moving average with variable period</MenuItem>
+                        <MenuItem value={10}>MIDPOINT - MidPoint over period</MenuItem>
+                        <MenuItem value={11}>SAR - Parabolic SAR</MenuItem>
+                        <MenuItem value={12}>SAREXT - Parabolic SAR - Extended</MenuItem>
+                        <MenuItem value={13}>T3 - Triple Exponential Moving Average</MenuItem>
+                        <MenuItem value={14}>TEMA - Triple Exponential Moving Average</MenuItem>
+                        <MenuItem value={15}>TRIMA - Triangular Moving Average</MenuItem>
+                        <MenuItem value={16}>WMA - Weighted Moving Average</MenuItem>
+                    </Select>
                     {/* </Tooltip> */}
                 </FormControl>
                 {/* Period 1 */}
-                <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+                <FormControl required sx={{my: 2, mr: 5, minWidth: 200}}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Period 1
                     </InputLabel>
@@ -335,7 +342,7 @@ const CreateAlgorithm = () => {
                     </Tooltip>
                 </FormControl>
                 {/* Indicator 2 */}
-                <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+                <FormControl required sx={{my: 2, mr: 5, minWidth: 200}}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Indicator 2
                     </InputLabel>
@@ -358,7 +365,7 @@ const CreateAlgorithm = () => {
                     </Tooltip>
                 </FormControl>
                 {/* Period 2 */}
-                <FormControl required sx={{ my: 2, minWidth: 200 }}>
+                <FormControl required sx={{my: 2, minWidth: 200}}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Period 2
                     </InputLabel>
@@ -381,7 +388,7 @@ const CreateAlgorithm = () => {
                 </FormControl>
                 <div>
                     {/* Action */}
-                    <FormControl required sx={{ my: 2, minWidth: 200 }}>
+                    <FormControl required sx={{my: 2, minWidth: 200}}>
                         <InputLabel id="demo-simple-select-standard-label">
                             Action
                         </InputLabel>
@@ -405,7 +412,7 @@ const CreateAlgorithm = () => {
                     </FormControl>
                 </div>
                 {/* Running Time */}
-                <FormControl required sx={{ my: 2, minWidth: 500 }}>
+                <FormControl required sx={{my: 2, minWidth: 500}}>
                     <InputLabel id="demo-simple-select-standard-label">
                         Algorithm Running Time
                     </InputLabel>
@@ -434,7 +441,7 @@ const CreateAlgorithm = () => {
                         type="submit"
                         variant="contained"
                         color="primary"
-                        sx={{ my: 2, mr: 5, minWidth: 300 }}
+                        sx={{my: 2, mr: 5, minWidth: 300}}
                         onClick={handleSubmit}
                     >
                         Save Algorithm
@@ -454,7 +461,7 @@ const CreateAlgorithm = () => {
             </div>
             <div id="BackTest">
                 <Button type="submit" variant="contained" color="primary"
-                    onClick={handleBacktest}>
+                        onClick={handleBacktest}>
                     Backtest
                 </Button>
             </div>
