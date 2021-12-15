@@ -221,21 +221,6 @@ def comp_read_user_id(id):
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## enters user into competition
-@app.route('/enter-competition/<id>', methods=['GET'])
-def comp_enter_user(id):
-    """
-        id : is the user id. Gets all algorithms by this user id.
-        read() : Fetches documents from Firestore collection as JSON.
-        algorithms : Return document(s) that matches query userID.
-    """
-    try:
-        
-        competitions_ref.document().set(request.json)
-        return jsonify({"success": True}), 200
-    except Exception as e:
-        return f"An Error Occured: {e}"
-
 ## Be sure to pass in the competition id in the url
 @app.route('/get-competition/<id>', methods=['GET'])
 def comp_read(id):
@@ -293,4 +278,48 @@ def comp_delete_id(id):
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+## enters user into competition
+@app.route('/enter-competition', methods=['POST'])
+def comp_enter_user():
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithms : Return document(s) that matches query userID.
+    """
+    try:
+        competitiors_ref.document().set(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## edits user submitted algorithm in competition
+@app.route('/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
+def comp_edit_competition_algorithm(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithms : Return document(s) that matches query userID.
+    """
+    try:
+        competitiors_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Be sure to pass in the competition id in the url
+@app.route('/unregister-competition/<id>', methods=['GET', 'DELETE'])
+def comp_unregister_competition(id):
+    """
+        delete() : Delete a document from Firestore collection.
+    """
+    try:
+        # Check for ID in URL query
+        competition_id = id
+        competitiors_ref.document(competition_id).delete()
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 ## End comp CRUD Block
+
