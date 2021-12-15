@@ -1,30 +1,19 @@
 import * as React from "react"
-import { Link } from "gatsby"
-
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-
-import JSConfetti from "js-confetti"
-
-import Box from "@mui/material/Box"
 import Card from "@mui/material/Card"
-
 import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { GridItem } from "@chakra-ui/react"
 import Paper from "@mui/material/Paper"
 import Grid from "@mui/material/Grid"
 import { styled } from "@mui/material/styles"
 import Highcharts from "highcharts/highstock"
 import HighchartsReact from "highcharts-react-official"
 
-//const jsConfetti = new JSConfetti()
 
 const IndexPage = () => {
-  //  confetti();
-
   return (
     <Layout>
       <Seo title="AutoStock" />
