@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid"
 import {styled} from "@mui/material/styles"
 import Highcharts from "highcharts/highstock"
 import HighchartsReact from "highcharts-react-official"
+// @ts-ignore
 import Darkmode from 'darkmode-js';
 
 
@@ -123,6 +124,7 @@ const options = {
             yAxis: 1
         }]
 };
+// @ts-ignore
 const Item = styled(Paper)(({theme}) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
