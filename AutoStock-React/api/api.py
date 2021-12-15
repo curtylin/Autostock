@@ -203,7 +203,6 @@ def comp_list_all():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## TODO- this isnt working. 
 ## gives the list of competitions that the user has entered themselves
 @app.route('/list-competition/<id>', methods=['GET'])
 def comp_read_user_id(id):
@@ -216,8 +215,24 @@ def comp_read_user_id(id):
         # Check if ID was passed to URL query
         # id = request.args.get('id')
         userID = id
-        competitions = [doc.to_dict() for doc in competitiors_ref.where("competition", "==", id).stream()]
+        competitions = [doc.to_dict() for doc in competitiors_ref.where("competitor", "==", userID).stream()]
+        # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
         return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## enters user into competition
+@app.route('/enter-competition/<id>', methods=['GET'])
+def comp_enter_user(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithms : Return document(s) that matches query userID.
+    """
+    try:
+        
+        competitions_ref.document().set(request.json)
+        return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
