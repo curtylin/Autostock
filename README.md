@@ -1,10 +1,5 @@
 # Running Development Frontend
 run the following code in the WSL terminal (MAKE SURE YOU ARE IN THE auto-stock DIRECTORY !! VERY IMPORTANT)
-```
-npm run develop
-```
-
-React
 
 to start a session navigate to the autostock-react directory and run the command 
 `yarn start` or `yarn start` to start up the project, following which you can run a 
