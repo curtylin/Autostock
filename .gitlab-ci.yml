@@ -1,0 +1,27 @@
+stages: 
+    - lint
+    - build
+    - test 
+
+lint: 
+    stage: lint
+    script: 
+        - echo "Linting"
+        - mkdir build
+        - echo "Nothing implemented yet"
+
+build: 
+    stage: build
+    script: 
+        - echo "Building"
+        - echo "Nothing implemented yet"
+    artifacts:
+        paths: 
+            - build/
+
+
+test: 
+    stage: test
+    script: 
+        - echo "Testing"
+        - echo "Nothing implemented yet"
