@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from "react"
+import Button from "@mui/material/Button"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import InputLabel from "@mui/material/InputLabel"
+import Select, {SelectChangeEvent} from "@mui/material/Select"
+
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -26,6 +32,21 @@ const Competition = () => {
         setCompetition(result)
       })
   }
+
+  // HANDLE SUBMITTING ALGORITHM
+  const handleSubmit = (event: any) => {
+    let body = `{
+        "algorithm": "${algo}
+        }
+        `
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+        method: "POST",
+        headers,
+        body,
+    }
+  }
   return (
     <Layout>
       <Seo title="AutoStock" />
@@ -38,8 +59,31 @@ const Competition = () => {
       <></>
       <p>Submissions Close: {competition.closeDate}</p>
 
-      <h2> someone pls add a algorithm selection form</h2>
-      <button>Submit Algorithm</button>
+      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
+                        <InputLabel required id="demo-simple-select-standard-label">
+                            Algorithm
+                        </InputLabel>
+                            {/* GET USERS ALGORITHMS */}
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                id="demo-simple-select-standard"
+                                label="Algorithm"
+                                // value={}
+                                // onChange={e => {
+                                //     setTimeInterval(e.target.value)
+                                // }}
+                            >
+                                <MenuItem value={0}>Algorithm 0</MenuItem>
+                                <MenuItem value={1}>Algorithm 1</MenuItem>
+                                <MenuItem value={2}>Algorithm 2</MenuItem>
+                            </Select>
+                    </FormControl>
+      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
+         {/* maybe change size to match menuItem */}
+        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+            Submit Algorithm
+        </Button>
+      </FormControl>
     </Layout>
   )
 }
