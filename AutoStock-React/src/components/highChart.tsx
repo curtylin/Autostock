@@ -23,49 +23,48 @@ for (i; i < dataLength; i += 1) {
 }
 
 const options = {
-    title: {
-      text: "AAPL",
+  title: {
+    text: "AAPL",
+  },
+  yAxis: [
+    {
+      height: "80%",
     },
-    yAxis: [
-      {
-        height: "80%",
-      },
-      {
-        top: "100%",
-        height: "20%",
-        offset: 0,
-      },
-    ],
-    xAxis: [
-      {
-        outerWidth: "100%",
-      },
-    ],
-  
-    series: [
-      {
-        type: "line",
-        data: fakeData,
-        yAxis: 0,
-      },
-      {
-        type: "column",
-        id: "aapl-volume",
-        name: "AAPL Volume",
-        data: volume,
-        yAxis: 1,
-      },
-    ],
-  }
-const HighChart = ({
-    // data
-  }: any) => {
-    return (
-        <HighchartsReact
-        highcharts={Highcharts}
-        constructorType={"stockChart"}
-        options={options}
-        />
-    )
-  }
+    {
+      top: "100%",
+      height: "20%",
+      offset: 0,
+    },
+  ],
+  xAxis: [
+    {
+      outerWidth: "100%",
+    },
+  ],
+
+  series: [
+    {
+      type: "line",
+      data: fakeData,
+      yAxis: 0,
+    },
+    {
+      type: "column",
+      id: "aapl-volume",
+      name: "AAPL Volume",
+      data: volume,
+      yAxis: 1,
+    },
+  ],
+}
+const HighChart = ({}: // data
+any) => {
+  return (
+    <HighchartsReact
+      highcharts={Highcharts}
+      constructorType={"stockChart"}
+      options={options}
+    />
+  )
+}
 export default HighChart

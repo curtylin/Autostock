@@ -12,23 +12,24 @@ const CompCard = ({
   compTicker,
   compStartingVal,
   compDeadline,
+  description,
 }: any) => {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {compLength}
+          {`Competition Length: ${compLength}`}
         </Typography>
         <Typography variant="h5" component="div">
           {compTicker}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Starting Cost $1000
+          {compStartingVal}
         </Typography>
         <Typography variant="body2">
-          2 Days Left to Enter
+          {compDeadline}
           <br />
-          {'"Think Different"'}
+          {description}
         </Typography>
       </CardContent>
       <CardActions>
