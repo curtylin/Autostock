@@ -1,3 +1,4 @@
+from ssl import _PasswordType
 from flask import Flask , request, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
@@ -6,6 +7,8 @@ import backtrader as bt
 import json
 from datetime import datetime
 from dateutil.parser import *
+
+
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -322,4 +325,3 @@ def comp_unregister_competition(id):
         return f"An Error Occured: {e}"
 
 ## End comp CRUD Block
-
