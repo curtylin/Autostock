@@ -36,7 +36,8 @@ const Competition = () => {
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
     let body = `{
-        "algorithm": "${algo}
+        "algorithm": "${algo}",
+        "competition": "${competition.id}"
         }
         `
     const headers = new Headers()
@@ -46,6 +47,18 @@ const Competition = () => {
         headers,
         body,
     }
+    fetch("http://127.0.0.1:5000/enter-competition", init)
+            .then(response => {
+                return response.json() // or .text() or .blob() ...
+            })
+            .then(text => {
+                // text is the response body
+                console.log(text);
+            })
+            .catch(e => {
+                // error in e.message
+            })
+        event.preventDefault();
   }
   return (
     <Layout>
