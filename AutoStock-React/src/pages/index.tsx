@@ -45,7 +45,13 @@ const IndexPage = () => {
             <div></div> */}
             {/* <Generate_Comp1></Generate_Comp1>
       <Generate_Comp2></Generate_Comp2> */}
-
+                {/* <h1> Home Page - Unprotected</h1>
+            <Link to={`/cart`}>
+                <button>View Cart</button>
+            </Link>
+            <Link to={`/auth/signup`}>
+                <button>SignUp</button>
+            </Link> */}
             <Grid container spacing={2}>
                 <Grid item xs={4}>
                     <Generate_Comp1></Generate_Comp1>
@@ -65,8 +71,9 @@ const IndexPage = () => {
                     options={options}
                 />
             </div>
-
+          
         </Layout>
+        
     )
 }
 

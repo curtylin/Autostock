@@ -1,13 +1,16 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import config from './config';
 
-const Firebase = firebase.initializeApp(config.firebase);
+import React from 'react';
+import { Link } from 'react-router-dom';
+interface IPageProps {
+    name: string;
+}
 
-// Add or Remove authentification methods here.
-export const Providers = {
-    google: new firebase.auth.GoogleAuthProvider(),
-};
+const loginPage: React.FunctionComponent<IPageProps> = props => {
+    return (
+        <div>
+           
+        </div>
+    );
+}
 
-export const auth = firebase.auth();
-export default Firebase;
+export default loginPage;
