@@ -3,6 +3,7 @@ package-lock.json
 .cache
 .idea
 firestore_apikey.json
+credientials.env
 
 # dependencies
 /node_modules

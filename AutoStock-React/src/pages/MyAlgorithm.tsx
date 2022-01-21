@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+
+import IPageProps from "../interface/page.interface";
+
 const MyAlgorithm = () => {
 
   const handleShare = (event: any) => {
