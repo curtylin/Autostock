@@ -36,7 +36,6 @@ const CreateAlgorithm = () => {
     const [runningTime, setRunningTime] = useState("")
     const [showBT, setShowBT] = useState(false)
     const show = () => setShowBT(true)
-    const [chartData, setChartData] = useState("")
 
     useEffect(() => {
         console.log(timeInterval)
@@ -134,14 +133,10 @@ const CreateAlgorithm = () => {
         event.preventDefault();
     }
 
-    const setChart = () => {
-        show();
-        setChartData("name: algoName, data: btData");
-    }
     const BackTestingPart = () => 
         <div>
-            <h2>Backtesting Data</h2>               
-            <HighChart setChart={chartData}/>
+            <h2>Backtesting Data: {algoName}</h2>               
+            <HighChart setChart={`${stock}`}/>
         </div>;
 
     return (
@@ -384,7 +379,7 @@ const CreateAlgorithm = () => {
                
             <div id="BackTest">
                 <Button type="submit" variant="contained" color="primary"
-                        onClick={() => setChart()}>
+                        onClick={show}>
                             BackTest
                 </Button>                
             </div>
