@@ -2,6 +2,7 @@ import * as React from "react"
 import Highcharts from "highcharts/highstock"
 import HighchartsReact from "highcharts-react-official"
 
+
 var fakeData = [],
   volume = [],
   dataLength = 100,
@@ -22,7 +23,7 @@ for (i; i < dataLength; i += 1) {
   ])
 }
 
-const options = {
+const ChartOptions = {
   title: {
     text: "AAPL",
   },
@@ -57,14 +58,18 @@ const options = {
     },
   ],
 }
-const HighChart = ({}: // data
+const HighChart = ({setChart}: // data
 any) => {
   return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      constructorType={"stockChart"}
-      options={options}
-    />
+    <div>
+      <h3>{setChart}</h3>
+      <HighchartsReact
+        highcharts={Highcharts}
+        constructorType={"stockChart"}
+        options={ChartOptions}
+      />    
+    </div>
+    
   )
 }
 export default HighChart
