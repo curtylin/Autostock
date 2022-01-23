@@ -1,5 +1,5 @@
-import IRoute from "../interface/route.interface";
-import SignUpPage from "../auth/signup";
+import IRoute from "../interfaces/route.interface";
+import signUp from "../pages/auth/signUp";
 import index from "../pages/index";
 
 const routes: IRoute[] = [
@@ -13,9 +13,9 @@ const routes: IRoute[] = [
     {
         path: '/auth/signup',
         exact: true,
-        component: SignUpPage,
+        component: signUp,
         name: 'Login Page',
-        protected: true
+        protected: false
     },
 
 ];

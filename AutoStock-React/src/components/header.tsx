@@ -64,7 +64,7 @@ const pages = [
   
 const settings = ['Profile', 
   'Account', 
-  <Link to='/CreateAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>Create Algorithm</Link>, 
+  <Link to='/auth/signup' style={{ color: 'black', textDecoration: 'none' }}>Log In</Link>, 
   'Logout'];
 
 const Header = ({siteTitle }: HeaderProps) => {
