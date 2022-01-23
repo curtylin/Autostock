@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase';
 
-import IPageProps from '../interface/page.interface';
-import { SignInWithSocialMedia } from '../modules/auth';
-import { Providers } from '../config/firebase';
+import IPageProps from '../../interface/page.interface';
+import { SignInWithSocialMedia } from '../../modules/auth';
+import { Providers } from '../../config/firebase';
 
 const SignUpPage: React.FunctionComponent<IPageProps> = props => {
     const [authenticating, setAuthenticating] = useState<boolean>(false);
