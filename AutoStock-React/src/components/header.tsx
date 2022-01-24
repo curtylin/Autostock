@@ -62,7 +62,10 @@ const pages = [
   <Link to='/MyAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>My Algorithms</Link>, 
   <Link to='/publicAlgorithms' style={{ color: 'black', textDecoration: 'none' }}>Public Algorithms</Link>];
   
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 
+  'Account', 
+  <Link to='/login' style={{ color: 'black', textDecoration: 'none' }}>Login</Link>, 
+  'Logout'];
 
 const Header = ({siteTitle }: HeaderProps) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
