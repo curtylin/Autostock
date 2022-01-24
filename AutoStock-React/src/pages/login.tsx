@@ -1,5 +1,6 @@
 //template from https://mui.com/getting-started/templates/
 import * as React from "react"
+import { navigate } from "gatsby"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -14,6 +15,7 @@ import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { initializeApp } from "firebase/app"
 
 function Copyright(props: any) {
   return (
@@ -38,17 +40,33 @@ const theme = createTheme()
 export default function SignInSide() {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
+  // TODO: Replace the following with your app's Firebase project configuration
+  const firebaseConfig = {
+    apiKey: process.env.GATSBY_APP_FIREBASE_KEY,
+    authDomain: process.env.GATSBY_APP_FIREBASE_DOMAIN,
+    databaseURL: process.env.GATSBY_APP_FIREBASE_DATABASE,
+    projectId: process.env.GATSBY_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.GATSBY_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.GATSBY_APP_FIREBASE_SENDER_ID,
+    appId: process.env.GATSBY_APP_FIREBASE_APP_ID,
+    measurementId: process.env.GATSBY_APP_FIREBASE_MEASUREMENT_ID,
+  }
 
-  const auth = getAuth()
+  const app = initializeApp(firebaseConfig)
+  const auth = getAuth(app)
+
   signInWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
       // Signed in
       const user = userCredential.user
+      console.log("Signed in as:", user.email)
+      navigate(`/`)
       // ...
     })
     .catch(error => {
       const errorCode = error.code
       const errorMessage = error.message
+      console.log(errorCode, errorMessage)
     })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -56,8 +74,8 @@ export default function SignInSide() {
     const data = new FormData(event.currentTarget)
     // eslint-disable-next-line no-console
     let info = {
-      email: data.get("email").toString(),
-      password: data.get("password").toString(),
+      email: data.get("email")?.toString(),
+      password: data.get("password")?.toString(),
     }
 
     setEmail(info.email)
