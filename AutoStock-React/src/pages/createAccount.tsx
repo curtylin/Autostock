@@ -14,7 +14,7 @@ import Grid from "@mui/material/Grid"
 //import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
 import { initializeApp } from "firebase/app"
 
 function Copyright(props: any) {
@@ -40,6 +40,7 @@ const theme = createTheme()
 export default function SignInSide() {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [username, setUsername] = React.useState("")
   // TODO: Replace the following with your app's Firebase project configuration
   const firebaseConfig = {
     apiKey: process.env.GATSBY_APP_FIREBASE_KEY,
@@ -56,19 +57,17 @@ export default function SignInSide() {
   const auth = getAuth(app)
   const provider = new GoogleAuthProvider()
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(userCredential => {
-      // Signed in
-      const user = userCredential.user
-      console.log("Signed in as:", user.email)
-      navigate(`/`)
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
       // ...
     })
-    .catch(error => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
-    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
   
   signInWithPopup(provider)
     .then((result) => {
@@ -96,10 +95,12 @@ export default function SignInSide() {
     let info = {
       email: data.get("email")?.toString(),
       password: data.get("password")?.toString(),
+      username: data.get("Username")?.toString(),
     }
 
     setEmail(info.email)
     setPassword(info.password)
+    setUsername(info.Username)
   }
 
   return (
@@ -159,7 +160,7 @@ export default function SignInSide() {
               {/*<LockOutlinedIcon />*/}
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Create Account
             </Typography>
             <Button
               onClick={() => { // Google provider object is created here.
@@ -192,9 +193,15 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="Username"
+                label="Username"
+                type="Username"
+                id="Username"
+                autoComplete="Username"
               />
               <Button
                 type="submit"
@@ -202,20 +209,8 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Create Account
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/createAccount" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
