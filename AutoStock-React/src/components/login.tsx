@@ -19,7 +19,6 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  Auth,
 } from "firebase/auth"
 import { initializeApp } from "firebase/app"
 
@@ -73,7 +72,8 @@ export default function SignInSide() {
         // Signed in
         const user = userCredential.user
         console.log("Signed in as:", user.email)
-        navigate(`/`)
+        window.localStorage.setItem("currentUser", JSON.stringify(user))
+        navigate(`/app/home`)
         // ...
       })
       .catch(error => {
@@ -92,7 +92,8 @@ export default function SignInSide() {
         // The signed-in user info.
         const user = result.user
         console.log("Signed in via google as:", user.email)
-        navigate(`/`)
+        window.localStorage.setItem("currentUser", JSON.stringify(user))
+        navigate(`/app/home`)
       })
       .catch(error => {
         // Handle Errors here.
@@ -181,8 +182,6 @@ export default function SignInSide() {
             </Typography>
             <Button
               onClick={() => {
-                // Google provider object is created here.
-                const googleAuth = new GoogleAuthProvider() // using the object we will authenticate the user.
                 googleSignIn()
               }}
             >
