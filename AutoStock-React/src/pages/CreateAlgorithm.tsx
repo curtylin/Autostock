@@ -8,23 +8,11 @@ import Select, {SelectChangeEvent} from "@mui/material/Select"
 import Tooltip from "@mui/material/Tooltip"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import Highcharts from "highcharts/highstock"
-import HighchartsReact from "highcharts-react-official"
-import Indicators from "highcharts/indicators/indicators-all.js"
-import DragPanes from "highcharts/modules/drag-panes.js"
-import AnnotationsAdvanced from "highcharts/modules/annotations-advanced.js"
-import PriceIndicator from "highcharts/modules/price-indicator.js"
-import FullScreen from "highcharts/modules/full-screen.js"
-import StockTools from "highcharts/modules/stock-tools.js"
 import JSConfetti from "js-confetti"
+import HighChart from "../components/highChart"
+import { Grid } from "@mui/material"
 
-// init the module
-Indicators(Highcharts)
-DragPanes(Highcharts)
-AnnotationsAdvanced(Highcharts)
-PriceIndicator(Highcharts)
-FullScreen(Highcharts)
-StockTools(Highcharts)
+
 
 const jsConfetti = new JSConfetti();
 const theme = {
@@ -34,85 +22,7 @@ const handleDelete = () => {
     console.info("You clicked the delete icon.")
 }
 
-// split the data set into ohlc and volume
-var fakeData = [],
-    volume = [],
-    dataLength = 100,
-    i = 0
 
-for (i; i < dataLength; i += 1) {
-    fakeData.push([
-        "Dec " + i, // the date
-        3 + Math.random(), // open
-        4 + Math.random(), // high
-        1 + Math.random(), // low
-        2 + Math.random(), // close
-    ])
-
-    volume.push([
-        "Dec " + i, // the date
-        i * Math.random(), // the volume
-    ])
-}
-const options = {
-    title: {
-        text: "BACKTESTING STOCK (Fake Data)",
-    },
-    yAxis: [
-        {
-            labels: {
-                align: "left",
-            },
-            height: "80%",
-            resize: {
-                enabled: true,
-            },
-        },
-        {
-            labels: {
-                align: "left",
-            },
-            top: "80%",
-            height: "20%",
-            offset: 0,
-        },
-    ],
-    tooltip: {
-        shape: "square",
-        headerShape: "callout",
-        borderWidth: 0,
-        shadow: false,
-    },
-    series: [
-        {
-            name: "Stock Price",
-            type: "line",
-            data: fakeData,
-            yAxis: 0,
-        },
-        {
-            type: "column",
-            id: "stock-volume",
-            name: "Stock Volume",
-            data: volume,
-            yAxis: 1,
-        },
-    ],
-    responsive: {
-        rules: [
-            {
-                condition: {
-                    maxWidth: 800,
-                },
-                chartOptions: {
-                    rangeSelector: {
-                        inputEnabled: false,
-                    },
-                },
-            },
-        ],
-    },
-}
 
 const CreateAlgorithm = () => {
     const [algoName, setAlgoName] = useState("")
@@ -124,6 +34,8 @@ const CreateAlgorithm = () => {
     const [period2, setPeriod2] = useState("")
     const [action, setAction] = useState("")
     const [runningTime, setRunningTime] = useState("")
+    const [showBT, setShowBT] = useState(false)
+    const show = () => setShowBT(true)
 
     useEffect(() => {
         console.log(timeInterval)
@@ -220,6 +132,12 @@ const CreateAlgorithm = () => {
             })
         event.preventDefault();
     }
+
+    const BackTestingPart = () => 
+        <div>
+            <h2>Backtesting Data: {algoName}</h2>               
+            <HighChart setChart={`${stock}`}/>
+        </div>;
 
     return (
         <Layout>
@@ -454,18 +372,16 @@ const CreateAlgorithm = () => {
                     </Button>
                 </div>
             </form>
-            <div id="chart">
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    constructorType={"stockChart"}
-                    options={options}
-                />
+
+            <div id="backtesting"> 
+                {showBT ? <BackTestingPart/> : null}
             </div>
+               
             <div id="BackTest">
                 <Button type="submit" variant="contained" color="primary"
-                        onClick={handleBacktest}>
-                    Backtest
-                </Button>
+                        onClick={show}>
+                            BackTest
+                </Button>                
             </div>
         </Layout>
     )
