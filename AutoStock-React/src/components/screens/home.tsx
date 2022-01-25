@@ -1,10 +1,10 @@
 import * as React from "react"
 import { useEffect, useState } from "react"
-import Layout from "./layout"
-import Seo from "./seo"
+import Layout from "../layout"
+import Seo from "../seo"
 import { Grid } from "@mui/material"
-import CompCard from "./compCard"
-import HighChart from "./highChart"
+import CompCard from "../compCard"
+import HighChart from "../highChart"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
