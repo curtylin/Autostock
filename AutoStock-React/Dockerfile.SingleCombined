@@ -1,15 +1,15 @@
 FROM node:16-alpine as build-step
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 COPY ./src ./src
 COPY ./public ./public
-RUN yarn install
-RUN yarn build
+RUN npm install
+RUN npm run build
 
 FROM python:3.9
 WORKDIR /app
-COPY --from=build-step /app/build ./build
+COPY --from=build-step /app/public ./public
 
 RUN mkdir ./api
 COPY api/requirements.txt api/api.py api/.flaskenv ./api/
