@@ -36,9 +36,25 @@ def backtest():
 
     class StrategyTest(bt.SignalStrategy):
         def __init__(self):
-            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+            period1 = int(dataDict['Entry'][0]['period1'].split(" ")[1])
+            period2 = int(dataDict['Entry'][0]['period2'].split(" ")[1])
+            sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
+            #sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
             crossover = bt.ind.CrossOver(sma1, sma2)
             self.signal_add(bt.SIGNAL_LONG, crossover)
+
+            self.dataclose = self.datas[0].close
+
+        # def next(self):
+        #     periodStrat = dataDict[0]['period2'].split(" ")[0]
+        #     self.log('periodStrat, %.2f' % self.dataclose)
+        #     if self.dataclose[0] < self.dataclose[-1]:
+        #         if self.dataclose[-1] < self.dataclose[-2]:
+        #             self.log('BUY CREATE, %.2f' % self.dataclose[0])
+        #             self.buy()
+        #             response["action"] = 'buy'
+        #         else:
+        #             response["action"] = 'close'
 
 
     cerebro = bt.Cerebro()
@@ -57,10 +73,6 @@ def backtest():
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
     
-    entry = dataDict['Entry']
-    action = entry[0]['action']
-    
-    response["Entry"] = action
     
   
         
