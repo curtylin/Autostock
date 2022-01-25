@@ -1,113 +1,107 @@
-// import * as React from "react"
-// import { Link } from "gatsby"
-// import {
-//   Box,
-//   Flex,
-//   Avatar,
-//   HStack,
-//   Heading,
-//   Spacer
-// } from '@chakra-ui/react'
-// import './header.css'
-// import Button from '@mui/material/Button';
+import * as React from "react"
+import AppBar from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Toolbar from "@mui/material/Toolbar"
+import IconButton from "@mui/material/IconButton"
+import Typography from "@mui/material/Typography"
+import Menu from "@mui/material/Menu"
+import Container from "@mui/material/Container"
+import Avatar from "@mui/material/Avatar"
+import Button from "@mui/material/Button"
+import Tooltip from "@mui/material/Tooltip"
+import MenuItem from "@mui/material/MenuItem"
+import { Link, navigate } from "gatsby"
+import { getUser, isLoggedIn, logout } from "../services/auth"
 
-// const Header = ({siteTitle }: HeaderProps) =>   (
-//     <>
-//       <Box className='navbar' h='90' px={50} >
-//         <Flex>
-//           <Box p='20'  pt='20'>
-//             <h1><Link to='/' className='autostock-link'>{siteTitle}</Link></h1>
-//           </Box>
-//           <HStack p='20' spacing='50px' pt='5'>
-//             <p></p>
-//             <h4><Link to='/CreateAlgorithm' className='text-link'>Create New Algorithm</Link></h4>
-//             <h4><Link to='/MyAlgorithm' className='text-link'>My Algorithms</Link></h4>
-//             <h4><Link to='/Algorithms' className='text-link'> Created Algorithms</Link></h4>  
-//           </HStack>
-//           <Spacer />
-//           <Box p='20'  pt='25'>
-//             <Button variant="contained" sx={{ mr: 2 }}>Sign Up</Button>
-//             <Button variant="contained">Log In</Button>
-//           </Box>
-//         </Flex>
-//       </Box>
-//     </>
-//   )
-
-// export default Header
-
-// interface HeaderProps { 
-//   siteTitle: string
-// }
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { Link } from "gatsby"
-
-interface HeaderProps { 
+interface HeaderProps {
   siteTitle: string
 }
 
 const pages = [
-  <Link to='/CreateAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>Create Algorithm</Link>, 
-  <Link to='/MyAlgorithm' style={{ color: 'black', textDecoration: 'none' }}>My Algorithms</Link>, 
-  <Link to='/publicAlgorithms' style={{ color: 'black', textDecoration: 'none' }}>Public Algorithms</Link>];
-  
-const settings = ['Profile', 
-  'Account', 
-  <Link to='/login' style={{ color: 'black', textDecoration: 'none' }}>Login</Link>, 
-  'Logout'];
+  <Link
+    to="/CreateAlgorithm"
+    style={{ color: "black", textDecoration: "none" }}
+  >
+    Create Algorithm
+  </Link>,
+  <Link to="/MyAlgorithm" style={{ color: "black", textDecoration: "none" }}>
+    My Algorithms
+  </Link>,
+  <Link
+    to="/publicAlgorithms"
+    style={{ color: "black", textDecoration: "none" }}
+  >
+    Public Algorithms
+  </Link>,
+]
 
-const Header = ({siteTitle }: HeaderProps) => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const [anchorElAlg, setAnchorElAlg] = React.useState<null | HTMLElement>(null);
+const settings = [
+  "Profile",
+  "Account",
+  <Link to="/login" style={{ color: "black", textDecoration: "none" }}>
+    Login
+  </Link>,
+  <Link
+    to="/"
+    style={{ color: "black", textDecoration: "none" }}
+    onClick={event => {
+      event.preventDefault()
+      logout(() => navigate(`/app/login`))
+    }}
+  >
+    Logout
+  </Link>,
+]
+
+const Header = ({ siteTitle }: HeaderProps) => {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  )
+  const [anchorElAlg, setAnchorElAlg] = React.useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+    setAnchorElNav(event.currentTarget)
+  }
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
   const handleOpenAlgMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElAlg(event.currentTarget);
-  };
+    setAnchorElAlg(event.currentTarget)
+  }
 
   const handleCloseAlgMenu = () => {
-    setAnchorElAlg(null);
-  };
+    setAnchorElAlg(null)
+  }
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+    setAnchorElNav(null)
+  }
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    setAnchorElUser(null)
+  }
 
   return (
-    <AppBar sx={{mb:2}} style={{ background: '#059a76' }} position="static">
+    <AppBar sx={{ mb: 2 }} style={{ background: "#059a76" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography 
+          <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs: 'none', md: 'flex' } }}
-            style={{ color: 'black'}}
+            sx={{ mr: 5, display: { xs: "none", md: "flex" } }}
+            style={{ color: "black" }}
           >
-            <Link to='/' style={{ color: 'black', textDecoration: 'none' }} className='autostock-link'>{siteTitle}</Link>
+            <Link
+              to="/"
+              style={{ color: "black", textDecoration: "none" }}
+              className="autostock-link"
+            >
+              {siteTitle}
+            </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -115,27 +109,26 @@ const Header = ({siteTitle }: HeaderProps) => {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-            >
-            </IconButton>
+            ></IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map(page => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -143,8 +136,7 @@ const Header = ({siteTitle }: HeaderProps) => {
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* Algorithm Links */}
             {/* {pages.map((page) => (
               <Button
@@ -156,49 +148,52 @@ const Header = ({siteTitle }: HeaderProps) => {
               </Button>
             ))} */}
 
-            <Button onClick={handleOpenAlgMenu} sx={{ mt: 1, mx: 5, color: 'white', display: 'block' }}>
-            <Typography 
-              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-              fontWeight="medium"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', md: 'flex' } }}
+            <Button
+              onClick={handleOpenAlgMenu}
+              sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
             >
-              Algorithms
-            </Typography>
+              <Typography
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                Algorithms
+              </Typography>
             </Button>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElAlg}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElAlg)}
               onClose={handleCloseAlgMenu}
             >
-              {pages.map((page) => (
+              {pages.map(page => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
-            <Button sx={{ mt: 1, color: 'white', display: 'block' }}>
-            <Typography 
-              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-              fontWeight="medium"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', md: 'flex' } }}
-            >
-              Leaderboards
-            </Typography>
+            <Button sx={{ mt: 1, color: "white", display: "block" }}>
+              <Typography
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                Leaderboards
+              </Typography>
             </Button>
           </Box>
 
@@ -209,22 +204,22 @@ const Header = ({siteTitle }: HeaderProps) => {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {settings.map(setting => (
                 <MenuItem key={setting} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
@@ -234,6 +229,6 @@ const Header = ({siteTitle }: HeaderProps) => {
         </Toolbar>
       </Container>
     </AppBar>
-  );
-};
-export default Header;
+  )
+}
+export default Header
