@@ -1,12 +1,9 @@
 //template from https://mui.com/getting-started/templates/
 import * as React from "react"
-import { navigate } from "gatsby"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
 import TextField from "@mui/material/TextField"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
 import Link from "@mui/material/Link"
 import Paper from "@mui/material/Paper"
 import Box from "@mui/material/Box"
@@ -14,7 +11,12 @@ import Grid from "@mui/material/Grid"
 //import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth"
 import { initializeApp } from "firebase/app"
 
 function Copyright(props: any) {
@@ -58,35 +60,36 @@ export default function SignInSide() {
   const provider = new GoogleAuthProvider()
 
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
+    .then(userCredential => {
+      // Signed in
+      const user = userCredential.user
       // ...
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+    .catch(error => {
+      const errorCode = error.code
+      const errorMessage = error.message
       // ..
-    });
-  
+    })
+
   signInWithPopup(provider)
-    .then((result) => {
+    .then(result => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential.accessToken
       // The signed-in user info.
-      const user = result.user;
+      const user = result.user
       // ...
-    }).catch((error) => {
+    })
+    .catch(error => {
       // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      const errorCode = error.code
+      const errorMessage = error.message
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.email
       // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
+      const credential = GoogleAuthProvider.credentialFromError(error)
       // ...
-    });
+    })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -163,10 +166,14 @@ export default function SignInSide() {
               Create Account
             </Typography>
             <Button
-              onClick={() => { // Google provider object is created here.
-                const googleAuth = new GoogleAuthProvider(); // using the object we will authenticate the user.
-                signInWithPopup(auth, googleAuth);
-                }}>Sign in with Google</Button>
+              onClick={() => {
+                // Google provider object is created here.
+                const googleAuth = new GoogleAuthProvider() // using the object we will authenticate the user.
+                signInWithPopup(auth, googleAuth)
+              }}
+            >
+              Sign in with Google
+            </Button>
             <Box
               component="form"
               noValidate
