@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.parser import *
 
 
-app = Flask(__name__, static_folder="../build", static_url_path="/")
+app = Flask(__name__, static_folder="../public", static_url_path="/")
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app)
 

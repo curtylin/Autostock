@@ -1,27 +1,18 @@
-import React, {useState, useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
-import Select, {SelectChangeEvent} from "@mui/material/Select"
+import Select from "@mui/material/Select"
 import Tooltip from "@mui/material/Tooltip"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import JSConfetti from "js-confetti"
+// import JSConfetti from "js-confetti"
 import HighChart from "../components/highChart"
-import { Grid } from "@mui/material"
 
 
-
-const jsConfetti = new JSConfetti();
-const theme = {
-    spacing: 8,
-}
-const handleDelete = () => {
-    console.info("You clicked the delete icon.")
-}
-
+// const jsConfetti = new JSConfetti();
 
 
 const CreateAlgorithm = () => {
@@ -41,55 +32,6 @@ const CreateAlgorithm = () => {
         console.log(timeInterval)
     })
 
-    const loadStocks = () => {
-        fetch("https://api.iextrading.com/1.0/ref-data/symbols")
-            .then(res => res.json())
-            .then(data => {
-                setStocks(data)
-            })
-    }
-    const handleBacktest = (event: any) => {
-        let currDate = new Date()
-        //create json object
-        let obj = {
-            symbol: stock,
-            cash: 1000,
-            startDate: `${currDate.getFullYear() - 1
-            }-${currDate.getMonth()}-${currDate.getDate()}`,
-            endDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}`,
-        }
-        const headers = new Headers()
-        headers.append("content-type", "application/json")
-
-        let body = `{
-      "symbol": "${stock}",
-      "cash": 1000,
-      "startDate": "${currDate.getFullYear() - 1
-        }-${currDate.getMonth()}-${currDate.getDate()}",
-      "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}"
-      }
-      `
-
-        let init = {
-            method: "POST",
-            headers,
-            body,
-        }
-
-        fetch("http://127.0.0.1:5000/backtest", init)
-            .then(response => {
-                return response.json() // or .text() or .blob() ...
-            })
-            .then(text => {
-                // text is the response body
-                console.log(text)
-                alert(JSON.stringify(text))
-            })
-            .catch(e => {
-                // error in e.message
-            })
-        event.preventDefault();
-    }
 
     const handleSubmit = (event: any) => {
         let body = `{
@@ -121,14 +63,15 @@ const CreateAlgorithm = () => {
             .then(text => {
                 // text is the response body
                 console.log(text);
-                jsConfetti.addConfetti({
-                    emojis: ['😂', '📈', '👌', '💦', '🍑', '💯'],
-                    // emojiSize: 100,
-                })
-                jsConfetti.addConfetti();
+                // jsConfetti.addConfetti({
+                //     emojis: ['😂', '📈', '👌', '💦', '🍑', '💯'],
+                //     // emojiSize: 100,
+                // })
+                // jsConfetti.addConfetti();
             })
             .catch(e => {
                 // error in e.message
+                console.log(e);
             })
         event.preventDefault();
     }
