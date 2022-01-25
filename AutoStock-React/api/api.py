@@ -231,6 +231,7 @@ def comp_read(id):
         # Check if ID was passed to URL query
         competition = competitions_ref.document(id).get()
         compDict = competition.to_dict()
+        compDict['id'] = id
         compDict['competitiors'] = len([doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
         return jsonify(compDict), 200
     except Exception as e:
