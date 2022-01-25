@@ -6,7 +6,10 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 const MyAlgorithm = () => {
 
+
+  // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
   const handleShare = (event: any) => {
+    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
     let body = `{
         "public": false
         }
@@ -19,6 +22,7 @@ const MyAlgorithm = () => {
         body,
     }
 
+      // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
     fetch("http://127.0.0.1:5000/edit-algorithm/{algo-id}", init)
         .then(response => {
             return response.json() // or .text() or .blob() ...
@@ -29,6 +33,7 @@ const MyAlgorithm = () => {
     event.preventDefault();
 }
 
+// TODO NEED TO GET THE ALGO ID
   const handleDelete = (event: any) => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
