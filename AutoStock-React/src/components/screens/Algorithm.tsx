@@ -1,7 +1,7 @@
 import * as React from "react"
 
-import Layout from "./layout"
-import Seo from "./seo"
+import Layout from "../layout"
+import Seo from "../seo"
 
 const Algorithm = () => (
   <Layout>

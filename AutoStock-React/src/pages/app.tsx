@@ -1,24 +1,23 @@
 import React from "react"
-import { Router } from "@reach/router"
-import Layout from "../components/layout"
-import Login from "../components/login"
-import Algorithm from "../components/Algorithm"
-import CreateAlgorithm from "../components/CreateAlgorithm"
-import MyAlgorithm from "../components/MyAlgorithm"
-import Home from "../components/home"
-import PublicAlgorithms from "../components/PublicAlgorithms"
+import { RouteComponentProps, Router } from "@reach/router"
+import Login from "../components/screens/login"
+import Algorithm from "../components/screens/Algorithm"
+import CreateAlgorithm from "../components/screens/CreateAlgorithm"
+import MyAlgorithm from "../components/screens/MyAlgorithm"
+import Home from "../components/screens/home"
+import PublicAlgorithms from "../components/screens/PublicAlgorithms"
 import PrivateRoute from "../components/privateRoute"
 import Index from "./index"
 
 const App = () => (
   <Router basepath="/app">
-    <Login path="/login" />
+    <RouterPage path="/login" pageComponent={<Login />} />
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
     <PrivateRoute path="/myalgorithm" component={MyAlgorithm} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/home" component={Home} />
-    <Index path="/" />
+    <RouterPage path="/" pageComponent={<Index />} />
   </Router>
 )
 
