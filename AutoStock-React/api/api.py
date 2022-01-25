@@ -56,6 +56,14 @@ def backtest():
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+    
+    entry = dataDict['Entry']
+    action = entry[0]['action']
+    
+    response["Entry"] = action
+    
+  
+        
 
     return response
 
