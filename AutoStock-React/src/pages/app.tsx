@@ -14,7 +14,7 @@ const App = () => (
     <RouterPage path="/login" pageComponent={<Login />} />
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
-    <PrivateRoute path="/myalgorithm" component={MyAlgorithm} />
+    <PrivateRoute path="/myalgorithms" component={MyAlgorithm} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/home" component={Home} />
     <RouterPage path="/" pageComponent={<Index />} />

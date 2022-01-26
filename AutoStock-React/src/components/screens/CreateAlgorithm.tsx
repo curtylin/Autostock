@@ -11,6 +11,7 @@ import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
 import { Grid } from "@mui/material"
+import { getUser } from "../../services/auth"
 
 const jsConfetti = new JSConfetti()
 const theme = {
@@ -100,7 +101,7 @@ const CreateAlgorithm = () => {
             "period1": "${period1}",
             "period2": "${period2}",
             "public": false,
-            "userID": "sample1",
+            "userID": "${getUser().uid}",
             "action": "${action}"
             }
             `
