@@ -1,6 +1,7 @@
 import React from "react"
 import { RouteComponentProps, Router } from "@reach/router"
 import Login from "../components/screens/login"
+import CreateAccount from "../components/screens/createAccount"
 import Algorithm from "../components/screens/Algorithm"
 import CreateAlgorithm from "../components/screens/CreateAlgorithm"
 import MyAlgorithm from "../components/screens/MyAlgorithm"
@@ -13,6 +14,7 @@ import Index from "./index"
 const App = () => (
   <Router basepath="/app">
     <RouterPage path="/login" pageComponent={<Login />} />
+    <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />

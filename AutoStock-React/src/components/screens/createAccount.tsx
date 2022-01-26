@@ -1,5 +1,6 @@
 //template from https://mui.com/getting-started/templates/
 import * as React from "react"
+import { navigate } from "gatsby"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -39,11 +40,16 @@ function Copyright(props: any) {
 
 const theme = createTheme()
 
-export default function SignInSide() {
-  const [email, setEmail] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  const [username, setUsername] = React.useState("")
-  // TODO: Replace the following with your app's Firebase project configuration
+export default function createAccountSide() {
+  interface Info {
+    email: string | undefined
+    password: string | undefined
+    username: string | undefined
+  }
+  const [email, setEmail] = React.useState<string | undefined>("")
+  const [password, setPassword] = React.useState<string | undefined>("")
+  const [username, setUsername] = React.useState<string | undefined>("")
+
   const firebaseConfig = {
     apiKey: process.env.GATSBY_APP_FIREBASE_KEY,
     authDomain: process.env.GATSBY_APP_FIREBASE_DOMAIN,
@@ -59,43 +65,51 @@ export default function SignInSide() {
   const auth = getAuth(app)
   const provider = new GoogleAuthProvider()
 
-  createUserWithEmailAndPassword(auth, email, password)
+  const emailCreate = () => {
+    createUserWithEmailAndPassword(auth, email!, password!)
     .then(userCredential => {
       // Signed in
       const user = userCredential.user
+      window.localStorage.setItem("currentUser", JSON.stringify(user))
+      navigate(`/app/home`)
       // ...
     })
     .catch(error => {
       const errorCode = error.code
       const errorMessage = error.message
+      console.log(errorCode, errorMessage)
       // ..
     })
-
-  signInWithPopup(provider)
-    .then(result => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result)
-      const token = credential.accessToken
-      // The signed-in user info.
-      const user = result.user
-      // ...
-    })
-    .catch(error => {
-      // Handle Errors here.
-      const errorCode = error.code
-      const errorMessage = error.message
-      // The email of the user's account used.
-      const email = error.email
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error)
-      // ...
-    })
+  }
+    const googleSignIn = () => {
+      signInWithPopup(auth, provider)
+        .then(result => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result)
+          const token = credential?.accessToken
+          // The signed-in user info.
+          const user = result.user
+          console.log("Signed in via google as:", user.email)
+          window.localStorage.setItem("currentUser", JSON.stringify(user))
+          navigate(`/app/home`)
+        })
+        .catch(error => {
+          // Handle Errors here.
+          const errorCode = error.code
+          const errorMessage = error.message
+          // The email of the user's account used.
+          const email = error.email
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error)
+          console.log(errorCode, errorMessage, email, credential)
+        })
+    }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     // eslint-disable-next-line no-console
-    let info = {
+    let info: Info = {
       email: data.get("email")?.toString(),
       password: data.get("password")?.toString(),
       username: data.get("Username")?.toString(),
@@ -103,7 +117,7 @@ export default function SignInSide() {
 
     setEmail(info.email)
     setPassword(info.password)
-    setUsername(info.Username)
+    emailCreate()
   }
 
   return (
@@ -168,8 +182,7 @@ export default function SignInSide() {
             <Button
               onClick={() => {
                 // Google provider object is created here.
-                const googleAuth = new GoogleAuthProvider() // using the object we will authenticate the user.
-                signInWithPopup(auth, googleAuth)
+                googleSignIn()
               }}
             >
               Sign in with Google
