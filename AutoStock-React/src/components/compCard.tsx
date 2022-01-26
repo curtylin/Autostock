@@ -13,6 +13,7 @@ const CompCard = ({
   compStartingVal,
   compDeadline,
   description,
+  id,
 }: any) => {
   return (
     <Card sx={{ minWidth: 275 }}>
