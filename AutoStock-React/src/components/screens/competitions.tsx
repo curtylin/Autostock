@@ -22,7 +22,7 @@ const Competitions = () => {
   return (
     <Layout>
         <Seo title="AutoStock" />
-        <Grid container spacing={2} sx={{mt:4, mb: 10}}>
+        <Grid container spacing={4} sx={{mt:4, mb: 10}}>
             {competitions.slice(0, 6).map((comp: any, index: number) => {
             let cardProps = {
                 compLength: comp.duration,
@@ -33,7 +33,7 @@ const Competitions = () => {
                 id: comp.id,
             }
             return (
-                <Grid key={index} item xs={2} sm={4} md={4} >
+                <Grid key={index} item xs={6} sx={{my:2}} >
                     <ComplexCompCard key={index} {...cardProps} />
                 </Grid>
             )
