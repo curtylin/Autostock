@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import Layout from "../layout"
+import Seo from "../seo"
 
-const Algorithms = () => {
+const PublicAlgorithms = () => {
   const [algorithms, setAlgorithms] = useState([])
   useEffect(() => {
     getAlgorithmsDB()
@@ -62,14 +62,14 @@ const Algorithms = () => {
             </thead>
             <tbody className="mdc-data-table__content">
               {algorithms.map((algorithm: any, key: any) => {
-                return(
+                return (
                   <tr className="mdc-data-table__row" key={key}>
                     <td className="mdc-data-table__cell" scope="row">
                       {algorithm.name}
                     </td>
                     <td className="mdc-data-table__cell">{algorithm.ticker}</td>
                     <td className="mdc-data-table__cell">{algorithm.userID}</td>
-                </tr>
+                  </tr>
                 )
               })}
             </tbody>
@@ -80,8 +80,4 @@ const Algorithms = () => {
   )
 }
 
-export default Algorithms
-
-function setTotalReactPackages(total: any): any {
-  throw new Error("Function not implemented.")
-}
+export default PublicAlgorithms
