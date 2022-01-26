@@ -187,7 +187,19 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 </MenuItem>
               ))}
             </Menu>
-            <Button sx={{ mt: 1, color: "white", display: "block" }}>
+            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/competitions")}}>
+              <Typography
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                Competitions
+              </Typography>
+            </Button>
+            <Button               sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
+>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
