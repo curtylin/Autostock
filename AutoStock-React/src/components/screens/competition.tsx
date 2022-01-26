@@ -94,7 +94,7 @@ const Competition = () => {
       <h1>{competition.name}</h1> 
       <h2>Ticker: {competition.ticker}</h2>
       <h3>Participants: {competition.competitiors}</h3>
-      <h3>Duration: {competition.competitiors}</h3>
+      <h3>Duration: {competition.duration}</h3>
       <h3>Starting Balance: {competition.startingBalance}</h3>
       <p>Details: {competition.description}</p>
       <></>
