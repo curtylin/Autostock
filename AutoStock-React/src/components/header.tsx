@@ -19,16 +19,19 @@ interface HeaderProps {
 
 const pages = [
   <Link
-    to="/CreateAlgorithm"
+    to="/app/createalgorithm"
     style={{ color: "black", textDecoration: "none" }}
   >
     Create Algorithm
   </Link>,
-  <Link to="/MyAlgorithm" style={{ color: "black", textDecoration: "none" }}>
+  <Link
+    to="/app/myalgorithm"
+    style={{ color: "black", textDecoration: "none" }}
+  >
     My Algorithms
   </Link>,
   <Link
-    to="/publicAlgorithms"
+    to="/app/publicalgorithms"
     style={{ color: "black", textDecoration: "none" }}
   >
     Public Algorithms
@@ -38,7 +41,7 @@ const pages = [
 const settings = [
   "Profile",
   "Account",
-  <Link to="/login" style={{ color: "black", textDecoration: "none" }}>
+  <Link to="/app/login" style={{ color: "black", textDecoration: "none" }}>
     Login
   </Link>,
   <Link
@@ -94,7 +97,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             style={{ color: "black" }}
           >
             <Link
-              to="/"
+              to="/app/home"
               style={{ color: "black", textDecoration: "none" }}
               className="autostock-link"
             >
