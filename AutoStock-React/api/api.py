@@ -107,7 +107,12 @@ def algo_read_user_id(id):
         # Check if ID was passed to URL query
         # id = request.args.get('id')
         userID = id
-        algorithms = [doc.to_dict() for doc in algorithms_ref.where("userID", "==", userID).stream()]
+        algos = algorithms_ref.where("userID", "==", userID).stream()
+        algorithms = []
+        for algo in algos:
+            algoDict = algo.to_dict()
+            algoDict['id'] = algo.id
+            algorithms.append(algoDict)
         return jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occured: {e}"
