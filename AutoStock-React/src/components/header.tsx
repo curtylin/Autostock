@@ -25,7 +25,7 @@ const pages = [
     Create Algorithm
   </Link>,
   <Link
-    to="/app/myalgorithm"
+    to="/app/myalgorithms"
     style={{ color: "black", textDecoration: "none" }}
   >
     My Algorithms
