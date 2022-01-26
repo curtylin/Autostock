@@ -30,6 +30,7 @@ const Home = () => {
             compStartingVal: `Starting Balance: ${comp.startingBalance}`,
             compDeadline: comp.closeDate,
             description: comp.description,
+            id: comp.id,
           }
           return (
             <Grid key={index} item xs={4}>
