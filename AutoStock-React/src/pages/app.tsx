@@ -12,11 +12,13 @@ import Index from "./index"
 const App = () => (
   <Router basepath="/app">
     <RouterPage path="/login" pageComponent={<Login />} />
+
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
     <PrivateRoute path="/myalgorithms" component={MyAlgorithm} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/home" component={Home} />
+
     <RouterPage path="/" pageComponent={<Index />} />
   </Router>
 )
