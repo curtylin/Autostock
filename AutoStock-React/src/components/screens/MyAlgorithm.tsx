@@ -3,6 +3,10 @@ import Button from "@mui/material/Button"
 
 import Layout from "../layout"
 import Seo from "../seo"
+
+import { getUser } from "../../services/auth"
+
+
 const MyAlgorithm = () => {
   const handleShare = (event: any) => {
     let body = `{
@@ -52,7 +56,7 @@ const MyAlgorithm = () => {
   }, [])
   const getAlgorithmsDB = () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/list-algorithm/129487458", {
+    fetch("http://localhost:5000/list-algorithm/" + getUser().uid, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
