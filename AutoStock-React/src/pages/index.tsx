@@ -1,47 +1,24 @@
-import * as React from "react"
-import { useEffect, useState } from "react"
+import React from "react"
+import { Link } from "gatsby"
+import { getUser, isLoggedIn } from "../services/auth"
 import Layout from "../components/layout"
-import Seo from "../components/seo"
-import { Grid } from "@mui/material"
-import CompCard from "../components/compCard"
-import HighChart from "../components/highChart"
 
 const IndexPage = () => {
-  const [competitions, setCompetitions] = useState([])
-
-  useEffect(() => {
-    fetch("http://localhost:5000/list-competitions")
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        setCompetitions(result)
-      })
-  }, [])
-
   return (
     <Layout>
-      <Seo title="AutoStock" />
-      <Grid container spacing={2}>
-        {competitions.slice(0, 3).map((comp: any, index: number) => {
-          let cardProps = {
-            compLength: comp.duration,
-            compTicker: comp.name,
-            compStartingVal: `Starting Balance: ${comp.startingBalance}`,
-            compDeadline: comp.closeDate,
-            description: comp.description,
-          }
-          return (
-            <Grid key={index} item xs={4}>
-              <CompCard key={index} {...cardProps} />
-            </Grid>
-          )
-        })}
-      </Grid>
-
-      <div id="chart">
-        <HighChart />
-      </div>
+      <h1>Hello {isLoggedIn() ? getUser().name : "world"}!</h1>
+      <p>
+        {isLoggedIn() ? (
+          <>
+            You are logged in, so check your <Link to="/app/home">profile</Link>
+          </>
+        ) : (
+          <>
+            You should <Link to="/app/login">log in</Link> to see restricted
+            content
+          </>
+        )}
+      </p>
     </Layout>
   )
 }
