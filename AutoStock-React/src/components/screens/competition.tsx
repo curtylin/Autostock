@@ -6,8 +6,8 @@ import InputLabel from "@mui/material/InputLabel"
 import Select, {SelectChangeEvent} from "@mui/material/Select"
 
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import Layout from "../layout"
+import Seo from "../seo"
 
 const Competition = () => {
   const [competition, setCompetition] = useState([])

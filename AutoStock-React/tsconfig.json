@@ -11,7 +11,8 @@
       "skipLibCheck": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "removeComments": false
+      "removeComments": false,
+      "types": ["node"]
     },
     //The include property points to an array of filenames or 
     //paths that the compiler knows to convert from TypeScript to JavaScript.
