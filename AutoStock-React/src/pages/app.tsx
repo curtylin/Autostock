@@ -8,6 +8,7 @@ import MyAlgorithm from "../components/screens/MyAlgorithm"
 import Home from "../components/screens/home"
 import PublicAlgorithms from "../components/screens/PublicAlgorithms"
 import competition from "../components/screens/competition"
+import EditAlgorithm from "../components/screens/EditAlgorithm"
 import PrivateRoute from "../components/privateRoute"
 import Index from "./index"
 
@@ -18,6 +19,7 @@ const App = () => (
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
+    <PrivateRoute path="/editalgorithm" component={EditAlgorithm} />
     <PrivateRoute path="/myalgorithms" component={MyAlgorithm} />
     <PrivateRoute path="/competition" component={competition} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
