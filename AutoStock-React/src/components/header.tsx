@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem"
 import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 
+
 interface HeaderProps {
   siteTitle: string
 }
@@ -82,7 +83,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
-
+  
   return (
     <AppBar sx={{ mb: 2 }} style={{ background: "#059a76" }} position="static">
       <Container maxWidth="xl">
@@ -104,53 +105,8 @@ const Header = ({ siteTitle }: HeaderProps) => {
               {siteTitle}
             </Link>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            ></IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* Algorithm Links */}
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))} */}
-
+          {isLoggedIn() ? <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={handleOpenAlgMenu}
               sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
@@ -198,8 +154,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Competitions
               </Typography>
             </Button>
-            <Button               sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
->
+            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
@@ -211,8 +166,9 @@ const Header = ({ siteTitle }: HeaderProps) => {
               </Typography>
             </Button>
           </Box>
+          : <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>}
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box  sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="" />
