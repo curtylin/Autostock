@@ -94,8 +94,8 @@ const CreateAlgorithm = () => {
     let body = `{
             "name": "${algoName}",
             "ticker": "${stock}",
-            "indicator": "${indicator1}",
-            "indicator": "${timeInterval}",
+            "indicator1": "${indicator1}",
+            "timeInterval": "${timeInterval}",
             "comparator": "${indicator2}",
             "runtime": "${runningTime}",
             "period1": "${period1}",
@@ -220,34 +220,34 @@ const CreateAlgorithm = () => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={1}>SMA - Simple Moving Average </MenuItem>
-            <MenuItem value={2}>BBANDS - Bollinger Bands</MenuItem>
-            <MenuItem value={3}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={4}>
+            <MenuItem value={"SMA"}>SMA - Simple Moving Average </MenuItem>
+            <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+            <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
+            <MenuItem value={"DEMA"}>
               DEMA - Double Exponential Moving Average
             </MenuItem>
-            <MenuItem value={5}>
+            <MenuItem value={"HT_TRENDLINE"}>
               HT_TRENDLINE - Hilbert Transform - Instantaneous Trendline
             </MenuItem>
-            <MenuItem value={6}>
+            <MenuItem value={"KAMA"}>
               KAMA - Kaufman Adaptive Moving Average
             </MenuItem>
-            <MenuItem value={7}>MA - Moving average</MenuItem>
-            <MenuItem value={8}>MAMA - MESA Adaptive Moving Average</MenuItem>
-            <MenuItem value={9}>
+            <MenuItem value={"MA"}>MA - Moving average</MenuItem>
+            <MenuItem value={"MAMA"}>MAMA - MESA Adaptive Moving Average</MenuItem>
+            <MenuItem value={"MAVP"}>
               MAVP - Moving average with variable period
             </MenuItem>
-            <MenuItem value={10}>MIDPOINT - MidPoint over period</MenuItem>
-            <MenuItem value={11}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={12}>SAREXT - Parabolic SAR - Extended</MenuItem>
-            <MenuItem value={13}>
+            <MenuItem value={"MIDPOINT"}>MIDPOINT - MidPoint over period</MenuItem>
+            <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
+            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"T3"}>
               T3 - Triple Exponential Moving Average
             </MenuItem>
-            <MenuItem value={14}>
+            <MenuItem value={"TEMA"}>
               TEMA - Triple Exponential Moving Average
             </MenuItem>
-            <MenuItem value={15}>TRIMA - Triangular Moving Average</MenuItem>
-            <MenuItem value={16}>WMA - Weighted Moving Average</MenuItem>
+            <MenuItem value={"TRIMA"}>TRIMA - Triangular Moving Average</MenuItem>
+            <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
           {/* </Tooltip> */}
         </FormControl>
@@ -269,7 +269,7 @@ const CreateAlgorithm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={1}>(close) 20</MenuItem>
+              <MenuItem value={"(close) 20"}>(close) 20</MenuItem>
             </Select>
           </Tooltip>
         </FormControl>
@@ -291,8 +291,8 @@ const CreateAlgorithm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={0}>Goes Above</MenuItem>
-              <MenuItem value={1}>Goes Below</MenuItem>
+              <MenuItem value={"Above"}>Goes Above</MenuItem>
+              <MenuItem value={"Below"}>Goes Below</MenuItem>
             </Select>
           </Tooltip>
         </FormControl>
@@ -314,7 +314,7 @@ const CreateAlgorithm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={0}>(close) 20</MenuItem>
+              <MenuItem value={"(close) 20"}>(close) 20</MenuItem>
             </Select>
           </Tooltip>
         </FormControl>
@@ -337,8 +337,8 @@ const CreateAlgorithm = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={0}>Buy</MenuItem>
-                <MenuItem value={1}>Sell</MenuItem>
+                <MenuItem value={"buy"}>Buy</MenuItem>
+                <MenuItem value={"sell"}>Sell</MenuItem>
               </Select>
             </Tooltip>
           </FormControl>
