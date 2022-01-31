@@ -21,7 +21,7 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
-const CreateAlgorithm = () => {
+const EditAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
@@ -178,7 +178,7 @@ const CreateAlgorithm = () => {
               sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
               id="outlined-search"
               label="Algorithm Name"
-              type="search"
+              type="text"
             />
           </Tooltip>
         </div>
@@ -188,6 +188,7 @@ const CreateAlgorithm = () => {
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
                 required
+                value={algorithm.ticker}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
                 }}
@@ -423,4 +424,4 @@ const CreateAlgorithm = () => {
   )
 }
 
-export default CreateAlgorithm
+export default EditAlgorithm
