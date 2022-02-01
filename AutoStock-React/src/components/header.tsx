@@ -85,7 +85,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
   
   return (
-    <AppBar sx={{ mb: 2 }} style={{ background: "#059a76" }} position="static">
+    <AppBar sx={{ mb: 2 }} style={{ background: "#059a76"}} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
