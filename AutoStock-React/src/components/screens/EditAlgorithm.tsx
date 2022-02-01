@@ -96,7 +96,7 @@ const EditAlgorithm = () => {
     console.log(algorithm)
   }, [])
   const getAlgoDB = () => {
-    fetch("http://localhost:5000/get-algorithm/1rlsFMayqfa7amEzoU3x", {
+    fetch("http://localhost:5000/get-algorithm/MLjcsVMbLSF8vvpkHZuV", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const EditAlgorithm = () => {
         setTimeInterval(result.timeInterval)
         setIndicator1(result.indicator1)
         setPeriod1(result.period1)
-        setIndicator2(result.indicator2)
+        setIndicator2(result.comparator)
         setPeriod2(result.period2)
         setAction(result.action)
         setRunningTime(result.runningTime)
@@ -130,7 +130,6 @@ const EditAlgorithm = () => {
             "runtime": "${runningTime}",
             "period1": "${period1}",
             "period2": "${period2}",
-            "public": false,
             "userID": "${getUser().uid}",
             "action": "${action}"
             }
@@ -143,7 +142,7 @@ const EditAlgorithm = () => {
       body,
     }
 
-    fetch(`http://127.0.0.1:5000/update-algorithm/1rlsFMayqfa7amEzoU3x`, init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/MLjcsVMbLSF8vvpkHZuV`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -347,7 +346,7 @@ const EditAlgorithm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={0}>(close) 20</MenuItem>
+              <MenuItem value={"(close) 20"}>(close) 20</MenuItem>
             </Select>
           </Tooltip>
         </FormControl>

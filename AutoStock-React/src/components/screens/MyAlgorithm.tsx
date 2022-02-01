@@ -12,7 +12,7 @@ const MyAlgorithm = () => {
     
   // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
     let body = `{
-        "public": false
+        "public": true
         }
         `
     const headers = new Headers()

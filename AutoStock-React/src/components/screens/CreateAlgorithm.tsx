@@ -97,7 +97,7 @@ const CreateAlgorithm = () => {
             "indicator1": "${indicator1}",
             "timeInterval": "${timeInterval}",
             "comparator": "${indicator2}",
-            "runtime": "${runningTime}",
+            "runningTime": "${runningTime}",
             "period1": "${period1}",
             "period2": "${period2}",
             "public": false,
