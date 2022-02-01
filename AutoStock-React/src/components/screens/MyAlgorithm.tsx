@@ -10,7 +10,6 @@ import { navigate } from "gatsby"
 
 const MyAlgorithm = () => {
   const handleShare = (event: any) => {
-    
   // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
     let body = `{
         "public": true
@@ -24,9 +23,7 @@ const MyAlgorithm = () => {
       body,
     }
 
-    
-  // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
-    fetch(`http://127.0.0.1:5000/edit-algorithm/${event.target.id}`, init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -36,9 +33,36 @@ const MyAlgorithm = () => {
     event.preventDefault()
   }
 
+  const handleUnshare = (event: any) => {
+    
+    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
+      let body = `{
+          "public": false
+          }
+          `
+      const headers = new Headers()
+      headers.append("content-type", "application/json")
+      let init = {
+        method: "PUT",
+        headers,
+        body,
+      }
+
+    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
+      fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
+        .then(response => {
+          return response.json() // or .text() or .blob() ...
+        })
+        .catch(e => {
+          // error in e.message
+        })
+      event.preventDefault()
+    }
+
   const handleEdit = (event: any) => {
     const algoID = event.target.id
-    navigate('/edit-algorithm', {state: {algoID}})
+    console.log("editing algo" + event.target.id)
+    navigate('app/editalgorithm', {replace: true})
   }
 
   // TODO NEED TO GET THE ALGO ID
@@ -125,6 +149,16 @@ const MyAlgorithm = () => {
             </thead>
             <tbody className="mdc-data-table__content">
               {algorithms.map((algorithm: any, key: any) => {
+                let sharingButton;
+                if (algorithm.public){
+                  sharingButton = <Button className="mdc-button mdc-button--raised" id={algorithm.id} onClick={handleUnshare}>
+                  <span id={algorithm.id} className="mdc-button__label">Unshare</span>
+                </Button>
+                } else {
+                  sharingButton = <Button className="mdc-button mdc-button--raised" id={algorithm.id} onClick={handleShare}>
+                  <span id={algorithm.id} className="mdc-button__label">Share</span>
+                  </Button>
+                }
                 return (
                   <tr className="mdc-data-table__row" key={key}>
                     <td className="mdc-data-table__cell" scope="row">
@@ -134,16 +168,12 @@ const MyAlgorithm = () => {
                       10%
                     </td>
                     <td className="mdc-data-table__cell">
-                      <Button className="mdc-button mdc-button--raised">
+                      <Button className="mdc-button mdc-button--raised"
+                        id={algorithm.id}
+                        onClick={handleEdit}>
                         <span id={algorithm.id} className="mdc-button__label">Edit</span>
                       </Button>
-                      <Button
-                        className="mdc-button mdc-button--raised"
-                        id={algorithm.id}
-                        onClick={handleShare}
-                      >
-                        <span id={algorithm.id} className="mdc-button__label">Share</span>
-                      </Button>
+                      {sharingButton}
                       <Button
                         className="mdc-button mdc-button--raised"
                         id={algorithm.id}
