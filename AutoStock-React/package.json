@@ -37,7 +37,12 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.10",
-    "prettier": "^2.4.1"
+    "babel-jest": "^27.4.6",
+    "babel-preset-gatsby": "^2.6.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.7",
+    "prettier": "^2.4.1",
+    "react-test-renderer": "^17.0.2"
   },
   "keywords": [
     "gatsby"
