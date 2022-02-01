@@ -40,8 +40,9 @@ const Home = () => {
         })}
       </Grid>
 
-      <div id="chart">
-        <HighChart />
+      <div id="chart" style={{marginTop: 50}} >
+        <h2>Featured Stock: AAPL</h2>
+        <HighChart setChart={"AAPL"} />
       </div>
     </Layout>
   )
