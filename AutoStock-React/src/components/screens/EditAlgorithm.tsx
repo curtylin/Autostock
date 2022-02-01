@@ -21,7 +21,7 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
-const EditAlgorithm = () => {
+const EditAlgorithm = ({location}: {location : any}) => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
@@ -96,7 +96,7 @@ const EditAlgorithm = () => {
     console.log(algorithm)
   }, [])
   const getAlgoDB = () => {
-    fetch("http://localhost:5000/get-algorithm/MLjcsVMbLSF8vvpkHZuV", {
+    fetch(`http://localhost:5000/get-algorithm/${location.state.algoID}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -142,7 +142,7 @@ const EditAlgorithm = () => {
       body,
     }
 
-    fetch(`http://127.0.0.1:5000/update-algorithm/MLjcsVMbLSF8vvpkHZuV`, init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/${location.state.algoID}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
