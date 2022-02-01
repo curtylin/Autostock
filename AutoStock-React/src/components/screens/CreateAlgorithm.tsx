@@ -22,15 +22,15 @@ const handleDelete = () => {
 }
 
 const CreateAlgorithm = () => {
-  const [algoName, setAlgoName] = useState("")
-  const [stock, setStocks] = useState("")
-  const [timeInterval, setTimeInterval] = useState("")
-  const [indicator1, setIndicator1] = useState("")
-  const [period1, setPeriod1] = useState("")
-  const [indicator2, setIndicator2] = useState("")
-  const [period2, setPeriod2] = useState("")
-  const [action, setAction] = useState("")
-  const [runningTime, setRunningTime] = useState("")
+  const [algoName, setAlgoName] = useState("Bill Gates' Microsoft algorithm")
+  const [stock, setStocks] = useState("MSFT")
+  const [timeInterval, setTimeInterval] = useState(24)
+  const [indicator1, setIndicator1] = useState("SMA")
+  const [period1, setPeriod1] = useState("(close) 20")
+  const [indicator2, setIndicator2] = useState("Above")
+  const [period2, setPeriod2] = useState("(close) 20")
+  const [action, setAction] = useState("buy")
+  const [runningTime, setRunningTime] = useState(7)
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
 
@@ -150,6 +150,7 @@ const CreateAlgorithm = () => {
           <Tooltip title="Give it a name!" placement="left" arrow>
             <TextField
               required
+              value={algoName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
@@ -166,6 +167,7 @@ const CreateAlgorithm = () => {
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
                 required
+                value={stock}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
                 }}

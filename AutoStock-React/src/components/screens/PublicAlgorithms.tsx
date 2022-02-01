@@ -48,7 +48,7 @@ const PublicAlgorithms = () => {
                   role="columnheader"
                   scope="col"
                 >
-                  Day Gain (%)
+                  Overall Gain (%)
                 </th>
                 <th
                   className="mdc-data-table__header-cell"
