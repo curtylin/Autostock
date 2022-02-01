@@ -62,7 +62,7 @@ const MyAlgorithm = () => {
   const handleEdit = (event: any) => {
     const algoID = event.target.id
     console.log("editing algo" + event.target.id)
-    navigate('app/editalgorithm', {replace: true})
+    navigate('app/editalgorithm', {replace: true, state: {algoID: algoID}})
   }
 
   // TODO NEED TO GET THE ALGO ID
