@@ -108,7 +108,7 @@ const EditAlgorithm = () => {
       })
       .then(result => {
         setAlgoName(result.name)
-        setStocks(result.stock)
+        setStocks(result.ticker)
         setTimeInterval(result.timeInterval)
         setIndicator1(result.indicator1)
         setPeriod1(result.period1)
@@ -179,7 +179,7 @@ const EditAlgorithm = () => {
           <Tooltip title="Give it a name!" placement="left" arrow>
             <TextField
               required
-              value={algorithm.name || ""}
+              value={algoName || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
@@ -196,7 +196,7 @@ const EditAlgorithm = () => {
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
                 required
-                value={algorithm.ticker}
+                value={stock}
                 InputLabelProps={{ shrink: true }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
