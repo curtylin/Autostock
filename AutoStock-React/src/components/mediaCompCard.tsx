@@ -16,7 +16,7 @@ const MediaCompCard = ({
 }: any) => {
     return (
         <Card id='mediaCC' sx={{ maxWidth: 345 }} >
-        <CardActionArea>
+        <CardActionArea  href="/app/competition">
             <CardMedia
             component="img"
             height="140"
