@@ -10,7 +10,6 @@ import { navigate } from "gatsby"
 
 const MyAlgorithm = () => {
   const handleShare = (event: any) => {
-  // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
     let body = `{
         "public": true
         }
@@ -34,8 +33,6 @@ const MyAlgorithm = () => {
   }
 
   const handleUnshare = (event: any) => {
-    
-    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
       let body = `{
           "public": false
           }
@@ -47,8 +44,6 @@ const MyAlgorithm = () => {
         headers,
         body,
       }
-
-    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
       fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
         .then(response => {
           return response.json() // or .text() or .blob() ...
