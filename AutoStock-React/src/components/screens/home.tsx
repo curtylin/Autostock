@@ -2,9 +2,12 @@ import * as React from "react"
 import { useEffect, useState } from "react"
 import Layout from "../layout"
 import Seo from "../seo"
-import { Grid } from "@mui/material"
-import CompCard from "../compCard"
+import { Grid,Box,Button } from "@mui/material"
+import MediaCompCard from "../mediaCompCard"
 import HighChart from "../highChart"
+import BasicTable from "../basicTableComp"
+import "./home.css"
+
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
@@ -22,6 +25,8 @@ const Home = () => {
   return (
     <Layout>
       <Seo title="AutoStock" />
+     
+      <h2>Upcoming Competitions</h2>
       <Grid container spacing={2}>
         {competitions.slice(0, 3).map((comp: any, index: number) => {
           let cardProps = {
@@ -34,7 +39,7 @@ const Home = () => {
           }
           return (
             <Grid key={index} item xs={4}>
-              <CompCard key={index} {...cardProps} />
+                <MediaCompCard key={index} {...cardProps} />
             </Grid>
           )
         })}
@@ -44,7 +49,11 @@ const Home = () => {
         <h2>Featured Stock: AAPL</h2>
         <HighChart setChart={"AAPL"} />
       </div>
-    </Layout>
+      <div style={{marginTop: 50}}>
+          <h2>Leaderboards</h2>
+          <BasicTable/>
+      </div>
+    </Layout>   
   )
 }
 
