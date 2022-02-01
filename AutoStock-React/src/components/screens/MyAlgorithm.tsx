@@ -5,6 +5,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 
 import { getUser } from "../../services/auth"
+import { navigate } from "gatsby"
 
 
 const MyAlgorithm = () => {
@@ -25,7 +26,7 @@ const MyAlgorithm = () => {
 
     
   // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
-    fetch("http://127.0.0.1:5000/edit-algorithm/{algo-id}", init)
+    fetch(`http://127.0.0.1:5000/edit-algorithm/?${algorithmID}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -33,6 +34,11 @@ const MyAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+  }
+
+  const handleEdit = (event: any) => {
+    const algoID = event.target.id
+    navigate('/edit-algorithm', {state: {algoID}})
   }
 
   // TODO NEED TO GET THE ALGO ID
@@ -44,7 +50,7 @@ const MyAlgorithm = () => {
       headers,
     }
 
-    fetch("http://127.0.0.1:5000/delete-algorithm/{algo-id}", init)
+    fetch(`http://127.0.0.1:5000/delete-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -124,23 +130,23 @@ const MyAlgorithm = () => {
                       {algorithm.name}
                     </td>
                     <td className="mdc-data-table__cell mdc-data-table__cell--numeric">
-                      20%
+                      10%
                     </td>
                     <td className="mdc-data-table__cell">
                       <Button className="mdc-button mdc-button--raised">
-                        <span className="mdc-button__label">Edit</span>
+                        <span id={algorithm.id} className="mdc-button__label">Edit</span>
                       </Button>
                       <Button
                         className="mdc-button mdc-button--raised"
                         onClick={handleShare}
                       >
-                        <span className="mdc-button__label">Share</span>
+                        <span id={algorithm.id} className="mdc-button__label">Share</span>
                       </Button>
                       <Button
                         className="mdc-button mdc-button--raised"
                         onClick={handleDelete}
                       >
-                        <span className="mdc-button__label">Delete</span>
+                        <span id={algorithm.id} className="mdc-button__label">Delete</span>
                       </Button>
                     </td>
                   </tr>
