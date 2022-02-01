@@ -25,7 +25,7 @@ const MyAlgorithm = () => {
 
     
   // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
-    fetch("http://127.0.0.1:5000/edit-algorithm/{algo-id}", init)
+    fetch(`http://127.0.0.1:5000/edit-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -43,8 +43,9 @@ const MyAlgorithm = () => {
       method: "GET",
       headers,
     }
+    console.log(event.target.id)
 
-    fetch("http://127.0.0.1:5000/delete-algorithm/{algo-id}", init)
+    fetch(`http://127.0.0.1:5000/delete-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -132,15 +133,17 @@ const MyAlgorithm = () => {
                       </Button>
                       <Button
                         className="mdc-button mdc-button--raised"
+                        id={algorithm.id}
                         onClick={handleShare}
                       >
-                        <span className="mdc-button__label">Share</span>
+                        <span id={algorithm.id} className="mdc-button__label">Share</span>
                       </Button>
                       <Button
                         className="mdc-button mdc-button--raised"
+                        id={algorithm.id}
                         onClick={handleDelete}
                       >
-                        <span className="mdc-button__label">Delete</span>
+                        <span id={algorithm.id} className="mdc-button__label">Delete</span>
                       </Button>
                     </td>
                   </tr>
