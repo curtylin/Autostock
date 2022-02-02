@@ -8,6 +8,23 @@ import HighChart from "../highChart"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
+  const [data , setStockData] = useState([])
+
+  let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"];
+  let randChoice = randTick[Math.floor(Math.random()*randTick.length)];
+  console.log(randChoice);
+  let body = `{
+    "ticker": "${randChoice}" ,
+    "startDate": "2020-11-9",
+    "endDate": "2021-11-9"
+  }`
+  const headers = new Headers()
+  headers.append("content-type", "application/json")
+  let init = {
+    method: "POST",
+    headers,
+    body,
+  }
 
   useEffect(() => {
     fetch("http://localhost:5000/list-competitions")
@@ -17,7 +34,18 @@ const Home = () => {
       .then(result => {
         setCompetitions(result)
       })
-  }, [])
+      
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
+  
+    }, [])
+
+  
 
   return (
     <Layout>
@@ -41,8 +69,8 @@ const Home = () => {
       </Grid>
 
       <div id="chart" style={{marginTop: 50}} >
-        <h2>Featured Stock: AAPL</h2>
-        <HighChart setChart={"AAPL"} />
+        <h2>Featured Stock: {randChoice}</h2>
+        <HighChart stock={randChoice} stockData={data}/>
       </div>
     </Layout>
   )
