@@ -201,7 +201,12 @@ def comp_list_all():
         competitions : Return all competitions.
     """
     try:
-        competitions = [doc.to_dict() for doc in competitions_ref.stream()]
+        comps = competitions_ref.stream()
+        competitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occured: {e}"
