@@ -57,7 +57,7 @@ const MyAlgorithm = () => {
   const handleEdit = (event: any) => {
     const algoID = event.target.id
     console.log("editing algo" + event.target.id)
-    navigate('app/editalgorithm', {replace: true})
+    
   }
 
   // TODO NEED TO GET THE ALGO ID
@@ -165,7 +165,12 @@ const MyAlgorithm = () => {
                     <td className="mdc-data-table__cell">
                       <Button className="mdc-button mdc-button--raised"
                         id={algorithm.id}
-                        onClick={handleEdit}>
+                        onClick={event => {navigate('/app/editalgorithm', 
+                        {
+                          state: {algorithm},
+                        }
+                          )
+                          }}>
                         <span id={algorithm.id} className="mdc-button__label">Edit</span>
                       </Button>
                       {sharingButton}
