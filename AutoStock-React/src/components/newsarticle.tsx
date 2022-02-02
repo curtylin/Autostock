@@ -37,11 +37,11 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
   const [articles, setArticles] = useState([])
   useEffect(() => {
-    getAlgorithmsDB()
+    getArticlesDB()
     console.log(articles)
   }, [])
 
-  const getAlgorithmsDB = () => {
+  const getArticlesDB = () => {
     //fetch post to localhost
     fetch("http://localhost:5000/getNews", {
       headers: {
