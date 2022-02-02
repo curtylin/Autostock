@@ -39,7 +39,7 @@ function SwipeableTextMobileStepper() {
     }
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = 4;
+  const maxSteps = 8;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -54,14 +54,14 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+    <Box sx={{ maxWidth: 1080, flexGrow: 1 }}>
       <Paper
         square
         elevation={0}
         sx={{
           display: 'flex',
           alignItems: 'center',
-          height: 50,
+          height: 1,
           pl: 2,
           bgcolor: 'background.default',
         }}
@@ -76,22 +76,26 @@ function SwipeableTextMobileStepper() {
       {articles.map((article:any, index:any) => {
         return(
         <div key={article.index}>
-          <Typography>{article.title}</Typography>
           
           {Math.abs(activeStep - index) <= 2 ? (
-            <Box
-              component="img"
-              sx={{
-                height: 300,
-                display: 'block',
-                maxWidth: 1080,
-                overflow: 'hidden',
-                width: '100%',
-              }}
-              src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80"
-              alt={article.title}
-            />
+            <Box>
+              <Typography>{article.title}</Typography>
+            </Box>
+              // component="img"
+              // sx={{
+              //   height: 1080,
+              //   display: 'block',
+              //   maxWidth: 1080,
+              //   overflow: 'hidden',
+              //   height: '100%',
+              //   width: '100%',
+              // }}
+              // src="https://cpb-us-w2.wpmucdn.com/u.osu.edu/dist/6/44792/files/2017/04/stock-market-3-21gyd1b.jpg"
+              // alt={article.title}
+
           ) : null}
+          {/* <Typography>{article.link}</Typography> */}
+
         </div>
       )
       })}
