@@ -343,6 +343,8 @@ def comp_unregister_competition(id):
 def get_highchart_data():
     dataDict = request.json
 
+    # TODO Handle errors
+
     data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
 
     dates = data['Close'].index.tolist()
@@ -366,4 +368,8 @@ def get_yahoo_news(ticker):
         listOfNews.append(newDict)
     return jsonify(listOfNews)
 
-# @app.route('/getNews/<ticker>', methods=['GET'])
+@app.route('/getLogo/<ticker>', methods=['GET'])
+def get_stock_logo(ticker):
+    ticker_info = yf.Ticker(ticker)
+    return jsonify(ticker_info.info['logo_url'])
+
