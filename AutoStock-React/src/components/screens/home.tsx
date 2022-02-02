@@ -5,6 +5,7 @@ import Seo from "../seo"
 import { Grid } from "@mui/material"
 import CompCard from "../compCard"
 import HighChart from "../highChart"
+import News from "../newsarticle"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
@@ -50,6 +51,8 @@ const Home = () => {
   return (
     <Layout>
       <Seo title="AutoStock" />
+      <h2>News</h2>
+      <News/>
       <Grid container spacing={2}>
         {competitions.slice(0, 3).map((comp: any, index: number) => {
           let cardProps = {
