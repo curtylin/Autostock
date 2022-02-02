@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import { CardActionArea } from '@mui/material';
 import '../components/complexCompCard.css';
+import { Link, navigate } from '@reach/router';
+import Button from "@mui/material/Button";
 
 const ComplexCompCard = ({
     compLength,
@@ -23,7 +25,7 @@ const ComplexCompCard = ({
 }: any) => {
     return (
         <Card className="compCard" sx={{ maxWidth: 500 }}>
-            <CardActionArea href="/app/competition"> {/*CHANGE THIS TO CORRESPONDING COMP*/}
+            <CardActionArea> {/*CHANGE THIS TO CORRESPONDING COMP*/}
                 <CardHeader
                 
                 title={compTicker}
@@ -40,6 +42,16 @@ const ComplexCompCard = ({
                 <Typography variant="body2" color="text.secondary">
                     {description}
                 </Typography>
+                <Button className="mdc-button mdc-button--raised"
+                        id={id}
+                        onClick={event => {navigate(`/app/competition`, 
+                        {
+                          state: {id},
+                        }
+                          )
+                          }}> Learn More
+
+                </Button>
                 </CardContent>
                 {/* <CardActions disableSpacing>
                 <ExpandMore

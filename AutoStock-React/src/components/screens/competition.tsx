@@ -21,7 +21,8 @@ const Competition = () => {
 
   const getCompDB = () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/get-competition/SbwzV5O2QkV9GS9EFNn4", {
+    console.log("getting comp db" + window.history.state.id) 
+    fetch(`http://localhost:5000/get-competition/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
