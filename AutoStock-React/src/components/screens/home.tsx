@@ -8,6 +8,20 @@ import HighChart from "../highChart"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
+  const [data , setStockData] = useState([])
+
+  let body = `{
+    "ticker": "AAPL",
+    "startDate": "2020-11-9",
+    "endDate": "2021-11-9"
+  }`
+  const headers = new Headers()
+  headers.append("content-type", "application/json")
+  let init = {
+    method: "POST",
+    headers,
+    body,
+  }
 
   useEffect(() => {
     fetch("http://localhost:5000/list-competitions")
@@ -17,7 +31,18 @@ const Home = () => {
       .then(result => {
         setCompetitions(result)
       })
-  }, [])
+      
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
+  
+    }, [])
+
+  
 
   return (
     <Layout>
@@ -42,7 +67,7 @@ const Home = () => {
 
       <div id="chart" style={{marginTop: 50}} >
         <h2>Featured Stock: AAPL</h2>
-        <HighChart setChart={"AAPL"} />
+        <HighChart stock={"AAPL"} stockData={data}/>
       </div>
     </Layout>
   )
