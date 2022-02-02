@@ -39,43 +39,45 @@ def index():
 def backtest():
     dataDict = request.json
 
-    class StrategyTest(bt.SignalStrategy):
-        def __init__(self):
-            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-            crossover = bt.ind.CrossOver(sma1, sma2)
-            self.signal_add(bt.SIGNAL_LONG, crossover)
+    try:
+        class StrategyTest(bt.SignalStrategy):
+            def __init__(self):
+                sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+                crossover = bt.ind.CrossOver(sma1, sma2)
+                self.signal_add(bt.SIGNAL_LONG, crossover)
 
 
-    cerebro = bt.Cerebro()
-    cerebro.broker.setcash(dataDict['cash'])
-    cerebro.broker.setcommission(commission=0.0)
-    cerebro.addstrategy(StrategyTest)
+        cerebro = bt.Cerebro()
+        cerebro.broker.setcash(dataDict['cash'])
+        cerebro.broker.setcommission(commission=0.0)
+        cerebro.addstrategy(StrategyTest)
 
-    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
+        financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
 
-    cerebro.adddata(financeData)
+        cerebro.adddata(financeData)
 
-    response = {}
-    response["startingValue"] = cerebro.broker.getvalue()
-    cerebro.run()
-    response["EndingValue"] = cerebro.broker.getvalue()
-    response["PnL"] = response["EndingValue"] - response["startingValue"]
-    response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+        response = {}
+        response["startingValue"] = cerebro.broker.getvalue()
+        cerebro.run()
+        response["EndingValue"] = cerebro.broker.getvalue()
+        response["PnL"] = response["EndingValue"] - response["startingValue"]
+        response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
-    randFileName = f"{str(uuid.uuid4())[:8]}.png"
+        randFileName = f"{str(uuid.uuid4())[:8]}.png"
 
-    cerebro.plot()[0][0].savefig(randFileName)
-    url = uploadPhoto(randFileName)
+        cerebro.plot()[0][0].savefig(randFileName)
+        url = uploadPhoto(randFileName)
 
-    if os.path.exists(randFileName):
-        os.remove(randFileName)
-    else:
-        print("The file does not exist")
+        if os.path.exists(randFileName):
+            os.remove(randFileName)
+        else:
+            print("The file does not exist")
 
-    response["url"] = url
+        response["url"] = url
 
-    return response
-
+        return response
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 
 @app.route('/test')
