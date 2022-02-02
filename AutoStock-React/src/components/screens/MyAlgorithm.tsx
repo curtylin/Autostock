@@ -10,7 +10,6 @@ import { navigate } from "gatsby"
 
 const MyAlgorithm = () => {
   const handleShare = (event: any) => {
-  // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
     let body = `{
         "public": true
         }
@@ -34,8 +33,6 @@ const MyAlgorithm = () => {
   }
 
   const handleUnshare = (event: any) => {
-    
-    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
       let body = `{
           "public": false
           }
@@ -47,8 +44,6 @@ const MyAlgorithm = () => {
         headers,
         body,
       }
-
-    // TODO NEED TO GET THE ALGO ID AND THE CURRENT PUBLIC STATUS OF THE ALGORITHM
       fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
         .then(response => {
           return response.json() // or .text() or .blob() ...
@@ -62,7 +57,6 @@ const MyAlgorithm = () => {
   const handleEdit = (event: any) => {
     const algoID = event.target.id
     console.log("editing algo" + event.target.id)
-    navigate('app/editalgorithm', {replace: true, state: {algoID: algoID}})
   }
 
   // TODO NEED TO GET THE ALGO ID
@@ -170,7 +164,12 @@ const MyAlgorithm = () => {
                     <td className="mdc-data-table__cell">
                       <Button className="mdc-button mdc-button--raised"
                         id={algorithm.id}
-                        onClick={handleEdit}>
+                        onClick={event => {navigate('/app/editalgorithm', 
+                        {
+                          state: {algorithm},
+                        }
+                          )
+                          }}>
                         <span id={algorithm.id} className="mdc-button__label">Edit</span>
                       </Button>
                       {sharingButton}
