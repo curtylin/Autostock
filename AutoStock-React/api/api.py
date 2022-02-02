@@ -9,7 +9,8 @@ import time
 from dateutil.parser import *
 import yfinance as yf
 import pandas as pd
-
+import os
+import uuid
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -60,6 +61,18 @@ def backtest():
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+
+    randFileName = f"{str(uuid.uuid4())[:8]}.png"
+
+    cerebro.plot()[0][0].savefig(randFileName)
+    url = uploadPhoto(randFileName)
+
+    if os.path.exists(randFileName):
+        os.remove(randFileName)
+    else:
+        print("The file does not exist")
+
+    response["url"] = url
 
     return response
 
@@ -373,14 +386,16 @@ def get_stock_logo(ticker):
     ticker_info = yf.Ticker(ticker)
     return jsonify(ticker_info.info['logo_url'])
 
-@app.route('/upload-photo', methods=['POST'])
-def uploadPhoto():
+## END yahoo finance information
+
+## Begin Helper functions
+
+def uploadPhoto(filename):
     """
         uploadPhoto() : Uploads a photo to Cloud Storage.
         filename : is the name of the file to be uploaded.
     """
     try:
-        filename = request.json['filename']
         # Get the bucket that the file will be uploaded to
         bucket = storage.bucket()
 
@@ -388,12 +403,13 @@ def uploadPhoto():
         blob = bucket.blob(filename)
         blob.upload_from_filename(filename)
 
+
         # Make the blob publicly viewable
         blob.make_public()
 
         # Create a public URL
         url = blob.public_url
 
-        return jsonify({"success": True, "url": url}), 200
+        return url
     except Exception as e:
         return f"An Error Occured: {e}"
