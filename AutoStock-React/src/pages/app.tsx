@@ -11,6 +11,7 @@ import competition from "../components/screens/competition"
 import competitions from "../components/screens/competitions"
 import PrivateRoute from "../components/privateRoute"
 import Index from "./index"
+import EditAlgorithm from "../components/screens/EditAlgorithm"
 
 const App = () => (
   <Router basepath="/app">
@@ -19,6 +20,7 @@ const App = () => (
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
+    <PrivateRoute path="/editalgorithm" component={EditAlgorithm} />
     <PrivateRoute path="/myalgorithms" component={MyAlgorithm} />
     <PrivateRoute path="/competition" component={competition} />
     <PrivateRoute path="/competitions" component={competitions} />

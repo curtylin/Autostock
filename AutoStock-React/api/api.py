@@ -5,7 +5,11 @@ from flask_cors import CORS, cross_origin
 import backtrader as bt
 import json
 from datetime import datetime
+import time
 from dateutil.parser import *
+import yfinance as yf
+import pandas as pd
+
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -201,7 +205,12 @@ def comp_list_all():
         competitions : Return all competitions.
     """
     try:
-        competitions = [doc.to_dict() for doc in competitions_ref.stream()]
+        comps = competitions_ref.stream()
+        competitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -329,3 +338,32 @@ def comp_unregister_competition(id):
 
 ## End comp CRUD Block
 
+## Beginning of yahoo Finance information
+@app.route('/gethighchartdata', methods=['POST'])
+def get_highchart_data():
+    dataDict = request.json
+
+    data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
+
+    dates = data['Close'].index.tolist()
+    closes = data['Close'].tolist()
+    unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
+    unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
+
+    dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
+
+    return jsonify(dataList)
+
+@app.route('/getNews/<ticker>', methods=['GET'])
+def get_yahoo_news(ticker):
+    ticker_info = yf.Ticker(ticker)
+    listOfNews = []
+    for i in ticker_info.news:
+        newDict = {}
+        newDict["title"] = i["title"]
+        newDict["publisher"] = i["publisher"]
+        newDict["link"] = i["link"]
+        listOfNews.append(newDict)
+    return jsonify(listOfNews)
+
+# @app.route('/getNews/<ticker>', methods=['GET'])
