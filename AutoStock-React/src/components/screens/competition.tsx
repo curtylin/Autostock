@@ -4,14 +4,18 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
 import Select, {SelectChangeEvent} from "@mui/material/Select"
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
 
 const Competition = () => {
-
+  const [open, setOpen] = useState(false)
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   const [competition, setCompetition] = useState<any>([])
   useEffect(() => {
@@ -39,6 +43,7 @@ const Competition = () => {
 
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
+    setOpen(true);
     let body = `{
         "algorithm": "${chosenAlgorithm}",
         "competition": "${competition.id}"
@@ -89,6 +94,10 @@ const Competition = () => {
         })
     }
 
+    const handleClose = () => {
+      setOpen(false);
+    };
+
   return (
     <Layout>
       <Seo title="AutoStock" />
@@ -125,6 +134,24 @@ const Competition = () => {
         <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
             Submit Algorithm
         </Button>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"You have submitted an algorithm!"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Click "Ok" or anywhere outside to exit this dialog box.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Ok</Button>
+        </DialogActions>
+      </Dialog>
       </FormControl>
     </Layout>
   )
