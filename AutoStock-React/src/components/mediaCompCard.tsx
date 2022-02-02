@@ -4,6 +4,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { navigate } from '@reach/router';
+import Button from "@mui/material/Button";
 
 
 const MediaCompCard = ({
@@ -16,7 +18,7 @@ const MediaCompCard = ({
 }: any) => {
     return (
         <Card id='mediaCC' sx={{ maxWidth: 345 }} >
-        <CardActionArea  href="/app/competition">
+        <CardActionArea>
             <CardMedia
             component="img"
             height="140"
@@ -29,8 +31,17 @@ const MediaCompCard = ({
             </Typography>
             <Typography variant="body2" color="text.secondary">
                 {compStartingVal}
-                {compLength}
             </Typography>
+            <Button className="mdc-button mdc-button--raised"
+                        id={id}
+                        onClick={event => {navigate(`/app/competition`, 
+                        {
+                          state: {id},
+                        }
+                          )
+                          }}> Learn More
+
+                </Button>
             </CardContent>
         </CardActionArea>
         </Card>
