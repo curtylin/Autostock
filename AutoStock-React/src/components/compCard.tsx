@@ -1,4 +1,5 @@
 import * as React from "react"
+import {navigate} from "@reach/router"
 import {
   Card,
   CardContent,
@@ -34,7 +35,16 @@ const CompCard = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+      <Button size="small"
+                        id={id}
+                        onClick={event => {navigate(`/app/competition`, 
+                        {
+                          state: {id},
+                        }
+                          )
+                          }}> Learn More
+
+                </Button>
       </CardActions>
     </Card>
   )
