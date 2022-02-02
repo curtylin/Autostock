@@ -5,12 +5,30 @@ import Seo from "../seo"
 import { Grid,Box,Button } from "@mui/material"
 import MediaCompCard from "../mediaCompCard"
 import HighChart from "../highChart"
+import News from "../newsarticle"
 import BasicTable from "../basicTableComp"
 import "./home.css"
 
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
+  const [data , setStockData] = useState([])
+
+  let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"];
+  let randChoice = randTick[Math.floor(Math.random()*randTick.length)];
+  console.log(randChoice);
+  let body = `{
+    "ticker": "${randChoice}" ,
+    "startDate": "2020-11-9",
+    "endDate": "2021-11-9"
+  }`
+  const headers = new Headers()
+  headers.append("content-type", "application/json")
+  let init = {
+    method: "POST",
+    headers,
+    body,
+  }
 
   useEffect(() => {
     fetch("http://localhost:5000/list-competitions")
@@ -20,12 +38,25 @@ const Home = () => {
       .then(result => {
         setCompetitions(result)
       })
-  }, [])
+
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
+
+    }, [])
+
+
 
   return (
     <Layout>
       <Seo title="AutoStock" />
-     
+      <h2>News</h2>
+      <News/>
+
       <h2>Upcoming Competitions</h2>
       <Grid container spacing={2}>
         {competitions.slice(0, 3).map((comp: any, index: number) => {
@@ -46,6 +77,8 @@ const Home = () => {
       </Grid>
 
       <div id="chart" style={{marginTop: 50}} >
+        <h2>Featured Stock: {randChoice}</h2>
+        <HighChart stock={randChoice} stockData={data}/>
         <h2>Featured Stock: AAPL</h2>
         <HighChart setChart={"AAPL"} />
       </div>
@@ -53,7 +86,7 @@ const Home = () => {
           <h2>Leaderboards</h2>
           <BasicTable/>
       </div>
-    </Layout>   
+    </Layout>
   )
 }
 
