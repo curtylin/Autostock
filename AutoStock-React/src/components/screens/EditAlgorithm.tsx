@@ -21,7 +21,7 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
-const CreateAlgorithm = () => {
+const EditAlgorithm = ({location}: {location : any}) => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
@@ -32,9 +32,7 @@ const CreateAlgorithm = () => {
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
-  const show = () => setShowBT(true)  
-  const [data , setStockData] = useState([])
-
+  const show = () => setShowBT(true)
 
   useEffect(() => {
     console.log(timeInterval)
@@ -90,26 +88,37 @@ const CreateAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+  }
 
-
-    body = `{
-      "ticker": "AAPL",
-      "startDate": "2020-11-9",
-      "endDate": "2021-11-9"
-    }`
-    init = {
-      method: "POST",
-      headers,
-      body,
-    }
-    fetch("http://localhost:5000/gethighchartdata ", init)
+  const [algorithm, setAlgorithm] = useState<any>([])
+  useEffect(() => {
+    getAlgoDB()
+    console.log(algorithm)
+  }, [])
+  const getAlgoDB = () => {
+    fetch(`http://localhost:5000/get-algorithm/${window.history.state.algorithm.id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
       .then(res => {
         return res.json()
       })
       .then(result => {
-        setStockData(result)
+        setAlgoName(result.name)
+        setStocks(result.ticker)
+        setTimeInterval(result.timeInterval)
+        setIndicator1(result.indicator1)
+        setPeriod1(result.period1)
+        setIndicator2(result.comparator)
+        setPeriod2(result.period2)
+        setAction(result.action)
+        setRunningTime(result.runningTime)
+        setAlgorithm(result)
       })
-  }
+  } 
 
   const handleSubmit = (event: any) => {
     let body = `{
@@ -118,10 +127,9 @@ const CreateAlgorithm = () => {
             "indicator1": "${indicator1}",
             "timeInterval": "${timeInterval}",
             "comparator": "${indicator2}",
-            "runningTime": "${runningTime}",
+            "runtime": "${runningTime}",
             "period1": "${period1}",
             "period2": "${period2}",
-            "public": false,
             "userID": "${getUser().uid}",
             "action": "${action}"
             }
@@ -134,7 +142,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/create-algorithm", init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -153,22 +161,17 @@ const CreateAlgorithm = () => {
     event.preventDefault()
   }
 
-
   const BackTestingPart = () => (
-    // ADD THE BACKTRACKING IMAGE
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-      {/*   IMAGE GOES HERE    */}
-      
-      {/* <h2>Backtesting Data: {algoName}</h2>
-      <HighChart setChart={`${stock}`} /> */}
+      <HighChart setChart={`${stock}`} />
     </div>
   )
 
   return (
     <Layout>
       <Seo title="AutoStock" />
-      <h1>Create Algorithm</h1>
+      <h2>Edit Algorithm</h2>
 
       <form>
         <div>
@@ -176,13 +179,14 @@ const CreateAlgorithm = () => {
           <Tooltip title="Give it a name!" placement="left" arrow>
             <TextField
               required
+              value={algoName || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
               sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
               id="outlined-search"
               label="Algorithm Name"
-              type="search"
+              type="text"
             />
           </Tooltip>
         </div>
@@ -192,6 +196,8 @@ const CreateAlgorithm = () => {
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
                 required
+                value={stock}
+                InputLabelProps={{ shrink: true }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
                 }}
@@ -394,16 +400,6 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
-        <div id="BackTest">
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          onClick={show}
-        >
-          BackTest
-        </Button>
-      </div>
         <div>
           <Button
             type="submit"
@@ -420,17 +416,21 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
-      
-      <div>
-        <h2>Backtesting</h2>
-        <HighChart stock={stock} stockData={data} />
-      </div>
 
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
 
-      
+      <div id="BackTest">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={show}
+        >
+          BackTest
+        </Button>
+      </div>
     </Layout>
   )
 }
 
-export default CreateAlgorithm
+export default EditAlgorithm
