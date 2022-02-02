@@ -34,7 +34,6 @@ const CreateAlgorithm = () => {
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)  
   const [data , setStockData] = useState([])
-
   useEffect(() => {
     console.log(timeInterval)
   })
@@ -66,9 +65,13 @@ const CreateAlgorithm = () => {
       })
       .then(result => {
         setStockData(result)
+      }) 
+      .catch(e => {
+        // error in e.message
       })
   };
-  
+  const [urls, setUrl] = useState("")
+
   const handleBacktest = (event: any) => {
     show()
     let currDate = new Date()
@@ -107,7 +110,9 @@ const CreateAlgorithm = () => {
       .then(text => {
         // text is the response body
         console.log(text)
+
         alert(JSON.stringify(text))
+        setUrl(text.url)
       })
       .catch(e => {
         // error in e.message
@@ -163,8 +168,7 @@ const CreateAlgorithm = () => {
     // ADD THE BACKTRACKING IMAGE
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-      {/*   IMAGE GOES HERE    */}
-      
+          <img src={`${urls}`}></img>      
     </div>
   )
 
@@ -398,16 +402,7 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
-        <div id="BackTest">
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          onClick={handleBacktest}
-        >
-          BackTest
-        </Button>
-      </div>
+        
         <div>
           <Button
             type="submit"
@@ -429,7 +424,16 @@ const CreateAlgorithm = () => {
         <h2>Historical Data</h2>
         <HighChart stock={stock} stockData={data} />
       </div>
-
+      <div id="BackTestButton">
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ my: 2, mr: 5, minWidth: 300 }}
+          onClick={handleBacktest}
+        >
+          BackTest
+        </Button>
+      </div>
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
 
       
