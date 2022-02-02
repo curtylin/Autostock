@@ -51,6 +51,7 @@ const Home = () => {
   return (
     <Layout>
       <Seo title="AutoStock" />
+      <h2>News</h2>
       <News/>
       <Grid container spacing={2}>
         {competitions.slice(0, 3).map((comp: any, index: number) => {
