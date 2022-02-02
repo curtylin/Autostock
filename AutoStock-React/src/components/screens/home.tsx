@@ -11,8 +11,11 @@ const Home = () => {
   const [competitions, setCompetitions] = useState([])
   const [data , setStockData] = useState([])
 
+  let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"];
+  let randChoice = randTick[Math.floor(Math.random()*randTick.length)];
+  console.log(randChoice);
   let body = `{
-    "ticker": "AAPL",
+    "ticker": "${randChoice}" ,
     "startDate": "2020-11-9",
     "endDate": "2021-11-9"
   }`
@@ -68,8 +71,8 @@ const Home = () => {
       </Grid>
 
       <div id="chart" style={{marginTop: 50}} >
-        <h2>Featured Stock: AAPL</h2>
-        <HighChart stock={"AAPL"} stockData={data}/>
+        <h2>Featured Stock: {randChoice}</h2>
+        <HighChart stock={randChoice} stockData={data}/>
       </div>
     </Layout>
   )
