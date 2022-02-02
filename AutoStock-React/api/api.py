@@ -357,35 +357,41 @@ def get_highchart_data():
     dataDict = request.json
 
     # TODO Handle errors
+    try:
+        data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
 
-    data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
+        dates = data['Close'].index.tolist()
+        closes = data['Close'].tolist()
+        unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
+        unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
-    dates = data['Close'].index.tolist()
-    closes = data['Close'].tolist()
-    unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
-    unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
+        dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
 
-    dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
-
-    return jsonify(dataList)
+        return jsonify(dataList)
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 @app.route('/getNews/<ticker>', methods=['GET'])
 def get_yahoo_news(ticker):
-    ticker_info = yf.Ticker(ticker)
-    listOfNews = []
-    for i in ticker_info.news:
-        newDict = {}
-        newDict["title"] = i["title"]
-        newDict["publisher"] = i["publisher"]
-        newDict["link"] = i["link"]
-        listOfNews.append(newDict)
-    return jsonify(listOfNews)
-
+    try:
+        ticker_info = yf.Ticker(ticker)
+        listOfNews = []
+        for i in ticker_info.news:
+            newDict = {}
+            newDict["title"] = i["title"]
+            newDict["publisher"] = i["publisher"]
+            newDict["link"] = i["link"]
+            listOfNews.append(newDict)
+        return jsonify(listOfNews)
+    except Exception as e:
+        return f"An Error Occured: {e}"
 @app.route('/getLogo/<ticker>', methods=['GET'])
 def get_stock_logo(ticker):
-    ticker_info = yf.Ticker(ticker)
-    return jsonify(ticker_info.info['logo_url'])
-
+    try:
+        ticker_info = yf.Ticker(ticker)
+        return jsonify(ticker_info.info['logo_url'])
+    except Exception as e:
+        return f"An Error Occured: {e}"
 ## END yahoo finance information
 
 ## Begin Helper functions
