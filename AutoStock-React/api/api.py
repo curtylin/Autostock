@@ -5,7 +5,11 @@ from flask_cors import CORS, cross_origin
 import backtrader as bt
 import json
 from datetime import datetime
+import time
 from dateutil.parser import *
+import yfinance as yf
+import pandas as pd
+
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -334,3 +338,17 @@ def comp_unregister_competition(id):
 
 ## End comp CRUD Block
 
+## Beginning of yahoo Finance information
+@app.route('/gethighchartdata', methods=['POST'])
+def get_highchart_data():
+    dataDict = request.json
+
+    data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
+
+    dates = data['Close'].index.tolist()
+    closes = data['Close'].tolist()
+    unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
+    #
+    dataList = [[i,j] for i,j in zip(unixDates,closes)]
+
+    return jsonify(dataList)
