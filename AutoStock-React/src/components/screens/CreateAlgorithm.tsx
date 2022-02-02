@@ -32,7 +32,9 @@ const CreateAlgorithm = () => {
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
-  const show = () => setShowBT(true)
+  const show = () => setShowBT(true)  
+  const [data , setStockData] = useState([])
+
 
   useEffect(() => {
     console.log(timeInterval)
@@ -88,6 +90,25 @@ const CreateAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+
+
+    body = `{
+      "ticker": "AAPL",
+      "startDate": "2020-11-9",
+      "endDate": "2021-11-9"
+    }`
+    init = {
+      method: "POST",
+      headers,
+      body,
+    }
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
   }
 
   const handleSubmit = (event: any) => {
@@ -131,6 +152,7 @@ const CreateAlgorithm = () => {
       })
     event.preventDefault()
   }
+
 
   const BackTestingPart = () => (
     // ADD THE BACKTRACKING IMAGE
@@ -401,7 +423,7 @@ const CreateAlgorithm = () => {
       
       <div>
         <h2>Backtesting</h2>
-        <HighChart setChart={`Stock`} />
+        <HighChart stock={stock} stockData={data} />
       </div>
 
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
