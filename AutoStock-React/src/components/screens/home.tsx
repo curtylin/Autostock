@@ -79,8 +79,6 @@ const Home = () => {
       <div id="chart" style={{marginTop: 50}} >
         <h2>Featured Stock: {randChoice}</h2>
         <HighChart stock={randChoice} stockData={data}/>
-        <h2>Featured Stock: AAPL</h2>
-        <HighChart setChart={"AAPL"} />
       </div>
       <div style={{marginTop: 50}}>
           <h2>Leaderboards</h2>
