@@ -133,9 +133,13 @@ const CreateAlgorithm = () => {
   }
 
   const BackTestingPart = () => (
+    // ADD THE BACKTRACKING IMAGE
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-      <HighChart setChart={`${stock}`} />
+      {/*   IMAGE GOES HERE    */}
+      
+      {/* <h2>Backtesting Data: {algoName}</h2>
+      <HighChart setChart={`${stock}`} /> */}
     </div>
   )
 
@@ -368,6 +372,16 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
+        <div id="BackTest">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={show}
+        >
+          BackTest
+        </Button>
+      </div>
         <div>
           <Button
             type="submit"
@@ -384,19 +398,15 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
+      
+      <div>
+        <h2>Backtesting</h2>
+        <HighChart setChart={`Stock`} />
+      </div>
 
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
 
-      <div id="BackTest">
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          onClick={show}
-        >
-          BackTest
-        </Button>
-      </div>
+      
     </Layout>
   )
 }
