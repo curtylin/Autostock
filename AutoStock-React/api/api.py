@@ -348,7 +348,22 @@ def get_highchart_data():
     dates = data['Close'].index.tolist()
     closes = data['Close'].tolist()
     unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
-    #
-    dataList = [[i,j] for i,j in zip(unixDates,closes)]
+    unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
+
+    dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
 
     return jsonify(dataList)
+
+@app.route('/getNews/<ticker>', methods=['GET'])
+def get_yahoo_news(ticker):
+    ticker_info = yf.Ticker(ticker)
+    listOfNews = []
+    for i in ticker_info.news:
+        newDict = {}
+        newDict["title"] = i["title"]
+        newDict["publisher"] = i["publisher"]
+        newDict["link"] = i["link"]
+        listOfNews.append(newDict)
+    return jsonify(listOfNews)
+
+# @app.route('/getNews/<ticker>', methods=['GET'])
