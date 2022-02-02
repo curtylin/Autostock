@@ -1,6 +1,6 @@
 from flask import Flask , request, jsonify
 import firebase_admin
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, firestore, initialize_app, storage
 from flask_cors import CORS, cross_origin
 import backtrader as bt
 import json
@@ -9,7 +9,8 @@ import time
 from dateutil.parser import *
 import yfinance as yf
 import pandas as pd
-
+import os
+import uuid
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -18,7 +19,7 @@ cors = CORS(app)
 
 cred = credentials.Certificate("firestore_apikey.json")
 # firebase_admin.initialize_app(cred)
-default_app = initialize_app(cred)
+default_app = initialize_app(cred, {'storageBucket': 'autostock-fef22.appspot.com'})
 db = firestore.client()
 algorithms_ref = db.collection('algorithms')
 competitions_ref = db.collection('competitions')
@@ -38,31 +39,45 @@ def index():
 def backtest():
     dataDict = request.json
 
-    class StrategyTest(bt.SignalStrategy):
-        def __init__(self):
-            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-            crossover = bt.ind.CrossOver(sma1, sma2)
-            self.signal_add(bt.SIGNAL_LONG, crossover)
+    try:
+        class StrategyTest(bt.SignalStrategy):
+            def __init__(self):
+                sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+                crossover = bt.ind.CrossOver(sma1, sma2)
+                self.signal_add(bt.SIGNAL_LONG, crossover)
 
 
-    cerebro = bt.Cerebro()
-    cerebro.broker.setcash(dataDict['cash'])
-    cerebro.broker.setcommission(commission=0.0)
-    cerebro.addstrategy(StrategyTest)
+        cerebro = bt.Cerebro()
+        cerebro.broker.setcash(dataDict['cash'])
+        cerebro.broker.setcommission(commission=0.0)
+        cerebro.addstrategy(StrategyTest)
 
-    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
+        financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
 
-    cerebro.adddata(financeData)
+        cerebro.adddata(financeData)
 
-    response = {}
-    response["startingValue"] = cerebro.broker.getvalue()
-    cerebro.run()
-    response["EndingValue"] = cerebro.broker.getvalue()
-    response["PnL"] = response["EndingValue"] - response["startingValue"]
-    response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+        response = {}
+        response["startingValue"] = cerebro.broker.getvalue()
+        cerebro.run()
+        response["EndingValue"] = cerebro.broker.getvalue()
+        response["PnL"] = response["EndingValue"] - response["startingValue"]
+        response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
-    return response
+        randFileName = f"{str(uuid.uuid4())[:8]}.png"
 
+        cerebro.plot()[0][0].savefig(randFileName)
+        url = uploadPhoto(randFileName)
+
+        if os.path.exists(randFileName):
+            os.remove(randFileName)
+        else:
+            print("The file does not exist")
+
+        response["url"] = url
+
+        return response
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 
 @app.route('/test')
@@ -343,27 +358,66 @@ def comp_unregister_competition(id):
 def get_highchart_data():
     dataDict = request.json
 
-    data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
+    # TODO Handle errors
+    try:
+        data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
 
-    dates = data['Close'].index.tolist()
-    closes = data['Close'].tolist()
-    unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
-    unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
+        dates = data['Close'].index.tolist()
+        closes = data['Close'].tolist()
+        unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
+        unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
-    dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
+        dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
 
-    return jsonify(dataList)
+        return jsonify(dataList)
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 @app.route('/getNews/<ticker>', methods=['GET'])
 def get_yahoo_news(ticker):
-    ticker_info = yf.Ticker(ticker)
-    listOfNews = []
-    for i in ticker_info.news:
-        newDict = {}
-        newDict["title"] = i["title"]
-        newDict["publisher"] = i["publisher"]
-        newDict["link"] = i["link"]
-        listOfNews.append(newDict)
-    return jsonify(listOfNews)
+    try:
+        ticker_info = yf.Ticker(ticker)
+        listOfNews = []
+        for i in ticker_info.news:
+            newDict = {}
+            newDict["title"] = i["title"]
+            newDict["publisher"] = i["publisher"]
+            newDict["link"] = i["link"]
+            listOfNews.append(newDict)
+        return jsonify(listOfNews)
+    except Exception as e:
+        return f"An Error Occured: {e}"
+@app.route('/getLogo/<ticker>', methods=['GET'])
+def get_stock_logo(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        return jsonify(ticker_info.info['logo_url'])
+    except Exception as e:
+        return f"An Error Occured: {e}"
+## END yahoo finance information
 
-# @app.route('/getNews/<ticker>', methods=['GET'])
+## Begin Helper functions
+
+def uploadPhoto(filename):
+    """
+        uploadPhoto() : Uploads a photo to Cloud Storage.
+        filename : is the name of the file to be uploaded.
+    """
+    try:
+        # Get the bucket that the file will be uploaded to
+        bucket = storage.bucket()
+
+        # Create a new blob and upload the file's content
+        blob = bucket.blob(filename)
+        blob.upload_from_filename(filename)
+
+
+        # Make the blob publicly viewable
+        blob.make_public()
+
+        # Create a public URL
+        url = blob.public_url
+
+        return url
+    except Exception as e:
+        return f"An Error Occured: {e}"
