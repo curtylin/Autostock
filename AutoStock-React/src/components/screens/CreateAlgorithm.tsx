@@ -32,8 +32,8 @@ const CreateAlgorithm = () => {
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
-  const show = () => setShowBT(true)
-
+  const show = () => setShowBT(true)  
+  const [data , setStockData] = useState([])
   useEffect(() => {
     console.log(timeInterval)
   })
@@ -45,7 +45,35 @@ const CreateAlgorithm = () => {
         setStocks(data)
       })
   }
+
+  const handleBlur = () => {
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let body = `{
+      "ticker": "${stock}",
+      "startDate": "2020-11-9",
+      "endDate": "2021-11-9"
+    }`
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      }) 
+      .catch(e => {
+        // error in e.message
+      })
+  };
+  const [urls, setUrl] = useState("")
+
   const handleBacktest = (event: any) => {
+    show()
     let currDate = new Date()
     //create json object
     let obj = {
@@ -82,12 +110,15 @@ const CreateAlgorithm = () => {
       .then(text => {
         // text is the response body
         console.log(text)
+
         alert(JSON.stringify(text))
+        setUrl(text.url)
       })
       .catch(e => {
         // error in e.message
       })
     event.preventDefault()
+
   }
 
   const handleSubmit = (event: any) => {
@@ -132,10 +163,12 @@ const CreateAlgorithm = () => {
     event.preventDefault()
   }
 
+
   const BackTestingPart = () => (
+    // ADD THE BACKTRACKING IMAGE
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-      <HighChart setChart={`${stock}`} />
+          <img src={`${urls}`}></img>      
     </div>
   )
 
@@ -165,6 +198,7 @@ const CreateAlgorithm = () => {
           <FormControl sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
+                onBlur={handleBlur}
                 required
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
@@ -368,6 +402,7 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
+        
         <div>
           <Button
             type="submit"
@@ -384,19 +419,24 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
-
-      <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
-
-      <div id="BackTest">
+      
+      <div>
+        <h2>Historical Data</h2>
+        <HighChart stock={stock} stockData={data} />
+      </div>
+      <div id="BackTestButton">
         <Button
           type="submit"
           variant="contained"
-          color="primary"
-          onClick={show}
+          sx={{ my: 2, mr: 5, minWidth: 300 }}
+          onClick={handleBacktest}
         >
           BackTest
         </Button>
       </div>
+      <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
+
+      
     </Layout>
   )
 }
