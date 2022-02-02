@@ -19,17 +19,11 @@ class posttests(unittest.TestCase):
             "endDate": "2021-11-9"
         }
         resp = self.api.post(url + '/api/dbapi/post/', data= parameters)
-        resp
         self.assertEqual(resp.__sizeof__(), 120)
 
     def test_not_found(self):
         url = 'http://127.0.0.1:5000/asfjklalsfjalks'
-        parameters = {
-            "symbol": "TSLA",
-            "cash": 1000,
-            "startDate": "2020-11-9",
-            "endDate": "2021-11-9"
-        }
+        parameters = {}
         resp = self.api.post(url + '/api/dbapi/post/', data= parameters)
         self.assertEqual(resp.__dict__, {})
 
@@ -58,7 +52,7 @@ class posttests(unittest.TestCase):
             "action": "buy",
             "comparator": "Above",
             "indicator1": "SMA",
-            "name": "Billbo' Microsoft algorithm",
+            "name": "Billbasfjao' Microsoft algorithm",
             "period1": "(close) 20",
             "period2": "(close) 20",
             "public": False,
