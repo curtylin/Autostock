@@ -8,9 +8,12 @@ import Select, {SelectChangeEvent} from "@mui/material/Select"
 
 import Layout from "../layout"
 import Seo from "../seo"
+import { getUser } from "../../services/auth"
 
 const Competition = () => {
-  const [competition, setCompetition] = useState([])
+
+  const [chosenAlgorithm, setChosenAlgorithm] = useState("")
+  const [competition, setCompetition] = useState<any>([])
   useEffect(() => {
     getCompDB()
     console.log(competition)
@@ -18,7 +21,8 @@ const Competition = () => {
 
   const getCompDB = () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/get-competition/SbwzV5O2QkV9GS9EFNn4", {
+    console.log("getting comp db" + window.history.state.id) 
+    fetch(`http://localhost:5000/get-competition/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -36,7 +40,7 @@ const Competition = () => {
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
     let body = `{
-        "algorithm": "${algo}",
+        "algorithm": "${chosenAlgorithm}",
         "competition": "${competition.id}"
         }
         `
@@ -60,13 +64,38 @@ const Competition = () => {
             })
         event.preventDefault();
   }
+
+
+    const [algorithms, setAlgorithms] = useState([])
+    useEffect(() => {
+      getAlgorithmsDB()
+      console.log(algorithms)
+    }, [])
+  
+    const getAlgorithmsDB = () => {
+      //fetch post to localhost
+      fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      })
+        .then(res => {
+          return res.json()
+        })
+        .then(result => {
+          setAlgorithms(result)
+        })
+    }
+
   return (
     <Layout>
       <Seo title="AutoStock" />
       <h1>{competition.name}</h1> 
       <h2>Ticker: {competition.ticker}</h2>
       <h3>Participants: {competition.competitiors}</h3>
-      <h3>Duration: {competition.competitiors}</h3>
+      <h3>Duration: {competition.duration}</h3>
       <h3>Starting Balance: {competition.startingBalance}</h3>
       <p>Details: {competition.description}</p>
       <></>
@@ -81,14 +110,14 @@ const Competition = () => {
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
                                 label="Algorithm"
-                                // value={}
-                                // onChange={e => {
-                                //     setTimeInterval(e.target.value)
-                                // }}
+                                value={chosenAlgorithm}
+                                onChange={e => {
+                                    setChosenAlgorithm(e.target.value)
+                                }}
                             >
-                                <MenuItem value={0}>Algorithm 0</MenuItem>
-                                <MenuItem value={1}>Algorithm 1</MenuItem>
-                                <MenuItem value={2}>Algorithm 2</MenuItem>
+                            {algorithms.map((algorithm: any, key: any) => {
+                                 return (<MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>)
+                            })}
                             </Select>
                     </FormControl>
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>

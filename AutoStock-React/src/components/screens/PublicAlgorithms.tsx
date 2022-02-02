@@ -67,7 +67,7 @@ const PublicAlgorithms = () => {
                     <td className="mdc-data-table__cell" scope="row">
                       {algorithm.name}
                     </td>
-                    <td className="mdc-data-table__cell">{algorithm.ticker}</td>
+                    <td className="mdc-data-table__cell">10</td>
                     <td className="mdc-data-table__cell">{algorithm.userID}</td>
                   </tr>
                 )
