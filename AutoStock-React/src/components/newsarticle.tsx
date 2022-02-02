@@ -10,55 +10,33 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-// const images = [
-//   {
-//     label: 'San Francisco – Oakland Bay Bridge, United States',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-//   },
-//   {
-//     label: 'Bird',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-//   },
-//   {
-//     label: 'Bali, Indonesia',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
-//   },
-//   {
-//     label: 'Goč, Serbia',
-//     imgPath:
-//       'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-//   },
-// ];
-
-  const [articles, setArticles] = useState([])
-  useEffect(() => {
-    getArticlesDB()
-    console.log(articles)
-  }, [])
-
-  const getArticlesDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/getNews", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        setArticles(result)
-      })
-  }
 
 function SwipeableTextMobileStepper() {
+  const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+
+  const [articles, setArticles] = useState([])
+    useEffect(() => {
+      getArticles()
+      console.log(articles)
+    }, [])
+  
+  const getArticles = () => {
+      //fetch post to localhost
+      fetch("http://localhost:5000/getNews/AAPL", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      })
+        .then(res => {
+          return res.json()
+        })
+        .then(result => {
+          setArticles(result)
+        })
+    }
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = 4;
@@ -88,32 +66,54 @@ function SwipeableTextMobileStepper() {
           bgcolor: 'background.default',
         }}
       >
-        <Typography>{articles[activeStep]}</Typography>
       </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={activeStep}
         onChangeIndex={handleStepChange}
         enableMouseEvents
-      >
-        {articles.map((articles:any, index:any) => (
+        >
+      {articles.map((article:any, index:any) => {
+        return(
+        <div key={article.index}>
+          <Typography>{article.title}</Typography>
+          
+          {Math.abs(activeStep - index) <= 2 ? (
+            <Box
+              component="img"
+              sx={{
+                height: 300,
+                display: 'block',
+                maxWidth: 1080,
+                overflow: 'hidden',
+                width: '100%',
+              }}
+              src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80"
+              alt={article.title}
+            />
+          ) : null}
+        </div>
+      )
+      })}
+        
+        {/* {articles.map((articles:any, index:any) => (
           <div key={articles.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 255,
-                  display: 'block',
-                  maxWidth: 400,
-                  overflow: 'hidden',
-                  width: '100%',
-                }}
-                src={articles.imgPath}
-                alt={articles.label}
-              />
+            {/* {Math.abs(activeStep - index) <= 2 ? (
+            //   <Box
+            //     component="article"
+            //     sx={{
+            //       height: 255,
+            //       display: 'block',
+            //       maxWidth: 400,
+            //       overflow: 'hidden',
+            //       width: '100%',
+            //     }}
+            //     src={articles.imgPath}
+            //     alt={articles.label}
+            //   />
             ) : null}
           </div>
-        ))}
+        ))} */}
       </AutoPlaySwipeableViews>
       <MobileStepper
         steps={maxSteps}
