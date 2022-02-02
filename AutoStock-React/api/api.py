@@ -1,6 +1,6 @@
 from flask import Flask , request, jsonify
 import firebase_admin
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, firestore, initialize_app, storage
 from flask_cors import CORS, cross_origin
 import backtrader as bt
 import json
@@ -18,7 +18,7 @@ cors = CORS(app)
 
 cred = credentials.Certificate("firestore_apikey.json")
 # firebase_admin.initialize_app(cred)
-default_app = initialize_app(cred)
+default_app = initialize_app(cred, {'storageBucket': 'autostock-fef22.appspot.com'})
 db = firestore.client()
 algorithms_ref = db.collection('algorithms')
 competitions_ref = db.collection('competitions')
@@ -373,3 +373,27 @@ def get_stock_logo(ticker):
     ticker_info = yf.Ticker(ticker)
     return jsonify(ticker_info.info['logo_url'])
 
+@app.route('/upload-photo', methods=['POST'])
+def uploadPhoto():
+    """
+        uploadPhoto() : Uploads a photo to Cloud Storage.
+        filename : is the name of the file to be uploaded.
+    """
+    try:
+        filename = request.json['filename']
+        # Get the bucket that the file will be uploaded to
+        bucket = storage.bucket()
+
+        # Create a new blob and upload the file's content
+        blob = bucket.blob(filename)
+        blob.upload_from_filename(filename)
+
+        # Make the blob publicly viewable
+        blob.make_public()
+
+        # Create a public URL
+        url = blob.public_url
+
+        return jsonify({"success": True, "url": url}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
