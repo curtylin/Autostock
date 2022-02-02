@@ -96,7 +96,7 @@ const EditAlgorithm = ({location}: {location : any}) => {
     console.log(algorithm)
   }, [])
   const getAlgoDB = () => {
-    fetch(`http://localhost:5000/get-algorithm/${location.state.algoID}`, {
+    fetch(`http://localhost:5000/get-algorithm/${window.history.state.algorithm.id}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -142,7 +142,7 @@ const EditAlgorithm = ({location}: {location : any}) => {
       body,
     }
 
-    fetch(`http://127.0.0.1:5000/update-algorithm/${location.state.algoID}`, init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
