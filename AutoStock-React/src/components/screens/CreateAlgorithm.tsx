@@ -51,8 +51,8 @@ const CreateAlgorithm = () => {
     headers.append("content-type", "application/json")
     let body = `{
       "ticker": "${stock}",
-      "startDate": "2020-11-9",
-      "endDate": "2021-11-9"
+      "startDate": "2021-2-2",
+      "endDate": "2022-2-2"
     }`
     let init = {
       method: "POST",
