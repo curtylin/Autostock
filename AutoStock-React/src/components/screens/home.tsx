@@ -19,8 +19,8 @@ const Home = () => {
   console.log(randChoice);
   let body = `{
     "ticker": "${randChoice}" ,
-    "startDate": "2020-11-9",
-    "endDate": "2021-11-9"
+    "startDate": "2021-2-2",
+    "endDate": "2022-2-2"
   }`
   const headers = new Headers()
   headers.append("content-type", "application/json")
