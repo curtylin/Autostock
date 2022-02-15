@@ -41,7 +41,9 @@ const pages = [
 
 const settings = [
   "Profile",
-  "Account",
+  <Link to="/app/edituser" style={{ color: "black", textDecoration: "none" }}>
+    Account
+  </Link>,
   <Link to="/app/login" style={{ color: "black", textDecoration: "none" }}>
     Login
   </Link>,
