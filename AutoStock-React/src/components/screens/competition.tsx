@@ -97,17 +97,17 @@ const Competition = () => {
 
   const handleResubmit = (event: any) => {
     let body = `{
-        "algorithm": "${chosenAlgorithm}",
+        "algorithm": "${chosenAlgorithm}"
         }
         `
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
-        method: "POST",
+        method: "PUT",
         headers,
         body,
     }
-    fetch(`http://127.0.0.1:5000/update-competition/${competitiorID}`, init)
+    fetch(`http://localhost:5000/edit-competition-algorithm/${competitiorID}`, init)
             .then(response => {
                 return response.json() // or .text() or .blob() ...
             })
@@ -145,8 +145,11 @@ const Competition = () => {
         })
     }
     let submitButton;
-    if (competition.closeDate > new Date())
+    console.log(typeof(competition.closeDate))
+    const closeDate = new Date(competition.closeDate)
+    if (closeDate > new Date())
     {
+      console.log("submissions open ")
       if (competitiorID == "")
       {
         submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}> Submit Algorithm </Button>
@@ -155,6 +158,10 @@ const Competition = () => {
       {
         submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleResubmit}> Update Algorithm </Button>
       }
+    }
+    else
+    {
+      console.log("submissions closed ")
     }
   return (
     <Layout>
