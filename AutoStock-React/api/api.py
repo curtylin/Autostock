@@ -24,6 +24,7 @@ db = firestore.client()
 algorithms_ref = db.collection('algorithms')
 competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
+users_ref = db.collection('users')
 
 @app.errorhandler(404)
 def not_found(error):
@@ -83,6 +84,36 @@ def backtest():
 @app.route('/test')
 def test():
     return "this works"
+
+
+## Be sure to pass in the user id in the url
+@app.route('/get-user/<id>', methods=['GET'])
+def user_read(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        user = users_ref.document(id).get()
+        return jsonify(user.to_dict()), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
+@app.route('/update-user/<id>', methods=['POST', 'PUT'])
+def user_update(id):
+    """
+        update() : Update document in Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post today'}
+    """
+    try:
+        users_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
 
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
