@@ -242,17 +242,39 @@ def comp_read_user_id(id):
         # Check if ID was passed to URL query
         # id = request.args.get('id')
         userID = id
-        competitions = [doc.to_dict() for doc in competitors_ref.where("competitor", "==", userID).stream()]
-        # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
+        comps = competitors_ref.where("userID", "==", userID).stream()
+        competitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+# ## gives the list of competitions that the user has entered themselves
+# @app.route('/get-competition-user/<id>', methods=['GET'])
+# def competition_read_user_id(id):
+#     """
+#         id : is the user id. Gets all algorithms by this user id.
+#         read() : Fetches documents from Firestore collection as JSON.
+#         competitions : Return document(s) that matches query userID.
+#     """
+#     try:
+#         # Check if ID was passed to URL query
+#         # id = request.args.get('id')
+#         userID = id
+#         competitions = [doc.to_dict() for doc in competitors_ref.where("userID", "==", userID).stream()]
+#         # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
+#         return jsonify(competitions), 200
+#     except Exception as e:
+#         return f"An Error Occured: {e}"
 
 ## Be sure to pass in the competition id in the url
 @app.route('/get-competition/<id>', methods=['GET'])
 def comp_read(id):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        id : is the competition id. Gets all algorithms by this competition id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document that matches query ID.
     """
