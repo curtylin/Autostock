@@ -13,10 +13,14 @@ import { getUser } from "../../services/auth"
 const Competition = () => {
 
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
+  const [competitiorID, setCompetitiorID] = useState("")
   const [competition, setCompetition] = useState<any>([])
   useEffect(() => {
     getCompDB()
+    getCurrentAlgorithm()
     console.log(competition)
+    console.log(competitiorID)
+    console.log(chosenAlgorithm)
   }, [])
 
   const getCompDB = () => {
@@ -37,11 +41,37 @@ const Competition = () => {
       })
   }
 
+  const getCurrentAlgorithm = () => {
+    //fetch post to localhost
+    console.log("getting competitor information from db" + getUser().uid) 
+    fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].competition === competition.id)
+          {
+            console.log("algo: " +result[i].algorithm)
+            setChosenAlgorithm(result[i].algorithm)
+            setCompetitiorID(result[i].id)
+          }
+        }
+      })
+  }
+
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
     let body = `{
         "algorithm": "${chosenAlgorithm}",
-        "competition": "${competition.id}"
+        "competition": "${competition.id}",
+        "userID": "${getUser().uid}"
         }
         `
     const headers = new Headers()
@@ -52,6 +82,32 @@ const Competition = () => {
         body,
     }
     fetch("http://127.0.0.1:5000/enter-competition", init)
+            .then(response => {
+                return response.json() // or .text() or .blob() ...
+            })
+            .then(text => {
+                // text is the response body
+                console.log(text);
+            })
+            .catch(e => {
+                // error in e.message
+            })
+        event.preventDefault();
+  }
+
+  const handleResubmit = (event: any) => {
+    let body = `{
+        "algorithm": "${chosenAlgorithm}",
+        }
+        `
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+        method: "POST",
+        headers,
+        body,
+    }
+    fetch(`http://127.0.0.1:5000/update-competition/${competitiorID}`, init)
             .then(response => {
                 return response.json() // or .text() or .blob() ...
             })
@@ -88,7 +144,18 @@ const Competition = () => {
           setAlgorithms(result)
         })
     }
-
+    let submitButton;
+    if (competition.closeDate > new Date())
+    {
+      if (competitiorID == "")
+      {
+        submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}> Submit Algorithm </Button>
+      }
+      else
+      {
+        submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleResubmit}> Update Algorithm </Button>
+      }
+    }
   return (
     <Layout>
       <Seo title="AutoStock" />
@@ -101,9 +168,9 @@ const Competition = () => {
       <></>
       <p>Submissions Close: {competition.closeDate}</p>
 
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
+      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}> 
                         <InputLabel required id="demo-simple-select-standard-label">
-                            Algorithm
+                            Algorithm 
                         </InputLabel>
                             {/* GET USERS ALGORITHMS */}
                             <Select
@@ -116,15 +183,16 @@ const Competition = () => {
                                 }}
                             >
                             {algorithms.map((algorithm: any, key: any) => {
-                                 return (<MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>)
+                                 return (
+                                 <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
+                                 )
                             })}
                             </Select>
                     </FormControl>
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
          {/* maybe change size to match menuItem */}
-        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-            Submit Algorithm
-        </Button>
+         {submitButton}
+         {/* {submitButton} */}
       </FormControl>
     </Layout>
   )
