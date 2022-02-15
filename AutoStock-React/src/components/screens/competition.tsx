@@ -12,12 +12,14 @@ import { getUser } from "../../services/auth"
 
 const Competition = () => {
 
-  const [chosenAlgorithm, setChosenAlgorithm] = useState("")
+  const [algorithms, setAlgorithms] = useState([])
   const [competitiorID, setCompetitiorID] = useState("")
   const [competition, setCompetition] = useState<any>([])
+  const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   useEffect(() => {
-    getCompDB()
     getCurrentAlgorithm()
+    getAlgorithmsDB()
+    getCompDB()
     console.log(competition)
     console.log(competitiorID)
     console.log(chosenAlgorithm)
@@ -41,9 +43,27 @@ const Competition = () => {
       })
   }
 
+  
+  const getAlgorithmsDB = () => {
+    //fetch post to localhost
+    fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setAlgorithms(result)
+      })
+  }
+
   const getCurrentAlgorithm = () => {
     //fetch post to localhost
-    console.log("getting competitor information from db" + getUser().uid) 
+    console.log("getting competitor information from db: " + getUser().uid) 
     fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
@@ -58,7 +78,7 @@ const Competition = () => {
         for (let i = 0; i < result.length; i++) {
           if (result[i].competition === competition.id)
           {
-            console.log("algo: " +result[i].algorithm)
+            console.log("algo: " + result[i].algorithm)
             setChosenAlgorithm(result[i].algorithm)
             setCompetitiorID(result[i].id)
           }
@@ -122,30 +142,8 @@ const Competition = () => {
   }
 
 
-    const [algorithms, setAlgorithms] = useState([])
-    useEffect(() => {
-      getAlgorithmsDB()
-      console.log(algorithms)
-    }, [])
-  
-    const getAlgorithmsDB = () => {
-      //fetch post to localhost
-      fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-      })
-        .then(res => {
-          return res.json()
-        })
-        .then(result => {
-          setAlgorithms(result)
-        })
-    }
+
     let submitButton;
-    console.log(typeof(competition.closeDate))
     const closeDate = new Date(competition.closeDate)
     if (closeDate > new Date())
     {
