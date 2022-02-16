@@ -1,3 +1,5 @@
+import random
+
 from flask import Flask , request, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app, storage
@@ -11,6 +13,12 @@ import yfinance as yf
 import pandas as pd
 import os
 import uuid
+import atexit
+
+# TODO: Move scheduler to another flask service
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
 
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
@@ -421,3 +429,34 @@ def uploadPhoto(filename):
         return url
     except Exception as e:
         return f"An Error Occured: {e}"
+
+## Schedule jobs
+
+randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP', 'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO']
+
+def generateCompetitions():
+    # TODO:
+    # Create active competitions document
+    # Create a stale competitions document
+
+
+    # Datetime is in this format "2020-11-9"
+
+    for i in range(7):
+        randomStock = random.choice(randomStockList)
+
+    randomSubset = [random.choice(randomStockList) for _ in range(5)]
+
+    # comp_create():
+
+
+def findBestUsers():
+    # TODO: GO through active competitions
+    return None
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
+scheduler.add_job(func=findBestUsers(), trigger="interval", hours=12)
+scheduler.start()
+
+atexit.register(lambda: scheduler.shutdown())
