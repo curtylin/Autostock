@@ -25,6 +25,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__, static_folder="../build", static_url_path="/")
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+# Turn this off if you are working on the scheduler since reload
+# will be run and the scheduler will have been executed 2 times
+# !!!
+# app.run(use_reloader=False)
+# !!!
+
+
 cors = CORS(app)
 
 cred = credentials.Certificate("firestore_apikey.json")
@@ -456,9 +464,19 @@ def findBestUsers():
     # Set outdated into stale competitions
     return None
 
+def scheduleTest():
+    print(f"schedule posted at {datetime.now()}")
+
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
-scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
+# scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
+
+# Need to figure out what server it will be hosted on to get correct market open time
+scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
+scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
+# scheduler.add_job(func=scheduleTest, trigger='interval', seconds=10)
+
+
 
 # CRON jobs for whatever else I need can be set here.
 
