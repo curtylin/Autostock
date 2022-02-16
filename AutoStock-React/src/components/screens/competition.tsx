@@ -14,20 +14,23 @@ const Competition = () => {
 
   const [algorithms, setAlgorithms] = useState([])
   const [competitiorID, setCompetitiorID] = useState("")
-  const [competition, setCompetition] = useState<any>([])
+  const [competition, setCompetition] = useState({})
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   useEffect(() => {
-    getCurrentAlgorithm()
-    getAlgorithmsDB()
-    getCompDB()
-    console.log(competition)
-    console.log(competitiorID)
-    console.log(chosenAlgorithm)
-  }, [])
+    getCompDB().then(() => {
+      console.log(competition)
+      if (chosenAlgorithm == "") {
+        getCurrentAlgorithm()
+      }
+      getAlgorithmsDB() 
+      // getAlgorithmsDB()
+      console.log(chosenAlgorithm)
+    })
+  }, [chosenAlgorithm])
 
-  const getCompDB = () => {
+  const getCompDB = async () => {
     //fetch post to localhost
-    console.log("getting comp db" + window.history.state.id) 
+    // console.log("getting comp db" + window.history.state.id) 
     fetch(`http://localhost:5000/get-competition/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
@@ -39,6 +42,7 @@ const Competition = () => {
         return res.json()
       })
       .then(result => {
+        console.log(result)
         setCompetition(result)
       })
   }
@@ -63,7 +67,7 @@ const Competition = () => {
 
   const getCurrentAlgorithm = () => {
     //fetch post to localhost
-    console.log("getting competitor information from db: " + getUser().uid) 
+    // console.log("getting competitor information from db: " + getUser().uid) 
     fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
@@ -76,6 +80,7 @@ const Competition = () => {
       })
       .then(result => {
         for (let i = 0; i < result.length; i++) {
+          console.log(result[i].competition , competition.id)
           if (result[i].competition === competition.id)
           {
             console.log("algo: " + result[i].algorithm)
@@ -107,7 +112,7 @@ const Competition = () => {
             })
             .then(text => {
                 // text is the response body
-                console.log(text);
+                // console.log(text);
             })
             .catch(e => {
                 // error in e.message
@@ -133,7 +138,7 @@ const Competition = () => {
             })
             .then(text => {
                 // text is the response body
-                console.log(text);
+                // console.log(text);
             })
             .catch(e => {
                 // error in e.message
@@ -147,7 +152,7 @@ const Competition = () => {
     const closeDate = new Date(competition.closeDate)
     if (closeDate > new Date())
     {
-      console.log("submissions open ")
+      // console.log("submissions open")
       if (competitiorID == "")
       {
         submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}> Submit Algorithm </Button>
@@ -159,7 +164,7 @@ const Competition = () => {
     }
     else
     {
-      console.log("submissions closed ")
+      // console.log("submissions closed ")
     }
   return (
     <Layout>
@@ -175,7 +180,7 @@ const Competition = () => {
 
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}> 
                         <InputLabel required id="demo-simple-select-standard-label">
-                            Algorithm 
+                            Choose an Algorithm 
                         </InputLabel>
                             {/* GET USERS ALGORITHMS */}
                             <Select
