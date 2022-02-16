@@ -7,6 +7,8 @@ from flask_cors import CORS, cross_origin
 import backtrader as bt
 import json
 from datetime import datetime
+from datetime import timedelta
+from datetime import date
 import time
 from dateutil.parser import *
 import yfinance as yf
@@ -438,20 +440,21 @@ def generateCompetitions():
     # TODO:
     # Create active competitions document
     # Create a stale competitions document
+    #
 
 
-    # Datetime is in this format "2020-11-9"
-
-    for i in range(7):
-        randomStock = random.choice(randomStockList)
+    # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
+    today = date.today()
 
     randomSubset = [random.choice(randomStockList) for _ in range(5)]
+    randomTimes = [today + timedelta(days=random.randint(0,30)) for _ in range(5)]
 
     # comp_create():
 
 
 def findBestUsers():
-    # TODO: GO through active competitions
+    # TODO: Go through active competitions and find best users and replace the top users in the doc
+    # Set outdated into stale competitions
     return None
 
 scheduler = BackgroundScheduler()
