@@ -451,7 +451,6 @@ def generateCompetitions():
 
     # comp_create():
 
-
 def findBestUsers():
     # TODO: Go through active competitions and find best users and replace the top users in the doc
     # Set outdated into stale competitions
@@ -459,7 +458,10 @@ def findBestUsers():
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
-scheduler.add_job(func=findBestUsers(), trigger="interval", hours=12)
+scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
+
+# CRON jobs for whatever else I need can be set here.
+
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
