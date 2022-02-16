@@ -2,8 +2,10 @@ aiohttp==3.7.4
 alpaca-trade-api==1.4.1
 aniso8601==9.0.1
 anyio==3.5.0
+APScheduler==3.8.1
 async-timeout==3.0.1
 attrs==21.2.0
+backports.zoneinfo==0.2.1
 Backtesting==0.3.2
 backtrader==1.9.76.123
 bokeh==2.4.2
@@ -62,6 +64,7 @@ pytest==6.2.5
 python-dateutil==2.8.2
 python-dotenv==0.19.2
 pytz==2021.3
+pytz-deprecation-shim==0.1.0.post0
 PyYAML==5.4.1
 requests==2.26.0
 rsa==4.7.2
@@ -75,6 +78,8 @@ toml==0.10.2
 tomli==1.2.2
 tornado==6.1
 typing_extensions==4.0.0
+tzdata==2021.5
+tzlocal==2.1
 uritemplate==4.1.1
 urllib3==1.26.7
 websocket-client==1.2.1
