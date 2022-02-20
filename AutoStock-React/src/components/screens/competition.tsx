@@ -16,6 +16,7 @@ const Competition = () => {
   const [competitiorID, setCompetitiorID] = useState("")
   const [competition, setCompetition] = useState({})
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
+  const [competitionID, setCompetitionID] = useState(window.history.state.id)
   useEffect(() => {
     getCompDB().then(() => {
       console.log(competition)
@@ -80,8 +81,8 @@ const Competition = () => {
       })
       .then(result => {
         for (let i = 0; i < result.length; i++) {
-          console.log(result[i].competition , competition.id)
-          if (result[i].competition === competition.id)
+          console.log(result[i].competition , competitionID)
+          if (result[i].competition === competitionID)
           {
             console.log("algo: " + result[i].algorithm)
             setChosenAlgorithm(result[i].algorithm)
