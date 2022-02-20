@@ -165,20 +165,6 @@ def algo_update(id):
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## Might be legacy code.. will probably delete since deleting through URL is probably easier.
-@app.route('/delete-algorithm', methods=['GET', 'DELETE'])
-def algo_delete():
-    """
-        delete() : Delete a document from Firestore collection.
-    """
-    try:
-        # Check for ID in URL query
-        algorithm_id = request.args.get('id')
-        algorithms_ref.document(algorithm_id).delete()
-        return jsonify({"success": True}), 200
-    except Exception as e:
-        return f"An Error Occured: {e}"
-
 ## Be sure to pass in the algorithm id in the url
 @app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
 def algo_delete_id(id):
@@ -189,9 +175,25 @@ def algo_delete_id(id):
         # Check for ID in URL query
         algorithm_id = id
         algorithms_ref.document(algorithm_id).delete()
+
+        if not comp_unregister_competition_algorithm(id):
+            raise Exception("Could not unregister algorithm from competition")
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+def comp_unregister_competition_algorithm(algoID):
+    """
+        delete() : Delete a document from Firestore collection.
+    """
+    try:
+        matchingCompsWithAlgo = competitors_ref.where("algorithm", "==", algoID).stream()       
+        for matchingComp in matchingCompsWithAlgo:
+            competitors_ref.document(matchingComp.id).delete()
+        return True
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 ## End algo CRUD Block
 ####################################################################################################################
 ## Start CRUD compeitions block
