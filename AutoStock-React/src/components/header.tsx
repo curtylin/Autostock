@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip"
 import MenuItem from "@mui/material/MenuItem"
 import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
-
+import TemporaryDrawer from "../components/drawer"
 
 interface HeaderProps {
   siteTitle: string
@@ -88,13 +88,17 @@ const Header = ({ siteTitle }: HeaderProps) => {
     <AppBar sx={{ mb: 2 }} style={{ background: "#059a76" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* hamburger menu */}
+          <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
+            <TemporaryDrawer></TemporaryDrawer>
+          </Box>
           <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs: "none", md: "flex" } }}
+            sx={{ mr: 5, display: { md: "flex" } }}
             style={{ color: "black" }}
           >
             <Link
@@ -106,7 +110,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             </Link>
           </Typography>
 
-          {isLoggedIn() ? <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {isLoggedIn() ? <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={handleOpenAlgMenu}
               sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
@@ -116,7 +120,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 fontWeight="medium"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", md: "flex" } }}
+                sx={{ display: { xs: "none", md: "none", lg:"flex" } }}
               >
                 Algorithms
               </Typography>
@@ -138,7 +142,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               onClose={handleCloseAlgMenu}
             >
               {pages.map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -149,7 +153,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 fontWeight="medium"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", md: "flex" } }}
+                sx={{ display: {xs: "none", md:"none", lg:"flex" } }}
               >
                 Competitions
               </Typography>
@@ -160,15 +164,15 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 fontWeight="medium"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", md: "flex" } }}
+                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
               >
                 Leaderboards
               </Typography>
             </Button>
           </Box>
           : <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>}
-
-          <Box  sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}></Box>
+          <Box  sx={{ flexGrow: 0, display: { } }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="" />
@@ -191,7 +195,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               onClose={handleCloseUserMenu}
             >
               {settings.map(setting => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
