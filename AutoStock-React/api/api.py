@@ -580,6 +580,13 @@ def get_yahoo_news(ticker):
         return f"An Error Occured: {e}"
 @app.route('/getLogo/<ticker>', methods=['GET'])
 def get_stock_logo(ticker):
+
+    return get_stock_logo_driver(ticker)
+
+def get_stock_logo_driver(ticker):
+    # Check internal cache
+    # TODO: Set up cache
+
     try:
         ticker_info = yf.Ticker(ticker)
         return jsonify(ticker_info.info['logo_url'])
@@ -618,12 +625,6 @@ def uploadPhoto(filename):
 randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP', 'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO']
 
 def generateCompetitions():
-    # TODO:
-    # Create active competitions document
-    # Create a stale competitions document
-    #
-
-
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
     today = date.today()
 
@@ -631,20 +632,56 @@ def generateCompetitions():
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
     randomTimes = [today + timedelta(days=random.randint(3,30)) for _ in range(amount_competitions)]
+    randomInitialStarting = [ int( f"1{random.randint(3,7) * '0'}" ) for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
-        comp_obj = {}
-        comp_obj["closeDate"] = randomTimes[i]
-        comp_obj["ticker"] = randomSubsetTicker[i]
+        close_time = randomTimes[i]
+        ticker = randomSubsetTicker[i]
+        time_diff = str(close_time - today)
 
+        # TODO
 
-    # comp_create():
-    # Make a document for all logo -> Image
-    # if it doesn't exist in the cache call other api and place it there
+        comp_obj = {
+            "closeDate": close_time,
+            "description": "Lock in your algo before the submission closes to enter. Your algorithm will be ran for 1 month without being able to change or edit. Users with the algorithms that return the highest profit (or lowest loss) will win trophies!",
+            "duration": time_diff,
+            "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
+            "startingBalance": randomInitialStarting[i],
+            "ticker": ticker,
+            "leaderboard": [], # Should be a list of algorithmIDs, sorted by highest value first
+            "logo":"http:somethingsomething"
+            }
+
+        active_comp_create_driver(comp_obj)
+
 
 def findBestUsers():
     # TODO: Go through active competitions and find best users and replace the top users in the doc
     # Set outdated into stale competitions
+
+    competitions = []
+    try:
+        comps = activeCompetitions_ref.stream()
+        for comp in comps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = True
+            competitions.append(compDict)
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+    bestAlgoPair = []
+
+    for competition in competitions:
+        algorithmID = competition.id
+        try:
+            algorithm = algorithms_ref.document(id).get()
+        except Exception as e:
+            return f"An Error Occured: {e}"
+    # TODO: Check if date exceeds expiration date
+    # Calculate best algorithms with a driver backtest 
+
+
     return None
 
 def scheduleTest():
@@ -657,7 +694,7 @@ scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # Need to figure out what server it will be hosted on to get correct market open time
 # scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
 # scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
-scheduler.add_job(func=generateCompetitions, trigger='interval', seconds=10)
+scheduler.add_job(func=scheduleTest, trigger='interval', seconds=2)
 
 
 
