@@ -40,6 +40,8 @@ cred = credentials.Certificate("firestore_apikey.json")
 default_app = initialize_app(cred, {'storageBucket': 'autostock-fef22.appspot.com'})
 db = firestore.client()
 algorithms_ref = db.collection('algorithms')
+activeCompetitions_ref = db.collection('activeCompetitions')
+staleCompetitions_ref = db.collection('staleCompetitions')
 competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
@@ -269,11 +271,29 @@ def comp_create():
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
-    comp_create_driver(request.json)
+    return active_comp_create_driver(request.json)
 
-def comp_create_driver(req_obj):
+def active_comp_create_driver(req_obj):
     try:
-        competitions_ref.document().set(req_obj)
+        activeCompetitions_ref.document().set(req_obj)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+def stale_comp_create_driver(id, req_obj):
+    try:
+        staleCompetitions_ref.document(id).set(req_obj)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+def active_to_stale_comp(id):
+    try:
+        competition = activeCompetitions_ref.document(id).get()
+        if competition.to_dict() == None:
+            raise Exception("Competition not found")
+        activeCompetitions_ref.document(id).delete()
+        staleCompetitions_ref.document(id).set(competition.to_dict())
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -288,11 +308,58 @@ def comp_list_all():
         competitions : Return all competitions.
     """
     try:
-        comps = competitions_ref.stream()
+        activeComps = activeCompetitions_ref.stream()
+        staleComps = staleCompetitions_ref.stream()
+        competitions = []
+        for comp in activeComps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = True
+            competitions.append(compDict)
+        for comp in staleComps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = False
+            competitions.append(compDict)
+        return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Returns all active competitions
+@cross_origin()
+@app.route('/list-active-competitions', methods=['GET'])
+def comp_list_all_active():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return all competitions.
+    """
+    try:
+        comps = activeCompetitions_ref.stream()
         competitions = []
         for comp in comps:
             compDict = comp.to_dict()
             compDict['id'] = comp.id
+            compDict['active'] = True
+            competitions.append(compDict)
+        return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Returns all active competitions
+@cross_origin()
+@app.route('/list-stale-competitions', methods=['GET'])
+def comp_list_all_stale():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return all competitions.
+    """
+    try:
+        comps = staleCompetitions_ref.stream()
+        competitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = False
             competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
@@ -348,7 +415,11 @@ def comp_read(id):
     """
     try:
         # Check if ID was passed to URL query
-        competition = competitions_ref.document(id).get()
+        competition = activeCompetitions_ref.document(id).get()
+        if competition.to_dict() == None:
+            competition = staleCompetitions_ref.document(id).get()
+        if competition.to_dict() == None:
+            raise Exception("Competition not found")
         compDict = competition.to_dict()
         compDict['id'] = id
         compDict['competitiors'] = len([doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
@@ -358,21 +429,34 @@ def comp_read(id):
 
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.
-@app.route('/update-competition/<id>', methods=['POST', 'PUT'])
-def comp_update(id):
+@app.route('/update-active-competition/<id>', methods=['POST', 'PUT'])
+def comp_update_active(id):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
     try:
-        competitions_ref.document(id).update(request.json)
+        activeCompetitions_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+@app.route('/update-stale-competition/<id>', methods=['POST', 'PUT'])
+def comp_update_stale(id):
+    """
+        update() : Update document in Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post today'}
+    """
+    try:
+        staleCompetitions_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
 ## Might be legacy code.. will probably delete since deleting through URL is probably easier.
-@app.route('/delete-competition', methods=['GET', 'DELETE'])
+@app.route('/delete-active-competition', methods=['GET', 'DELETE'])
 def comp_delete():
     """
         delete() : Delete a document from Firestore collection.
@@ -386,15 +470,28 @@ def comp_delete():
         return f"An Error Occured: {e}"
 
 ## Be sure to pass in the competition id in the url
-@app.route('/delete-competition/<id>', methods=['GET', 'DELETE'])
-def comp_delete_id(id):
+@app.route('/delete-active-competition/<id>', methods=['GET', 'DELETE'])
+def comp_delete_active_id(id):
     """
         delete() : Delete a document from Firestore collection.
     """
     try:
         # Check for ID in URL query
         competition_id = id
-        competitions_ref.document(competition_id).delete()
+        activeCompetitions_ref.document(competition_id).delete()
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+@app.route('/delete-stale-competition/<id>', methods=['GET', 'DELETE'])
+def comp_delete_stale_id(id):
+    """
+        delete() : Delete a document from Firestore collection.
+    """
+    try:
+        # Check for ID in URL query
+        competition_id = id
+        staleCompetitions_ref.document(competition_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
