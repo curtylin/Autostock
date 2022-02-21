@@ -354,7 +354,7 @@ def comp_list_all_active():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## Returns all active competitions
+## Returns all stale competitions
 @cross_origin()
 @app.route('/list-stale-competitions', methods=['GET'])
 def comp_list_all_stale():
