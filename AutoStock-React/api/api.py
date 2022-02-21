@@ -102,7 +102,7 @@ def backtest_driver(req):
 
         return response
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 
 @app.route('/test')
@@ -123,7 +123,7 @@ def user_read(id):
         user = users_ref.document(id).get()
         return jsonify(user.to_dict()), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-user/<id>', methods=['POST', 'PUT'])
@@ -137,7 +137,7 @@ def user_update(id):
         users_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 @app.route('/create-user', methods=['POST'])
 def user_create():
@@ -150,7 +150,7 @@ def user_create():
         users_ref.document(request.json["userID"]).set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
@@ -166,7 +166,7 @@ def algo_create():
         algorithms_ref.document().set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Returns all public algorithms
 @cross_origin()
@@ -180,7 +180,7 @@ def algo_read_public():
         algorithms = [doc.to_dict() for doc in algorithms_ref.where("public", "==", True).stream()]
         return jsonify(algorithms), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the user id in the url
 @app.route('/list-algorithm/<id>', methods=['GET'])
@@ -202,7 +202,7 @@ def algo_read_user_id(id):
             algorithms.append(algoDict)
         return jsonify(algorithms), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the user id in the url
 @app.route('/get-algorithm/<id>', methods=['GET'])
@@ -217,7 +217,7 @@ def algo_read(id):
         algorithm = algorithms_ref.document(id).get()
         return jsonify(algorithm.to_dict()), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
@@ -231,7 +231,7 @@ def algo_update(id):
         algorithms_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the algorithm id in the url
 @app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
@@ -248,7 +248,7 @@ def algo_delete_id(id):
             raise Exception("Could not unregister algorithm from competition")
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 def comp_unregister_competition_algorithm(algoID):
     """
@@ -260,11 +260,11 @@ def comp_unregister_competition_algorithm(algoID):
             competitors_ref.document(matchingComp.id).delete()
         return True
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## End algo CRUD Block
 ####################################################################################################################
-## Start CRUD compeitions block
+## Start CRUD competitions block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
 # make sure to have body content type to application/json
@@ -282,14 +282,14 @@ def active_comp_create_driver(req_obj):
         activeCompetitions_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 def stale_comp_create_driver(id, req_obj):
     try:
         staleCompetitions_ref.document(id).set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 @app.route('/active-to-stale-competition/<id>', methods=['PUT'])
 def active_to_stale_comp(id):
@@ -304,7 +304,7 @@ def active_to_stale_comp_driver(id):
         staleCompetitions_ref.document(id).set(competition.to_dict())
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 
 
@@ -332,7 +332,7 @@ def comp_list_all():
             competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Returns all active competitions
 @cross_origin()
@@ -352,7 +352,7 @@ def comp_list_all_active():
             competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Returns all stale competitions
 @cross_origin()
@@ -372,7 +372,7 @@ def comp_list_all_stale():
             competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## gives the list of competitions that the user has entered themselves
 @app.route('/list-competition/<id>', methods=['GET'])
@@ -394,7 +394,7 @@ def comp_read_user_id(id):
             competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 # ## gives the list of competitions that the user has entered themselves
 # @app.route('/get-competition-user/<id>', methods=['GET'])
@@ -412,7 +412,7 @@ def comp_read_user_id(id):
 #         # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
 #         return jsonify(competitions), 200
 #     except Exception as e:
-#         return f"An Error Occured: {e}"
+#         return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the competition id in the url
 @app.route('/get-competition/<id>', methods=['GET'])
@@ -434,7 +434,7 @@ def comp_read(id):
         compDict['competitiors'] = len([doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
         return jsonify(compDict), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.
@@ -452,7 +452,7 @@ def comp_update_active_driver(id, req):
         activeCompetitions_ref.document(id).update(req)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 @app.route('/update-stale-competition/<id>', methods=['POST', 'PUT'])
 def comp_update_stale(id):
@@ -465,7 +465,7 @@ def comp_update_stale(id):
         staleCompetitions_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Might be legacy code.. will probably delete since deleting through URL is probably easier.
 @app.route('/delete-active-competition', methods=['GET', 'DELETE'])
@@ -479,7 +479,7 @@ def comp_delete():
         competitions_ref.document(competition_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the competition id in the url
 @app.route('/delete-active-competition/<id>', methods=['GET', 'DELETE'])
@@ -493,7 +493,7 @@ def comp_delete_active_id(id):
         activeCompetitions_ref.document(competition_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 @app.route('/delete-stale-competition/<id>', methods=['GET', 'DELETE'])
 def comp_delete_stale_id(id):
@@ -506,7 +506,7 @@ def comp_delete_stale_id(id):
         staleCompetitions_ref.document(competition_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## enters user into competition
 @app.route('/enter-competition', methods=['POST'])
@@ -520,7 +520,7 @@ def comp_enter_user():
         competitors_ref.document().set(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## edits user submitted algorithm in competition
 @app.route('/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
@@ -534,7 +534,7 @@ def comp_edit_algorithm(id):
         competitors_ref.document(id).update(request.json)
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the competition id in the url
 @app.route('/unregister-competition/<id>', methods=['GET', 'DELETE'])
@@ -548,7 +548,7 @@ def comp_unregister_competition(id):
         competitors_ref.document(competition_id).delete()
         return jsonify({"success": True}), 200
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 ## End comp CRUD Block
 
@@ -569,7 +569,7 @@ def get_highchart_data():
 
         return jsonify(dataList)
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
 @app.route('/getNews/<ticker>', methods=['GET'])
 def get_yahoo_news(ticker):
@@ -584,7 +584,7 @@ def get_yahoo_news(ticker):
             listOfNews.append(newDict)
         return jsonify(listOfNews)
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 @app.route('/getLogo/<ticker>', methods=['GET'])
 def get_stock_logo(ticker):
 
@@ -598,7 +598,7 @@ def get_stock_logo_driver(ticker):
         ticker_info = yf.Ticker(ticker)
         return jsonify(ticker_info.info['logo_url'])
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 ## END yahoo finance information
 
 ## Begin Helper functions
@@ -670,7 +670,7 @@ def findBestUsers():
             compDict['active'] = True
             competitions.append(compDict)
     except Exception as e:
-        return f"An Error Occured: {e}"
+        return f"An Error Occurred: {e}"
 
     # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
@@ -681,7 +681,7 @@ def findBestUsers():
             try:
                 algorithm = algorithms_ref.document(algoId).get()
             except Exception as e:
-                return f"An Error Occured: {e}"
+                return f"An Error Occurred: {e}"
             leaderboardsPair.append((algoId, backtest_driver(algorithm)["PnL"]))
         # Update competition with sorted best players
         leaderboardsPair.sort(key=lambda tup: tup[1])
