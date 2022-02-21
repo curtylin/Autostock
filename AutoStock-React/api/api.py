@@ -690,7 +690,7 @@ def findBestUsers():
 
         # Check out of date competitions and set them as stale
         today = date.today()
-        closeDate = competition.closeDate
+        closeDate = parse(competition.closeDate)
         if today > closeDate:
             active_to_stale_comp_driver(competitionId)
 
