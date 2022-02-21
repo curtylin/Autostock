@@ -287,7 +287,11 @@ def stale_comp_create_driver(id, req_obj):
     except Exception as e:
         return f"An Error Occured: {e}"
 
+@app.route('/active-to-stale-competition/<id>', methods=['PUT'])
 def active_to_stale_comp(id):
+    return active_to_stale_comp_driver(id)
+
+def active_to_stale_comp_driver(id):
     try:
         competition = activeCompetitions_ref.document(id).get()
         if competition.to_dict() == None:
@@ -297,6 +301,7 @@ def active_to_stale_comp(id):
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
 
 
 ## Returns all competitions
