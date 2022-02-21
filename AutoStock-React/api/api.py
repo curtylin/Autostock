@@ -527,14 +527,13 @@ def generateCompetitions():
 
     amount_competitions = 5
 
-    randomSubset = [random.choice(randomStockList) for _ in range(amount_competitions)]
+    randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
     randomTimes = [today + timedelta(days=random.randint(3,30)) for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
         comp_obj = {}
-        comp_obj["closeDate"]
-        randomTimes[i]
-        randomSubset[i]
+        comp_obj["closeDate"] = randomTimes[i]
+        comp_obj["ticker"] = randomSubsetTicker[i]
 
 
     # comp_create():
