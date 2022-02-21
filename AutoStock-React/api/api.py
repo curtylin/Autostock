@@ -676,8 +676,8 @@ def findBestUsers():
     for competition in competitions:
         competitionId = competition.id
         leaderboardList = competition.leaderboard
+        leaderboardsPair = []
         for algoId in leaderboardList:
-            leaderboardsPair = []
             try:
                 algorithm = algorithms_ref.document(algoId).get()
             except Exception as e:
