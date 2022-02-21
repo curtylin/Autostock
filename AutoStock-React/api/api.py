@@ -58,7 +58,11 @@ def index():
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
 def backtest():
-    dataDict = request.json
+    backtest_driver(request.json)
+
+
+def backtest_driver(req):
+    dataDict = req
 
     try:
         class StrategyTest(bt.SignalStrategy):
@@ -441,8 +445,11 @@ def comp_update_active(id):
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
+    return comp_update_active_driver(id, request.json)
+
+def comp_update_active_driver(id, req):
     try:
-        activeCompetitions_ref.document(id).update(request.json)
+        activeCompetitions_ref.document(id).update(req)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -639,8 +646,6 @@ def generateCompetitions():
         ticker = randomSubsetTicker[i]
         time_diff = str(close_time - today)
 
-        # TODO
-
         comp_obj = {
             "closeDate": close_time,
             "description": "Lock in your algo before the submission closes to enter. Your algorithm will be ran for 1 month without being able to change or edit. Users with the algorithms that return the highest profit (or lowest loss) will win trophies!",
@@ -649,16 +654,13 @@ def generateCompetitions():
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
             "leaderboard": [], # Should be a list of algorithmIDs, sorted by highest value first
-            "logo":"http:somethingsomething"
+            "logo": get_stock_logo(ticker) # TODO: Change this to use the cached version instead
             }
 
         active_comp_create_driver(comp_obj)
 
 
 def findBestUsers():
-    # TODO: Go through active competitions and find best users and replace the top users in the doc
-    # Set outdated into stale competitions
-
     competitions = []
     try:
         comps = activeCompetitions_ref.stream()
@@ -670,19 +672,29 @@ def findBestUsers():
     except Exception as e:
         return f"An Error Occured: {e}"
 
-    bestAlgoPair = []
-
+    # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
-        algorithmID = competition.id
-        try:
-            algorithm = algorithms_ref.document(id).get()
-        except Exception as e:
-            return f"An Error Occured: {e}"
-    # TODO: Check if date exceeds expiration date
-    # Calculate best algorithms with a driver backtest 
+        competitionId = competition.id
+        leaderboardList = competition.leaderboard
+        for algoId in leaderboardList:
+            leaderboardsPair = []
+            try:
+                algorithm = algorithms_ref.document(algoId).get()
+            except Exception as e:
+                return f"An Error Occured: {e}"
+            leaderboardsPair.append((algoId, backtest_driver(algorithm)["PnL"]))
+        # Update competition with sorted best players
+        leaderboardsPair.sort(key=lambda tup: tup[1])
+        newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
+        comp_update_active_driver(competitionId, {"leaderboard": newLeaderBoard})
+
+        # Check out of date competitions and set them as stale
+        today = date.today()
+        closeDate = competition.closeDate
+        if today > closeDate:
+            active_to_stale_comp_driver(competitionId)
 
 
-    return None
 
 def scheduleTest():
     print(f"schedule posted at {datetime.now()}")
@@ -692,9 +704,9 @@ scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
 
 # Need to figure out what server it will be hosted on to get correct market open time
-# scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
-# scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
-scheduler.add_job(func=scheduleTest, trigger='interval', seconds=2)
+scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
+scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
+# scheduler.add_job(func=scheduleTest, trigger='interval', seconds=2)
 
 
 
