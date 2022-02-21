@@ -1,18 +1,15 @@
 import random
 
 from flask import Flask , request, jsonify
-import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app, storage
 from flask_cors import CORS, cross_origin
 import backtrader as bt
-import json
 from datetime import datetime
 from datetime import timedelta
 from datetime import date
 import time
 from dateutil.parser import *
 import yfinance as yf
-import pandas as pd
 import os
 import uuid
 import atexit
