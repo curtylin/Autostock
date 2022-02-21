@@ -199,7 +199,7 @@ const Competition = () => {
                                  )
                             })}
                             </Select>
-                    </FormControl>
+      </FormControl>
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
          {/* maybe change size to match menuItem */}
          {submitButton}
