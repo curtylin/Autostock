@@ -269,11 +269,15 @@ def comp_create():
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
+    comp_create_driver(request.json)
+
+def comp_create_driver(req_obj):
     try:
-        competitions_ref.document().set(request.json)
+        competitions_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
 
 ## Returns all competitions
 @cross_origin()
@@ -444,7 +448,6 @@ def comp_unregister_competition(id):
 def get_highchart_data():
     dataDict = request.json
 
-    # TODO Handle errors
     try:
         data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
 
@@ -522,10 +525,21 @@ def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
     today = date.today()
 
-    randomSubset = [random.choice(randomStockList) for _ in range(5)]
-    randomTimes = [today + timedelta(days=random.randint(0,30)) for _ in range(5)]
+    amount_competitions = 5
+
+    randomSubset = [random.choice(randomStockList) for _ in range(amount_competitions)]
+    randomTimes = [today + timedelta(days=random.randint(3,30)) for _ in range(amount_competitions)]
+
+    for i in range(amount_competitions):
+        comp_obj = {}
+        comp_obj["closeDate"]
+        randomTimes[i]
+        randomSubset[i]
+
 
     # comp_create():
+    # Make a document for all logo -> Image
+    # if it doesn't exist in the cache call other api and place it there
 
 def findBestUsers():
     # TODO: Go through active competitions and find best users and replace the top users in the doc
@@ -540,9 +554,9 @@ scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
 
 # Need to figure out what server it will be hosted on to get correct market open time
-scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
-scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
-# scheduler.add_job(func=scheduleTest, trigger='interval', seconds=10)
+# scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
+# scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
+scheduler.add_job(func=generateCompetitions, trigger='interval', seconds=10)
 
 
 
