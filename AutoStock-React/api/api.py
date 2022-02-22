@@ -49,22 +49,29 @@ def backtest():
                 sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
             if indi is "EMA":
                 sma1, sma2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
-            #sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+                ema1 = sma1, ema2 = ema2
+                if dataDict["action"] == "buy":
+                    close_over_sma = self.data.close > sma1
+                    close_over_ema = self.data.close > ema1
+                    close_over_sma2 = self.data.close > sma2
+                    close_over_ema2 = self.data.close > ema2
+                    sma_ema_diff = sma1 - ema1
+                    sma_ema2_diff = sma2 - ema2
+                    buy_sig1 = bt.And(close_over_sma, close_over_ema, sma_ema_diff > 0)
+                    buy_sig2 = bt.And(close_over_sma2, close_over_ema2, sma_ema_diff > 0)
+             #sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
             crossover = bt.ind.CrossOver(sma1, sma2)
             self.signal_add(bt.SIGNAL_LONG, crossover) 
             self.dataclose = self.datas[0].close
             
         def next(self):
-        #    periodStrat = dataDict[0]['period2'].split(" ")[0]
-        #     self.log('periodStrat, %.2f' % self.dataclose)
             if self.dataclose[0] < self.dataclose[-1]:
                 if self.dataclose[-1] < self.dataclose[-2]:
-                    #self.log('BUY CREATE, %.2f' % self.dataclose[0])
                     self.buy()
                     response["action"] = 'buy'
                 else:
+                    self.close()
                     response["action"] = 'close'
-
 
         cerebro = bt.Cerebro()
         cerebro.broker.setcash(dataDict['cash'])
