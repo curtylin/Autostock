@@ -55,7 +55,7 @@ def index():
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
 def backtest():
-    backtest_driver(request.json)
+    return backtest_driver(request.json)
 
 
 def backtest_driver(req):
@@ -645,7 +645,7 @@ def generateCompetitions():
 
         comp_obj = {
             "closeDate": close_time,
-            "description": "Lock in your algo before the submission closes to enter. Your algorithm will be ran for 1 month without being able to change or edit. Users with the algorithms that return the highest profit (or lowest loss) will win trophies!",
+            "description": f"Submit your algorithm before {str(close_time)} and compete for the largest gains!",
             "duration": time_diff,
             "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
             "startingBalance": randomInitialStarting[i],
@@ -690,7 +690,6 @@ def findBestUsers():
         closeDate = parse(competition.closeDate)
         if today > closeDate:
             active_to_stale_comp_driver(competitionId)
-
 
 
 def scheduleTest():
