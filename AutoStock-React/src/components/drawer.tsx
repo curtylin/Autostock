@@ -93,6 +93,7 @@ export default function TemporaryDrawer() {
                 align="center"
                 component="div"
                 style={{ color: "#059a76" }}
+                sx={{mb:5}}
             >
                 <Link
                 to="/app/home"
@@ -102,16 +103,7 @@ export default function TemporaryDrawer() {
                 AutoStock
                 </Link>
             </Typography>
-            <ListItem>
-                <Typography 
-                    textAlign="center"
-                    fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                    fontWeight="medium"
-                    align="right"
-                    component="div"
-                    >Algorithms</Typography>
-            </ListItem>
-
+          
             {pages.map((text, index)=> (
                 <ListItem>
                     <ListItemIcon>
