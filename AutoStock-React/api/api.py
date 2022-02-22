@@ -44,11 +44,14 @@ def backtest():
          def __init__(self):
             period1 = int(dataDict['Entry'][0]['period1'].split(" ")[1])
             period2 = int(dataDict['Entry'][0]['period2'].split(" ")[1])
-            sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
+            indi = int(dataDict['Entry'][0]['indicator'].split(" ")[1])
+            if indi is "SMA":
+                sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
+            if indi is "EMA":
+                sma1, sma2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
             #sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
             crossover = bt.ind.CrossOver(sma1, sma2)
-            self.signal_add(bt.SIGNAL_LONG, crossover)
-            
+            self.signal_add(bt.SIGNAL_LONG, crossover) 
             self.dataclose = self.datas[0].close
             
         def next(self):
