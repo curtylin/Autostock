@@ -558,7 +558,8 @@ def get_highchart_data():
         data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
 
         dates = data['Close'].index.tolist()
-        closes = data['Close'].tolist()
+        closes = list(map(lambda x: round(x,2), data['Close'].tolist()))
+
         unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
         unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
