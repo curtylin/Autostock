@@ -597,6 +597,18 @@ def get_stock_logo_driver(ticker):
         return jsonify(ticker_info.info['logo_url'])
     except Exception as e:
         return f"An Error Occurred: {e}"
+
+@app.route('/getInfo/<ticker>', methods=['GET'])
+def get_stock_info(ticker):
+    return get_stock_info_driver(ticker)
+def get_stock_info_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        return jsonify(ticker_info.info)
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+
 ## END yahoo finance information
 
 ## Begin Helper functions
