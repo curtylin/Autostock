@@ -608,6 +608,211 @@ def get_stock_info_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+@app.route('/getRecommendations/<ticker>')
+def get_stock_recommendations(ticker):
+    return get_stock_recommendations_driver(ticker)
+def get_stock_recommendations_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+
+        ticker_info.recommendations.to_json()
+
+        recommendationDF = ticker_info.recommendations
+        # We can add a From Grade if we wanted to
+        firm = recommendationDF['Firm'].tolist()
+        recommendation = recommendationDF['To Grade'].tolist()
+        recommendationResult = dict(zip(firm, recommendation))
+
+        return jsonify(recommendationResult)
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getStockSplits/<ticker>', methods=['GET'])
+def get_stock_splits(ticker):
+    return get_stock_splits_driver(ticker)
+def get_stock_splits_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.splits.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getStockCalendar/<ticker>', methods=['GET'])
+def get_stock_calendar(ticker):
+    return get_stock_calendar_driver(ticker)
+def get_stock_calendar_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.calendar.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getStockFinancials/<ticker>', methods=['GET'])
+def get_stock_financials(ticker):
+    return get_stock_financials_driver(ticker)
+def get_stock_financials_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.financials.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getStockActions/<ticker>', methods=['GET'])
+def get_stock_actions(ticker):
+    return get_stock_actions_driver(ticker)
+def get_stock_actions_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.actions.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getStockDividends/<ticker>', methods=['GET'])
+def get_stock_dividends(ticker):
+    return get_stock_dividends_driver(ticker)
+def get_stock_dividends_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.dividends.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getQuartFinancials/<ticker>', methods=['GET'])
+def get_quart_financials(ticker):
+    return get_quart_financials_driver(ticker)
+def get_quart_financials_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.quarterly_financials.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getQuartEarnings/<ticker>', methods=['GET'])
+def get_quart_earnings(ticker):
+    return get_quart_earnings_driver(ticker)
+def get_quart_earnings_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.quarterly_earnings.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getMajorHolders/<ticker>', methods=['GET'])
+def get_major_holders(ticker):
+    return get_major_holders_driver(ticker)
+def get_major_holders_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.major_holders.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getInstHolders/<ticker>', methods=['GET'])
+def get_institutional_holders(ticker):
+    return get_institutional_holders_driver(ticker)
+def get_institutional_holders_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.institutional_holders.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getBalanceSheet/<ticker>', methods=['GET'])
+def get_balance_sheet(ticker):
+    return get_balance_sheet_driver(ticker)
+def get_balance_sheet_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.balance_sheet.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getQuartBalanceSheet/<ticker>', methods=['GET'])
+def get_quartery_balance_sheet(ticker):
+    return get_quartery_balance_sheet_driver(ticker)
+def get_quartery_balance_sheet_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.quarterly_balance_sheet.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getCashflow/<ticker>', methods=['GET'])
+def get_cashflow(ticker):
+    return get_cashflow_driver(ticker)
+def get_cashflow_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.cashflow.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getQuartCashflow/<ticker>', methods=['GET'])
+def get_quart_cashflow(ticker):
+    return get_quart_cashflow_driver(ticker)
+def get_quart_cashflow_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.quarterly_cashflow.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getEarnings/<ticker>', methods=['GET'])
+def get_earnings(ticker):
+    return get_earnings_driver(ticker)
+def get_earnings_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.earnings.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getSustainability/<ticker>', methods=['GET'])
+def get_sustainability(ticker):
+    return get_sustainability_driver(ticker)
+def get_sustainability_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.sustainability.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getIsin/<ticker>', methods=['GET'])
+def get_isin(ticker):
+    return get_isin_driver(ticker)
+def get_isin_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return ticker_info.sustainability.to_json()
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/getOptions/<ticker>', methods=['GET'])
+def get_options(ticker):
+    return get_options_driver(ticker)
+def get_options_driver(ticker):
+    try:
+        ticker_info = yf.Ticker(ticker)
+        # Returns back in unix time
+        return jsonify(ticker_info.options)
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 ## END yahoo finance information
 
