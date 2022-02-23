@@ -44,25 +44,30 @@ def backtest():
          def __init__(self):
             period1 = int(dataDict['Entry'][0]['period1'].split(" ")[1])
             period2 = int(dataDict['Entry'][0]['period2'].split(" ")[1])
-            indi = int(dataDict['Entry'][0]['indicator'].split(" ")[1])
-            if indi is "SMA":
-                sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
-            if indi is "EMA":
-                sma1, sma2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
-                ema1 = sma1, ema2 = ema2
-                if dataDict["action"] == "buy":
-                    close_over_sma = self.data.close > sma1
-                    close_over_ema = self.data.close > ema1
+            indi = dataDict['Entry'][0]['indicator']
+            #indi = "EMA"
+            sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
+            
+            if indi == "EMA":
+                ema1, ema2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
+                if dataDict['Entry'][0]['action'] == "buy":
+                    close_over_sma1 = self.data.close > sma1
+                    close_over_ema1 = self.data.close > ema1
                     close_over_sma2 = self.data.close > sma2
                     close_over_ema2 = self.data.close > ema2
                     sma_ema_diff = sma1 - ema1
                     sma_ema2_diff = sma2 - ema2
-                    buy_sig1 = bt.And(close_over_sma, close_over_ema, sma_ema_diff > 0)
+                    buy_sig1 = bt.And(close_over_sma1, close_over_ema1, sma_ema_diff > 0)
                     buy_sig2 = bt.And(close_over_sma2, close_over_ema2, sma_ema_diff > 0)
+                
+                crossover = bt.ind.CrossOver(ema1, ema2)
+                self.signal_add(bt.SIGNAL_LONG, crossover) 
+                self.dataclose = self.datas[0].close
              #sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-            crossover = bt.ind.CrossOver(sma1, sma2)
-            self.signal_add(bt.SIGNAL_LONG, crossover) 
-            self.dataclose = self.datas[0].close
+            else:
+                crossover = bt.ind.CrossOver(sma1, sma2)
+                self.signal_add(bt.SIGNAL_LONG, crossover) 
+                self.dataclose = self.datas[0].close
             
         def next(self):
             if self.dataclose[0] < self.dataclose[-1]:
