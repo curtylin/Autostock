@@ -14,7 +14,7 @@ import Index from "./index"
 import EditAlgorithm from "../components/screens/EditAlgorithm"
 
 const App = () => (
-  <Router basepath="/app">
+  <Router basepath="/">
     <RouterPage path="/login" pageComponent={<Login />} />
     <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
 

@@ -13,7 +13,9 @@ import HighChart from "../highChart"
 import { Grid } from "@mui/material"
 import { getUser } from "../../services/auth"
 
-const jsConfetti = new JSConfetti()
+const isBrowser = typeof window !== "undefined"
+
+//const jsConfetti = new JSConfetti()
 const theme = {
   spacing: 8,
 }
@@ -21,7 +23,7 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
-const EditAlgorithm = ({location}: {location : any}) => {
+const EditAlgorithm = ({ location }: { location: any }) => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
@@ -96,29 +98,34 @@ const EditAlgorithm = ({location}: {location : any}) => {
     console.log(algorithm)
   }, [])
   const getAlgoDB = () => {
-    fetch(`http://localhost:5000/get-algorithm/${window.history.state.algorithm.id}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        setAlgoName(result.name)
-        setStocks(result.ticker)
-        setTimeInterval(result.timeInterval)
-        setIndicator1(result.indicator1)
-        setPeriod1(result.period1)
-        setIndicator2(result.comparator)
-        setPeriod2(result.period2)
-        setAction(result.action)
-        setRunningTime(result.runningTime)
-        setAlgorithm(result)
-      })
-  } 
+    if (isBrowser) {
+      fetch(
+        `http://localhost:5000/get-algorithm/${window.history.state.algorithm.id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        }
+      )
+        .then(res => {
+          return res.json()
+        })
+        .then(result => {
+          setAlgoName(result.name)
+          setStocks(result.ticker)
+          setTimeInterval(result.timeInterval)
+          setIndicator1(result.indicator1)
+          setPeriod1(result.period1)
+          setIndicator2(result.comparator)
+          setPeriod2(result.period2)
+          setAction(result.action)
+          setRunningTime(result.runningTime)
+          setAlgorithm(result)
+        })
+    }
+  }
 
   const handleSubmit = (event: any) => {
     let body = `{
@@ -141,24 +148,28 @@ const EditAlgorithm = ({location}: {location : any}) => {
       headers,
       body,
     }
-
-    fetch(`http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`, init)
-      .then(response => {
-        return response.json() // or .text() or .blob() ...
-      })
-      .then(text => {
-        // text is the response body
-        console.log(text)
-        jsConfetti.addConfetti({
-          emojis: ["😂", "📈", "👌", "💦", "🍑", "💯"],
-          // emojiSize: 100,
+    if (isBrowser) {
+      fetch(
+        `http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`,
+        init
+      )
+        .then(response => {
+          return response.json() // or .text() or .blob() ...
         })
-        jsConfetti.addConfetti()
-      })
-      .catch(e => {
-        // error in e.message
-      })
-    event.preventDefault()
+        .then(text => {
+          // text is the response body
+          console.log(text)
+          jsConfetti.addConfetti({
+            emojis: ["😂", "📈", "👌", "💦", "🍑", "💯"],
+            // emojiSize: 100,
+          })
+          jsConfetti.addConfetti()
+        })
+        .catch(e => {
+          // error in e.message
+        })
+      event.preventDefault()
+    }
   }
 
   const BackTestingPart = () => (
@@ -265,20 +276,28 @@ const EditAlgorithm = ({location}: {location : any}) => {
               KAMA - Kaufman Adaptive Moving Average
             </MenuItem>
             <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MAMA"}>MAMA - MESA Adaptive Moving Average</MenuItem>
+            <MenuItem value={"MAMA"}>
+              MAMA - MESA Adaptive Moving Average
+            </MenuItem>
             <MenuItem value={"MAVP"}>
               MAVP - Moving average with variable period
             </MenuItem>
-            <MenuItem value={"MIDPOINT"}>MIDPOINT - MidPoint over period</MenuItem>
+            <MenuItem value={"MIDPOINT"}>
+              MIDPOINT - MidPoint over period
+            </MenuItem>
             <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"SAREXT"}>
+              SAREXT - Parabolic SAR - Extended
+            </MenuItem>
             <MenuItem value={"T3"}>
               T3 - Triple Exponential Moving Average
             </MenuItem>
             <MenuItem value={"TEMA"}>
               TEMA - Triple Exponential Moving Average
             </MenuItem>
-            <MenuItem value={"TRIMA"}>TRIMA - Triangular Moving Average</MenuItem>
+            <MenuItem value={"TRIMA"}>
+              TRIMA - Triangular Moving Average
+            </MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
           {/* </Tooltip> */}
