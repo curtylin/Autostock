@@ -26,7 +26,7 @@ const QuickStartGuide = () => {
           })
           .then(result => {
             console.log(result)
-            if (result.username === null) {
+            if (result === null) {
                 setUsername("")
             } else {
                 setUsername(result.username)
