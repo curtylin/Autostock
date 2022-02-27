@@ -6,6 +6,7 @@ import { Grid } from "@mui/material"
 import CompCard from "../compCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
+import { Link } from "gatsby"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
@@ -75,6 +76,8 @@ const Home = () => {
         <h2>Featured Stock: {randChoice}</h2>
         <HighChart stock={randChoice} stockData={data}/>
       </div>
+      <br></br>
+      <h3>Lost? Take a look at our <Link to="/app/quickstartguide">Quick Start Guide</Link>!</h3>
     </Layout>
   )
 }
