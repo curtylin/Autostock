@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
-import { getUser, isLoggedIn } from "../../services/auth"
+import { getUser} from "../../services/auth"
 import Layout from "../layout"
 
 const QuickStartGuide = () => {
@@ -51,7 +51,7 @@ const QuickStartGuide = () => {
                 )}
             </h3>
             <br></br>
-            
+
             <h2>1. Create an algorithm</h2>
             <p>You can get started by <Link to="/app/createalgorithm">creating an algorithm.</Link></p>
             <br></br>
