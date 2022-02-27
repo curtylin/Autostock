@@ -40,9 +40,12 @@ const pages = [
 ]
 
 const settings = [
+  <Link to="/app/quickstartguide" style={{ color: "black", textDecoration: "none" }}>
+  Quick Start Guide
+  </Link>,
   "Profile",
   <Link to="/app/edituser" style={{ color: "black", textDecoration: "none" }}>
-    Account
+    Edit Account
   </Link>,
   <Link to="/app/login" style={{ color: "black", textDecoration: "none" }}>
     Login
