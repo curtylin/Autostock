@@ -1,0 +1,28 @@
+.landingPageRoot{
+    background-image: url(../../images/wance-paleri.jpg);
+    background-size:cover;
+    background-position:absolute;
+    height: 100vh;
+    display: flex;
+    padding-left: 100px;
+    align-items: center;
+}
+.appbar{
+    background: none;
+}
+.mainbox{
+    background: none;
+    align-content: center;
+
+}
+.btn_getStarted{
+    opacity: 75%;
+    background-color: white;
+    width: 200px;
+    height: 75px;
+}
+
+.btn_signUp{
+    opacity: 75%;
+    background-color: white;
+}

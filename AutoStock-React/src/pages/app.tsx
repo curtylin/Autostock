@@ -13,6 +13,7 @@ import PrivateRoute from "../components/privateRoute"
 import Index from "./index"
 import EditAlgorithm from "../components/screens/EditAlgorithm"
 import EditUser from "../components/screens/EditUser"
+import LandingPage from "../components/screens/landingPage"
 
 const App = () => (
   <Router basepath="/app">
@@ -28,6 +29,8 @@ const App = () => (
     <PrivateRoute path="/competitions" component={competitions} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/home" component={Home} />
+    <PrivateRoute path="/landing" component={LandingPage} />
+
 
     <RouterPage path="/" pageComponent={<Index />} />
   </Router>
