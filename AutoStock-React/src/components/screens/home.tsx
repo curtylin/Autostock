@@ -6,6 +6,8 @@ import { Grid } from "@mui/material"
 import CompCard from "../compCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
+import "./screens.css"
+import { Link } from "gatsby"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
@@ -53,7 +55,8 @@ const Home = () => {
       <Seo title="AutoStock" />
       <h2>News</h2>
       <News/>
-      <Grid container spacing={2}>
+      <h2>Featured Battles</h2>
+      <Grid container spacing={2} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {competitions.slice(0, 3).map((comp: any, index: number) => {
           let cardProps = {
             compLength: comp.duration,
@@ -67,12 +70,14 @@ const Home = () => {
             <Grid key={index} item xs={4}>
               <CompCard key={index} {...cardProps} />
             </Grid>
+            
           )
         })}
       </Grid>
+      <Link to="/app/competitions">View Battles</Link>
 
       <div id="chart" style={{marginTop: 50}} >
-        <h2>Featured Stock: {randChoice}</h2>
+        <h2>Featured Stock:<span className="stockTickName"> {randChoice}</span></h2>
         <HighChart stock={randChoice} stockData={data}/>
       </div>
     </Layout>
