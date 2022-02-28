@@ -153,7 +153,12 @@ def algo_read_public():
         algorithms : Return all public algorithms.
     """
     try:
-        algorithms = [doc.to_dict() for doc in algorithms_ref.where("public", "==", True).stream()]
+        algos = algorithms_ref.where('public', '==', True).stream()
+        algorithms = []
+        for algo in algos:
+            algoDict = algo.to_dict()
+            algoDict["id"] = algo.id
+            algorithms.append(algoDict)
         return jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -190,8 +195,10 @@ def algo_read(id):
     """
     try:
         # Check if ID was passed to URL query
-        algorithm = algorithms_ref.document(id).get()
-        return jsonify(algorithm.to_dict()), 200
+        algo = algorithms_ref.document(id).get()
+        algoDict = algo.to_dict()
+        algoDict["id"] = algo.id
+        return jsonify(algoDict), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
