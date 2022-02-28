@@ -18,6 +18,23 @@ interface HeaderProps {
   siteTitle: string
 }
 
+let login;
+if (isLoggedIn()) {
+  login = <Link to ="/"
+style={{ color: "black", textDecoration: "none" }}
+  onClick={event => {
+    event.preventDefault()
+    logout(() => navigate(`/app/login`))
+  }}
+>
+  Logout
+</Link>
+} else {
+  login =   <Link to="/app/login" style={{ color: "black", textDecoration: "none" }}>
+  Login
+</Link>
+}
+
 const pages = [
   <Link
     to="/app/createalgorithm"
@@ -47,19 +64,7 @@ const settings = [
   <Link to="/app/edituser" style={{ color: "black", textDecoration: "none" }}>
     Edit Account
   </Link>,
-  <Link to="/app/login" style={{ color: "black", textDecoration: "none" }}>
-    Login
-  </Link>,
-  <Link
-    to="/"
-    style={{ color: "black", textDecoration: "none" }}
-    onClick={event => {
-      event.preventDefault()
-      logout(() => navigate(`/app/login`))
-    }}
-  >
-    Logout
-  </Link>,
+  {login},
 ]
 
 const Header = ({ siteTitle }: HeaderProps) => {
