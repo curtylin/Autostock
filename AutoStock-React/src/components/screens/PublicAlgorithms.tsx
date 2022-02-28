@@ -1,13 +1,17 @@
+import { string } from "prop-types"
 import React, { useState, useEffect } from "react"
 
 import Layout from "../layout"
 import Seo from "../seo"
+import { Link } from "gatsby"
 
 const PublicAlgorithms = () => {
   const [algorithms, setAlgorithms] = useState([])
+  const [users, setUsers] = useState(new Map<string, string>())
   useEffect(() => {
     getAlgorithmsDB()
-    console.log(algorithms)
+    getUsersDB()
+    console.log(users)
   }, [])
 
   const getAlgorithmsDB = () => {
@@ -26,6 +30,27 @@ const PublicAlgorithms = () => {
         setAlgorithms(result)
       })
   }
+
+  const getUsersDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-user", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for(let i = 0; i < result.length; i++){
+          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        }
+      })
+  }
+
+
   return (
     <Layout>
       <Seo title="AutoStock" />
@@ -65,10 +90,10 @@ const PublicAlgorithms = () => {
                 return (
                   <tr className="mdc-data-table__row" key={key}>
                     <td className="mdc-data-table__cell" scope="row">
-                      {algorithm.name}
+                      <Link to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
                     </td>
                     <td className="mdc-data-table__cell">10</td>
-                    <td className="mdc-data-table__cell">{algorithm.userID}</td>
+                    <td className="mdc-data-table__cell">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
                   </tr>
                 )
               })}

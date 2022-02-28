@@ -85,6 +85,20 @@ def backtest():
 def test():
     return "this works"
 
+@app.route('/list-user', methods=['GET'])
+def user_list():
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        users = [doc.to_dict() for doc in users_ref.stream()]
+        return jsonify(users), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 
 ## Be sure to pass in the user id in the url
 @app.route('/get-user/<id>', methods=['GET'])
@@ -153,7 +167,12 @@ def algo_read_public():
         algorithms : Return all public algorithms.
     """
     try:
-        algorithms = [doc.to_dict() for doc in algorithms_ref.where("public", "==", True).stream()]
+        algos = algorithms_ref.where('public', '==', True).stream()
+        algorithms = []
+        for algo in algos:
+            algoDict = algo.to_dict()
+            algoDict["id"] = algo.id
+            algorithms.append(algoDict)
         return jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -190,8 +209,10 @@ def algo_read(id):
     """
     try:
         # Check if ID was passed to URL query
-        algorithm = algorithms_ref.document(id).get()
-        return jsonify(algorithm.to_dict()), 200
+        algo = algorithms_ref.document(id).get()
+        algoDict = algo.to_dict()
+        algoDict["id"] = algo.id
+        return jsonify(algoDict), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 

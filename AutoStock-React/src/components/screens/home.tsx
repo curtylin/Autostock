@@ -6,12 +6,15 @@ import { Grid } from "@mui/material"
 import CompCard from "../compCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
-import "./screens.css"
 import { Link } from "gatsby"
+import { getUser} from "../../services/auth"
+import "./screens.css"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
   const [data , setStockData] = useState([])
+  const [username, setUsername] = useState("")
+
 
   let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"];
   let randChoice = randTick[Math.floor(Math.random()*randTick.length)];
@@ -45,6 +48,27 @@ const Home = () => {
       .then(result => {
         setStockData(result)
       })
+
+      fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        })
+          .then(res => {
+            return res.json()
+          })
+          .then(result => {
+            console.log(result)
+            if (result === null) {
+                setUsername("")
+            } else {
+                setUsername(result.username)
+            }
+          })
+
+
   
     }, [])
 
@@ -53,7 +77,18 @@ const Home = () => {
   return (
     <Layout>
       <Seo title="AutoStock" />
-      <h2>News</h2>
+      <h3>
+        {username == "" ? (
+        <>
+        Hi! Looks like you have not <Link to="/app/edituser">set a username.</Link>
+        </>
+        ) : (
+        <>
+        Welcome back {username}!
+        </>
+        )}
+      </h3>
+      <h2>Today's Top Headlines:</h2>
       <News/>
       <h2>Featured Battles</h2>
       <Grid container spacing={2} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -80,6 +115,8 @@ const Home = () => {
         <h2>Featured Stock:<span className="stockTickName"> {randChoice}</span></h2>
         <HighChart stock={randChoice} stockData={data}/>
       </div>
+      <br></br>
+      <h3>Lost? Take a look at our <Link to="/app/quickstartguide">Quick Start Guide</Link>!</h3>
     </Layout>
   )
 }
