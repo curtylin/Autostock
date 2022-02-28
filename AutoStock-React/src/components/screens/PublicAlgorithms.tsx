@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 
 import Layout from "../layout"
 import Seo from "../seo"
+import { Link } from "gatsby"
 
 const PublicAlgorithms = () => {
   const [algorithms, setAlgorithms] = useState([])
@@ -65,7 +66,7 @@ const PublicAlgorithms = () => {
                 return (
                   <tr className="mdc-data-table__row" key={key}>
                     <td className="mdc-data-table__cell" scope="row">
-                      {algorithm.name}
+                      <Link to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
                     </td>
                     <td className="mdc-data-table__cell">10</td>
                     <td className="mdc-data-table__cell">{algorithm.userID}</td>
