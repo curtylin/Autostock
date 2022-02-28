@@ -1,6 +1,5 @@
 //template from https://mui.com/getting-started/templates/
 import React, { useState, useEffect } from "react"
-import { navigate } from "gatsby"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import FormControl from "@mui/material/FormControl"
@@ -45,58 +44,95 @@ const EditUser = () => {
 
   const handleSubmit = (event: any) => {
     console.log("Saving user")
-    let body = `{
-      "username": "${username}",
-      "userID": "${getUser().uid}"
-      }
-      `
-    const headers = new Headers()
-    headers.append("content-type", "application/json")
-    let init = {
-      method: "POST",
-      headers,
-      body,
-    }
-    fetch(`http://127.0.0.1:5000/create-user`, init)
-      .then(response => {
-        return response.json() // or .text() or .blob() ...
+    fetch(`http://localhost:5000/check-user/${username}` , {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
       })
-      .then(text => {
-        // text is the response body
-        console.log(text)
+      .then(result => {
+        if (result.dupe == true)
+        {
+          alert("Username already exists")
+        }
+        else
+        {
+          let body = `{
+            "username": "${username}",
+            "userID": "${getUser().uid}"
+            }
+            `
+          const headers = new Headers()
+          headers.append("content-type", "application/json")
+          let init = {
+            method: "POST",
+            headers,
+            body,
+          }
+          fetch(`http://127.0.0.1:5000/create-user`, init)
+            .then(response => {
+              return response.json() // or .text() or .blob() ...
+            })
+            .then(text => {
+              // text is the response body
+            })
+            .catch(e => {
+              // error in e.message
+            })
+          event.preventDefault()
+          setUsernameInDB(true)
+        }
       })
-      .catch(e => {
-        // error in e.message
-      })
-    event.preventDefault()
-    setUsernameInDB(true)
+
   }
 
   const handleUpdateUser = (event: any) => {
-    console.log("update user")
-    let body = `{
-      "username": "${username}"
-      }
-      `
-    const headers = new Headers()
-    headers.append("content-type", "application/json")
-    let init = {
-      method: "POST",
-      headers,
-      body,
-    }
-    fetch(`http://127.0.0.1:5000/update-user/${getUser().uid}`, init)
-      .then(response => {
-        return response.json() // or .text() or .blob() ...
+
+    fetch(`http://localhost:5000/check-user/${username}` , {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
       })
-      .then(text => {
-        // text is the response body
-        console.log(text)
+      .then(result => {
+        if (result.dupe == true)
+        {
+          alert("Username already exists")
+          return
+        } else{
+          let body = `{
+            "username": "${username}"
+            }
+            `
+          const headers = new Headers()
+          headers.append("content-type", "application/json")
+          let init = {
+            method: "POST",
+            headers,
+            body,
+          }
+          fetch(`http://127.0.0.1:5000/update-user/${getUser().uid}`, init)
+            .then(response => {
+              return response.json() // or .text() or .blob() ...
+            })
+            .then(text => {
+              // text is the response body
+              console.log(text)
+            })
+            .catch(e => {
+              // error in e.message
+            })
+          event.preventDefault()
+        }
       })
-      .catch(e => {
-        // error in e.message
-      })
-    event.preventDefault()
   }
 
   let submitButton;
