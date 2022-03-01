@@ -15,6 +15,7 @@ import '../components/complexCompCard.css';
 import { Link, navigate } from '@reach/router';
 import Button from "@mui/material/Button";
 
+const subheaders = ""
 const ComplexCompCard = ({
     compLength,
     compTicker,
@@ -29,7 +30,8 @@ const ComplexCompCard = ({
                 <CardHeader
                 className="compHeader"
                 title={compTicker}
-                subheader={`Competition Length: ${compLength} days`}
+
+                subheader={compLength.length > 2 ? compLength : `Competition Length: ${compLength} days`}
                 />
                 <CardMedia
                 component="img"

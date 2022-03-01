@@ -19,11 +19,12 @@ const Competitions = () => {
       })
   }, [])
 
+
   return (
     <Layout>
         <Seo title="AutoStock" />
         <h1>Competitions</h1>
-          <Grid container spacing={4} sx={{mb: 5}}>
+          <Grid direction={{xs:'column', lg:'row'}} justifyContent="center" alignContent={{xs:'center', md:'flex'}} container spacing={4} sx={{mb: 5}}>
               {competitions.slice(0, 6).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
