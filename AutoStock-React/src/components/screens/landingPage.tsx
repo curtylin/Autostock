@@ -47,23 +47,23 @@ export default function LandingPage() {
                 </Typography>
                 <div>
                     <Button className="btn_getStarted" variant="contained">
-                    <Typography
-                                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                                variant="h5"    
-                                fontSize="25px"  
-                                noWrap
-                                component="div"
-                                sx={{  display: { xs: "flex", md: "flex" } }}
-                                style={{ color: "white" }}
+                        <Typography
+                            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                            variant="h5"    
+                            fontSize="25px"  
+                            noWrap
+                            component="div"
+                            sx={{  display: { xs: "flex", md: "flex" } }}
+                            style={{ color: "white" }}
+                            >
+                            <Link
+                                to="/app/login"
+                                style={{ color: "white", textDecoration: "none", justifyContent:"center", textAlign:'center'}}
+                                className="autostock-link"
                                 >
-                                <Link
-                                    to="/app/login"
-                                    style={{ color: "black", textDecoration: "none", justifyContent:"center", textAlign:'center'}}
-                                    className="autostock-link"
-                                    >
-                                    Get Started
-                                </Link>
-                            </Typography>
+                                Get Started
+                            </Link>
+                        </Typography>
                     </Button>
                 </div>
             </div>
