@@ -45,9 +45,10 @@ def backtest():
             period1 = int(dataDict['Entry'][0]['period1'].split(" ")[1])
             period2 = int(dataDict['Entry'][0]['period2'].split(" ")[1])
             indi = dataDict['Entry'][0]['indicator']
-            #indi = "EMA"
+
             sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
             
+            indi1 = sma1, indi2 = sma2
             if indi == "EMA":
                 ema1, ema2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
                 if dataDict['Entry'][0]['action'] == "buy":
@@ -63,11 +64,13 @@ def backtest():
                 crossover = bt.ind.CrossOver(ema1, ema2)
                 self.signal_add(bt.SIGNAL_LONG, crossover) 
                 self.dataclose = self.datas[0].close
-             #sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-            else:
-                crossover = bt.ind.CrossOver(sma1, sma2)
-                self.signal_add(bt.SIGNAL_LONG, crossover) 
-                self.dataclose = self.datas[0].close
+            if indi == "BLB":
+                blb1, blb2 = bt.indicators.BollingerBands(period=period1), bt.indicators.BollingerBands(period=period2)
+                indi1 = blb1, indi2 = blb2
+
+            crossover = bt.ind.CrossOver(indi1, indi2)
+            self.signal_add(bt.SIGNAL_LONG, crossover) 
+            self.dataclose = self.datas[0].close
             
         def next(self):
             if self.dataclose[0] < self.dataclose[-1]:
