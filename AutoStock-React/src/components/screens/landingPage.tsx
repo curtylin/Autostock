@@ -1,16 +1,19 @@
 import * as React from "react"
 import { useEffect, useState } from "react"
-import Layout from "../layout_landing"
+import LayoutLanding from "../layout_landing"
+// import Layout from "../layout"
+
 import Seo from "../seo"
 import { AppBar, Box, Collapse, Grid, Toolbar, Typography, Button } from "@mui/material"
-import "./screens.css"
+import "./landingPage.css"
 import { Link } from "gatsby"
+import { background } from "@chakra-ui/react"
 
 
 
 export default function LandingPage() {
     return (
-        <Layout>
+        <LayoutLanding>
         <div className="landingPageRoot">
             <Seo title="Home" />
             <div>
@@ -66,7 +69,7 @@ export default function LandingPage() {
                 </div>
             </div>
         </div>
-        </Layout>
+        </LayoutLanding>
             
 
   );
