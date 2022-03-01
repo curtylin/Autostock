@@ -113,28 +113,28 @@ const MyAlgorithm = () => {
             <thead>
               <tr className="mdc-data-table__header-row">
                 <th
-                  className="mdc-data-table__header-cell"
+                  className="table_header"
                   role="columnheader"
                   scope="col"
                 >
                   Algorithm Name
                 </th>
                 <th
-                  className="mdc-data-table__header-cell mdc-data-table__header-cell--numeric"
+                  className="table_header"
                   role="columnheader"
                   scope="col"
                 >
                   Day Gain (%)
                 </th>
                 <th
-                  className="mdc-data-table__header-cell mdc-data-table__header-cell--numeric"
+                  className="table_headerc"
                   role="columnheader"
                   scope="col"
                 >
                   {" "}
                 </th>
                 <th
-                  className="mdc-data-table__header-cell"
+                  className="table_header"
                   role="columnheader"
                   scope="col"
                 >
@@ -155,14 +155,14 @@ const MyAlgorithm = () => {
                   </Button>
                 }
                 return (
-                  <tr className="mdc-data-table__row" key={key}>
-                    <td className="mdc-data-table__cell" scope="row">
+                  <tr className="table_row" key={key}>
+                    <td className="table_data" scope="row">
                       {algorithm.name}
                     </td>
-                    <td className="mdc-data-table__cell mdc-data-table__cell--numeric">
+                    <td className="table_data">
                       10%
                     </td>
-                    <td className="mdc-data-table__cell">
+                    <td className="table_data">
                       <Button className="mdc-button mdc-button--raised"
                         id={algorithm.id}
                         onClick={event => {navigate('/app/editalgorithm', 
@@ -171,7 +171,7 @@ const MyAlgorithm = () => {
                         }
                           )
                           }}>
-                        <span id={algorithm.id} className="mdc-button__label">Edit</span>
+                        <span id={algorithm.id} className="mdc-button__label">Edit</span> }
                       </Button>
                       {sharingButton}
                       <Button
