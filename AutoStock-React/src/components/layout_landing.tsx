@@ -9,13 +9,13 @@
  import { useStaticQuery, graphql } from "gatsby"
  
  import Header from "./header"
- import "./layout.css"
+ import "./layout_landing.css"
  
  interface LayoutProps {
    children: React.ReactNode
  }
  
- const Layout = ({ children }: LayoutProps) => {
+ const LayoutLanding = ({ children }: LayoutProps) => {
  
    const siteTitle: string = "Autostock"
    
@@ -27,7 +27,7 @@
          style={{
          }}
        >
-         <main className="layout_body">{children}</main>
+         <main >{children}</main>
          <footer
            style={{
              marginTop: `2rem`,
@@ -42,5 +42,5 @@
    )
  }
  
- export default Layout
+ export default LayoutLanding
  

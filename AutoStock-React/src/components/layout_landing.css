@@ -3,14 +3,13 @@ html {
     -webkit-text-size-adjust: 100%;
     font: 112.5%/1.45em georgia, serif, sans-serif;
     box-sizing: border-box;
-
   }
-.layout_body{
-  background-image: url(../images/maxim-hopman.jpg);
-  padding:0;
-  margin:0;
-  background-color: black;
-}
+  .layout_body{
+    background-image: url(../images/wance-paleri.jpg);
+    background-size: cover; 
+    background-position: center;
+    overflow: hidden;
+  }
 
   body {
     margin: 0;
@@ -25,7 +24,6 @@ html {
     -ms-font-feature-settings: "kern", "liga", "clig", "calt";
     -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
     font-feature-settings: "kern", "liga", "clig", "calt";
-    background-color: black;
   }
   article,
   aside,

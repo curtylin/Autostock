@@ -90,7 +90,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
   
   return (
-    <AppBar sx={{ mb: 2 }} style={{ background: "#059a76" }} position="sticky">
+    <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
