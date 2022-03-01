@@ -21,6 +21,7 @@ import {
   signInWithPopup,
 } from "firebase/auth"
 import { initializeApp } from "firebase/app"
+import GoogleIcon from '@mui/icons-material/Google'
 
 function Copyright(props: any) {
   return (
@@ -181,10 +182,13 @@ export default function SignInSide() {
               Sign in
             </Typography>
             <Button
+              startIcon={<GoogleIcon />}
               onClick={() => {
                 googleSignIn()
               }}
             >
+              {/* <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google logo" /> */}
+
               Sign in with Google
             </Button>
             <Box
