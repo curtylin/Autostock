@@ -27,7 +27,6 @@ export default function LandingPage() {
                             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                             fontWeight="Bold"
                             variant="h2"
-                            noWrap
                             component="div"
                             sx={{ display:"flex", textAlign:'center'}}
                             style={{ color: "white" }}
@@ -39,7 +38,7 @@ export default function LandingPage() {
                 <Typography
                     fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                     fontSize="30px"
-                    noWrap
+                    
                     component="div"
                     sx={{ display:"flex", mb:10}}
                     style={{ color: "white" }}

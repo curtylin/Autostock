@@ -7,9 +7,11 @@ html {
   .layout_body{
     background-image: url(../images/wance-paleri.jpg);
     background-size: cover; 
-    background-position: center;
     overflow: hidden;
+    background-repeat: no-repeat;
   }
+.main_box{
+}
 
   body {
     margin: 0;

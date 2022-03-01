@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem"
 import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
+import Logo from "../images/AutostockLogo_black.jpg"
 
 interface HeaderProps {
   siteTitle: string
@@ -97,6 +98,15 @@ const Header = ({ siteTitle }: HeaderProps) => {
           <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
+          {/* <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              marginBottom:0
+            }}>
+            <img onClick={event => {navigate('/app/home')}} style={{marginBottom: 0}}width={50} src={Logo} alt="logo"/>
+          </div> */}
           <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"
@@ -106,6 +116,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             sx={{ mr: 5, display: { md: "flex" } }}
             style={{ color: "black" }}
           >
+            
             <Link
               to="/app/home"
               style={{ color: "black", textDecoration: "none" }}
