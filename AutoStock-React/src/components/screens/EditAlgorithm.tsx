@@ -14,8 +14,8 @@ import { Grid } from "@mui/material"
 import { getUser } from "../../services/auth"
 
 const isBrowser = typeof window !== "undefined"
+let jsConfetti: any
 
-//const jsConfetti = new JSConfetti()
 const theme = {
   spacing: 8,
 }
@@ -37,8 +37,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const show = () => setShowBT(true)
 
   useEffect(() => {
-    console.log(timeInterval)
-  })
+    jsConfetti = new JSConfetti()
+  }, [])
 
   const loadStocks = () => {
     fetch("https://api.iextrading.com/1.0/ref-data/symbols")
@@ -47,6 +47,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         setStocks(data)
       })
   }
+
   const handleBacktest = (event: any) => {
     let currDate = new Date()
     //create json object
@@ -97,6 +98,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     getAlgoDB()
     console.log(algorithm)
   }, [])
+
   const getAlgoDB = () => {
     if (isBrowser) {
       fetch(

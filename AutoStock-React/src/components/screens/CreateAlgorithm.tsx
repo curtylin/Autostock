@@ -8,12 +8,13 @@ import Select, { SelectChangeEvent } from "@mui/material/Select"
 import Tooltip from "@mui/material/Tooltip"
 import Layout from "../layout"
 import Seo from "../seo"
-//import JSConfetti from "js-confetti"
+import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
 import { Grid } from "@mui/material"
 import { getUser } from "../../services/auth"
 
-//const jsConfetti = new JSConfetti()
+let jsConfetti: any
+
 const theme = {
   spacing: 8,
 }
@@ -35,7 +36,7 @@ const CreateAlgorithm = () => {
   const show = () => setShowBT(true)
 
   useEffect(() => {
-    console.log(timeInterval)
+    jsConfetti = new JSConfetti()
   })
 
   const loadStocks = () => {
