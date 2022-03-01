@@ -48,14 +48,13 @@ def backtest():
 
             sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
            
-            indi1 = sma1
-            indi2 = sma2
+            indi1, indi2 = sma1, sma2
             if indi == "EMA" or  indi == "DEMA" or indi == "T3" :
                 ema1, ema2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
                 if indi == "DEMA" or indi == "T3":
-                    ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period = period1)), (2.0 - ema2 - bt.ind.EMA(period =period2))
+                    ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period=period1)), (2.0 - ema2 - bt.ind.EMA(period=period2))
                     if indi == "T3":
-                        ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period = period1)), (2.0 - ema2 - bt.ind.EMA(period =period2))
+                        ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period=period1)), (2.0 - ema2 - bt.ind.EMA(period=period2))
 
                 if dataDict['Entry'][0]['action'] == "buy":
                     close_over_sma1 = self.data.close > sma1
@@ -68,14 +67,14 @@ def backtest():
                     buy_sig2 = bt.And(close_over_sma2, close_over_ema2, sma_ema_diff > 0)
                 
                 indi1, indi2 = ema1, ema2
-
+            
             if indi == "BBANDS":
                 indi1, indi2 = bt.indicators.BollingerBands(period=period1), bt.indicators.BollingerBands(period=period2)
             if indi == "SAR":
                 indi1, indi2 = bt.indicators.ParabolicSAR(period=period1), bt.indicators.ParabolicSAR(period=period2)
             
-
             
+            #shouldnt modify indi1, indi2 MA and SMA 
             crossover = bt.ind.CrossOver(indi1, indi2)
             self.signal_add(bt.SIGNAL_LONG, crossover) 
             self.dataclose = self.datas[0].close
