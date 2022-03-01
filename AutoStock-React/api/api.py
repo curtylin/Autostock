@@ -136,6 +136,25 @@ def user_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+## Be sure to pass in the user id in the url
+@app.route('/check-user/<name>', methods=['GET'])
+def user_dupe_check(name):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        user = users_ref.where('username', '==', name).stream()
+        users = [doc.to_dict() for doc in user]
+        if users == []:
+            return jsonify({"dupe": False}), 200
+        else:
+            return jsonify({"dupe": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-user/<id>', methods=['POST', 'PUT'])
 def user_update(id):
