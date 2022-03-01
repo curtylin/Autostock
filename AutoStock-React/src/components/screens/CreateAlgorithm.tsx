@@ -183,6 +183,7 @@ const CreateAlgorithm = () => {
           <Tooltip title="Give it a name!" placement="left" arrow>
             <TextField
               required
+              value={algoName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
@@ -200,6 +201,7 @@ const CreateAlgorithm = () => {
               <TextField
                 onBlur={handleBlur}
                 required
+                value={stock}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
                 }}
