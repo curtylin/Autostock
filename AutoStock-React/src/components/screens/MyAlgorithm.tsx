@@ -126,13 +126,7 @@ const MyAlgorithm = () => {
                 >
                   Day Gain (%)
                 </th>
-                <th
-                  className="table_headerc"
-                  role="columnheader"
-                  scope="col"
-                >
-                  {" "}
-                </th>
+
                 <th
                   className="table_header"
                   role="columnheader"

@@ -1,11 +1,14 @@
 .landingPageRoot{
-    background-image: url(../../images/wance-paleri.jpg);
-    background-size:cover;
-    background-position:absolute;
-    height: 100vh;
-    display: flex;
+    /* background-image: url(../../images/wance-paleri.jpg); */
+    margin-top: 200px;
     padding-left: 100px;
     align-items: center;
+}
+body{
+    background-image: url(../../images/wance-paleri.jpg);
+    /* background-position: center;
+    /* background-repeat: no-repeat; */
+    background-size: cover;
 }
 .appbar{
     background: none;
@@ -20,11 +23,15 @@
     background-color: white;
     width: 200px;
     height: 75px;
+    text-transform: none;
+
 }
 
 .btn_signUp{
     opacity: 75%;
     background-color: white;
+    text-transform: none;
+
 }
 .stockTickName{
     color:#059a76;
