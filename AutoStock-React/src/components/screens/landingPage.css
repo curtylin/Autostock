@@ -1,4 +1,14 @@
+.landingPageRoot{
+    padding-top: 200px;
+    padding-bottom: 200px;
+    margin-top:0px;
+    /* background-image: url(../../images/wance-paleri.jpg);
+    background-size: cover; */
+    height:100vh;
+    padding-left: 100px;
+    align-items: center;   
 
+}
 
 .appbar{
     background: none;
