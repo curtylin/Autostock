@@ -159,7 +159,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Competitions
               </Typography>
             </Button>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
+            <Button onClick={()=>{navigate("/app/leaderboards")}} sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
