@@ -2,13 +2,14 @@ import * as React from "react"
 import { useEffect, useState } from "react"
 import Layout from "../layout"
 import Seo from "../seo"
-import { Grid } from "@mui/material"
+import { Box, Button, Grid, Typography } from "@mui/material"
 import CompCard from "../compCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
 import { Link } from "gatsby"
 import { getUser} from "../../services/auth"
 import "./screens.css"
+import { KeyboardArrowRight } from "@mui/icons-material"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
@@ -109,7 +110,22 @@ const Home = () => {
           )
         })}
       </Grid>
-      <Link to="/app/competitions">View Battles</Link>
+      <Button  sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }} className="btn_viewBattles" variant="contained">
+        <Typography
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            noWrap
+            component="div"
+            sx={{  display: { xs: "flex", md: "none" } }}
+            >
+            <Link
+                to="/app/competitions"
+                style={{ color: "white", textDecoration: "none", justifyContent:"center", textAlign:'center'}}
+                className="autostock-link"
+                >
+                View Battles
+            </Link>
+        </Typography>
+      </Button>
 
       <div id="chart" style={{marginTop: 50}} >
         <h2>Featured Stock:<span className="stockTickName"> {randChoice}</span></h2>
