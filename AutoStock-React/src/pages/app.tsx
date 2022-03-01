@@ -15,6 +15,7 @@ import QuickStartGuide from "../components/screens/QuickstartGuide"
 import EditAlgorithm from "../components/screens/EditAlgorithm"
 import EditUser from "../components/screens/EditUser"
 import LandingPage from "../components/screens/landingPage"
+import Leaderboards from "../components/screens/leaderboards"
 
 const App = () => (
   <Router basepath="/app">
@@ -22,6 +23,7 @@ const App = () => (
     <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
+    <PrivateRoute path="/leaderboards" component={Leaderboards} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
     <PrivateRoute path="/editalgorithm" component={EditAlgorithm} />
     <PrivateRoute path="/edituser" component={EditUser} />
@@ -32,6 +34,7 @@ const App = () => (
     <PrivateRoute path="/quickstartguide" component={QuickStartGuide} />
     <PrivateRoute path="/home" component={Home} />
     <PrivateRoute path="/landing" component={LandingPage} />
+  
 
 
     <RouterPage path="/" pageComponent={<Index />} />
