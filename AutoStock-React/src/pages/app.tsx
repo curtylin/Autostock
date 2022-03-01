@@ -21,6 +21,8 @@ const App = () => (
   <Router basepath="/app">
     <RouterPage path="/login" pageComponent={<Login />} />
     <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
+    <RouterPage path="/landing" pageComponent={<LandingPage/>} />
+
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/leaderboards" component={Leaderboards} />
@@ -33,7 +35,6 @@ const App = () => (
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/quickstartguide" component={QuickStartGuide} />
     <PrivateRoute path="/home" component={Home} />
-    <PrivateRoute path="/landing" component={LandingPage} />
   
 
 
