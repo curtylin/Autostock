@@ -27,7 +27,7 @@ const ComplexCompCard = ({
         <Card className="compCard" sx={{ maxWidth: 500 }}>
             <CardActionArea> {/*CHANGE THIS TO CORRESPONDING COMP*/}
                 <CardHeader
-                
+                className="compHeader"
                 title={compTicker}
                 subheader={`Competition Length: ${compLength} days`}
                 />
@@ -39,7 +39,14 @@ const ComplexCompCard = ({
                 alt="Paella dish"
                 />
                 <CardContent>
-                <Typography variant="body2" color="text.secondary">
+                <Typography sx={{
+                    display: '-webkit-box',
+                    overflow: 'hidden',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 2,
+                    }}
+                    variant="body2"
+                    color="text.secondary">
                     {description}
                 </Typography>
                 <Button className="mdc-button mdc-button--raised"
