@@ -22,6 +22,8 @@ import {
 } from "firebase/auth"
 import { initializeApp } from "firebase/app"
 import GoogleIcon from '@mui/icons-material/Google'
+import logo from '../../images/AutostockLogo_greenandblack.jpg'
+import { Center } from "@chakra-ui/react"
 
 function Copyright(props: any) {
   return (
@@ -163,7 +165,19 @@ export default function SignInSide() {
             >
               <h6 style={{ color: "#FFFFFF" }}>An Algo-Trading Platform.</h6>
             </div>
+            <div 
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center",
+                width: "100%",
+              }}>
+              <img width={500} src={logo} alt="logo"/>
+
+            </div>
+
           </Box>
+
         </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
