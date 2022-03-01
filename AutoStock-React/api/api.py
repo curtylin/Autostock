@@ -50,11 +50,12 @@ def backtest():
            
             indi1 = sma1
             indi2 = sma2
-            if indi == "EMA" or "DEMA":
+            if indi == "EMA" or  indi == "DEMA" or indi == "T3" :
                 ema1, ema2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
-                if indi == "DEMA":
-                    print("here")
+                if indi == "DEMA" or indi == "T3":
                     ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period = period1)), (2.0 - ema2 - bt.ind.EMA(period =period2))
+                    if indi == "T3":
+                        ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period = period1)), (2.0 - ema2 - bt.ind.EMA(period =period2))
 
                 if dataDict['Entry'][0]['action'] == "buy":
                     close_over_sma1 = self.data.close > sma1
@@ -70,6 +71,10 @@ def backtest():
 
             if indi == "BBANDS":
                 indi1, indi2 = bt.indicators.BollingerBands(period=period1), bt.indicators.BollingerBands(period=period2)
+            if indi == "SAR":
+                indi1, indi2 = bt.indicators.ParabolicSAR(period=period1), bt.indicators.ParabolicSAR(period=period2)
+            
+
             
             crossover = bt.ind.CrossOver(indi1, indi2)
             self.signal_add(bt.SIGNAL_LONG, crossover) 
