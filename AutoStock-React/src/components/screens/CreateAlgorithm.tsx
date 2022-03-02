@@ -26,7 +26,7 @@ const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
-  const [indicator1, setIndicator1] = useState("")
+  const [indicator1, setIndicator1] = useState("SMA")
   const [period1, setPeriod1] = useState("")
   const [indicator2, setIndicator2] = useState("")
   const [period2, setPeriod2] = useState("")
@@ -252,9 +252,6 @@ const CreateAlgorithm = () => {
               setIndicator1(e.target.value)
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
             <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
             <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
