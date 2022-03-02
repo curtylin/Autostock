@@ -45,6 +45,9 @@ const HighChart = ({
         type: "line",
         data: stockData,
         yAxis: 0,
+        tooltip:{
+          valuePrefix: '$'
+        }
       },
       {
         type: "column",
