@@ -67,17 +67,36 @@ def backtest():
                     buy_sig2 = bt.And(close_over_sma2, close_over_ema2, sma_ema_diff > 0)
                 
                 indi1, indi2 = ema1, ema2
-            
+
             if indi == "BBANDS":
                 indi1, indi2 = bt.indicators.BollingerBands(period=period1), bt.indicators.BollingerBands(period=period2)
             if indi == "SAR":
                 indi1, indi2 = bt.indicators.ParabolicSAR(period=period1), bt.indicators.ParabolicSAR(period=period2)
+
+            if indi == "KAMA":
+                indi1, indi2 = bt.indicators.KAMA(period=period1), bt.indicators.KAMA(period=period2)
+                
+            # if indi == "DEMA":
+            #     indi1, indi2 = bt.indicators.DEMA(period=period1), bt.indicators.DEMA(period=period2)
+            #Possible replacement code for DEMA
+
+            if indi == "TEMA":
+                 indi1, indi2 = bt.indicators.TEMA(period=period1), bt.indicators.TEMA(period=period2)
+            if indi == "WMA":
+                 indi1, indi2 = bt.ind.WMA(period=period1), bt.indicators.WMA(period=period2)
+            # if indi == "MAMA":
+            #      indi1, indi2 = bt.indicators.TEMA(period=period1), bt.indicators.TEMA(period=period2)
+                 
+            # if indi == "HT_TRENDLINE":
+            #     indi1, indi2 = bt.indicators.HT_Trendline(period=period1), bt.indicators.HT_Trendline(period=period2)
             
-            
+
             #shouldnt modify indi1, indi2 MA and SMA 
             crossover = bt.ind.CrossOver(indi1, indi2)
             self.signal_add(bt.SIGNAL_LONG, crossover) 
             self.dataclose = self.datas[0].close
+
+
             
         def next(self):
             if self.dataclose[0] < self.dataclose[-1]:
