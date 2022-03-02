@@ -7,7 +7,6 @@ import Seo from "../seo"
 import { AppBar, Box, Collapse, Grid, Toolbar, Typography, Button } from "@mui/material"
 import "./landingPage.css"
 import { Link } from "gatsby"
-import { background } from "@chakra-ui/react"
 
 
 
