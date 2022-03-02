@@ -98,7 +98,7 @@ const Home = () => {
             compLength: comp.duration,
             compTicker: comp.name,
             compStartingVal: `Starting Balance: ${comp.startingBalance}`,
-            compDeadline: comp.closeDate,
+            compDeadline: comp.endDate,
             description: comp.description,
             id: comp.id,
           }
