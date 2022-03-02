@@ -24,6 +24,7 @@ db = firestore.client()
 algorithms_ref = db.collection('algorithms')
 competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
+users_ref = db.collection('users')
 
 
 @app.errorhandler(404)
@@ -178,6 +179,82 @@ def backtest():
 def test():
     return "this works"
 
+@app.route('/list-user', methods=['GET'])
+def user_list():
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        users = [doc.to_dict() for doc in users_ref.stream()]
+        return jsonify(users), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
+## Be sure to pass in the user id in the url
+@app.route('/get-user/<id>', methods=['GET'])
+def user_read(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        user = users_ref.document(id).get()
+        return jsonify(user.to_dict()), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Be sure to pass in the user id in the url
+@app.route('/check-user/<name>', methods=['GET'])
+def user_dupe_check(name):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        algorithm : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        user = users_ref.where('username', '==', name).stream()
+        users = [doc.to_dict() for doc in user]
+        if users == []:
+            return jsonify({"dupe": False}), 200
+        else:
+            return jsonify({"dupe": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
+@app.route('/update-user/<id>', methods=['POST', 'PUT'])
+def user_update(id):
+    """
+        update() : Update document in Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post today'}
+    """
+    try:
+        users_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+@app.route('/create-user', methods=['POST'])
+def user_create():
+    """
+        update() : Update document in Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post today'}
+    """
+    try:
+        users_ref.document(request.json["userID"]).set(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
@@ -203,7 +280,12 @@ def algo_read_public():
         algorithms : Return all public algorithms.
     """
     try:
-        algorithms = [doc.to_dict() for doc in algorithms_ref.where("public", "==", True).stream()]
+        algos = algorithms_ref.where('public', '==', True).stream()
+        algorithms = []
+        for algo in algos:
+            algoDict = algo.to_dict()
+            algoDict["id"] = algo.id
+            algorithms.append(algoDict)
         return jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occured: {e}"
@@ -240,8 +322,10 @@ def algo_read(id):
     """
     try:
         # Check if ID was passed to URL query
-        algorithm = algorithms_ref.document(id).get()
-        return jsonify(algorithm.to_dict()), 200
+        algo = algorithms_ref.document(id).get()
+        algoDict = algo.to_dict()
+        algoDict["id"] = algo.id
+        return jsonify(algoDict), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
@@ -259,20 +343,6 @@ def algo_update(id):
     except Exception as e:
         return f"An Error Occured: {e}"
 
-## Might be legacy code.. will probably delete since deleting through URL is probably easier.
-@app.route('/delete-algorithm', methods=['GET', 'DELETE'])
-def algo_delete():
-    """
-        delete() : Delete a document from Firestore collection.
-    """
-    try:
-        # Check for ID in URL query
-        algorithm_id = request.args.get('id')
-        algorithms_ref.document(algorithm_id).delete()
-        return jsonify({"success": True}), 200
-    except Exception as e:
-        return f"An Error Occured: {e}"
-
 ## Be sure to pass in the algorithm id in the url
 @app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
 def algo_delete_id(id):
@@ -283,9 +353,25 @@ def algo_delete_id(id):
         # Check for ID in URL query
         algorithm_id = id
         algorithms_ref.document(algorithm_id).delete()
+
+        if not comp_unregister_competition_algorithm(id):
+            raise Exception("Could not unregister algorithm from competition")
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+def comp_unregister_competition_algorithm(algoID):
+    """
+        delete() : Delete a document from Firestore collection.
+    """
+    try:
+        matchingCompsWithAlgo = competitors_ref.where("algorithm", "==", algoID).stream()       
+        for matchingComp in matchingCompsWithAlgo:
+            competitors_ref.document(matchingComp.id).delete()
+        return True
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
 ## End algo CRUD Block
 ####################################################################################################################
 ## Start CRUD compeitions block
@@ -336,17 +422,39 @@ def comp_read_user_id(id):
         # Check if ID was passed to URL query
         # id = request.args.get('id')
         userID = id
-        competitions = [doc.to_dict() for doc in competitors_ref.where("competitor", "==", userID).stream()]
-        # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
+        comps = competitors_ref.where("userID", "==", userID).stream()
+        competitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            competitions.append(compDict)
         return jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+# ## gives the list of competitions that the user has entered themselves
+# @app.route('/get-competition-user/<id>', methods=['GET'])
+# def competition_read_user_id(id):
+#     """
+#         id : is the user id. Gets all algorithms by this user id.
+#         read() : Fetches documents from Firestore collection as JSON.
+#         competitions : Return document(s) that matches query userID.
+#     """
+#     try:
+#         # Check if ID was passed to URL query
+#         # id = request.args.get('id')
+#         userID = id
+#         competitions = [doc.to_dict() for doc in competitors_ref.where("userID", "==", userID).stream()]
+#         # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
+#         return jsonify(competitions), 200
+#     except Exception as e:
+#         return f"An Error Occured: {e}"
 
 ## Be sure to pass in the competition id in the url
 @app.route('/get-competition/<id>', methods=['GET'])
 def comp_read(id):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        id : is the competition id. Gets all algorithms by this competition id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document that matches query ID.
     """
