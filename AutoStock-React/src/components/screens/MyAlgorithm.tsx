@@ -6,15 +6,25 @@ import Seo from "../seo"
 
 import { getUser } from "../../services/auth"
 import { navigate } from "gatsby"
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const MyAlgorithm = () => {
+  const [open, setOpen] = React.useState(false);
+  const [openUnshared, setOpenUnshared] = React.useState(false);
+
+  const openMsg = () => setOpen(true)
+  const openMsgUnshared = () => setOpenUnshared(true)
+  
   const handleShare = (event: any) => {
     let body = `{
         "public": true
         }
         `
     const headers = new Headers()
+    openMsg()
     headers.append("content-type", "application/json")
     let init = {
       method: "PUT",
@@ -38,6 +48,7 @@ const MyAlgorithm = () => {
           }
           `
       const headers = new Headers()
+      openMsgUnshared()
       headers.append("content-type", "application/json")
       let init = {
         method: "PUT",
@@ -101,6 +112,27 @@ const MyAlgorithm = () => {
         setAlgorithms(result)
       })
   }
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+    setOpenUnshared(false);
+  };
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Layout>
@@ -183,6 +215,21 @@ const MyAlgorithm = () => {
           </table>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Shared your algorithm!"
+        action={action}
+      />
+      <Snackbar
+        open={openUnshared}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Unshared your algorithm!"
+        action={action}
+      />
+
     </Layout>
   )
 }
