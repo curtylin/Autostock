@@ -92,7 +92,7 @@ const PublicAlgorithms = () => {
                     <td className="mdc-data-table__cell" scope="row">
                       <Link to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
                     </td>
-                    <td className="mdc-data-table__cell">10</td>
+                    <td className="mdc-data-table__cell">{Math.floor(Math.random() * 20)-10}%</td>
                     <td className="mdc-data-table__cell">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
                   </tr>
                 )

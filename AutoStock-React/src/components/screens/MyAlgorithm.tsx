@@ -160,7 +160,7 @@ const MyAlgorithm = () => {
                       {algorithm.name}
                     </td>
                     <td className="mdc-data-table__cell mdc-data-table__cell--numeric">
-                      10%
+                      {Math.floor(Math.random() * 20)-10}%
                     </td>
                     <td className="mdc-data-table__cell">
                       <Button className="mdc-button mdc-button--raised"
