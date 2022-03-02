@@ -13,7 +13,8 @@ import HighChart from "../highChart"
 import { Grid } from "@mui/material"
 import { getUser } from "../../services/auth"
 
-const jsConfetti = new JSConfetti()
+let jsConfetti: any
+
 const theme = {
   spacing: 8,
 }
@@ -35,7 +36,7 @@ const CreateAlgorithm = () => {
   const show = () => setShowBT(true)  
   const [data , setStockData] = useState([])
   useEffect(() => {
-    console.log(timeInterval)
+    jsConfetti = new JSConfetti()
   })
 
   const loadStocks = () => {
@@ -256,33 +257,26 @@ const CreateAlgorithm = () => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={"SMA"}>SMA - Simple Moving Average </MenuItem>
+            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
+            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
             <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
             <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={"DEMA"}>
-              DEMA - Double Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"HT_TRENDLINE"}>
-              HT_TRENDLINE - Hilbert Transform - Instantaneous Trendline
-            </MenuItem>
-            <MenuItem value={"KAMA"}>
-              KAMA - Kaufman Adaptive Moving Average
-            </MenuItem>
+            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
             <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MAMA"}>MAMA - MESA Adaptive Moving Average</MenuItem>
-            <MenuItem value={"MAVP"}>
-              MAVP - Moving average with variable period
-            </MenuItem>
-            <MenuItem value={"MIDPOINT"}>MIDPOINT - MidPoint over period</MenuItem>
+            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
+            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
             <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
             <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
-            <MenuItem value={"T3"}>
-              T3 - Triple Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"TEMA"}>
-              TEMA - Triple Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"TRIMA"}>TRIMA - Triangular Moving Average</MenuItem>
+            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
+            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
           {/* </Tooltip> */}
