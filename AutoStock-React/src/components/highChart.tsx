@@ -1,25 +1,20 @@
 import * as React from "react"
 import Highcharts from "highcharts/highstock"
 import HighchartsReact from "highcharts-react-official"
-import indicatorsAll from "highcharts/indicators/indicators-all";
-import annotationsAdvanced from "highcharts/modules/annotations-advanced";
-import priceIndicator from "highcharts/modules/price-indicator";
-import fullScreen from "highcharts/modules/full-screen";
-import stockTools from "highcharts/modules/stock-tools";
-import  '../components/highChartsCSS.css'
+//import indicatorsAll from "highcharts/indicators/indicators-all";
+//import annotationsAdvanced from "highcharts/modules/annotations-advanced"
+//import priceIndicator from "highcharts/modules/price-indicator"
+//import fullScreen from "highcharts/modules/full-screen"
+//import stockTools from "highcharts/modules/stock-tools"
+import "../components/highChartsCSS.css"
 
-indicatorsAll(Highcharts);
-annotationsAdvanced(Highcharts);
-priceIndicator(Highcharts);
-fullScreen(Highcharts);
-stockTools(Highcharts);
+//indicatorsAll(Highcharts);
+//annotationsAdvanced(Highcharts)
+//priceIndicator(Highcharts)
+//fullScreen(Highcharts)
+//stockTools(Highcharts)
 
-
-const HighChart = ({
-  stock,
-  stockData
-}: any) => {
-
+const HighChart = ({ stock, stockData }: any) => {
   const ChartOptions = {
     title: {
       text: stock,
@@ -39,15 +34,15 @@ const HighChart = ({
         outerWidth: "100%",
       },
     ],
-  
+
     series: [
       {
         type: "line",
         data: stockData,
         yAxis: 0,
-        tooltip:{
-          valuePrefix: '$'
-        }
+        tooltip: {
+          valuePrefix: "$",
+        },
       },
       {
         type: "column",
@@ -58,15 +53,13 @@ const HighChart = ({
       },
     ],
   }
-  return (  
-    
+  return (
     <div>
-      
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={"stockChart"}
         options={ChartOptions}
-      />    
+      />
     </div>
   )
 }
