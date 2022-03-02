@@ -55,51 +55,52 @@ def index():
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
 def backtest():
-    return backtest_driver(request.json)
-
+    try:
+        return backtest_driver(request.json)
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 def backtest_driver(req):
     dataDict = req
 
-    try:
-        class StrategyTest(bt.SignalStrategy):
-            def __init__(self):
-                sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-                crossover = bt.ind.CrossOver(sma1, sma2)
-                self.signal_add(bt.SIGNAL_LONG, crossover)
+    class StrategyTest(bt.SignalStrategy):
+        def __init__(self):
+            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+            crossover = bt.ind.CrossOver(sma1, sma2)
+            self.signal_add(bt.SIGNAL_LONG, crossover)
 
 
-        cerebro = bt.Cerebro()
-        cerebro.broker.setcash(dataDict['cash'])
-        cerebro.broker.setcommission(commission=0.0)
-        cerebro.addstrategy(StrategyTest)
+    cerebro = bt.Cerebro()
+    cerebro.broker.setcash(dataDict['cash'])
+    cerebro.broker.setcommission(commission=0.0)
+    cerebro.addstrategy(StrategyTest)
 
-        financeData = bt.feeds.YahooFinanceData(dataname=dataDict['symbol'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
+    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
 
-        cerebro.adddata(financeData)
+    cerebro.adddata(financeData)
 
-        response = {}
-        response["startingValue"] = cerebro.broker.getvalue()
-        cerebro.run()
-        response["EndingValue"] = cerebro.broker.getvalue()
-        response["PnL"] = response["EndingValue"] - response["startingValue"]
-        response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
+    response = {}
+    response["startingValue"] = cerebro.broker.getvalue()
+    cerebro.run()
+    response["EndingValue"] = cerebro.broker.getvalue()
+    response["PnL"] = response["EndingValue"] - response["startingValue"]
+    response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
-        randFileName = f"{str(uuid.uuid4())[:8]}.png"
+    randFileName = f"{str(uuid.uuid4())[:8]}.png"
 
-        cerebro.plot()[0][0].savefig(randFileName)
-        url = uploadPhoto(randFileName)
+    cerebro.plot()[0][0].savefig(randFileName)
+    url = uploadPhoto(randFileName)
 
-        if os.path.exists(randFileName):
-            os.remove(randFileName)
-        else:
-            print("The file does not exist")
+    if os.path.exists(randFileName):
+        os.remove(randFileName)
+    else:
+        print("The file does not exist")
 
-        response["url"] = url
+    response["url"] = url
 
-        return response
-    except Exception as e:
-        return f"An Error Occurred: {e}"
+    print(response)
+
+    return response
 
 
 @app.route('/test')
@@ -625,18 +626,16 @@ def get_yahoo_news(ticker):
         return f"An Error Occurred: {e}"
 @app.route('/getLogo/<ticker>', methods=['GET'])
 def get_stock_logo(ticker):
-
-    return get_stock_logo_driver(ticker)
+    try:
+        return get_stock_logo_driver(ticker)
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 def get_stock_logo_driver(ticker):
     # Check internal cache
     # TODO: Set up cache
-
-    try:
-        ticker_info = yf.Ticker(ticker)
-        return jsonify(ticker_info.info['logo_url'])
-    except Exception as e:
-        return f"An Error Occurred: {e}"
+    ticker_info = yf.Ticker(ticker)
+    return ticker_info.info['logo_url']
 
 @app.route('/getInfo/<ticker>', methods=['GET'])
 def get_stock_info(ticker):
@@ -884,7 +883,7 @@ def uploadPhoto(filename):
 
 ## Schedule jobs
 
-randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP', 'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO']
+randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP', 'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
@@ -902,14 +901,15 @@ def generateCompetitions():
         time_diff = str(close_time - today)
 
         comp_obj = {
-            "closeDate": close_time,
+            "startDate": str(today),
+            "endDate": str(close_time),
             "description": f"Submit your algorithm before {str(close_time)} and compete for the largest gains!",
             "duration": time_diff,
             "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
             "leaderboard": [], # Should be a list of algorithmIDs, sorted by highest value first
-            "logo": get_stock_logo(ticker) # TODO: Change this to use the cached version instead
+            "logo": get_stock_logo_driver(ticker) # TODO: Change this to use the cached version instead
             }
 
         active_comp_create_driver(comp_obj)
@@ -929,15 +929,33 @@ def findBestUsers():
 
     # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
-        competitionId = competition.id
-        leaderboardList = competition.leaderboard
+
+        competitionId = competition["id"]
+        leaderboardList = competition["leaderboard"]
+        startDate = competition["startDate"]
+        endDate = competition["endDate"]
+        startingCash = competition["startingBalance"]
+
         leaderboardsPair = []
         for algoId in leaderboardList:
             try:
-                algorithm = algorithms_ref.document(algoId).get()
+                algo = algorithms_ref.document(algoId).get()
+                algo_dict = algo.to_dict()
+                algo_dict["cash"] = startingCash
+                algo_dict["id"] = algo.id
+                algo_dict["startDate"] = startDate
+                algo_dict["endDate"] = endDate
             except Exception as e:
                 return f"An Error Occurred: {e}"
-            leaderboardsPair.append((algoId, backtest_driver(algorithm)["PnL"]))
+
+            backtestResults = {"PnL": 0}
+            try:
+                backtestResults = backtest_driver(algo_dict)
+            except Exception as e:
+                print(e)
+
+
+            leaderboardsPair.append((algoId, backtestResults["PnL"]))
         # Update competition with sorted best players
         leaderboardsPair.sort(key=lambda tup: tup[1])
         newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
@@ -945,22 +963,23 @@ def findBestUsers():
 
         # Check out of date competitions and set them as stale
         today = date.today()
-        closeDate = parse(competition.closeDate)
-        if today > closeDate:
+        closeDate = parse(competition["endDate"])
+        if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)
 
 
 def scheduleTest():
     print(f"schedule posted at {datetime.now()}")
+    generateCompetitions()
 
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 5})
 scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
 
 # Need to figure out what server it will be hosted on to get correct market open time
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
-# scheduler.add_job(func=scheduleTest, trigger='interval', seconds=2)
+# scheduler.add_job(func=scheduleTest, trigger='interval', seconds=15)
 
 
 
