@@ -10,6 +10,9 @@ firestore_apikey.json
 .pnp.js
 venv
 
+venv_old
+venv_bak
+
 # testing
 /coverage
 coverage
