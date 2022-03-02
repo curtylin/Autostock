@@ -9,7 +9,7 @@ RUN gatsby build
 
 FROM python:3.9
 WORKDIR /app
-COPY --from=build-step /app/build ./build
+# COPY --from=build-step /app/build ./build
 
 RUN mkdir ./api
 COPY api/requirements.txt api/api.py api/.flaskenv ./api/
@@ -19,13 +19,13 @@ RUN pip install -r ./api/requirements.txt
 ENV FLASK_ENV production
 
 # TA Lib for Python
-RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
-    tar -xzf ta-lib-0.4.0-src.tar.gz && \
-    cd ta-lib/ && \
-    ./configure --prefix=/usr && \
-    sudo make install
+#RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
+#    tar -xzf ta-lib-0.4.0-src.tar.gz && \
+#    cd ta-lib/ && \
+#    ./configure --prefix=/usr && \
+#    sudo make install
 
-RUN rm ta-lib-0.4.0-src.tar.gz && rm -rf ta-lib
+# RUN rm ta-lib-0.4.0-src.tar.gz && rm -rf ta-lib
 
 
 EXPOSE 3000
