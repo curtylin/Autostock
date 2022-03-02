@@ -153,7 +153,7 @@ const CreateAlgorithm = () => {
         // text is the response body
         console.log(text)
         jsConfetti.addConfetti({
-          emojis: ["😂", "📈", "👌", "💦", "🍑", "💯"],
+          emojis: ["🚀", "📈", "💸", "💵"],
           // emojiSize: 100,
         })
         jsConfetti.addConfetti()
