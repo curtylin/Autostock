@@ -10,7 +10,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Backdrop, CircularProgress, Grid } from "@mui/material"
+import { Backdrop, Card, CardActions, CardContent, CircularProgress, Grid, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
 
 const jsConfetti = new JSConfetti()
@@ -37,7 +37,11 @@ const EditAlgorithm = ({location}: {location : any}) => {
   const [showSpinner, setShowSpinner] = useState(false)
   const showSpin = () => setShowSpinner(true)
   const noShowSpin = () => setShowSpinner(false)
-
+  const [BTresults, setBTresults] = useState("")
+  const [BTendRes, setBTendRes] = useState("")
+  const [BTPnLPer, setBTPnLPer] = useState("")
+  const [BTPnLNu, setBTPnLNum] = useState("")
+  const [BTstart, setBTstart] = useState("")
 
   useEffect(() => {
     console.log(timeInterval)
@@ -77,7 +81,6 @@ const EditAlgorithm = ({location}: {location : any}) => {
   const [urls, setUrl] = useState("")
   const handleBacktest = (event: any) => {
     show()
-   
     showSpin()
     
     let currDate = new Date()
@@ -117,7 +120,12 @@ const EditAlgorithm = ({location}: {location : any}) => {
         // text is the response body
         console.log(text)
 
-        alert(JSON.stringify(text))
+        // alert(JSON.stringify(text))
+        setBTresults(JSON.stringify(text))
+        setBTendRes(text.EndingValue)
+        setBTPnLNum(text.PnL)
+        setBTPnLPer(text.PnLPercent)
+        setBTstart(text.startingValue)
         setUrl(text.url)
         noShowSpin()
       })
@@ -203,6 +211,22 @@ const EditAlgorithm = ({location}: {location : any}) => {
   const BackTestingPart = () => (
     <div>
       <h2>Backtesting Data: {algoName}</h2>
+        <Card variant="outlined" sx={{ minWidth: 275, mb:5}}>
+          <CardContent>
+            <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+              {stock}
+            </Typography>
+            <Typography variant="h5">
+              Ending Value: ${BTendRes}
+            </Typography>
+            <Typography variant="h6">
+              PnL Percentage: {BTPnLPer.toString().substring(0,4)}%
+            </Typography>
+            <Typography variant="h6">
+              Started with: ${BTstart}
+            </Typography>
+          </CardContent>
+        </Card>
           <img src={`${urls}`}></img>      
     </div>
   )
@@ -473,6 +497,7 @@ const EditAlgorithm = ({location}: {location : any}) => {
         </Button>
         {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
+
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
     </Layout>
   )
