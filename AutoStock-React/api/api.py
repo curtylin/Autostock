@@ -25,6 +25,7 @@ algorithms_ref = db.collection('algorithms')
 competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
 
+
 @app.errorhandler(404)
 def not_found(error):
     # return app.send_static_file('index.html')
@@ -75,7 +76,8 @@ def backtest():
 
             if indi == "KAMA":
                 indi1, indi2 = bt.indicators.KAMA(period=period1), bt.indicators.KAMA(period=period2)
-                
+            
+
             # if indi == "DEMA":
             #     indi1, indi2 = bt.indicators.DEMA(period=period1), bt.indicators.DEMA(period=period2)
             #Possible replacement code for DEMA
@@ -84,13 +86,45 @@ def backtest():
                  indi1, indi2 = bt.indicators.TEMA(period=period1), bt.indicators.TEMA(period=period2)
             if indi == "WMA":
                  indi1, indi2 = bt.ind.WMA(period=period1), bt.indicators.WMA(period=period2)
-            # if indi == "MAMA":
-            #      indi1, indi2 = bt.indicators.TEMA(period=period1), bt.indicators.TEMA(period=period2)
-                 
-            # if indi == "HT_TRENDLINE":
-            #     indi1, indi2 = bt.indicators.HT_Trendline(period=period1), bt.indicators.HT_Trendline(period=period2)
-            
+            # if indi == "TRIMA":
+                
+            #     if period1 % 2 == 0:
+            #         p1 = p2 = (period1 + 1) //2
+            #     else:
+            #         p1, p2 = (period1 // 2) + 1, period1 //2
 
+
+            #     if period2 %2 ==  0:
+            #         p3 = p4 = (period2 + 1) //2
+
+            #     else:
+            #         p3, p4 = (period2 // 2) + 1, period2 //2
+            #     indi1, indi2 = bt.ind.SMA(bt.ind.SMA(p2)), bt.ind.SMA(bt.ind.SMA(p)
+            # will fix later 
+
+            if indi == "STOC":
+                indi1 = indi2 = bt.indicators.Stochastic(self.data)
+
+            if indi == "MACD":
+                bt.indicators.MACD(self.data)
+                indi1 = indi2 = bt.indicators.MACDHisto(self.data)
+            if indi == "RSI":
+                indi1 = indi2 = bt.indicators.RSI(self.data)
+            if indi == "ULTIMATE":
+                indi1 = indi2 = bt.indicators.UltimateOscillator(self.data)
+            if indi == "TRIX":
+                indi1, indi2 = bt.indicators.TRIX(period=period1), bt.indicators.TRIX(period=period2)
+            if indi == "ADXR":
+                indi1 = indi2 = bt.indicators.ADXR(self.data)
+            if indi == "PPO":
+                indi1 = indi2 = bt.indicators.PPO(self.data, _movav=bt.indicators.SMA)
+            if indi == "ROC":
+                bt.indicators.ROC(self.data, period= period1), bt.indicators.ROC(self.data, period= period2)
+                bt.indicators.Momentum(self.data, period = period1), bt.indicators.Momentum(self.data, period = period2)
+                indi1, indi2 = bt.indicators.MomentumOscillator(self.data, period= period1), bt.indicators.MomentumOscillator(self.data, period= period2)
+            if indi == "WILLIAMSR":
+                indi1 = indi2 = bt.indicators.WilliamsR(self.data)
+                
             #shouldnt modify indi1, indi2 MA and SMA 
             crossover = bt.ind.CrossOver(indi1, indi2)
             self.signal_add(bt.SIGNAL_LONG, crossover) 
