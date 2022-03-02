@@ -12,40 +12,48 @@ import { background } from "@chakra-ui/react"
 
 
 export default function LandingPage() {
+
     return (
         <LayoutLanding>
         <div className="landingPageRoot">
             <Seo title="Home" />
-            <div>
-                <Box className="mainBox"    
-                    sx={{
-                        width: 1000,
-                        height: 100,
-                        display:'flex',
-                    }}>
-                         <Typography
-                            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                            fontWeight="Bold"
-                            variant="h2"
-                            component="div"
-                            sx={{ display:"flex", textAlign:'center'}}
-                            style={{ color: "white" }}
-                            >
-                            Welcome to Autostock
-                        </Typography>
-                        
-                </Box>
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}>
+                <Typography
+                    fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                    fontWeight="Bold"
+                    variant="h2"
+                    component="div"
+                    sx={{ mt:{xs:0, md:20}, mb:5, display:"flex", textAlign:'center'}}
+                    style={{ color: "white" }}
+                    >
+                    Welcome to Autostock
+                </Typography>
+            </div>  
+            <div style={{
+                display:'flex',
+                justifyContent: "center",
+                width: "100%",
+              }}> 
                 <Typography
                     fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                     fontSize="30px"
-                    
                     component="div"
-                    sx={{ display:"flex", mb:10}}
+                    textAlign="center"
+                    sx={{ display:{xs: 'none', md:"flex"}, mb:10}}
                     style={{ color: "white" }}
                     >
                     Click to learn more about how to trade algorithmically with <br/>no coding experience!
                 </Typography>
-                <div>
+                </div>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                }}>
                     <Button className="btn_getStarted" variant="contained">
                         <Typography
                             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
@@ -65,7 +73,6 @@ export default function LandingPage() {
                             </Link>
                         </Typography>
                     </Button>
-                </div>
             </div>
         </div>
         </LayoutLanding>

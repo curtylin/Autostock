@@ -142,7 +142,7 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         >
-          <Box display="block" justifyContent="center" alignItems="center">
+          <Box sx={{display:{xs:'none', md:'block'}}} justifyContent="center" alignItems="center">
             <div
               style={{
                 display: "flex",
@@ -189,9 +189,15 @@ export default function SignInSide() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              {/*<LockOutlinedIcon />*/}
-            </Avatar>
+            <div 
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center",
+                width: "100%",
+              }}>
+              <img width={100} src={logo} alt="logo"/>
+              </div>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
