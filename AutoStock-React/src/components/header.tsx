@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem"
 import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
-import Logo from "../images/AutostockLogo_black.jpg"
+import Logo from "../images/AutostockLogo_black_small.png"
 
 interface HeaderProps {
   siteTitle: string
@@ -107,13 +107,28 @@ const Header = ({ siteTitle }: HeaderProps) => {
             }}>
             <img onClick={event => {navigate('/app/home')}} style={{marginBottom: 0}}width={50} src={Logo} alt="logo"/>
           </div> */}
+          
+          <Link 
+            to="/app/home"
+            style={{ color: "black", textDecoration: "none" }}
+            className="autostock-link"
+            >
+            <div 
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center",
+              }}>
+              <img style={{marginBottom:0}} width={50} src={Logo}></img>
+            </div>
+          </Link>
           <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { md: "flex" } }}
+            sx={{ mr: 5, display: { xs:"none", md: "flex" } }}
             style={{ color: "black" }}
           >
             
@@ -123,6 +138,24 @@ const Header = ({ siteTitle }: HeaderProps) => {
               className="autostock-link"
             >
               {siteTitle}
+            </Link>
+          </Typography>
+          <Typography
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="Bold"
+            variant="h4"
+            noWrap
+            component="div"
+            sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
+            style={{ color: "black" }}
+          >
+            
+            <Link
+              to="/app/home"
+              style={{ color: "black", textDecoration: "none" }}
+              className="autostock-link"
+            >
+              AS
             </Link>
           </Typography>
 

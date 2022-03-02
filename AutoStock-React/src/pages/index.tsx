@@ -89,8 +89,8 @@ const IndexPage = () => {
                     </>
                   ) : (
                     <>
-                      You should <Link to="/app/login">log in</Link> to see restricted
-                      content
+                      Welcome to Autostock
+                      <br></br>
                     </>
                   )}
                   </Typography>
