@@ -7,6 +7,7 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
+import { navigate } from 'gatsby';
 
 export default function MenuListComposition() {
   const [open, setOpen] = React.useState(false);
@@ -25,6 +26,10 @@ export default function MenuListComposition() {
     }
 
     setOpen(false);
+  };
+
+  const handleEditUser = (event: Event | React.SyntheticEvent) => {
+    navigate('/app/edituser')
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
@@ -84,7 +89,7 @@ export default function MenuListComposition() {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem onClick={handleEditUser}>My account</MenuItem>
                     <MenuItem onClick={handleClose}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
