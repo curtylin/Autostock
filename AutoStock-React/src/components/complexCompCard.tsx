@@ -15,6 +15,7 @@ import '../components/complexCompCard.css';
 import { Link, navigate } from '@reach/router';
 import Button from "@mui/material/Button";
 
+const subheaders = ""
 const ComplexCompCard = ({
     compLength,
     compTicker,
@@ -24,12 +25,13 @@ const ComplexCompCard = ({
     id,
 }: any) => {
     return (
-        <Card className="compCard" sx={{ maxWidth: 500 }}>
+        <Card variant="outlined" className="compCard" sx={{  maxWidth: 500 }}>
             <CardActionArea> {/*CHANGE THIS TO CORRESPONDING COMP*/}
                 <CardHeader
-                
+                className="compHeader"
                 title={compTicker}
-                subheader={`Competition Length: ${compLength} days`}
+
+                subheader={compLength.length > 2 ? compLength : `Competition Length: ${compLength} days`}
                 />
                 <CardMedia
                 component="img"
@@ -37,9 +39,17 @@ const ComplexCompCard = ({
                 // maybe scrape for an image using the ticker
                 image="https://images.unsplash.com/photo-1601382270349-49c15bddf738?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                 alt="Paella dish"
+                sx={{mb:0}}
                 />
                 <CardContent>
-                <Typography variant="body2" color="text.secondary">
+                <Typography sx={{
+                    display: '-webkit-box',
+                    overflow: 'hidden',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 1,
+                    }}
+                    variant="body2"
+                    color="text.secondary">
                     {description}
                 </Typography>
                 <Button className="mdc-button mdc-button--raised"
