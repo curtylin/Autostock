@@ -99,10 +99,9 @@ const Leaderboards = () => {
                       </CardContent>
                       <CardActions>
                       <Button className="mdc-button mdc-button--raised"
-                        id={comp.id}
-                        onClick={event => {navigate(`/app/competition`, 
+                        onClick={event => {navigate('/app/competition', 
                         {
-                          state: comp.id,
+                          state: {id: comp.id},
                         }
                           )
                           }}> Learn More
