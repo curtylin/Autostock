@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from "react"
-import Button from "@mui/material/Button"
-
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Layout from "../layout"
 import Seo from "../seo"
+import "./screens.css"
 
 import { getUser } from "../../services/auth"
 import { navigate } from "gatsby"
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import { Divider, Stack } from "@mui/material";
 
 
-const MyAlgorithm = () => {
-  const [open, setOpen] = React.useState(false);
-  const [openUnshared, setOpenUnshared] = React.useState(false);
-
-  const openMsg = () => setOpen(true)
-  const openMsgUnshared = () => setOpenUnshared(true)
-  
+const Leaderboards = () => {
   const handleShare = (event: any) => {
     let body = `{
         "public": true
         }
         `
     const headers = new Headers()
-    openMsg()
     headers.append("content-type", "application/json")
     let init = {
       method: "PUT",
@@ -48,7 +44,6 @@ const MyAlgorithm = () => {
           }
           `
       const headers = new Headers()
-      openMsgUnshared()
       headers.append("content-type", "application/json")
       let init = {
         method: "PUT",
@@ -113,41 +108,29 @@ const MyAlgorithm = () => {
       })
   }
 
-  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-    setOpenUnshared(false);
-  };
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
   return (
     <Layout>
       <Seo title="AutoStock" />
-      <title>My Algorithms</title>
-      <h1>My Algorithms</h1>
-      <div className="mdc-data-table">
-        <div className="mdc-data-table__table-container">
-          <table className="mdc-data-table__table" aria-label="my-algorithms">
+      <title>Leaderboards</title>
+      <h1>Leaderboards</h1>
+      <Stack direction="column" spacing={2} sx={{my: 5}}>
+          
+      <Card variant="outlined" sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+            Competition Name
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Length
+        </Typography>
+        <table className="mdc-data-table__table" aria-label="my-algorithms">
             <thead>
               <tr className="mdc-data-table__header-row">
                 <th
                   className="table_header"
                   role="columnheader"
                   scope="col"
+                  align="center"
                 >
                   Algorithm Name
                 </th>
@@ -158,80 +141,93 @@ const MyAlgorithm = () => {
                 >
                   Day Gain (%)
                 </th>
-
                 <th
-                  className="table_header"
+                  className="table_header" 
                   role="columnheader"
                   scope="col"
                 >
                   {" "}
+                  Creator{" "}
                 </th>
               </tr>
             </thead>
             <tbody className="mdc-data-table__content">
               {algorithms.map((algorithm: any, key: any) => {
-                let sharingButton;
-                if (algorithm.public){
-                  sharingButton = <Button className="mdc-button mdc-button--raised" id={algorithm.id} onClick={handleUnshare}>
-                  <span id={algorithm.id} className="mdc-button__label">Unshare</span>
-                </Button>
-                } else {
-                  sharingButton = <Button className="mdc-button mdc-button--raised" id={algorithm.id} onClick={handleShare}>
-                  <span id={algorithm.id} className="mdc-button__label">Share</span>
-                  </Button>
-                }
                 return (
                   <tr className="table_row" key={key}>
                     <td className="table_data" scope="row">
-                      {algorithm.name}
+                      Hi
                     </td>
-                    <td className="table_data">
-                      {Math.floor(Math.random() * 20)-10}%
-                    </td>
-                    <td className="table_data">
-                      <Button className="mdc-button mdc-button--raised"
-                        id={algorithm.id}
-                        onClick={event => {navigate('/app/editalgorithm', 
-                        {
-                          state: {algorithm},
-                        }
-                          )
-                          }}>
-                        <span id={algorithm.id} className="mdc-button__label">Edit</span> 
-                      </Button>
-                      {sharingButton}
-                      <Button
-                        className="mdc-button mdc-button--raised"
-                        id={algorithm.id}
-                        onClick={handleDelete}
-                      >
-                        <span id={algorithm.id} className="mdc-button__label">Delete</span>
-                      </Button>
-                    </td>
+                    <td className="table_data">10</td>
+                    <td className="table_data">yo</td>
                   </tr>
                 )
               })}
             </tbody>
           </table>
-        </div>
-      </div>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Shared your algorithm!"
-        action={action}
-      />
-      <Snackbar
-        open={openUnshared}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Unshared your algorithm!"
-        action={action}
-      />
-
+      </CardContent>
+      <CardActions>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+    </Card>
+    <Card  variant="outlined" sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+            Competition Name
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Length
+        </Typography>
+        <table className="mdc-data-table__table" aria-label="my-algorithms">
+            <thead>
+              <tr className="mdc-data-table__header-row">
+                <th
+                  className="table_header"
+                  role="columnheader"
+                  scope="col"
+                  align="center"
+                >
+                  Algorithm Name
+                </th>
+                <th
+                  className="table_header"
+                  role="columnheader"
+                  scope="col"
+                >
+                  Day Gain (%)
+                </th>
+                <th
+                  className="table_header" 
+                  role="columnheader"
+                  scope="col"
+                >
+                  {" "}
+                  Creator{" "}
+                </th>
+              </tr>
+            </thead>
+            <tbody className="mdc-data-table__content">
+              {algorithms.map((algorithm: any, key: any) => {
+                return (
+                  <tr className="table_row" key={key}>
+                    <td className="table_data" scope="row">
+                      Hi
+                    </td>
+                    <td className="table_data">10</td>
+                    <td className="table_data">yo</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+    </Card>
+    </Stack>
     </Layout>
   )
 }
 
-export default MyAlgorithm
+export default Leaderboards

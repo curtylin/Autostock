@@ -62,21 +62,22 @@ const PublicAlgorithms = () => {
             <thead>
               <tr className="mdc-data-table__header-row">
                 <th
-                  className="mdc-data-table__header-cell"
+                  className="table_header"
                   role="columnheader"
                   scope="col"
+                  align="center"
                 >
                   Algorithm Name
                 </th>
                 <th
-                  className="mdc-data-table__header-cell mdc-data-table__header-cell--numeric"
+                  className="table_header"
                   role="columnheader"
                   scope="col"
                 >
                   Day Gain (%)
                 </th>
                 <th
-                  className="mdc-data-table__header-cell"
+                  className="table_header" 
                   role="columnheader"
                   scope="col"
                 >
@@ -88,12 +89,12 @@ const PublicAlgorithms = () => {
             <tbody className="mdc-data-table__content">
               {algorithms.map((algorithm: any, key: any) => {
                 return (
-                  <tr className="mdc-data-table__row" key={key}>
-                    <td className="mdc-data-table__cell" scope="row">
-                      <Link to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
+                  <tr className="table_row" key={key}>
+                    <td className="table_data" scope="row">
+                      <Link className="table_links" to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
                     </td>
-                    <td className="mdc-data-table__cell">{Math.floor(Math.random() * 20)-10}%</td>
-                    <td className="mdc-data-table__cell">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
+                    <td className="table_data">{Math.floor(Math.random() * 20)-10}%</td>
+                    <td className="table_data">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
                   </tr>
                 )
               })}

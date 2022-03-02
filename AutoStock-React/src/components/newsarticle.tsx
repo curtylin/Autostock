@@ -79,7 +79,13 @@ function SwipeableTextMobileStepper() {
           
           {Math.abs(activeStep - index) <= 2 ? (
             <Box>
-              <Typography>{article.title}</Typography>
+              <Typography sx={{
+          display: '-webkit-box',
+          overflow: 'hidden',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: 1,
+          }}
+          variant="body2">{article.title}</Typography>
             </Box>
               // component="img"
               // sx={{

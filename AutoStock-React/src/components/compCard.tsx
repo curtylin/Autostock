@@ -28,7 +28,14 @@ const CompCard = ({
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {compStartingVal}
         </Typography>
-        <Typography variant="body2">
+        
+        <Typography  sx={{
+          display: '-webkit-box',
+          overflow: 'hidden',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: 3,
+          }}
+          variant="body2">
           {compDeadline}
           <br />
           {description}
