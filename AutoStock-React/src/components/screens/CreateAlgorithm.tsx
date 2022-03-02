@@ -10,7 +10,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Grid } from "@mui/material"
+import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
 
 let jsConfetti: any
@@ -35,6 +35,14 @@ const CreateAlgorithm = () => {
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)  
   const [data , setStockData] = useState([])
+  const [showSpinner, setShowSpinner] = useState(false)
+  const showSpin = () => setShowSpinner(true)
+  const noShowSpin = () => setShowSpinner(false)
+  const [BTresults, setBTresults] = useState("")
+  const [BTendRes, setBTendRes] = useState("")
+  const [BTPnLPer, setBTPnLPer] = useState("")
+  const [BTPnLNu, setBTPnLNum] = useState("")
+  const [BTstart, setBTstart] = useState("")  
   useEffect(() => {
     jsConfetti = new JSConfetti()
   })
@@ -75,6 +83,7 @@ const CreateAlgorithm = () => {
 
   const handleBacktest = (event: any) => {
     show()
+    showSpin()
     let currDate = new Date()
     //create json object
     let obj = {
@@ -112,8 +121,15 @@ const CreateAlgorithm = () => {
         // text is the response body
         console.log(text)
 
-        alert(JSON.stringify(text))
+        // alert(JSON.stringify(text))
+        setBTresults(JSON.stringify(text))
+        setBTendRes(text.EndingValue)
+        setBTPnLNum(text.PnL)
+        setBTPnLPer(text.PnLPercent)
+        setBTstart(text.startingValue)
+
         setUrl(text.url)
+        noShowSpin()
       })
       .catch(e => {
         // error in e.message
@@ -166,10 +182,25 @@ const CreateAlgorithm = () => {
 
 
   const BackTestingPart = () => (
-    // ADD THE BACKTRACKING IMAGE
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-          <img src={`${urls}`}></img>      
+      <Card variant="outlined" sx={{ minWidth: 275, mb:5}}>
+        <CardContent>
+          <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+            {stock}
+          </Typography>
+          <Typography variant="h5">
+            Ending Value: ${BTendRes}
+          </Typography>
+          <Typography variant="h6">
+            PnL Percentage: {BTPnLPer.toString().substring(0,4)}%
+          </Typography>
+          <Typography variant="h6">
+            Started with: ${BTstart}
+          </Typography>
+        </CardContent>
+      </Card>
+      <img src={`${urls}`}></img>      
     </div>
   )
 
@@ -369,7 +400,7 @@ const CreateAlgorithm = () => {
           </FormControl>
         </div>
         {/* Running Time */}
-        <FormControl required sx={{ my: 2, minWidth: 500 }}>
+        <FormControl required sx={{ my: 2, minWidth: {xs: 300, md: 500} }}>
           <InputLabel id="demo-simple-select-standard-label">
             Algorithm Running Time
           </InputLabel>
@@ -424,6 +455,7 @@ const CreateAlgorithm = () => {
         >
           BackTest
         </Button>
+        {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
 

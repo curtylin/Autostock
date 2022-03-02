@@ -14,13 +14,18 @@ import Index from "./index"
 import QuickStartGuide from "../components/screens/QuickstartGuide"
 import EditAlgorithm from "../components/screens/EditAlgorithm"
 import EditUser from "../components/screens/EditUser"
+import LandingPage from "../components/screens/landingPage"
+import Leaderboards from "../components/screens/leaderboards"
 
 const App = () => (
   <Router basepath="/app">
     <RouterPage path="/login" pageComponent={<Login />} />
     <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
+    <RouterPage path="/landing" pageComponent={<LandingPage/>} />
+
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
+    <PrivateRoute path="/leaderboards" component={Leaderboards} />
     <PrivateRoute path="/createalgorithm" component={CreateAlgorithm} />
     <PrivateRoute path="/editalgorithm" component={EditAlgorithm} />
     <PrivateRoute path="/edituser" component={EditUser} />
@@ -30,6 +35,8 @@ const App = () => (
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/quickstartguide" component={QuickStartGuide} />
     <PrivateRoute path="/home" component={Home} />
+  
+
 
     <RouterPage path="/" pageComponent={<Index />} />
   </Router>

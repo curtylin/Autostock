@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import "./screens.css"
 
 import Layout from "../layout"
 import Seo from "../seo"
@@ -56,7 +57,7 @@ const Algorithm = () => {
   return (
   <Layout>
     <Seo title="AutoStock" />
-    <h1>{algorithm.name}</h1>
+    <h1 className="algo_name">{algorithm.name}</h1>
     <h2>Ticker: {algorithm.ticker}</h2>
     <h3>Time Interval: {algorithm.timeInterval >= 24 ? (<>{algorithm.timeInterval/24} Days</>) : (<>{algorithm.timeInterval} Hours</>)}</h3>
     <h3>Indicator 1: {algorithm.indicator1}</h3>
