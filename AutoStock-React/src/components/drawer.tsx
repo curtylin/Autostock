@@ -120,9 +120,9 @@ export default function TemporaryDrawer() {
                     >{text}</Typography>
                 </ListItem>
             ))}
-            <Divider />
-            <List>
-                <ListItem>    
+            {/* <Divider /> */}
+
+                <ListItem sx={{mb:1}}>    
                     <ListItemIcon>
                         <EmojiEventsIcon/>
                     </ListItemIcon>      
@@ -132,12 +132,13 @@ export default function TemporaryDrawer() {
                         fontWeight="medium"
                         align="right"
                         component="div"
+                        
                         >
                         {CompPage}
                     </Typography>
                 </ListItem>
-            </List>
-            <Divider />
+            
+            {/* <Divider /> */}
             <List>
                 <ListItem>    
                     <ListItemIcon>
