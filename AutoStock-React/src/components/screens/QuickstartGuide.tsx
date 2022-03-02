@@ -60,8 +60,7 @@ const QuickStartGuide = () => {
             <h2>2. Backtest your algorithm</h2>
             <p>Be sure to backtest your algorithm against historical data. Here is where you can see if some parts of the algorithm needs to be changed for a better yield.</p>
             <br></br>
-            <p>Note: it is normal to have an alert to pop up to tell you about how well your algorithm did.</p>
-            <img src="https://i.imgur.com/u2iWTu2.gif"></img>
+            <img src="https://i.imgur.com/rvqOhoM.gif"></img>
             <br></br>
 
             <h2>2. Save your algorithm</h2>
@@ -72,7 +71,7 @@ const QuickStartGuide = () => {
 
             <h2>3. View other people's algorithms for inspiration</h2>
             <p>Once your algorithm is shared with the world, and it can be viewed under the "<Link to="/app/publicalgorithms">Public Algorithms</Link>" page.</p>
-            <img src="https://i.imgur.com/PGW5yhA.gif"></img>
+            <img src="https://i.imgur.com/rTw7ljU.gif"></img>
             <br></br>
 
             <h2>4. Enter your algorithm into a competition</h2>
