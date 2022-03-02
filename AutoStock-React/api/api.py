@@ -20,7 +20,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 
-app = Flask(__name__, static_folder="../build", static_url_path="/")
+app = Flask(__name__, static_folder="../public", static_url_path="/")
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Turn this off if you are working on the scheduler since reload
