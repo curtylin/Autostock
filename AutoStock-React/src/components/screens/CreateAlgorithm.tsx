@@ -277,9 +277,6 @@ const CreateAlgorithm = () => {
             <MenuItem value={"T3"}>
               T3 - Triple Exponential Moving Average
             </MenuItem>
-            <MenuItem value={"TEMA"}>
-              TEMA - Triple Exponential Moving Average
-            </MenuItem>
             <MenuItem value={"TRIMA"}>TRIMA - Triangular Moving Average</MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
@@ -378,7 +375,7 @@ const CreateAlgorithm = () => {
           </FormControl>
         </div>
         {/* Running Time */}
-        <FormControl required sx={{ my: 2, minWidth: 500 }}>
+        <FormControl required sx={{ my: 2, minWidth: {xs: 200, md: 500} }}>
           <InputLabel id="demo-simple-select-standard-label">
             Algorithm Running Time
           </InputLabel>

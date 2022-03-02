@@ -1,12 +1,9 @@
 .landingPageRoot{
     padding-top: 250px;
     margin-top:0px;
-    /* background-image: url(../../images/wance-paleri.jpg);
-    background-size: cover; */
-    height:100vh;
-    padding-left: 100px;
-    align-items: center;   
 
+    height:100vh;
+    align-items: center;   
 }
 
 .appbar{
@@ -15,7 +12,6 @@
 .mainbox{
     background: none;
     align-content: center;
-
 }
 .btn_getStarted{
     opacity: 85%;
