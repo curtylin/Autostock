@@ -22,7 +22,7 @@ const handleDelete = () => {
 }
 
 const CreateAlgorithm = () => {
-  const [algoName, setAlgoName] = useState("Jeff Bezos' AMZN algorithm")
+  const [algoName, setAlgoName] = useState("Bill Gates' AMZN algorithm")
   const [stock, setStocks] = useState("AMZN")
   const [timeInterval, setTimeInterval] = useState(24)
   const [indicator1, setIndicator1] = useState("SMA")
