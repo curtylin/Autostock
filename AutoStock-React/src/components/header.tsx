@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem"
 import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
+import Logo from "../images/AutostockLogo_black_small.png"
 
 interface HeaderProps {
   siteTitle: string
@@ -90,28 +91,71 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
   
   return (
-    <AppBar sx={{ mb: 2 }} style={{ background: "#059a76" }} position="static">
+    <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
           <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
+          {/* <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              marginBottom:0
+            }}>
+            <img onClick={event => {navigate('/app/home')}} style={{marginBottom: 0}}width={50} src={Logo} alt="logo"/>
+          </div> */}
+          
+          <Link 
+            to="/app/home"
+            style={{ color: "black", textDecoration: "none" }}
+            className="autostock-link"
+            >
+            <div 
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center",
+              }}>
+              <img style={{marginBottom:0}} width={50} src={Logo}></img>
+            </div>
+          </Link>
           <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { md: "flex" } }}
+            sx={{ mr: 5, display: { xs:"none", md: "flex" } }}
             style={{ color: "black" }}
           >
+            
             <Link
               to="/app/home"
               style={{ color: "black", textDecoration: "none" }}
               className="autostock-link"
             >
               {siteTitle}
+            </Link>
+          </Typography>
+          <Typography
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="Bold"
+            variant="h4"
+            noWrap
+            component="div"
+            sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
+            style={{ color: "black" }}
+          >
+            
+            <Link
+              to="/app/home"
+              style={{ color: "black", textDecoration: "none" }}
+              className="autostock-link"
+            >
+              AS
             </Link>
           </Typography>
 
@@ -163,7 +207,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Competitions
               </Typography>
             </Button>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
+            <Button onClick={()=>{navigate("/app/leaderboards")}} sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
