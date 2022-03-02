@@ -19,6 +19,9 @@ import {
   signInWithPopup,
 } from "firebase/auth"
 import { initializeApp } from "firebase/app"
+import GoogleIcon from '@mui/icons-material/Google'
+
+const isBrowser = typeof window !== "undefined"
 
 function Copyright(props: any) {
   return (
@@ -67,43 +70,47 @@ export default function createAccountSide() {
 
   const emailCreate = () => {
     createUserWithEmailAndPassword(auth, email!, password!)
-    .then(userCredential => {
-      // Signed in
-      const user = userCredential.user
-      window.localStorage.setItem("currentUser", JSON.stringify(user))
-      navigate(`/app/home`)
-      // ...
-    })
-    .catch(error => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
-      // ..
-    })
-  }
-    const googleSignIn = () => {
-      signInWithPopup(auth, provider)
-        .then(result => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result)
-          const token = credential?.accessToken
-          // The signed-in user info.
-          const user = result.user
-          console.log("Signed in via google as:", user.email)
+      .then(userCredential => {
+        // Signed in
+        const user = userCredential.user
+        if (isBrowser) {
           window.localStorage.setItem("currentUser", JSON.stringify(user))
           navigate(`/app/home`)
-        })
-        .catch(error => {
-          // Handle Errors here.
-          const errorCode = error.code
-          const errorMessage = error.message
-          // The email of the user's account used.
-          const email = error.email
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error)
-          console.log(errorCode, errorMessage, email, credential)
-        })
-    }
+        }
+        // ...
+      })
+      .catch(error => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(errorCode, errorMessage)
+        // ..
+      })
+  }
+  const googleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then(result => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const token = credential?.accessToken
+        // The signed-in user info.
+        const user = result.user
+        console.log("Signed in via google as:", user.email)
+        if (isBrowser) {
+          window.localStorage.setItem("currentUser", JSON.stringify(user))
+          navigate(`/app/home`)
+        }
+      })
+      .catch(error => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.email
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error)
+        console.log(errorCode, errorMessage, email, credential)
+      })
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -180,11 +187,13 @@ export default function createAccountSide() {
               Create Account
             </Typography>
             <Button
+              startIcon={<GoogleIcon />}
               onClick={() => {
                 // Google provider object is created here.
                 googleSignIn()
               }}
             >
+              {/* <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google logo"></img> */}
               Sign in with Google
             </Button>
             <Box
