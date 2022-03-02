@@ -53,10 +53,16 @@ typings/
 
 # dotenv environment variable files
 .env.*
+.env*
 
 # gatsby files
 .cache/
 public
+
+#IDE ignores
+.idea
+.vscode
+
 
 # Mac files
 .DS_Store
