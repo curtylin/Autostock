@@ -26,7 +26,7 @@ const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
-  const [indicator1, setIndicator1] = useState("")
+  const [indicator1, setIndicator1] = useState("SMA")
   const [period1, setPeriod1] = useState("")
   const [indicator2, setIndicator2] = useState("")
   const [period2, setPeriod2] = useState("")
@@ -153,7 +153,7 @@ const CreateAlgorithm = () => {
         // text is the response body
         console.log(text)
         jsConfetti.addConfetti({
-          emojis: ["😂", "📈", "👌", "💦", "🍑", "💯"],
+          emojis: ["🚀", "📈", "💸", "💵"],
           // emojiSize: 100,
         })
         jsConfetti.addConfetti()
@@ -252,44 +252,26 @@ const CreateAlgorithm = () => {
               setIndicator1(e.target.value)
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={"SMA"}>SMA - Simple Moving Average </MenuItem>
+            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
+            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
             <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
             <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={"DEMA"}>
-              DEMA - Double Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"HT_TRENDLINE"}>
-              HT_TRENDLINE - Hilbert Transform - Instantaneous Trendline
-            </MenuItem>
-            <MenuItem value={"KAMA"}>
-              KAMA - Kaufman Adaptive Moving Average
-            </MenuItem>
+            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
             <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MAMA"}>
-              MAMA - MESA Adaptive Moving Average
-            </MenuItem>
-            <MenuItem value={"MAVP"}>
-              MAVP - Moving average with variable period
-            </MenuItem>
-            <MenuItem value={"MIDPOINT"}>
-              MIDPOINT - MidPoint over period
-            </MenuItem>
+            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
+            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
             <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>
-              SAREXT - Parabolic SAR - Extended
-            </MenuItem>
-            <MenuItem value={"T3"}>
-              T3 - Triple Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"TEMA"}>
-              TEMA - Triple Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"TRIMA"}>
-              TRIMA - Triangular Moving Average
-            </MenuItem>
+            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
+            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
           {/* </Tooltip> */}
