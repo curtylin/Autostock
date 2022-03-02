@@ -15,98 +15,18 @@ import { Divider, Stack } from "@mui/material";
 
 
 const Leaderboards = () => {
-  const handleShare = (event: any) => {
-    let body = `{
-        "public": true
-        }
-        `
-    const headers = new Headers()
-    headers.append("content-type", "application/json")
-    let init = {
-      method: "PUT",
-      headers,
-      body,
-    }
 
-    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
-      .then(response => {
-        return response.json() // or .text() or .blob() ...
-      })
-      .catch(e => {
-        // error in e.message
-      })
-    event.preventDefault()
-  }
-
-  const handleUnshare = (event: any) => {
-      let body = `{
-          "public": false
-          }
-          `
-      const headers = new Headers()
-      headers.append("content-type", "application/json")
-      let init = {
-        method: "PUT",
-        headers,
-        body,
-      }
-      fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
-        .then(response => {
-          return response.json() // or .text() or .blob() ...
+    const [competitions, setCompetitions] = useState([])
+  
+    useEffect(() => {
+      fetch("http://localhost:5000/list-competitions")
+        .then(res => {
+          return res.json()
         })
-        .catch(e => {
-          // error in e.message
+        .then(result => {
+          setCompetitions(result)
         })
-      event.preventDefault()
-    }
-
-  const handleEdit = (event: any) => {
-    const algoID = event.target.id
-    console.log("editing algo" + event.target.id)
-    
-  }
-
-  // TODO NEED TO GET THE ALGO ID
-  const handleDelete = (event: any) => {
-    const headers = new Headers()
-    headers.append("content-type", "application/json")
-    let init = {
-      method: "GET",
-      headers,
-    }
-    console.log(event.target.id)
-
-    fetch(`http://127.0.0.1:5000/delete-algorithm/${event.target.id}`, init)
-      .then(response => {
-        return response.json() // or .text() or .blob() ...
-      })
-      .catch(e => {
-        // error in e.message
-      })
-    event.preventDefault()
-  }
-
-  const [algorithms, setAlgorithms] = useState([])
-  useEffect(() => {
-    getAlgorithmsDB()
-    console.log(algorithms)
-  }, [])
-  const getAlgorithmsDB = () => {
-    //fetch post to localhost
-    fetch(`http://localhost:5000/list-algorithm/${getUser().uid}` , {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        setAlgorithms(result)
-      })
-  }
+    }, [])
 
   return (
     <Layout>
@@ -114,117 +34,87 @@ const Leaderboards = () => {
       <title>Leaderboards</title>
       <h1>Leaderboards</h1>
       <Stack direction="column" spacing={2} sx={{my: 5}}>
+      {competitions.slice(0, 6).map((comp: any, index: number) => {
+              let cardProps = {
+                  compLength: comp.duration,
+                  compTicker: comp.name,
+                  compStartingVal: `Starting Balance: ${comp.startingBalance}`,
+                  compDeadline: comp.closeDate,
+                  description: comp.description,
+                  leader: comp.leaderboard,
+                  id: comp.id,
+              }
+              return (
+                  <Stack key={index} direction="column" spacing={2}>
+                      <Card key={index} variant="outlined" sx={{minWidth: 275}} >
+                      <CardContent>
+                        <Typography variant="h5" component="div">
+                            {comp.name}
+                        </Typography>
+                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                          Competition Length: {comp.duration}
+                        </Typography>
+                        <table className="mdc-data-table__table" aria-label="my-algorithms">
+                            <thead>
+                              <tr className="mdc-data-table__header-row">
+                                <th
+                                  className="table_header"
+                                  role="columnheader"
+                                  scope="col"
+                                  align="center"
+                                >
+                                  Algorithm Name
+                                </th>
+                                <th
+                                  className="table_header"
+                                  role="columnheader"
+                                  scope="col"
+                                >
+                                  Profit
+                                </th>
+                                <th
+                                  className="table_header" 
+                                  role="columnheader"
+                                  scope="col"
+                                >
+                                  {" "}
+                                  Creator{" "}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="mdc-data-table__content">
+                              {comp.leaderboard.map((algorithm: any, key: any) => {
+                                return (
+                                  <tr className="table_row" key={key}>
+                                    <td className="table_data" scope="row">
+                                      {algorithm.algorithmID}
+                                    </td>
+                                    <td className="table_data">{algorithm.profit}</td>
+                                    <td className="table_data">{algorithm.userID}</td>
+                                  </tr>
+                                )
+                              })}
+                            </tbody>
+                          </table>
+                      </CardContent>
+                      <CardActions>
+                      <Button className="mdc-button mdc-button--raised"
+                        id={comp.id}
+                        onClick={event => {navigate(`/app/competition`, 
+                        {
+                          state: comp.id,
+                        }
+                          )
+                          }}> Learn More
+
+                      </Button>
+                      </CardActions>
+                      </Card>
+                  </Stack>
+              )
+              })}
           
-      <Card variant="outlined" sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-            Competition Name
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Length
-        </Typography>
-        <table className="mdc-data-table__table" aria-label="my-algorithms">
-            <thead>
-              <tr className="mdc-data-table__header-row">
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                  align="center"
-                >
-                  Algorithm Name
-                </th>
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                >
-                  Day Gain (%)
-                </th>
-                <th
-                  className="table_header" 
-                  role="columnheader"
-                  scope="col"
-                >
-                  {" "}
-                  Creator{" "}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="mdc-data-table__content">
-              {algorithms.map((algorithm: any, key: any) => {
-                return (
-                  <tr className="table_row" key={key}>
-                    <td className="table_data" scope="row">
-                      Hi
-                    </td>
-                    <td className="table_data">10</td>
-                    <td className="table_data">yo</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
-    <Card  variant="outlined" sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-            Competition Name
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Length
-        </Typography>
-        <table className="mdc-data-table__table" aria-label="my-algorithms">
-            <thead>
-              <tr className="mdc-data-table__header-row">
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                  align="center"
-                >
-                  Algorithm Name
-                </th>
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                >
-                  Day Gain (%)
-                </th>
-                <th
-                  className="table_header" 
-                  role="columnheader"
-                  scope="col"
-                >
-                  {" "}
-                  Creator{" "}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="mdc-data-table__content">
-              {algorithms.map((algorithm: any, key: any) => {
-                return (
-                  <tr className="table_row" key={key}>
-                    <td className="table_data" scope="row">
-                      Hi
-                    </td>
-                    <td className="table_data">10</td>
-                    <td className="table_data">yo</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    
     </Stack>
     </Layout>
   )
