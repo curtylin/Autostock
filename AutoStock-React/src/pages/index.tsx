@@ -11,6 +11,8 @@ const IndexPage = () => {
         {isLoggedIn() ? (
           <>
             You are logged in, so check your <Link to="/app/home">profile</Link>
+            <br></br>
+            <Link to="/app/quickstartguide">Quick Start Guide</Link>
           </>
         ) : (
           <>

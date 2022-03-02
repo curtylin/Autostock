@@ -12,3 +12,10 @@
     background-color: #059a76;
     margin-bottom: 25px;
 }
+.algoAccordion{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: "transparent";
+    border:none
+}
