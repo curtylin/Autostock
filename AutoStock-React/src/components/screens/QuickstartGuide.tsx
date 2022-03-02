@@ -54,23 +54,29 @@ const QuickStartGuide = () => {
 
             <h2>1. Create an algorithm</h2>
             <p>You can get started by <Link to="/app/createalgorithm">creating an algorithm.</Link></p>
+            <img src="https://i.imgur.com/vYtuZIC.gif"></img>
             <br></br>
 
             <h2>2. Backtest your algorithm</h2>
             <p>Be sure to backtest your algorithm against historical data. Here is where you can see if some parts of the algorithm needs to be changed for a better yield.</p>
+            <img src="https://i.imgur.com/u2iWTu2.gif"></img>
             <br></br>
 
             <h2>2. Save your algorithm</h2>
             <p>Once you have saved your algorithm, remember to save it and your algorithm will be available for you to see in the "<Link to="/app/myalgorithm">My Algorithms</Link>" page. Here, you can edit, share, and delete your algorithm.</p>
+            <img src="https://i.imgur.com/HFqAOBv.gif"></img>
+            <img src="https://i.imgur.com/ru6alrK.gif"></img>
             <br></br>
 
             <h2>3. View other people's algorithms for inspiration</h2>
             <p>Once your algorithm is shared with the world, and it can be viewed under the "<Link to="/app/publicalgorithms">Public Algorithms</Link>" page.</p>
+            <img src="https://i.imgur.com/PGW5yhA.gif"></img>
             <br></br>
 
             <h2>4. Enter your algorithm into a competition</h2>
             <p> 
                 Once you are happy with your algorithm, you can also enter it into a competition that you are interested in. You can do this by going to the "<Link to="/app/competition">Competitions</Link>" page. Make sure you submit your algorithm before the closing date of the competition. You are able to change the algorithm you submit anytime until the closing date.
+                <img src="https://i.imgur.com/BsYkoUk.gif"></img>
                 <br></br>
                 Note: Make sure your algorithm's ticker is the same as the ticker of the competition.
             </p>
