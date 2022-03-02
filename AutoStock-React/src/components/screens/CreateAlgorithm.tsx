@@ -375,7 +375,7 @@ const CreateAlgorithm = () => {
           </FormControl>
         </div>
         {/* Running Time */}
-        <FormControl required sx={{ my: 2, minWidth: {xs: 200, md: 500} }}>
+        <FormControl required sx={{ my: 2, minWidth: {xs: 300, md: 500} }}>
           <InputLabel id="demo-simple-select-standard-label">
             Algorithm Running Time
           </InputLabel>
