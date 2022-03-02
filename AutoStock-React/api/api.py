@@ -66,103 +66,10 @@ def backtest_driver(req):
 
     class StrategyTest(bt.SignalStrategy):
         def __init__(self):
-            period1 = int(dataDict['Entry'][0]['period1'].split(" ")[1])
-            period2 = int(dataDict['Entry'][0]['period2'].split(" ")[1])
-            indi = dataDict['Entry'][0]['indicator']
-
-            sma1, sma2 = bt.ind.SMA(period=period1), bt.ind.SMA(period=period2)
-
-            indi1, indi2 = sma1, sma2
-            if indi == "EMA" or  indi == "DEMA" or indi == "T3" :
-                ema1, ema2 = bt.ind.EMA(period=period1), bt.ind.EMA(period=period2)
-                if indi == "DEMA" or indi == "T3":
-                    ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period=period1)), (2.0 - ema2 - bt.ind.EMA(period=period2))
-                    if indi == "T3":
-                        ema1, ema2 = (2.0 - ema1 - bt.ind.EMA( period=period1)), (2.0 - ema2 - bt.ind.EMA(period=period2))
-
-                if dataDict['Entry'][0]['action'] == "buy":
-                    close_over_sma1 = self.data.close > sma1
-                    close_over_ema1 = self.data.close > ema1
-                    close_over_sma2 = self.data.close > sma2
-                    close_over_ema2 = self.data.close > ema2
-                    sma_ema_diff = sma1 - ema1
-                    sma_ema2_diff = sma2 - ema2
-                    buy_sig1 = bt.And(close_over_sma1, close_over_ema1, sma_ema_diff > 0)
-                    buy_sig2 = bt.And(close_over_sma2, close_over_ema2, sma_ema_diff > 0)
-
-                indi1, indi2 = ema1, ema2
-
-            if indi == "BBANDS":
-                indi1, indi2 = bt.indicators.BollingerBands(period=period1), bt.indicators.BollingerBands(period=period2)
-            if indi == "SAR":
-                indi1, indi2 = bt.indicators.ParabolicSAR(period=period1), bt.indicators.ParabolicSAR(period=period2)
-
-            if indi == "KAMA":
-                indi1, indi2 = bt.indicators.KAMA(period=period1), bt.indicators.KAMA(period=period2)
-
-
-            # if indi == "DEMA":
-            #     indi1, indi2 = bt.indicators.DEMA(period=period1), bt.indicators.DEMA(period=period2)
-            #Possible replacement code for DEMA
-
-            if indi == "TEMA":
-                indi1, indi2 = bt.indicators.TEMA(period=period1), bt.indicators.TEMA(period=period2)
-            if indi == "WMA":
-                indi1, indi2 = bt.ind.WMA(period=period1), bt.indicators.WMA(period=period2)
-            # if indi == "TRIMA":
-
-            #     if period1 % 2 == 0:
-            #         p1 = p2 = (period1 + 1) //2
-            #     else:
-            #         p1, p2 = (period1 // 2) + 1, period1 //2
-
-
-            #     if period2 %2 ==  0:
-            #         p3 = p4 = (period2 + 1) //2
-
-            #     else:
-            #         p3, p4 = (period2 // 2) + 1, period2 //2
-            #     indi1, indi2 = bt.ind.SMA(bt.ind.SMA(p2)), bt.ind.SMA(bt.ind.SMA(p)
-            # will fix later
-
-            if indi == "STOC":
-                indi1 = indi2 = bt.indicators.Stochastic(self.data)
-
-            if indi == "MACD":
-                bt.indicators.MACD(self.data)
-                indi1 = indi2 = bt.indicators.MACDHisto(self.data)
-            if indi == "RSI":
-                indi1 = indi2 = bt.indicators.RSI(self.data)
-            if indi == "ULTIMATE":
-                indi1 = indi2 = bt.indicators.UltimateOscillator(self.data)
-            if indi == "TRIX":
-                indi1, indi2 = bt.indicators.TRIX(period=period1), bt.indicators.TRIX(period=period2)
-            if indi == "ADXR":
-                indi1 = indi2 = bt.indicators.ADXR(self.data)
-            if indi == "PPO":
-                indi1 = indi2 = bt.indicators.PPO(self.data, _movav=bt.indicators.SMA)
-            if indi == "ROC":
-                bt.indicators.ROC(self.data, period= period1), bt.indicators.ROC(self.data, period= period2)
-                bt.indicators.Momentum(self.data, period = period1), bt.indicators.Momentum(self.data, period = period2)
-                indi1, indi2 = bt.indicators.MomentumOscillator(self.data, period= period1), bt.indicators.MomentumOscillator(self.data, period= period2)
-            if indi == "WILLIAMSR":
-                indi1 = indi2 = bt.indicators.WilliamsR(self.data)
-
-            #shouldnt modify indi1, indi2 MA and SMA
-            crossover = bt.ind.CrossOver(indi1, indi2)
+            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
+            crossover = bt.ind.CrossOver(sma1, sma2)
             self.signal_add(bt.SIGNAL_LONG, crossover)
-            self.dataclose = self.datas[0].close
 
-
-
-        def next(self):
-            if self.dataclose[0] < self.dataclose[-1]:
-                if self.dataclose[-1] < self.dataclose[-2]:
-                    self.buy()
-                    response["action"] = 'buy'
-                else:
-                    self.close()
-                    response["action"] = 'close'
 
     cerebro = bt.Cerebro()
     cerebro.broker.setcash(dataDict['cash'])
@@ -192,7 +99,10 @@ def backtest_driver(req):
 
     response["url"] = url
 
+    print(response)
+
     return response
+
 
 
 @app.route('/test')
