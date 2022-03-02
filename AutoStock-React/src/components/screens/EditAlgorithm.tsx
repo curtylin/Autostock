@@ -100,7 +100,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     headers.append("content-type", "application/json")
 
     let body = `{
-      "symbol": "${stock}",
+      "ticker": "${stock}",
       "cash": 1000,
       "startDate": "${
         currDate.getFullYear() - 1
