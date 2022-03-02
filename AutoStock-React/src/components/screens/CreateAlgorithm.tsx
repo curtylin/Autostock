@@ -10,7 +10,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Grid } from "@mui/material"
+import { Grid, CircularProgress } from "@mui/material"
 import { getUser } from "../../services/auth"
 
 const jsConfetti = new JSConfetti()
@@ -34,6 +34,9 @@ const CreateAlgorithm = () => {
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)  
   const [data , setStockData] = useState([])
+  const [showSpinner, setShowSpinner] = useState(false)
+  const showSpin = () => setShowSpinner(true)
+  const noShowSpin = () => setShowSpinner(false)
   useEffect(() => {
     console.log(timeInterval)
   })
@@ -74,6 +77,7 @@ const CreateAlgorithm = () => {
 
   const handleBacktest = (event: any) => {
     show()
+    showSpin()
     let currDate = new Date()
     //create json object
     let obj = {
@@ -113,6 +117,7 @@ const CreateAlgorithm = () => {
 
         alert(JSON.stringify(text))
         setUrl(text.url)
+        noShowSpin()
       })
       .catch(e => {
         // error in e.message
@@ -429,6 +434,7 @@ const CreateAlgorithm = () => {
         >
           BackTest
         </Button>
+        {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
 
