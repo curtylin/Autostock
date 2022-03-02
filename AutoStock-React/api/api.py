@@ -937,9 +937,9 @@ def findBestUsers():
         startingCash = competition["startingBalance"]
 
         leaderboardsPair = []
-        for algoId in leaderboardList:
+        for leader_obj in leaderboardList:
             try:
-                algo = algorithms_ref.document(algoId).get()
+                algo = algorithms_ref.document(leader_obj["algorithmID"]).get()
                 algo_dict = algo.to_dict()
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
@@ -955,7 +955,7 @@ def findBestUsers():
                 print(e)
 
 
-            leaderboardsPair.append((algoId, backtestResults["PnL"]))
+            leaderboardsPair.append((leader_obj, backtestResults["PnL"]))
         # Update competition with sorted best players
         leaderboardsPair.sort(key=lambda tup: tup[1])
         newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
