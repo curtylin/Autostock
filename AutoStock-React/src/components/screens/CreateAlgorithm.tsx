@@ -13,7 +13,8 @@ import HighChart from "../highChart"
 import { Grid } from "@mui/material"
 import { getUser } from "../../services/auth"
 
-const jsConfetti = new JSConfetti()
+let jsConfetti: any
+
 const theme = {
   spacing: 8,
 }
@@ -35,7 +36,7 @@ const CreateAlgorithm = () => {
   const show = () => setShowBT(true)  
   const [data , setStockData] = useState([])
   useEffect(() => {
-    console.log(timeInterval)
+    jsConfetti = new JSConfetti()
   })
 
   const loadStocks = () => {
@@ -267,20 +268,28 @@ const CreateAlgorithm = () => {
               KAMA - Kaufman Adaptive Moving Average
             </MenuItem>
             <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MAMA"}>MAMA - MESA Adaptive Moving Average</MenuItem>
+            <MenuItem value={"MAMA"}>
+              MAMA - MESA Adaptive Moving Average
+            </MenuItem>
             <MenuItem value={"MAVP"}>
               MAVP - Moving average with variable period
             </MenuItem>
-            <MenuItem value={"MIDPOINT"}>MIDPOINT - MidPoint over period</MenuItem>
+            <MenuItem value={"MIDPOINT"}>
+              MIDPOINT - MidPoint over period
+            </MenuItem>
             <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"SAREXT"}>
+              SAREXT - Parabolic SAR - Extended
+            </MenuItem>
             <MenuItem value={"T3"}>
               T3 - Triple Exponential Moving Average
             </MenuItem>
             <MenuItem value={"TEMA"}>
               TEMA - Triple Exponential Moving Average
             </MenuItem>
-            <MenuItem value={"TRIMA"}>TRIMA - Triangular Moving Average</MenuItem>
+            <MenuItem value={"TRIMA"}>
+              TRIMA - Triangular Moving Average
+            </MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
           {/* </Tooltip> */}
