@@ -150,7 +150,7 @@ const Competition = () => {
 
 
     let submitButton;
-    const closeDate = new Date(competition.closeDate)
+    const closeDate = new Date(competition.endDate)
     if (closeDate > new Date())
     {
       // console.log("submissions open")
@@ -177,7 +177,7 @@ const Competition = () => {
       <h3>Starting Balance: {competition.startingBalance}</h3>
       <p>Details: {competition.description}</p>
       <></>
-      <p>Submissions Close: {competition.closeDate}</p>
+      <p>Submissions Close: {competition.endDate}</p>
 
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}> 
                         <InputLabel required id="demo-simple-select-standard-label">
