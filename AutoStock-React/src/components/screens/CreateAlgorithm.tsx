@@ -254,9 +254,6 @@ const CreateAlgorithm = () => {
               setIndicator1(e.target.value)
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
             <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
             <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
