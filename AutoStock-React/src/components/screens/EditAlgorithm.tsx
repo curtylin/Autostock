@@ -10,7 +10,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Grid } from "@mui/material"
+import { Backdrop, Card, CardActions, CardContent, CircularProgress, Grid, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
 
 const isBrowser = typeof window !== "undefined"
@@ -35,6 +35,15 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
+  const [data , setStockData] = useState([])
+  const [showSpinner, setShowSpinner] = useState(false)
+  const showSpin = () => setShowSpinner(true)
+  const noShowSpin = () => setShowSpinner(false)
+  const [BTresults, setBTresults] = useState("")
+  const [BTendRes, setBTendRes] = useState("")
+  const [BTPnLPer, setBTPnLPer] = useState("")
+  const [BTPnLNu, setBTPnLNum] = useState("")
+  const [BTstart, setBTstart] = useState("")
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -47,8 +56,36 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         setStocks(data)
       })
   }
+  const handleBlur = () => {
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let body = `{
+      "ticker": "${stock}",
+      "startDate": "2020-11-9",
+      "endDate": "2021-11-9"
+    }`
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      }) 
+      .catch(e => {
+        // error in e.message
+      })
+  };
+  const [urls, setUrl] = useState("")
 
   const handleBacktest = (event: any) => {
+    show()
+    showSpin()
+    
     let currDate = new Date()
     //create json object
     let obj = {
@@ -85,12 +122,21 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       .then(text => {
         // text is the response body
         console.log(text)
-        alert(JSON.stringify(text))
+
+        // alert(JSON.stringify(text))
+        setBTresults(JSON.stringify(text))
+        setBTendRes(text.EndingValue)
+        setBTPnLNum(text.PnL)
+        setBTPnLPer(text.PnLPercent)
+        setBTstart(text.startingValue)
+        setUrl(text.url)
+        noShowSpin()
       })
       .catch(e => {
         // error in e.message
       })
     event.preventDefault()
+
   }
 
   const [algorithm, setAlgorithm] = useState<any>([])
@@ -136,9 +182,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             "indicator1": "${indicator1}",
             "timeInterval": "${timeInterval}",
             "comparator": "${indicator2}",
-            "runtime": "${runningTime}",
+            "runningTime": "${runningTime}",
             "period1": "${period1}",
             "period2": "${period2}",
+            "public": false,
             "userID": "${getUser().uid}",
             "action": "${action}"
             }
@@ -177,9 +224,26 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const BackTestingPart = () => (
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-      <HighChart setChart={`${stock}`} />
+        <Card variant="outlined" sx={{ minWidth: 275, mb:5}}>
+          <CardContent>
+            <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+              {stock}
+            </Typography>
+            <Typography variant="h5">
+              Ending Value: ${BTendRes}
+            </Typography>
+            <Typography variant="h6">
+              PnL Percentage: {BTPnLPer.toString().substring(0,4)}%
+            </Typography>
+            <Typography variant="h6">
+              Started with: ${BTstart}
+            </Typography>
+          </CardContent>
+        </Card>
+          <img src={`${urls}`}></img>      
     </div>
   )
+
 
   return (
     <Layout>
@@ -208,6 +272,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           <FormControl sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
+                onBlur={handleBlur}
                 required
                 value={stock}
                 InputLabelProps={{ shrink: true }}
@@ -438,18 +503,23 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         </div>
       </form>
 
-      <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
-
-      <div id="BackTest">
+      <div>
+        <h2>Historical Data</h2>
+        <HighChart stock={stock} stockData={data} />
+      </div>
+      <div id="BackTestButton">
         <Button
           type="submit"
           variant="contained"
-          color="primary"
-          onClick={show}
+          sx={{ my: 2, mr: 5, minWidth: 300 }}
+          onClick={handleBacktest}
         >
           BackTest
         </Button>
+        {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
+
+      <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
     </Layout>
   )
 }
