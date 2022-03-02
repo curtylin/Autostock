@@ -165,7 +165,6 @@ const CreateAlgorithm = () => {
 
 
   const BackTestingPart = () => (
-    // ADD THE BACKTRACKING IMAGE
     <div>
       <h2>Backtesting Data: {algoName}</h2>
           <img src={`${urls}`}></img>      
