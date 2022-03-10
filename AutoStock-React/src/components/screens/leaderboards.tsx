@@ -18,6 +18,7 @@ const Leaderboards = () => {
   const [competitions, setCompetitions] = useState([])
   const [algorithms, setAlgorithms] = useState([])
   const [users, setUsers] = useState(new Map<string, string>())
+  const [algoIDs, setAlgoIDs] = useState([])
 
   useEffect(() => {
     getAlgorithmsDB()
@@ -44,6 +45,10 @@ const Leaderboards = () => {
       })
       .then(result => {
         setAlgorithms(result)
+        result.forEach(element => {
+          algoIDs.push(element.id)
+          console.log(element.id)
+        });
       })
   }
   const getUsersDB = () => {
@@ -124,14 +129,7 @@ const Leaderboards = () => {
                                 return (
                                   <tr className="table_row" key={key}>
                                     <td className="table_data" scope="row">
-                                      {algorithm.algorithmID}
-                                      {algorithms.forEach(element => {
-                                        // if (element.id == algorithm.algorithmID){
-                                        //   console.log(element.name)
-                                        // }
-                                        // console.log(element)
-                                        console.log(element.id + " " + element.userID)
-                                      })}
+                                      {algoIDs.includes(algorithm.algorithmID) ? "Public" : "Private"}      
                                     </td>
                                     <td className="table_data">{algorithm.profit}</td>
                                     <td className="table_data">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
