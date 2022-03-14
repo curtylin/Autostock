@@ -308,7 +308,7 @@ const CreateAlgorithm = () => {
           {/* </Tooltip> */}
         </FormControl>
         {/* Period 1 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+        <FormControl required sx={{ my: 2, mr: 5, minWidth: 150 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Period 1
           </InputLabel>
@@ -332,6 +332,18 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
+        {/* Period 1 Number */}
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
+            <TextField
+              required
+              type="number"
+              id="outlined-search"
+              label="Period 1 Number"
+            />
+          </Tooltip>
+          </FormControl>
+        <div>
         {/* Indicator 2 */}
         <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
@@ -356,7 +368,7 @@ const CreateAlgorithm = () => {
           </Tooltip>
         </FormControl>
         {/* Period 2 */}
-        <FormControl required sx={{ my: 2, minWidth: 200 }}>
+        <FormControl required sx={{ my: 2, mr: 5, minWidth: 150 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Period 2
           </InputLabel>
@@ -380,6 +392,19 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
+        {/* Period 2 Number */}
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
+            <TextField
+              required
+              type="number"
+              id="outlined-search"
+              label="Period 2 Number"
+            />
+          </Tooltip>
+          </FormControl>
+        </div>
+        
         <div>
           {/* Action */}
           <FormControl required sx={{ my: 2, minWidth: 200 }}>
