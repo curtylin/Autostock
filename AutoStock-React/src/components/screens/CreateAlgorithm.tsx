@@ -325,7 +325,10 @@ const CreateAlgorithm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"(close) 20"}>(close) 20</MenuItem>
+              <MenuItem value={"low"}>low</MenuItem>
+              <MenuItem value={"high"}>high</MenuItem>
+              <MenuItem value={"open"}>open</MenuItem>
+              <MenuItem value={"close"}>close</MenuItem>
             </Select>
           </Tooltip>
         </FormControl>
@@ -370,7 +373,10 @@ const CreateAlgorithm = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"(close) 20"}>(close) 20</MenuItem>
+              <MenuItem value={"low"}>low</MenuItem>
+              <MenuItem value={"high"}>high</MenuItem>
+              <MenuItem value={"open"}>open</MenuItem>
+              <MenuItem value={"close"}>close</MenuItem>
             </Select>
           </Tooltip>
         </FormControl>
