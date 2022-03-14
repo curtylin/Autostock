@@ -13,6 +13,7 @@ import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
 import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
+import AddIcon from '@mui/icons-material/Add';
 
 let jsConfetti: any
 
@@ -412,6 +413,12 @@ const CreateAlgorithm = () => {
             />
           </Tooltip>
           </FormControl>
+        <div>
+          <Button  sx={{borderRadius:1000}}>
+              <AddIcon/> Add Indicators
+          </Button>
+        </div>
+        
         </div>
         <div>
         <Divider sx={{my:2, mb:2}}/>
