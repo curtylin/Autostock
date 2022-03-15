@@ -28,8 +28,10 @@ const CreateAlgorithm = () => {
   const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("SMA")
   const [period1, setPeriod1] = useState("")
+  const [period1Number, setPeriod1Number] = useState("")
   const [indicator2, setIndicator2] = useState("")
   const [period2, setPeriod2] = useState("")
+  const [period2Number, setPeriod2Number] = useState("")
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
@@ -147,7 +149,9 @@ const CreateAlgorithm = () => {
             "comparator": "${indicator2}",
             "runningTime": "${runningTime}",
             "period1": "${period1}",
+            "period1Number": "${period1Number}",
             "period2": "${period2}",
+            "period2Number": "${period2Number}",
             "public": false,
             "userID": "${getUser().uid}",
             "action": "${action}"
@@ -340,6 +344,10 @@ const CreateAlgorithm = () => {
               type="number"
               id="outlined-search"
               label="Period 1 Number"
+              value={period1Number}
+              onChange={e => {
+                setPeriod1Number(e.target.value)
+              }}
             />
           </Tooltip>
           </FormControl>
@@ -400,6 +408,11 @@ const CreateAlgorithm = () => {
               type="number"
               id="outlined-search"
               label="Period 2 Number"
+              value={period2Number}
+              onChange={e => {
+                setPeriod2Number(e.target.value)
+              }}
+              
             />
           </Tooltip>
           </FormControl>
