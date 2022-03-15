@@ -9,6 +9,7 @@ const Algorithm = () => {
   const [algorithm, setAlgorithm] = useState<any>([])
   const [username, setUsername] = useState("")
   useEffect(() => {
+    console.log(window.history.state)
     console.log(window.history.state.id)
     getAlgoDB()
     getUserDB()
