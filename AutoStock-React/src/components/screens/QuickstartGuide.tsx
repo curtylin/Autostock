@@ -54,7 +54,7 @@ const QuickStartGuide = () => {
 
             <h2>1. Create an algorithm</h2>
             <p>You can get started by <Link to="/app/createalgorithm">creating an algorithm.</Link></p>
-            <img src="https://i.imgur.com/vYtuZIC.gif"></img>
+            <img src="https://i.imgur.com/ems0VXa.gif"></img>
             <br></br>
 
             <h2>2. Backtest your algorithm</h2>
