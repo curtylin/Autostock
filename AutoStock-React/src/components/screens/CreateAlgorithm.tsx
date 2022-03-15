@@ -349,6 +349,7 @@ const CreateAlgorithm = () => {
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
             <TextField
               required
+              autoComplete="off"
               type="number"
               id="outlined-search"
               label="Period 1 Number"
@@ -415,6 +416,7 @@ const CreateAlgorithm = () => {
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
             <TextField
               required
+              autoComplete="off"
               type="number"
               id="outlined-search"
               label="Period 2 Number"
