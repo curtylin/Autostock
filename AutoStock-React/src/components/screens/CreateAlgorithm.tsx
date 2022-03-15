@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
+import Divider from '@mui/material/Divider';
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import Tooltip from "@mui/material/Tooltip"
 import Layout from "../layout"
@@ -12,6 +13,7 @@ import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
 import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
+import AddIcon from '@mui/icons-material/Add';
 
 let jsConfetti: any
 
@@ -214,6 +216,7 @@ const CreateAlgorithm = () => {
       <h1>Create Algorithm</h1>
 
       <form>
+        <h4>Algorithm Details</h4>
         <div>
           {/* Algorithm Name */}
           <Tooltip title="Give it a name!" placement="left" arrow>
@@ -272,6 +275,11 @@ const CreateAlgorithm = () => {
             </Tooltip>
           </FormControl>
         </div>
+        <div>
+          <Divider sx={{my:2, mb:2}}/>
+        </div>
+        <h4>Indicators</h4>
+        
         {/* Indicator */}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel required id="demo-simple-select-standard-label">
@@ -312,7 +320,7 @@ const CreateAlgorithm = () => {
           {/* </Tooltip> */}
         </FormControl>
         {/* Period 1 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 150 }}>
+        <FormControl required sx={{ my: 2, mr: 5, minWidth: 125 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Period 1
           </InputLabel>
@@ -337,7 +345,7 @@ const CreateAlgorithm = () => {
           </Tooltip>
         </FormControl>
         {/* Period 1 Number */}
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
             <TextField
               required
@@ -352,8 +360,8 @@ const CreateAlgorithm = () => {
           </Tooltip>
           </FormControl>
         <div>
-        {/* Indicator 2 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+           {/* Indicator 2 */}
+        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Indicator 2
           </InputLabel>
@@ -375,8 +383,10 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
+        </div>
+        <div>
         {/* Period 2 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 150 }}>
+        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 125 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Period 2
           </InputLabel>
@@ -401,7 +411,7 @@ const CreateAlgorithm = () => {
           </Tooltip>
         </FormControl>
         {/* Period 2 Number */}
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
             <TextField
               required
@@ -416,8 +426,16 @@ const CreateAlgorithm = () => {
             />
           </Tooltip>
           </FormControl>
+        <div>
+          <Button  sx={{borderRadius:1000}}>
+              <AddIcon/> Add Indicators
+          </Button>
         </div>
         
+        </div>
+        <div>
+        <Divider sx={{my:2, mb:2}}/>
+        </div>
         <div>
           {/* Action */}
           <FormControl required sx={{ my: 2, minWidth: 200 }}>
@@ -468,7 +486,6 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
-        
         <div>
           <Button
             type="submit"
