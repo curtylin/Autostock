@@ -143,7 +143,7 @@ const Leaderboards = () => {
                         id={comp.id}
                         onClick={event => {navigate(`/app/competition`, 
                         {
-                          state: comp.id,
+                          state: comp,
                         }
                           )
                           }}> Learn More
