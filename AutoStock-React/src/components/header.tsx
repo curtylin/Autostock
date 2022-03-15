@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useEffect, useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Toolbar from "@mui/material/Toolbar"
@@ -64,12 +65,12 @@ const settings = [
 ]
 
 const Header = ({ siteTitle }: HeaderProps) => {
+  const [username, setUsername] = useState("")
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
   const [anchorElAlg, setAnchorElAlg] = React.useState<null | HTMLElement>(null)
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -89,6 +90,26 @@ const Header = ({ siteTitle }: HeaderProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+  useEffect(() =>{
+    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        })
+          .then(res => {
+            return res.json()
+          })
+          .then(result => {
+            console.log(result)
+            if (result === null) {
+                setUsername("")
+            } else {
+                setUsername(result.username)
+            }
+          })
+  })
   
   return (
     <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
@@ -98,15 +119,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
           <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
-          {/* <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              marginBottom:0
-            }}>
-            <img onClick={event => {navigate('/app/home')}} style={{marginBottom: 0}}width={50} src={Logo} alt="logo"/>
-          </div> */}
+          
           
           <Link 
             to="/app/home"
@@ -119,7 +132,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 justifyContent: "center",
                 textAlign: "center",
               }}>
-              <img style={{marginBottom:0}} width={50} src={Logo}></img>
+              <img style={{marginBottom:0, marginRight:5}} width={50} src={Logo}></img>
             </div>
           </Link>
           <Typography
@@ -149,7 +162,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
             sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
             style={{ color: "black" }}
           >
-            
             <Link
               to="/app/home"
               style={{ color: "black", textDecoration: "none" }}
@@ -219,9 +231,28 @@ const Header = ({ siteTitle }: HeaderProps) => {
               </Typography>
             </Button>
           </Box>
-          : <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>}
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}></Box>
+          : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
+          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "flex", md: "flex" } }}>       
+            <Typography
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
+              >
+                {username == "" ? (
+                <>
+                
+                </>
+                ) : (
+                <>
+                Hi, {username}
+                </>
+                )}              
+              </Typography>            
+            </Box>
           <Box  sx={{ flexGrow: 0, display: { } }}>
+            
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="" />
@@ -249,6 +280,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 </MenuItem>
               ))}
             </Menu>
+            
           </Box>
         </Toolbar>
       </Container>
