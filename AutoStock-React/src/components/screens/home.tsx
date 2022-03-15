@@ -78,6 +78,7 @@ const Home = () => {
   return (
     <Layout>
       <Seo title="AutoStock" />
+      <br></br>
       <h3>
         {username == "" ? (
         <>
