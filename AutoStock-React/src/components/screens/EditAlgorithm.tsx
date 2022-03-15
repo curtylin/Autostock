@@ -10,8 +10,10 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Backdrop, Card, CardActions, CardContent, CircularProgress, Grid, Typography } from "@mui/material"
+import { Backdrop, Card, CardActions, CardContent, CircularProgress, Divider, Grid, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
+import AddIcon from '@mui/icons-material/Add';
+
 
 const isBrowser = typeof window !== "undefined"
 let jsConfetti: any
@@ -29,8 +31,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("")
   const [period1, setPeriod1] = useState("")
+  const [period1Number, setPeriod1Number] = useState("")
   const [indicator2, setIndicator2] = useState("")
   const [period2, setPeriod2] = useState("")
+  const [period2Number, setPeriod2Number] = useState("")
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
@@ -166,8 +170,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           setTimeInterval(result.timeInterval)
           setIndicator1(result.indicator1)
           setPeriod1(result.period1)
+          setPeriod1Number(result.period1Number)
           setIndicator2(result.comparator)
           setPeriod2(result.period2)
+          setPeriod2Number(result.period2Number)
           setAction(result.action)
           setRunningTime(result.runningTime)
           setAlgorithm(result)
@@ -251,6 +257,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       <h2>Edit Algorithm</h2>
 
       <form>
+        <h4>Algorithm Details</h4>
         <div>
           {/* Algorithm Name */}
           <Tooltip title="Give it a name!" placement="left" arrow>
@@ -312,6 +319,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             </Tooltip>
           </FormControl>
         </div>
+        <div>
+          <Divider sx={{my:2, mb:2}}/>
+        </div>
+        <h4>Indicators</h4>
         {/* Indicator */}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel required id="demo-simple-select-standard-label">
@@ -327,50 +338,32 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               setIndicator1(e.target.value)
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={"SMA"}>SMA - Simple Moving Average </MenuItem>
+            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
+            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
             <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
             <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={"DEMA"}>
-              DEMA - Double Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"HT_TRENDLINE"}>
-              HT_TRENDLINE - Hilbert Transform - Instantaneous Trendline
-            </MenuItem>
-            <MenuItem value={"KAMA"}>
-              KAMA - Kaufman Adaptive Moving Average
-            </MenuItem>
+            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
             <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MAMA"}>
-              MAMA - MESA Adaptive Moving Average
-            </MenuItem>
-            <MenuItem value={"MAVP"}>
-              MAVP - Moving average with variable period
-            </MenuItem>
-            <MenuItem value={"MIDPOINT"}>
-              MIDPOINT - MidPoint over period
-            </MenuItem>
+            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
+            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
             <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>
-              SAREXT - Parabolic SAR - Extended
-            </MenuItem>
-            <MenuItem value={"T3"}>
-              T3 - Triple Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"TEMA"}>
-              TEMA - Triple Exponential Moving Average
-            </MenuItem>
-            <MenuItem value={"TRIMA"}>
-              TRIMA - Triangular Moving Average
-            </MenuItem>
+            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
+            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
           {/* </Tooltip> */}
         </FormControl>
         {/* Period 1 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+        <FormControl required sx={{ my: 2, mr: 5, minWidth: 125 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Period 1
           </InputLabel>
@@ -394,8 +387,24 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             </Select>
           </Tooltip>
         </FormControl>
+        {/* Period 1 Number */}
+        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
+          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
+            <TextField
+              required
+              type="number"
+              id="outlined-search"
+              label="Period 1 Number"
+              value={period1Number}
+              onChange={e => {
+                setPeriod1Number(e.target.value)
+              }}
+            />
+          </Tooltip>
+          </FormControl>
+        <div>
         {/* Indicator 2 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 200 }}>
+        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Indicator 2
           </InputLabel>
@@ -417,8 +426,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             </Select>
           </Tooltip>
         </FormControl>
+        </div>
+        <div>
         {/* Period 2 */}
-        <FormControl required sx={{ my: 2, minWidth: 200 }}>
+        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 125 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Period 2
           </InputLabel>
@@ -442,6 +453,31 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             </Select>
           </Tooltip>
         </FormControl>
+        {/* Period 2 Number */}
+        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
+          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
+            <TextField
+              required
+              type="number"
+              id="outlined-search"
+              label="Period 2 Number"
+              value={period2Number}
+              onChange={e => {
+                setPeriod2Number(e.target.value)
+              }}
+              
+            />
+          </Tooltip>
+          </FormControl>
+          <div>
+          <Button  sx={{borderRadius:1000}}>
+              <AddIcon/> Add Indicators
+          </Button>
+        </div>
+        </div>
+        <div>
+        <Divider sx={{my:2, mb:2}}/>
+        </div>
         <div>
           {/* Action */}
           <FormControl required sx={{ my: 2, minWidth: 200 }}>
