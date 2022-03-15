@@ -10,19 +10,19 @@ import Seo from "../seo"
 import "./screens.css"
 
 import { getUser } from "../../services/auth"
-import { navigate } from "gatsby"
+import { Link, navigate } from "gatsby"
 import { Divider, Stack } from "@mui/material";
 
 
 const Leaderboards = () => {
   const [competitions, setCompetitions] = useState([])
-  const [algorithms, setAlgorithms] = useState([])
+  const [algorithms, setAlgorithms] = useState(new Map<string, string>())
   const [users, setUsers] = useState(new Map<string, string>())
-  const [algoIDs, setAlgoIDs] = useState([])
 
   useEffect(() => {
     getAlgorithmsDB()
     getUsersDB()
+    console.log(algorithms)
     fetch("http://localhost:5000/list-competitions")
       .then(res => {
         return res.json()
@@ -44,11 +44,9 @@ const Leaderboards = () => {
         return res.json()
       })
       .then(result => {
-        setAlgorithms(result)
-        result.forEach(element => {
-          algoIDs.push(element.id)
-          console.log(element.id)
-        });
+        for(let i = 0; i < result.length; i++){
+          setAlgorithms(prev => new Map([...prev, [result[i].id, result[i].name]]))
+        }
       })
   }
   const getUsersDB = () => {
@@ -129,7 +127,7 @@ const Leaderboards = () => {
                                 return (
                                   <tr className="table_row" key={key}>
                                     <td className="table_data" scope="row">
-                                      {algoIDs.includes(algorithm.algorithmID) ? "Public" : "Private"}      
+                                      {algorithms.has(algorithm.algorithmID) ? <Link to="/app/algorithm" state={{"id" : algorithm.algorithmID, "userID": algorithm.userID}}>{algorithms.get(algorithm.algorithmID)}</Link> : "Private Algorithm"}      
                                     </td>
                                     <td className="table_data">{algorithm.profit}</td>
                                     <td className="table_data">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
