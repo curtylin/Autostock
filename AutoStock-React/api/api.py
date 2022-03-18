@@ -1012,7 +1012,7 @@ def enterBotsIntoComps():
                     "userID": bot['userID'],
                     "algorithm" : algoID
                 }
-                competitor_create_driver(competitor_obj)
+                comp_enter_user_driver(competitor_obj)
 
 
 
