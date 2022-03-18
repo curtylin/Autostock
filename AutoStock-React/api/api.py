@@ -42,6 +42,7 @@ staleCompetitions_ref = db.collection('staleCompetitions')
 competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
+bots_ref = db.collection('bots')
 
 
 @app.errorhandler(404)
@@ -195,11 +196,16 @@ def algo_create():
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
+    return algo_create_driver(request.json)
+
+
+def algo_create_driver(req_obj):
     try:
-        algorithms_ref.document().set(request.json)
+        algorithms_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## Returns all public algorithms
 @cross_origin()
@@ -592,6 +598,42 @@ def comp_unregister_competition(id):
 
 ## End comp CRUD Block
 
+## Start Bot CRUD Block
+@app.route('/create-bot', methods=['POST'])
+def bot_create():
+    """
+        create() : Add document to Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post'}
+    """
+    return bot_create_driver(request.json)
+
+def bot_create_driver(req_obj):
+    try:
+        bots_ref.document(req_obj["userID"]).set(req_obj)
+        users_ref.document(req_obj["userID"]).set(req_obj)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/list-bots', methods=['GET'])
+def bots_list():
+    """
+        Gets all bots in the collection.
+        read() : Fetches documents from Firestore collection as JSON.
+    """
+    return bots_list_driver()
+
+def bots_list_driver():
+    try:
+        # Check if ID was passed to URL query
+        bots = [doc.to_dict() for doc in bots_ref.stream()]
+        return jsonify(bots), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
+
 ## Beginning of yahoo Finance information
 @app.route('/gethighchartdata', methods=['POST'])
 def get_highchart_data():
@@ -916,6 +958,15 @@ def generateCompetitions():
 
         active_comp_create_driver(comp_obj)
 
+
+def generateBot():
+    botsList = bots_list_driver()
+    bot_obj = {
+        "username" : "Bot" + str(len(botsList) + 1),
+        "userID" : "bot" + str(len(botsList) + 1),
+        "bot" : True
+    }
+    bot_create_driver(bot_obj)
 
 def findBestUsers():
     competitions = []
