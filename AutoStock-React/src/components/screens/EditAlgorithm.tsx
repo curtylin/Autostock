@@ -190,7 +190,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             "comparator": "${indicator2}",
             "runningTime": "${runningTime}",
             "period1": "${period1}",
+            "period1Number": "${period1Number}",
             "period2": "${period2}",
+            "period2Number": "${period2Number}",
             "public": false,
             "userID": "${getUser().uid}",
             "action": "${action}"
