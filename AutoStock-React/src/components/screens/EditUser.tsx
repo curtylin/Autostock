@@ -109,7 +109,8 @@ const EditUser = () => {
           return
         } else{
           let body = `{
-            "username": "${username}"
+            "username": "${username}",
+            "bot": false
             }
             `
           const headers = new Headers()
