@@ -199,9 +199,12 @@ def algo_create():
     return algo_create_driver(request.json)
 
 
-def algo_create_driver(req_obj):
+def algo_create_driver(req_obj, id=None):
     try:
-        algorithms_ref.document().set(req_obj)
+        if id is not None:
+            algorithms_ref.document(id).set(req_obj)
+        else:
+            algorithms_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
@@ -562,8 +565,11 @@ def comp_enter_user():
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
+    return comp_enter_user_driver(request.json)
+
+def comp_enter_user_driver(req_obj):
     try:
-        competitors_ref.document().set(request.json)
+        competitors_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
@@ -967,6 +973,49 @@ def generateBot():
         "bot" : True
     }
     bot_create_driver(bot_obj)
+
+def enterBotsIntoComps():
+    comps = activeCompetitions_ref.stream()
+    bots = bots_ref.stream()
+    indicators = ["EMA", "SMA", "BBANDS", "KAMA", "DEMA", "MA", "TRIX", "TEMA"]
+    actions = ["buy", "sell"]
+    periods = ["open", "close", "high", "low"]
+    comparators = ["Above", "Below"]
+    intervals = ["1", "24", "168"]
+
+    for comp in comps:
+        compDict = comp.to_dict()
+        for bot in bots:
+            botDict = bot.to_dict()
+            competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", botDict['userID']).get()
+            if len(competitors) == 0:
+                chosenIndicator = random.choice(indicators)
+                algo = {
+                    "action": random.choice(actions),
+                    "comparator": random.choice(comparators),
+                    "indicator1": chosenIndicator,
+                    "interval": random.choice(intervals),
+                    "name": bot['username'] + "'s " + compDict['ticker'] + " " + chosenIndicator,
+                    "period1": random.choice(periods),
+                    "period1Number": str(random.randint(1,30)),
+                    "period2": random.choice(periods),
+                    "period2Number": str(random.randint(1,30)),
+                    "public": True,
+                    "runningTIme": 30,
+                    "ticker": compDict['ticker'],
+                    "userID": bot['userID']
+                }
+                algoID = (bot['userID'] + compDict['ticker'] + chosenIndicator)
+                algo_create_driver(algo, algoID)])
+                competitor_obj = {
+                    "competition": comp.id,
+                    "userID": bot['userID'],
+                    "algorithm" : algoID
+                }
+                competitor_create_driver(competitor_obj)
+
+
+
 
 def findBestUsers():
     competitions = []
