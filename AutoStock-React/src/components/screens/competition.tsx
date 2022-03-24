@@ -5,12 +5,12 @@ import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
 import Select, {SelectChangeEvent} from "@mui/material/Select"
 import Discussions from "../discussions"
-
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
-import { Card, CardContent, Divider, Stack, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Divider, Stack, Typography } from "@mui/material"
+import HighChart from "../highChart"
 
 const Competition = () => {
 
@@ -20,6 +20,8 @@ const Competition = () => {
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   const [competitionID, setCompetitionID] = useState(window.history.state.id)
   const [discussions, setDiscussions] = useState([])
+  const [data , setStockData] = useState([])
+
   useEffect(() => {
     getCompDB().then(() => {
       console.log(competition)
@@ -112,6 +114,40 @@ const Competition = () => {
       })
   }
 
+  const handleExpand = (event: any) => {
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date();
+    d.setFullYear(d.getFullYear()-1);
+    
+    let lastYear = d.toISOString().slice(0,10)
+
+    console.log(today)
+    console.log(lastYear)
+    console.log(competition.ticker)
+
+    let body = `{
+      "ticker": "${competition.ticker}",
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
+    }`
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
+
+  }
+
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
     let body = `{
@@ -190,14 +226,65 @@ const Competition = () => {
   return (
     <Layout>
       <Seo title="AutoStock" />
-      <h1>{competition.name}</h1> 
-      <h2>Ticker: {competition.ticker}</h2>
-      <h3>Participants: {competition.competitiors}</h3>
-      <h3>Duration: {competition.duration}</h3>
-      <h3>Starting Balance: {competition.startingBalance}</h3>
-      <p>Details: {competition.description}</p>
-      <></>
-      <p>Submissions Close: {competition.endDate}</p>
+      <Typography fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="Bold"sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }} textAlign="center" variant= "h1"  gutterBottom>
+          {competition.name}
+        </Typography>
+     
+        <Typography sx={{ marginBottom: 5, fontSize: 20}} fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium" variant= "h2" textAlign="center" gutterBottom>
+          Ticker:  <span className="stockTickName">{competition.ticker}</span>
+        </Typography>
+
+        <Card sx={{marginBottom: 2,  minWidth: 275 }}>
+          <CardContent>
+          <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium" variant= "h2"  gutterBottom>
+              Submissions Close: {competition.endDate}
+            </Typography>
+            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium" variant= "h2"  gutterBottom>
+              Participants:  <span className="stockTickName"> {competition.competitiors}</span>
+            </Typography>
+            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium" variant= "h2"  gutterBottom>
+              Duration: {competition.duration}            
+            </Typography>
+            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium" variant= "h2"  gutterBottom>
+              Starting Balance: {competition.startingBalance}            
+            </Typography>
+          </CardContent> 
+        </Card>
+        <Accordion sx={{}}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Details</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+          <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium" variant= "h2"  gutterBottom>
+              Details: {competition.description}           
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion sx={{mb:2}}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            onClick={handleExpand}
+          >
+            <Typography>Historical Data</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <HighChart stock={competition.ticker} stockData={data}/>
+          </AccordionDetails>
+         
+        </Accordion>
 
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}> 
                         <InputLabel required id="demo-simple-select-standard-label">
@@ -207,7 +294,7 @@ const Competition = () => {
                             <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
-                                label="Algorithm"
+                                label="Choose an Algorithm"
                                 value={chosenAlgorithm}
                                 onChange={e => {
                                     setChosenAlgorithm(e.target.value)
