@@ -11,6 +11,9 @@ import Seo from "../seo"
 import { getUser } from "../../services/auth"
 import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Divider, Stack, Typography } from "@mui/material"
 import HighChart from "../highChart"
+import "./screens.css"
+import AddIcon from '@mui/icons-material/Add';
+
 
 const Competition = () => {
 
@@ -266,8 +269,8 @@ const Competition = () => {
           </AccordionSummary>
           <AccordionDetails>
           <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
-              Details: {competition.description}           
+                  fontWeight="400" variant= "h3"  gutterBottom>
+              {competition.description}           
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -282,6 +285,7 @@ const Competition = () => {
           </AccordionSummary>
           <AccordionDetails>
             <HighChart stock={competition.ticker} stockData={data}/>
+            
           </AccordionDetails>
          
         </Accordion>
@@ -316,7 +320,60 @@ const Competition = () => {
       <Divider sx={{ mb:5, mt: 5}}/>
 
       <Discussions/>
+      <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+          <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
+            <span className="dis_UserName">[User]</span> My Thread Title.... [disc.Title]
+          </Typography>          
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
+              I think that GME is really cool actually.... [disc.Description]
+            </Typography>    
+            <Button size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
+              Comment
+            </Button>          
+          </AccordionDetails>       
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+          <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
+            <span className="dis_UserName">[User2]</span> Other Thread Title.... [disc.Title]
+          </Typography>          
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
+              I think that GME is really cool actually.... [disc.Description]
+            </Typography>        
+          </AccordionDetails>
+          <AccordionDetails>
+            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
+              .....<span className="dis_UserName">[User3]</span> I think that GME is bad.... [disc.comments[0]]
+            </Typography>           
+          </AccordionDetails>
+          <AccordionDetails>
+            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
+              .....<span className="dis_UserName">[User4]</span> I think that GME is the new DOGE....  [disc.comments[1]]
+            </Typography>    
+            <Button size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
+              Comment
+            </Button>          
+          </AccordionDetails>
+        </Accordion>
+        <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
+          New Thread
+        </Button>
+
       <Stack direction="column" spacing={2} sx={{my: 5}}>
+
         {/* {discussions.slice(0, 6).map((disc: any, index: number) => {
           let cardProps = {
             
