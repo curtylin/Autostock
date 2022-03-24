@@ -9,9 +9,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, Stack } from "@mui/material";
 import HighChart from "../highChart"
-import Discussions from "../discussions"
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -30,11 +29,7 @@ const Algorithm = () => {
     
     getAlgoDB()
     getUserDB()
-    console.log(algorithm)
    
-    
-    
-
   }, [])
 
   const getAlgoDB = () => {
@@ -112,8 +107,6 @@ const Algorithm = () => {
   return (
   <Layout>
     <Seo title="AutoStock" />
-
-
         <Typography fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }} textAlign="center" variant= "h1"  gutterBottom>
           {algorithm.name}
@@ -182,10 +175,36 @@ const Algorithm = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Divider sx={{ mb:5, mt: 5}}/>
 
   
-        <Discussions/>
+        {/* <Discussions/>
+        <Stack direction="column" spacing={2} sx={{my: 5}}>
+          {/* {competitions.slice(0, 6).map((comp: any, index: number) => {
+            let cardProps = {
+              compLength: comp.duration,
+              compTicker: comp.name,
+              compStartingVal: `Starting Balance: ${comp.startingBalance}`,
+              compDeadline: comp.closeDate,
+              description: comp.description,
+              leader: comp.leaderboard,
+              id: comp.id,
+            } */}
+            {/* return (
+              <Stack key={index} direction="column" spacing={2}>
+                  <Card key={index} variant="outlined" sx={{minWidth: 275}} >
+                  <CardContent>
+                    <Typography variant="h5" component="div">
+                        {comp.name}
+                    </Typography>
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                      Competition Length: {comp.duration}
+                    </Typography>     
+                  </CardContent>
+                  </Card>
+              </Stack>
+            )
+            })}
+      </Stack> */} 
   </Layout>
   )
 }

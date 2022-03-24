@@ -4,11 +4,13 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
 import Select, {SelectChangeEvent} from "@mui/material/Select"
+import Discussions from "../discussions"
 
 
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
+import { Card, CardContent, Divider, Stack, Typography } from "@mui/material"
 
 const Competition = () => {
 
@@ -17,6 +19,7 @@ const Competition = () => {
   const [competition, setCompetition] = useState({})
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   const [competitionID, setCompetitionID] = useState(window.history.state.id)
+  const [discussions, setDiscussions] = useState([])
   useEffect(() => {
     getCompDB().then(() => {
       console.log(competition)
@@ -24,10 +27,27 @@ const Competition = () => {
         getCurrentAlgorithm()
       }
       getAlgorithmsDB() 
-      // getAlgorithmsDB()
       console.log(chosenAlgorithm)
     })
+    // getDiscussionsDB()
   }, [chosenAlgorithm])
+
+  const getDiscussionsDB = () => {
+    fetch(`http://localhost:5000/get-discussions/${window.history.state.id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        console.log(result )
+        setDiscussions(result)
+      })
+  }
 
   const getCompDB = async () => {
     //fetch post to localhost
@@ -205,6 +225,32 @@ const Competition = () => {
          {submitButton}
          {/* {submitButton} */}
       </FormControl>
+
+      <Divider sx={{ mb:5, mt: 5}}/>
+
+      <Discussions/>
+      <Stack direction="column" spacing={2} sx={{my: 5}}>
+        {/* {discussions.slice(0, 6).map((disc: any, index: number) => {
+          let cardProps = {
+            
+          } 
+          return (
+          <Stack key={index} direction="column" spacing={2}>
+              <Card key={index} variant="outlined" sx={{minWidth: 275}} >
+              <CardContent>
+                <Typography variant="h5" component="div">
+                    {disc.name}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Competition Length: {disc.duration}
+                </Typography>     
+              </CardContent>
+              </Card>
+          </Stack>
+        )
+        })} */}
+    </Stack>                   
+
     </Layout>
   )
 }
