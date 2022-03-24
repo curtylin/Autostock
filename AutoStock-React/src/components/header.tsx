@@ -116,7 +116,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
-          <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
+          <Box sx={{ mr: 0, display:{lg:"none", md:"flex", sm:"flex"}}}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
           
@@ -141,7 +141,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs:"none", md: "flex" } }}
+            sx={{ mr: {xs:0}, pr:10, display: { xs:"flex", md: "flex" } }}
             style={{ color: "black" }}
           >
             
@@ -151,23 +151,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
               className="autostock-link"
             >
               {siteTitle}
-            </Link>
-          </Typography>
-          <Typography
-            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            fontWeight="Bold"
-            variant="h4"
-            noWrap
-            component="div"
-            sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
-            style={{ color: "black" }}
-          >
-            <Link
-              to="/app/home"
-              style={{ color: "black", textDecoration: "none" }}
-              className="autostock-link"
-            >
-              AS
             </Link>
           </Typography>
 
@@ -232,7 +215,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             </Button>
           </Box>
           : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
-          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "flex", md: "flex" } }}>       
+          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "none",sm:"flex", md: "flex" } }}>       
             <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
