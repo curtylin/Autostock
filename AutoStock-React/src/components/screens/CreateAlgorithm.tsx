@@ -227,7 +227,7 @@ const CreateAlgorithm = () => {
               }}
               sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
               id="outlined-search"
-              label="Algorithm Name"
+              label="Algorithm Name "
               type="search"
             />
           </Tooltip>
@@ -244,7 +244,7 @@ const CreateAlgorithm = () => {
                 }}
                 type="search"
                 id="outlined-search"
-                label="Stock"
+                label="Stock "
               />
             </Tooltip>
             {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
@@ -259,9 +259,10 @@ const CreateAlgorithm = () => {
             </InputLabel>
             <Tooltip title="How often?" placement="right" arrow>
               <Select
+                required
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                label="Time Interval"
+                label="Time Interval "
                 value={timeInterval}
                 onChange={e => {
                   setTimeInterval(e.target.value)
@@ -287,9 +288,10 @@ const CreateAlgorithm = () => {
           </InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
+            required
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            label="Indicator 1"
+            label="Indicator 1 "
             value={indicator1}
             onChange={e => {
               setIndicator1(e.target.value)
@@ -326,9 +328,10 @@ const CreateAlgorithm = () => {
           </InputLabel>
           <Tooltip title="Period 1" placement="left" arrow>
             <Select
+              required
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Period 1"
+              label="Period 1 "
               value={period1}
               onChange={e => {
                 setPeriod1(e.target.value)
@@ -345,14 +348,14 @@ const CreateAlgorithm = () => {
           </Tooltip>
         </FormControl>
         {/* Period 1 Number */}
-        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
+        <FormControl sx={{ my: 2, minWidth: 200, maxWidth: 200 }}>
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
             <TextField
               required
               autoComplete="off"
               type="number"
               id="outlined-search"
-              label="Period 1 Number"
+              label="Period 1 Number "
               value={period1Number}
               onChange={e => {
                 setPeriod1Number(e.target.value)
@@ -368,9 +371,10 @@ const CreateAlgorithm = () => {
           </InputLabel>
           <Tooltip title="Indicator 2" placement="left" arrow>
             <Select
+              required
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Indicator2"
+              label="Indicator 2 "
               value={indicator2}
               onChange={e => {
                 setIndicator2(e.target.value)
@@ -393,9 +397,10 @@ const CreateAlgorithm = () => {
           </InputLabel>
           <Tooltip title="Period 2" placement="left" arrow>
             <Select
+              required
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Period 2"
+              label="Period 2 "
               value={period2}
               onChange={e => {
                 setPeriod2(e.target.value)
@@ -412,14 +417,14 @@ const CreateAlgorithm = () => {
           </Tooltip>
         </FormControl>
         {/* Period 2 Number */}
-        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
+        <FormControl sx={{ my: 2, minWidth: 200, maxWidth: 200 }}>
           <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
             <TextField
               required
               autoComplete="off"
               type="number"
               id="outlined-search"
-              label="Period 2 Number"
+              label="Period 2 Number "
               value={period2Number}
               onChange={e => {
                 setPeriod2Number(e.target.value)
@@ -448,7 +453,7 @@ const CreateAlgorithm = () => {
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                label="Action"
+                label="Action *"
                 value={action}
                 onChange={e => {
                   setAction(e.target.value)
@@ -472,7 +477,7 @@ const CreateAlgorithm = () => {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Algorithm Running Time"
+              label="Algorithm Running Time *"
               value={runningTime}
               onChange={e => {
                 setRunningTime(e.target.value)
