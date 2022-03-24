@@ -9,8 +9,14 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import HighChart from "../highChart"
+import Discussions from "../discussions"
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 const Algorithm = () => {
   const [data , setStockData] = useState([])
@@ -25,36 +31,9 @@ const Algorithm = () => {
     getAlgoDB()
     getUserDB()
     console.log(algorithm)
-    let today = new Date().toISOString().slice(0, 10)
-    const d = new Date();
-    d.setFullYear(d.getFullYear()-1);
+   
     
-    let lastYear = d.toISOString().slice(0,10)
-
-    console.log(today)
-    console.log(lastYear)
-    console.log(algorithm.ticker)
     
-    let body = `{
-      "ticker": "${algorithm.ticker}",
-      "startDate": "${lastYear}",
-      "endDate": "${today.toString()}"
-    }`
-    const headers = new Headers()
-    headers.append("content-type", "application/json")
-    let init = {
-      method: "POST",
-      headers,
-      body,
-    }
-
-    fetch("http://localhost:5000/gethighchartdata ", init)
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        setStockData(result)
-      })
 
   }, [])
 
@@ -96,6 +75,39 @@ const Algorithm = () => {
       })
   }
 
+  const handleExpand = (event: any) => {
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date();
+    d.setFullYear(d.getFullYear()-1);
+    
+    let lastYear = d.toISOString().slice(0,10)
+
+    console.log(today)
+    console.log(lastYear)
+    console.log(algorithm.ticker)
+
+    let body = `{
+      "ticker": "${algorithm.ticker}",
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
+    }`
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
+
+  }
 
   return (
   <Layout>
@@ -155,8 +167,25 @@ const Algorithm = () => {
           </CardContent> 
         </Card>
 
-        <HighChart stock={algorithm.ticker} stockData={data}/>
+      
+        <Accordion sx={{mb:2}}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            onClick={handleExpand}
+          >
+            <Typography>Historical Data</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <HighChart stock={algorithm.ticker} stockData={data}/>
+          </AccordionDetails>
+        </Accordion>
+
+        <Divider sx={{ mb:5, mt: 5}}/>
+
   
+        <Discussions/>
   </Layout>
   )
 }
