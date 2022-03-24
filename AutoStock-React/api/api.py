@@ -259,6 +259,22 @@ def algo_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+@app.route('/get-discussions/<id>', methods=['GET'])
+def disc_read(id):
+    """
+        id : is the user id. Gets all discussions by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        discussion : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        disc = discussions_ref.document(id).get()
+        disc_Dict = disc.to_dict()
+        disc_Dict["id"] = disc.id
+        return jsonify(disc_Dict), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
