@@ -4,16 +4,17 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
 import Select, {SelectChangeEvent} from "@mui/material/Select"
-import Discussions from "../discussions"
+import Threads from "../threads"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
-import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Divider, Stack, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Stack, TextField, Typography } from "@mui/material"
 import HighChart from "../highChart"
 import "./screens.css"
 import AddIcon from '@mui/icons-material/Add';
-
+import Dialog from '@mui/material/Dialog';
+import CommentDialog from "../commentDialog"
 
 const Competition = () => {
 
@@ -24,6 +25,8 @@ const Competition = () => {
   const [competitionID, setCompetitionID] = useState(window.history.state.id)
   const [discussions, setDiscussions] = useState([])
   const [data , setStockData] = useState([])
+  const [open, setOpen] = React.useState(false);
+
 
   useEffect(() => {
     getCompDB().then(() => {
@@ -150,6 +153,14 @@ const Competition = () => {
       })
 
   }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value: string) => {
+    setOpen(false);
+  };
 
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
@@ -319,55 +330,9 @@ const Competition = () => {
 
       <Divider sx={{ mb:5, mt: 5}}/>
 
-      <Discussions/>
-      <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-          <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
-            <span className="dis_UserName">[User]</span> My Thread Title.... [disc.Title]
-          </Typography>          
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
-              I think that GME is really cool actually.... [disc.Description]
-            </Typography>    
-            <Button size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
-              Comment
-            </Button>          
-          </AccordionDetails>       
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-          <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
-            <span className="dis_UserName">[User2]</span> Other Thread Title.... [disc.Title]
-          </Typography>          
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
-              I think that GME is really cool actually.... [disc.Description]
-            </Typography>        
-          </AccordionDetails>
-          <AccordionDetails>
-            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
-              .....<span className="dis_UserName">[User3]</span> I think that GME is bad.... [disc.comments[0]]
-            </Typography>           
-          </AccordionDetails>
-          <AccordionDetails>
-            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
-              .....<span className="dis_UserName">[User4]</span> I think that GME is the new DOGE....  [disc.comments[1]]
-            </Typography>    
-            <Button size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
-              Comment
-            </Button>          
-          </AccordionDetails>
-        </Accordion>
+      <h1>Discussions</h1>
+        <Threads/>  
+        <Threads/>
         <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
           New Thread
         </Button>

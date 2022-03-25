@@ -43,7 +43,7 @@ competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
 
-
+discussions_ref = db.collection('discussions')
 @app.errorhandler(404)
 def not_found(error):
     # return app.send_static_file('index.html')
@@ -259,6 +259,7 @@ def algo_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+## <id> is different than get-algo
 @app.route('/get-discussions/<id>', methods=['GET'])
 def disc_read(id):
     """
