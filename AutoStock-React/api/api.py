@@ -1006,7 +1006,7 @@ def enterBotsIntoComps():
                     "userID": bot['userID']
                 }
                 algoID = (bot['userID'] + compDict['ticker'] + chosenIndicator)
-                algo_create_driver(algo, algoID)])
+                algo_create_driver(algo, algoID)
                 competitor_obj = {
                     "competition": comp.id,
                     "userID": bot['userID'],
