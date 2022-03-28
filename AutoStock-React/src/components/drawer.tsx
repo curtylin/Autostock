@@ -40,6 +40,9 @@ export default function TemporaryDrawer() {
   const LeaderboardPage = <Link to="/app/leaderboards"
     style={{ color: "black", textDecoration: "none" }}>Leaderboard</Link>
 
+  const QuickStartGuide = <Link to="/app/quickstartguide"
+    style={{ color: "black", textDecoration: "none" }}>Quick Start Guide</Link>
+
   const pages = [
     <Link
       to="/app/createalgorithm"
@@ -155,6 +158,21 @@ export default function TemporaryDrawer() {
                     </Typography>
                 </ListItem>
             </List>
+            {/* <Divider /> */}
+                <ListItem>    
+                    <ListItemIcon>
+                    <ShowChartIcon/>
+                    </ListItemIcon>      
+                    <Typography 
+                        textAlign="center"
+                        fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                        fontWeight="medium"
+                        align="right"
+                        component="div"
+                        >
+                        {QuickStartGuide}
+                    </Typography>
+                </ListItem>
         </List>
     </Box>
   );
