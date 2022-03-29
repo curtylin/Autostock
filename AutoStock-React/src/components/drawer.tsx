@@ -35,30 +35,33 @@ export default function TemporaryDrawer() {
 
 
   const CompPage = <Link to="/app/competitions"
-    style={{ color: "black", textDecoration: "none" }}>Competitions</Link>
+    style={{textDecoration: "none" }} className="drawerItem">Competitions</Link>
 
   const LeaderboardPage = <Link to="/app/leaderboards"
-    style={{ color: "black", textDecoration: "none" }}>Leaderboard</Link>
+    style={{textDecoration: "none" }} className="drawerItem">Leaderboard</Link>
 
   const QuickStartGuide = <Link to="/app/quickstartguide"
-    style={{ color: "black", textDecoration: "none" }}>Quick Start Guide</Link>
+    style={{textDecoration: "none" }} className="drawerItem">Quick Start Guide</Link>
 
   const pages = [
     <Link
       to="/app/createalgorithm"
-      style={{ color: "black", textDecoration: "none" }}
+      style={{textDecoration: "none" }}
+      className="drawerItem"
     >
       Create Algorithm
     </Link>,
     <Link
       to="/app/myalgorithms"
-      style={{ color: "black", textDecoration: "none" }}
+      style={{textDecoration: "none" }}
+      className="drawerItem"
     >
       My Algorithms
     </Link>,
     <Link
       to="/app/publicalgorithms"
-      style={{ color: "black", textDecoration: "none" }}
+      style={{textDecoration: "none" }}
+      className="drawerItem"
     >
       Public Algorithms
     </Link>,
@@ -125,7 +128,7 @@ export default function TemporaryDrawer() {
             ))}
             {/* <Divider /> */}
 
-                <ListItem sx={{mb:1}}>    
+                <ListItem>    
                     <ListItemIcon>
                         <EmojiEventsIcon/>
                     </ListItemIcon>      
@@ -135,15 +138,13 @@ export default function TemporaryDrawer() {
                         fontWeight="medium"
                         align="right"
                         component="div"
-                        
                         >
                         {CompPage}
                     </Typography>
                 </ListItem>
             
             {/* <Divider /> */}
-            <List>
-                <ListItem>    
+                <ListItem >    
                     <ListItemIcon>
                     <LeaderboardIcon/>
                     </ListItemIcon>      
@@ -157,7 +158,6 @@ export default function TemporaryDrawer() {
                         {LeaderboardPage}
                     </Typography>
                 </ListItem>
-            </List>
             {/* <Divider /> */}
                 <ListItem>    
                     <ListItemIcon>
