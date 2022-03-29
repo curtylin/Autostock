@@ -26,7 +26,14 @@ const ComplexCompCard = ({
 }: any) => {
     return (
         <Card variant="outlined" className="compCard" sx={{  maxWidth: 500 }}>
-            <CardActionArea> {/*CHANGE THIS TO CORRESPONDING COMP*/}
+            <CardActionArea
+            id={id}
+            onClick={event => {navigate(`/app/competition`, 
+            {
+              state: {id},
+            }
+              )
+              }}> {/*CHANGE THIS TO CORRESPONDING COMP*/}
                 <CardHeader
                 className="compHeader"
                 title={compTicker}
