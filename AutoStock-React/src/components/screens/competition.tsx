@@ -63,8 +63,6 @@ const Competition = () => {
         return res.json()
       })
       .then(result => {
-        console.log("threads")
-        console.log(result)
         setThreads(result)
       })
   }
@@ -82,8 +80,6 @@ const Competition = () => {
         return res.json()
       })
       .then(result => {
-        console.log("discussions")
-        console.log(result)
         setDiscussions(result)
       })
   }
@@ -371,35 +367,13 @@ const Competition = () => {
           }
           return(
             <Threads key={index} {...threadProps}/>
+            
           )
         })}
-        {/* <Threads/> */}
+
         <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
           New Thread
-        </Button>
-
-      <Stack direction="column" spacing={2} sx={{my: 5}}>
-
-        {/* {discussions.slice(0, 6).map((disc: any, index: number) => {
-          let cardProps = {
-            
-          } 
-          return (
-          <Stack key={index} direction="column" spacing={2}>
-              <Card key={index} variant="outlined" sx={{minWidth: 275}} >
-              <CardContent>
-                <Typography variant="h5" component="div">
-                    {disc.name}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Competition Length: {disc.duration}
-                </Typography>     
-              </CardContent>
-              </Card>
-          </Stack>
-        )
-        })} */}
-    </Stack>                   
+        </Button>                   
 
     </Layout>
   )
