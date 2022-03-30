@@ -15,7 +15,7 @@ const Comments = ({
   return (
     <div>
         <AccordionDetails>            
-        <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
+        <Typography fontSize="16px" fontWeight="300" variant="h5" component="div">
             .....<span className="dis_UserName">{commentUser} </span>{commentText}
         </Typography>  
         </AccordionDetails>

@@ -106,7 +106,7 @@ const Algorithm = () => {
 
   return (
   <Layout>
-    <Seo title="AutoStock" />
+    <Seo title="Autostock" />
         <Typography fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }} textAlign="center" variant= "h1"  gutterBottom>
           {algorithm.name}

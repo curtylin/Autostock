@@ -15,10 +15,17 @@ const Threads = ({
 }: any) => {
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([])
+  const [newComment, setNewComment] = useState("")
 
   useEffect(() => {
     getCommentsDB(id)
-  })
+  }, [])
+
+  const submitComment = () => {
+    console.log("SAVED")
+    console.log(newComment)
+
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,7 +52,7 @@ const Threads = ({
 
   return (
     <div>
-        <Accordion> 
+        <Accordion sx={{mb:2, boxShadow: 2}} > 
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -56,12 +63,11 @@ const Threads = ({
           </Typography>          
           </AccordionSummary>
           <AccordionDetails>
-            <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
+            <Typography fontSize="16px" fontWeight="300" variant="h5" component="div">
               {threadDescription}
             </Typography>        
           </AccordionDetails>
           {/* COMMENTS */}
-          
           {comments.map((comment: any, index: number) => {
             let commentProps = {
               id: comment.id,
@@ -69,29 +75,33 @@ const Threads = ({
               commentUser: comment.userID
             }
             return(
-              <Comments key={index} {...commentProps}/>
-              
+              <Comments key={index} {...commentProps}/>   
             )
           })}    
           <AccordionDetails>
-            <TextField fullWidth label="Enter your comment">
-
+            <TextField 
+              fullWidth 
+              label="Enter your comment">
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setNewComment(e.target.value)
+              }}
             </TextField>
 
           </AccordionDetails>  
           <AccordionDetails>
-          <Button onClick={handleClickOpen} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
+            {/* <Button onClick={handleClickOpen} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
+              Comment
+            </Button> */}
+            <Button onClick={submitComment} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
               Comment
             </Button>
-          </AccordionDetails>
-
-          
+          </AccordionDetails>   
         </Accordion>
-        <CommentDialog
+        {/* <CommentDialog
           open={open}
           onClose={handleClose}
           selectedValue="lol"
-          />
+          /> */}
 
     
     </div>
