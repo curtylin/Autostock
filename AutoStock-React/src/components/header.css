@@ -19,3 +19,9 @@
     background-color: "transparent";
     border:none
 }
+.drawerItem{
+    color:black;
+}
+.drawerItem:hover{
+    color:#059A76;
+}
