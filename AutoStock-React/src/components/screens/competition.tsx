@@ -24,6 +24,8 @@ const Competition = () => {
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   const [competitionID, setCompetitionID] = useState(window.history.state.id)
   const [discussions, setDiscussions] = useState([])
+  const [threads, setThreads] = useState([])
+  const [comments, setComments] = useState([])
   const [data , setStockData] = useState([])
   const [open, setOpen] = React.useState(false);
 
@@ -36,11 +38,39 @@ const Competition = () => {
       }
       getAlgorithmsDB() 
       console.log(chosenAlgorithm)
+      console.log("lol")
+
+      getDiscussionsDB()
+     
     })
-    // getDiscussionsDB()
+    getThreadsDB()
+      
   }, [chosenAlgorithm])
 
-  const getDiscussionsDB = () => {
+  
+
+  
+
+  const getThreadsDB = async () => {
+    fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        console.log("threads")
+        console.log(result)
+        setThreads(result)
+      })
+  }
+
+
+  const getDiscussionsDB = async () => {
     fetch(`http://localhost:5000/get-discussions/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
@@ -52,14 +82,15 @@ const Competition = () => {
         return res.json()
       })
       .then(result => {
-        console.log(result )
+        console.log("discussions")
+        console.log(result)
         setDiscussions(result)
       })
   }
 
   const getCompDB = async () => {
     //fetch post to localhost
-    // console.log("getting comp db" + window.history.state.id) 
+    console.log("getting comp db" + window.history.state.id) 
     fetch(`http://localhost:5000/get-competition/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
@@ -331,8 +362,18 @@ const Competition = () => {
       <Divider sx={{ mb:5, mt: 5}}/>
 
       <h1>Discussions</h1>
-        <Threads/>  
-        <Threads/>
+        {threads.map((thread: any, index: number) => {
+          let threadProps = {
+            id : thread.id,
+            threadTitle: thread.threadTitle,
+            threadDescription: thread.threadDescription,
+            threadCreator: thread.userID
+          }
+          return(
+            <Threads key={index} {...threadProps}/>
+          )
+        })}
+        {/* <Threads/> */}
         <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
           New Thread
         </Button>

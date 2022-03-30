@@ -44,6 +44,9 @@ competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
 
 discussions_ref = db.collection('discussions')
+threads_ref = db.collection('threads')
+comments_ref = db.collection('comments')
+
 @app.errorhandler(404)
 def not_found(error):
     # return app.send_static_file('index.html')
@@ -256,23 +259,6 @@ def algo_read(id):
         algoDict = algo.to_dict()
         algoDict["id"] = algo.id
         return jsonify(algoDict), 200
-    except Exception as e:
-        return f"An Error Occurred: {e}"
-
-## <id> is different than get-algo
-@app.route('/get-discussions/<id>', methods=['GET'])
-def disc_read(id):
-    """
-        id : is the user id. Gets all discussions by this user id.
-        read() : Fetches documents from Firestore collection as JSON.
-        discussion : Return document that matches query ID.
-    """
-    try:
-        # Check if ID was passed to URL query
-        disc = discussions_ref.document(id).get()
-        disc_Dict = disc.to_dict()
-        disc_Dict["id"] = disc.id
-        return jsonify(disc_Dict), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -490,6 +476,62 @@ def comp_read(id):
         compDict['id'] = id
         compDict['competitiors'] = len([doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
         return jsonify(compDict), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+## 
+@app.route('/get-discussions/<id>', methods=['GET'])
+def disc_read(id):
+    """
+         id : is the competition id. Gets all algorithms by this competition id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        disc = discussions_ref.where("compID", "==", id).get()
+        discussions = []
+        for d in disc:
+            disc_Dict = d.to_dict()
+            disc_Dict["id"] = d.id
+            discussions.append(disc_Dict)
+        return jsonify(discussions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/get-threads/<id>', methods=['GET'])
+def thread_read(id):
+    """
+        id : is the thread id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document that matches query ID.
+    """
+    try:
+        threads = threads_ref.where("compID", "==", id).stream()
+        thr = []
+        for t in threads:
+            thread_Dict = t.to_dict()
+            thread_Dict["id"] = t.id
+            thr.append(thread_Dict)
+        return jsonify(thr), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/get-comments/<id>', methods=['GET'])
+def comm_read(id):
+    """
+        id : is the thread id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document that matches query ID.
+    """
+    try:
+        comm = comments_ref.where("threadID", "==", id).stream()
+        comments = []
+        for c in comm:
+            comm_Dict = c.to_dict()
+            comm_Dict["id"] = c.id
+            comments.append(comm_Dict)
+        return jsonify(comments), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 

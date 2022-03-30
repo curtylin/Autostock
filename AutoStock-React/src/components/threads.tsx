@@ -3,10 +3,21 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, Typography } fro
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import CommentDialog from "./commentDialog";
+import { useState, useEffect } from "react";
 
 
-const Threads = ({ id }: any) => {
-  const [open, setOpen] = React.useState(false);
+const Threads = ({
+  id,
+  threadTitle,
+  threadDescription,
+  threadCreator
+}: any) => {
+  const [open, setOpen] = useState(false);
+  const [comments, setComments] = useState([])
+
+  useEffect(() => {
+    getCommentsDB(id)
+  })
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -14,6 +25,24 @@ const Threads = ({ id }: any) => {
   const handleClose = (value: string) => {
     setOpen(false);
   };
+
+  const getCommentsDB = (id: any) => {
+    fetch(`http://localhost:5000/get-comments/${id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        console.log("comments")
+        console.log(result)
+        setComments(result)
+      })
+  }
 
   return (
     <div>
@@ -24,14 +53,15 @@ const Threads = ({ id }: any) => {
             id="panel1a-header"
           >
           <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
-            <span className="dis_UserName">[User2]</span> Other Thread Title.... [disc.Title]
+            <span className="dis_UserName">{threadCreator} </span>{threadTitle}
           </Typography>          
           </AccordionSummary>
           <AccordionDetails>
             <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
-              I think that GME is really cool actually.... [disc.Description]
+              {threadDescription}
             </Typography>        
           </AccordionDetails>
+          {/* COMMENTS */}
           <AccordionDetails>
             <Typography fontSize="14px" fontWeight="300" variant="h5" component="div">
               .....<span className="dis_UserName">[User3]</span> I think that GME is bad.... [disc.comments[0]]
