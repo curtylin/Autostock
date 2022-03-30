@@ -228,6 +228,17 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Leaderboards
               </Typography>
             </Button>
+            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
+              <Typography
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium"
+                noWrap
+                component="div"
+                sx={{ display: {xs: "none", md:"none", lg:"flex" } }}
+              >
+                Quick Start Guide
+              </Typography>
+            </Button>
           </Box>
           : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
           <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "flex", md: "flex" } }}>       
