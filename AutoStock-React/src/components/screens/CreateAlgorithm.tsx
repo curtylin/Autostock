@@ -206,7 +206,7 @@ const CreateAlgorithm = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h1>Create Algorithm</h1>
 
       <form>

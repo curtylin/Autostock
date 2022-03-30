@@ -29,7 +29,6 @@ const Competition = () => {
   const [data , setStockData] = useState([])
   const [open, setOpen] = React.useState(false);
 
-
   useEffect(() => {
     getCompDB().then(() => {
       console.log(competition)
@@ -41,15 +40,10 @@ const Competition = () => {
       console.log("lol")
 
       getDiscussionsDB()
-     
+      getThreadsDB()
     })
-    getThreadsDB()
       
   }, [chosenAlgorithm])
-
-  
-
-  
 
   const getThreadsDB = async () => {
     fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
@@ -66,7 +60,6 @@ const Competition = () => {
         setThreads(result)
       })
   }
-
 
   const getDiscussionsDB = async () => {
     fetch(`http://localhost:5000/get-discussions/${window.history.state.id}`, {
@@ -266,7 +259,7 @@ const Competition = () => {
     }
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <Typography fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="Bold"sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }} textAlign="center" variant= "h1"  gutterBottom>
           {competition.name}
@@ -358,6 +351,13 @@ const Competition = () => {
       <Divider sx={{ mb:5, mt: 5}}/>
 
       <h1>Discussions</h1>
+      <div>
+        <TextField sx={{mb:0}} label="Enter a new thread comment" fullWidth></TextField>
+      </div>
+      <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, mb:3}} variant="contained">
+        New Thread
+      </Button>   
+      <h3>Threads</h3>
         {threads.map((thread: any, index: number) => {
           let threadProps = {
             id : thread.id,
@@ -371,9 +371,7 @@ const Competition = () => {
           )
         })}
 
-        <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:3}} variant="contained">
-          New Thread
-        </Button>                   
+                       
 
     </Layout>
   )

@@ -136,7 +136,7 @@ const MyAlgorithm = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <title>My Algorithms</title>
       <h1>My Algorithms</h1>
       <div className="mdc-data-table">
