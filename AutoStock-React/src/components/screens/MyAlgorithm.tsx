@@ -164,7 +164,10 @@ const MyAlgorithm = () => {
                   role="columnheader"
                   scope="col"
                 >
-                  {" "}
+                  <Button color="primary" variant="contained" className="mdc-button mdc-button--raised"
+                        onClick={event => {navigate('/app/createalgorithm')}}>
+                        <span className="mdc-button__label">Create New Algorithm</span> 
+                      </Button> 
                 </th>
               </tr>
             </thead>
