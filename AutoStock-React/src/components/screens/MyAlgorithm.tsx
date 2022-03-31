@@ -9,6 +9,7 @@ import { navigate } from "gatsby"
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const MyAlgorithm = () => {
@@ -165,8 +166,9 @@ const MyAlgorithm = () => {
                   scope="col"
                 >
                   <Button color="primary" variant="contained" className="mdc-button mdc-button--raised"
-                        onClick={event => {navigate('/app/createalgorithm')}}>
-                        <span className="mdc-button__label">Create New Algorithm</span> 
+                        onClick={event => {navigate('/app/createalgorithm')}}
+                        startIcon={<AddIcon />}>
+                         <span className="mdc-button__label">Algorithm</span> 
                       </Button> 
                 </th>
               </tr>
