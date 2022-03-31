@@ -15,7 +15,6 @@ import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
 import Logo from "../images/AutostockLogo_black_small.png"
-import { useNavigate } from "@reach/router"
 
 interface HeaderProps {
   siteTitle: string
@@ -57,7 +56,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
     setAnchorElUser(null)
   }
 
-  let navigate = useNavigate();
   const createRoute = () => {
     let path = '/app/createalgorithm';
     navigate(path)
