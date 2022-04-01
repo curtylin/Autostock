@@ -9,15 +9,16 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
-import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Stack, TextField, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Snackbar, Stack, TextField, Typography } from "@mui/material"
 import HighChart from "../highChart"
 import "./screens.css"
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
 import CommentDialog from "../commentDialog"
+import { TextSnippetOutlined } from "@mui/icons-material"
 
 const Competition = () => {
-
+  const [snackOpen, setSnackOpen] = useState(false)
   const [algorithms, setAlgorithms] = useState([])
   const [competitiorID, setCompetitiorID] = useState("")
   const [competition, setCompetition] = useState({})
@@ -28,6 +29,11 @@ const Competition = () => {
   const [comments, setComments] = useState([])
   const [data , setStockData] = useState([])
   const [open, setOpen] = React.useState(false);
+  const [newThreadDescription, setNewThreadDescription] = useState("")
+  const [newThreadTitle, setNewThreadTitle] = useState("")
+  const textInput2 = React.useRef(null);
+  const textInput3 = React.useRef(null);
+
 
   useEffect(() => {
     getCompDB().then(() => {
@@ -96,7 +102,6 @@ const Competition = () => {
       })
   }
 
-  
   const getAlgorithmsDB = () => {
     //fetch post to localhost
     fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
@@ -139,6 +144,14 @@ const Competition = () => {
         }
       })
   }
+
+  const handleSnackClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackOpen(false);
+  };
 
   const handleExpand = (event: any) => {
     let today = new Date().toISOString().slice(0, 10)
@@ -237,24 +250,53 @@ const Competition = () => {
         event.preventDefault();
   }
 
-    let submitButton;
-    const closeDate = new Date(competition.endDate)
-    if (closeDate > new Date())
+  let submitButton;
+  const closeDate = new Date(competition.endDate)
+  if (closeDate > new Date())
+  {
+    // console.log("submissions open")
+    if (competitiorID == "")
     {
-      // console.log("submissions open")
-      if (competitiorID == "")
-      {
-        submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}> Submit Algorithm </Button>
-      }
-      else
-      {
-        submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleResubmit}> Update Algorithm </Button>
-      }
+      submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}> Submit Algorithm </Button>
     }
     else
     {
-      // console.log("submissions closed ")
+      submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleResubmit}> Update Algorithm </Button>
     }
+  }
+  else
+  {
+    // console.log("submissions closed ")
+  }
+
+  const submitThread = () => {
+    console.log("saved")
+    textInput2.current.value =""
+    textInput3.current.value =""
+    setSnackOpen(true);
+
+    let body = `{
+      "compID": "${competition.id}",
+      "userID": "${getUser().uid}",
+      "threadTitle": "${newThreadTitle}",
+      "threadDescription": "${newThreadDescription}",
+      "date": "${new Date().toISOString()}"
+    }`
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+    fetch("http://localhost:5000/create-thread", init)
+      .then(response => {
+        return response.json() // or .text() or .blob() ...
+      })
+
+
+  }
+
   return (
     <Layout>
       <Seo title="Autostock" />
@@ -349,26 +391,42 @@ const Competition = () => {
       <Divider sx={{ mb:5, mt: 5}}/>
 
       <h1>Discussions</h1>
-      <div>
-        <TextField sx={{mb:0}} label="Enter a new thread comment" fullWidth></TextField>
-      </div>
-      <Button startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, mb:3}} variant="contained">
-        New Thread
-      </Button>   
-      <h3>Threads</h3>
-        {threads.map((thread: any, index: number) => {
-          let threadProps = {
-            id : thread.id,
-            threadTitle: thread.threadTitle,
-            threadDescription: thread.threadDescription,
-            threadCreator: thread.userID
-          }
-          return(
-            <Threads key={index} {...threadProps}/>
-            
-          )
-        })}
+      <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
+        <h3>Create new thread</h3>
+        <FormControl fullWidth>
+        <TextField required inputRef={textInput2} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setNewThreadTitle(e.target.value)
+                }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
+     
+        <TextField required inputRef={textInput3} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setNewThreadDescription(e.target.value)
+                }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
+       
+        </FormControl>
+        <Button onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
+          New Thread
+      </Button>  
+      </Box>
+ 
+      {threads.map((thread: any, index: number) => {
+        let threadProps = {
+          id : thread.id,
+          threadTitle: thread.threadTitle,
+          threadDescription: thread.threadDescription,
+          threadCreator: thread.userID
+        }
+        return(
+          <Threads key={index} {...threadProps}/>
+          
+        )
+      })}
 
+      <Snackbar
+          open={snackOpen}
+          autoHideDuration={4000}
+          onClose={handleSnackClose}
+          message="Thread submitted!"
+        />
                        
 
     </Layout>
