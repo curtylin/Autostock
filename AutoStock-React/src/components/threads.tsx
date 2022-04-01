@@ -23,7 +23,6 @@ const Threads = ({
   const textInput = React.useRef(null);
   const [users, setUsers] = useState(new Map<string, string>())
 
-
   useEffect(() => {
     getCommentsDB(id)
     getUsersDB()
@@ -60,9 +59,10 @@ const Threads = ({
     console.log("SAVED")
     console.log(newComment)
     setSnackOpen(true)
+
     // clear the comment box
     textInput.current.value = "";
-
+    // add comment to the web page
     // send the comment to the database
     let body = `{
       "commentText": "${newComment}",
@@ -84,6 +84,7 @@ const Threads = ({
       .catch(err => {
         console.log(err)
       })
+
   }
 
   const handleClickOpen = () => {
@@ -111,13 +112,13 @@ const Threads = ({
 
   return (
     <div>
-        <Accordion sx={{mb:2, boxShadow: 2}} > 
+        <Accordion square={true} sx={{mb:1, boxShadow: 2}} > 
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-          <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
+          <Typography fontSize="20px" fontWeight="500" variant="h5" component="div">
             <span className="dis_UserName">{users.has(threadCreator) ? users.get(threadCreator) : "Unknown"} </span>{threadTitle}
           </Typography>          
           </AccordionSummary>
@@ -148,9 +149,6 @@ const Threads = ({
             />
           </AccordionDetails>  
           <AccordionDetails>
-            {/* <Button onClick={handleClickOpen} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
-              Comment
-            </Button> */}
             <Button onClick={submitComment} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
               Comment
             </Button>

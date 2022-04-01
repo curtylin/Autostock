@@ -548,6 +548,20 @@ def comm_create():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+@app.route('/create-thread', methods=['POST'])
+def thr_create():
+    """
+        create() : Add document to Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post'}
+    """
+    try:
+        threads_ref.document().set(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+
 
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.
