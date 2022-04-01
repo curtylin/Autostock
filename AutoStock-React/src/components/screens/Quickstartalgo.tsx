@@ -27,41 +27,69 @@ const QuickStartGuide = () => {
 
             <h2>4. Pick an indicator that would maximize the yield on your algorithm.</h2>
             <p>
+                Now we must start with the entry portion of the strategy or rules that signal when to buy or sell. 
+
+                Indicators are technical strategies that are built into most algotrading API's that initiate trades based off different trends. Picking your indicator is very vital to ensuring your algotrading strategy is successful which
+                is why we recommend backtesting, looking at different trends and doing your research. 
+
+                Below are some links to some basic indicators.  
                 <Link to="https://www.investopedia.com/terms/s/sma.asp">SMA, or Simple moving average</Link> is the most basic indicator you can have. It essentially calculates the average of a selected range.
                 <br></br>
                 <Link to="https://www.investopedia.com/articles/trading/07/adx-trend-indicator.asp">ADX, or Average Directional Index Rating</Link> is a more advanced indicator that can be used to determine if the market is trending up or down.
                 <br></br>
+                
             </p>
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
             <br></br>
 
             <h2>4. Select the Period 1.</h2>
             <p></p>
+
+                While different indicators take in different inputs, the most common indicators belong to the moving average family. Moving averages take in an input
+                known as periods. The smaller the period the more sensative it will be to price changes. 
+                For Moving Averages a period will average the prices for the input period ammount and add the price on the previous day. 
+
+                While periods are common for many algotrading strategies they will change in more complicated strategies.
+
+                It is recommend to play arround with periods respect to moving averages.
+            
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
             <br></br>
 
             <h2>5. Select the Indicator 2/Comparator.</h2>
             <p></p>
+
+                Next portion of the entry is to give it another indicator or strategy to compare to. This will determine the different entry rules on when to buy and sell
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
             <br></br>
 
             <h2>6. Select the Period 2.</h2>
             <p></p>
+                Similar to period 1, Period 2 works as the period for the second indicator to complete the entry rules. 
+
+
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
             <br></br>
 
             <h2>7. Select Buy or Sell.</h2>
             <p></p>
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
-            <br></br>
+                You are given an action that will perform when the conditions that are meant in the Entry/Entries are met. 
+                For more information about buy and sell orders 
+                <Link to="https://www.investopedia.com/terms/s/sma.asp"></Link> For more information about buy and sell orders 
 
             <h2>8. Select the algorithm running time.</h2>
             <p></p>
+
+                This will determine how long your algorithm will run for. Strategies especially indicators will be more effective depending on the length ran for. 
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
             <br></br>
 
             <h2>9. Add additional paramters.</h2>
             <p></p>
+                You may chainlink different entries together in order to form a new strategy. This is not recommended for beginners and we recommend playing arround with one
+                entry first, but is encouraged for more advanced users. 
+
             {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
             <br></br>
 
