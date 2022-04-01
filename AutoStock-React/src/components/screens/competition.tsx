@@ -237,8 +237,6 @@ const Competition = () => {
         event.preventDefault();
   }
 
-
-
     let submitButton;
     const closeDate = new Date(competition.endDate)
     if (closeDate > new Date())

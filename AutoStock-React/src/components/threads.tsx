@@ -1,10 +1,13 @@
 import * as React from "react"
-import { Accordion, AccordionDetails, AccordionSummary, Button, TextField, Typography } from "@mui/material"
+import { useState, useEffect } from "react";
+import { Accordion, AccordionDetails, AccordionSummary, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import CommentDialog from "./commentDialog";
 import Comments from "./comments";
-import { useState, useEffect } from "react";
+import { getUser } from "../services/auth";
+import { eventNames } from "process";
+
 
 
 const Threads = ({
@@ -13,18 +16,74 @@ const Threads = ({
   threadDescription,
   threadCreator
 }: any) => {
+  const [snackOpen, setSnackOpen] = useState(false)
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState("")
+  const textInput = React.useRef(null);
+  const [users, setUsers] = useState(new Map<string, string>())
+
 
   useEffect(() => {
     getCommentsDB(id)
+    getUsersDB()
   }, [])
+
+  const getUsersDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-user", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for(let i = 0; i < result.length; i++){
+          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        }
+      })
+  }
+
+  const handleSnackClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackOpen(false);
+  };
 
   const submitComment = () => {
     console.log("SAVED")
     console.log(newComment)
+    setSnackOpen(true)
+    // clear the comment box
+    textInput.current.value = "";
 
+    // send the comment to the database
+    let body = `{
+      "commentText": "${newComment}",
+      "date": "${new Date().toISOString()}",
+      "userID": "${getUser().uid}",
+      "threadID": "${id}"
+    }`
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+    fetch(`http://localhost:5000/add-comment`, init)
+      .then(res => {
+        return res.json()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   const handleClickOpen = () => {
@@ -59,7 +118,7 @@ const Threads = ({
             id="panel1a-header"
           >
           <Typography fontSize="20px" fontWeight="400" variant="h5" component="div">
-            <span className="dis_UserName">{threadCreator} </span>{threadTitle}
+            <span className="dis_UserName">{users.has(threadCreator) ? users.get(threadCreator) : "Unknown"} </span>{threadTitle}
           </Typography>          
           </AccordionSummary>
           <AccordionDetails>
@@ -81,12 +140,12 @@ const Threads = ({
           <AccordionDetails>
             <TextField 
               fullWidth 
-              label="Enter your comment">
+              inputRef={textInput}
+              label="Enter your comment"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setNewComment(e.target.value)
               }}
-            </TextField>
-
+            />
           </AccordionDetails>  
           <AccordionDetails>
             {/* <Button onClick={handleClickOpen} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
@@ -97,13 +156,12 @@ const Threads = ({
             </Button>
           </AccordionDetails>   
         </Accordion>
-        {/* <CommentDialog
-          open={open}
-          onClose={handleClose}
-          selectedValue="lol"
-          /> */}
-
-    
+        <Snackbar
+          open={snackOpen}
+          autoHideDuration={4000}
+          onClose={handleSnackClose}
+          message="Comment submitted!"
+        />
     </div>
   )
 }
