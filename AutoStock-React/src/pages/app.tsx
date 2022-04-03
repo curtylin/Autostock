@@ -12,6 +12,7 @@ import competitions from "../components/screens/competitions"
 import PrivateRoute from "../components/privateRoute"
 import Index from "./index"
 import QuickStartGuide from "../components/screens/QuickstartGuide"
+import QuickStartAlgo from "../components/screens/Quickstartalgo"
 import EditAlgorithm from "../components/screens/EditAlgorithm"
 import EditUser from "../components/screens/EditUser"
 import LandingPage from "../components/screens/landingPage"
@@ -34,6 +35,7 @@ const App = () => (
     <PrivateRoute path="/competitions" component={competitions} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
     <PrivateRoute path="/quickstartguide" component={QuickStartGuide} />
+    <PrivateRoute path="/quickstartcreatealgo" component={QuickStartAlgo} />
     <PrivateRoute path="/home" component={Home} />
   
 
