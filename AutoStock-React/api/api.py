@@ -964,30 +964,49 @@ def generateCompetitions():
 
         active_comp_create_driver(comp_obj)
 
-
 def generateBot():
-    botsList = bots_list_driver()
+    botsList = [doc.to_dict() for doc in bots_ref.stream()]
     bot_obj = {
         "username" : "Bot" + str(len(botsList) + 1),
         "userID" : "bot" + str(len(botsList) + 1),
         "bot" : True
     }
-    bot_create_driver(bot_obj)
+    return bot_create_driver(bot_obj)
+
+@app.route('/generate_bot', methods=['PUT'])
+def generateBotAPI():
+    return generateBot()
+
+@app.route('/enterBotsComp', methods=['PUT'])
+def enterBotsCompAPI():
+    return enterBotsIntoComps()
 
 def enterBotsIntoComps():
     comps = activeCompetitions_ref.stream()
+    competitions = []
+    for comp in comps:
+        compDict = comp.to_dict()
+        compDict['id'] = comp.id
+        compDict['active'] = True
+        competitions.append(compDict)
+
     bots = bots_ref.stream()
-    indicators = ["EMA", "SMA", "BBANDS", "KAMA", "DEMA", "MA", "TRIX", "TEMA"]
+    botsList = []
+    for bot in bots:
+        botDict = bot.to_dict()
+        botDict['id'] = bot.id
+        botsList.append(botDict)
+
+    # indicators = ["EMA", "SMA", "BBANDS", "KAMA", "DEMA", "MA", "TRIX", "TEMA"]
+    indicators = ["SMA"]
     actions = ["buy", "sell"]
     periods = ["open", "close", "high", "low"]
     comparators = ["Above", "Below"]
     intervals = ["1", "24", "168"]
 
-    for comp in comps:
-        compDict = comp.to_dict()
-        for bot in bots:
-            botDict = bot.to_dict()
-            competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", botDict['userID']).get()
+    for comp in competitions:
+        for bot in botsList:
+            competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", bot['userID']).get()
             if len(competitors) == 0:
                 chosenIndicator = random.choice(indicators)
                 algo = {
@@ -995,7 +1014,7 @@ def enterBotsIntoComps():
                     "comparator": random.choice(comparators),
                     "indicator1": chosenIndicator,
                     "interval": random.choice(intervals),
-                    "name": bot['username'] + "'s " + compDict['ticker'] + " " + chosenIndicator,
+                    "name": bot['username'] + "'s " + comp['ticker'] + " " + chosenIndicator,
                     "period1": random.choice(periods),
                     "period1Number": str(random.randint(1,30)),
                     "period2": random.choice(periods),
@@ -1005,14 +1024,16 @@ def enterBotsIntoComps():
                     "ticker": compDict['ticker'],
                     "userID": bot['userID']
                 }
-                algoID = (bot['userID'] + compDict['ticker'] + chosenIndicator)
+                algoID = (bot['userID'] + comp['ticker'] + chosenIndicator)
                 algo_create_driver(algo, algoID)
                 competitor_obj = {
-                    "competition": comp.id,
+                    "competition": comp['id'],
                     "userID": bot['userID'],
                     "algorithm" : algoID
                 }
                 comp_enter_user_driver(competitor_obj)
+
+    return "Successfully entered bots into competitions", 200
 
 
 
@@ -1076,6 +1097,8 @@ def scheduleTest():
 
 scheduler = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 5})
 scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
+scheduler.add_job(func=generateBot, trigger="interval", days=7)
+scheduler.add_job(func=enterBotsIntoComps, trigger="interval", days=7)
 # scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
 
 # Need to figure out what server it will be hosted on to get correct market open time
