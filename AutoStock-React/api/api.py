@@ -1097,13 +1097,13 @@ def scheduleTest():
 
 scheduler = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 5})
 scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
-scheduler.add_job(func=generateBot, trigger="interval", days=7, hour = 8, minute = 0)
-scheduler.add_job(func=enterBotsIntoComps, trigger="interval", days=7, hour=8, minute = 30)
 # scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
 
 # Need to figure out what server it will be hosted on to get correct market open time
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
+scheduler.add_job(func=generateBot, trigger="cron", day_of_week=1, hour = 8, minute = 0)
+scheduler.add_job(func=enterBotsIntoComps, trigger="cron", day_of_week=1, hour=8, minute = 30)
 # scheduler.add_job(func=scheduleTest, trigger='interval', seconds=15)
 
 
