@@ -12,6 +12,7 @@ import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
 import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
+import { Link } from "gatsby"
 
 let jsConfetti: any
 
@@ -208,6 +209,7 @@ const CreateAlgorithm = () => {
     <Layout>
       <Seo title="Autostock" />
       <h1>Create Algorithm</h1>
+      <h3>Need help? See our <Link to="/app/quickstartcreatealgo">guide to create an algorithm</Link>!</h3>
 
       <form>
         <div>

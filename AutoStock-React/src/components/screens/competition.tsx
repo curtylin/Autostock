@@ -360,10 +360,12 @@ const Competition = () => {
           </AccordionDetails>
          
         </Accordion>
-
+      
+      {new Date(competition.endDate) > new Date() ? <h2>Submissions Open</h2> : <h2>Submissions Closed</h2>}
+      {new Date(competition.endDate) > new Date() ? 
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}> 
-                        <InputLabel required id="demo-simple-select-standard-label">
-                            Choose an Algorithm 
+                        <InputLabel required id="demo-simple-select-standard-label" >
+                            Choose an Algorithm
                         </InputLabel>
                             {/* GET USERS ALGORITHMS */}
                             <Select
@@ -381,7 +383,30 @@ const Competition = () => {
                                  )
                             })}
                             </Select>
-      </FormControl>
+      </FormControl> 
+      : 
+      <FormControl sx={{my: 2, mr: 5, minWidth: 300}} disabled> 
+                        <InputLabel required id="demo-simple-select-standard-label" >
+                            Choose an Algorithm 
+                        </InputLabel>
+                            {/* GET USERS ALGORITHMS */}
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                id="demo-simple-select-standard"
+                                label="Algorithm"
+                                value={chosenAlgorithm}
+                                onChange={e => {
+                                    setChosenAlgorithm(e.target.value)
+                                }}
+                            >
+                            {algorithms.map((algorithm: any, key: any) => {
+                                 return (
+                                 <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
+                                 )
+                            })}
+                            </Select>
+      </FormControl>}
+      
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
          {/* maybe change size to match menuItem */}
          {submitButton}
