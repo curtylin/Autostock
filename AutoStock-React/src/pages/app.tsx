@@ -17,12 +17,14 @@ import EditAlgorithm from "../components/screens/EditAlgorithm"
 import EditUser from "../components/screens/EditUser"
 import LandingPage from "../components/screens/landingPage"
 import Leaderboards from "../components/screens/leaderboards"
+import AboutUs from "../components/screens/AboutUs"
 
 const App = () => (
   <Router basepath="/app">
     <RouterPage path="/login" pageComponent={<Login />} />
     <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
     <RouterPage path="/landing" pageComponent={<LandingPage/>} />
+    <RouterPage path="/aboutus" pageComponent={<AboutUs/>} />
 
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
