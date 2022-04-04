@@ -47,7 +47,11 @@ const AboutUs = () => {
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQHwwK5bJU13AA/profile-displayphoto-shrink_200_200/0/1591376666560?e=1654128000&v=beta&t=7YdhOkopgDn31-WMuTt6bkYEcnG2xM0c2PM0Ne710-o" alt="Curtis Lin portrait" width="250"></img>
             <h2>Curtis Lin</h2>
             <h4>Full Stack</h4>
-            <p>Hi! I’m Curtis! For this project, I was in charge of full stack, more specifically, anything relating to the database. I can be reached on <a href="www.linkedin.com/in/curtis-lin">LinkedIn</a>.</p>
+            <p>I am proud to have joined Autostock for the capstone project as the main guy for full stack engineering. For this project, I did everything relating to the database including competitions, algorithms, and users. For my rank 3, I realized there was a need for bots for each competition to boost the competitiveness. This is my first time working on React and I am proud of what I have done. 
+
+                In my freetime, I love experiencing new flavors and places. I also take plenty of pictures to document all of my experiences.
+                <br></br>
+                Find me on <Link to="https://www.linkedin.com/in/curtis-lin">LinkedIn</Link>!</p>
 
             <hr></hr>
             <img src="https://firebasestorage.googleapis.com/v0/b/autostock-fef22.appspot.com/o/jony.png?alt=media&token=d99b5016-45cc-4b4f-90cd-eba7dc57f37f" alt="Jonathan Fairbanks portrait" width="250"></img>
