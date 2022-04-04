@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
 import Layout from "../layout"
+import Logo from "../../images/AutostockLogo_green.jpg"
 
 const AboutUs = () => {
 
 
     return (
         <Layout>
-            {/* <h2>1. Create an algorithm</h2>
-            <p>You can get started by <Link to="/app/createalgorithm">creating an algorithm.</Link></p>
-            <img src="https://i.imgur.com/vYtuZIC.gif"></img>
-            <br></br> */}
+            <br></br>
+            <img style={{marginBottom:"auto", marginRight:"auto", marginLeft:"auto", display:"block"}} width={250} src={Logo}></img>
 
             <h1>Overview</h1>
             <p>Autostock is an algo trading platform that will allow users to have a more simplified experience when trading algorithmically. 
