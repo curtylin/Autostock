@@ -393,7 +393,7 @@ const Competition = () => {
                             <Select
                                 labelId="demo-simple-select-standard-label"
                                 id="demo-simple-select-standard"
-                                label="Algorithm"
+                                label="Choose an Algorithm"
                                 value={chosenAlgorithm}
                                 onChange={e => {
                                     setChosenAlgorithm(e.target.value)
