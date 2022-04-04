@@ -27,6 +27,8 @@ const Header = ({ siteTitle }: HeaderProps) => {
     null
   )
   const [anchorElAlg, setAnchorElAlg] = React.useState<null | HTMLElement>(null)
+  const [anchorComp, setAnchorComp] = React.useState<null | HTMLElement>(null)
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -36,9 +38,16 @@ const Header = ({ siteTitle }: HeaderProps) => {
   const handleOpenAlgMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElAlg(event.currentTarget)
   }
+  const handleOpenCompMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorComp(event.currentTarget)
+  }
+  
 
   const handleCloseAlgMenu = () => {
     setAnchorElAlg(null)
+  }
+  const handleCloseCompMenu = () => {
+    setAnchorComp(null)
   }
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
@@ -57,6 +66,19 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
   const publicAlgoRoute = () => {
     let path = '/app/publicalgorithms';
+    navigate(path)
+  }
+
+  const leaderboardRoute = () => {
+    let path = '/app/leaderboards';
+    navigate(path)
+  }
+  const competitionsRoute = () => {
+    let path = '/app/competitions';
+    navigate(path)
+  }
+  const myCompRoute = () => {
+    let path = '/';
     navigate(path)
   }
 
@@ -165,7 +187,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
           {isLoggedIn() ? <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={handleOpenAlgMenu}
-              sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
+              sx={{ mt: 1, mx: 2, color: "white", display: "block" }}
             >
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
@@ -204,7 +226,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               </MenuItem>
 
             </Menu>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/competitions")}}>
+            <Button sx={{ mt: 1, mx: 2, color: "white", display: "block" }} onClick={handleOpenCompMenu}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
@@ -215,18 +237,36 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Competitions
               </Typography>
             </Button>
-            <Button onClick={()=>{navigate("/app/leaderboards")}} sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
-              <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
-              >
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorComp}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorComp)}
+              onClose={handleCloseCompMenu}
+            >
+              <MenuItem onClick={competitionsRoute}>
+                Current Competitions
+              </MenuItem>
+              <MenuItem onClick={competitionsRoute}>  
+              {/* ------------------------UPDATE TO MY COMPETITIONS----------------------- */}
+                Competitions
+              </MenuItem>
+              <MenuItem onClick={leaderboardRoute}>
                 Leaderboards
-              </Typography>
-            </Button>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
+              </MenuItem>
+
+            </Menu>
+
+            <Button sx={{ mt: 1, mx: 2, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
@@ -237,7 +277,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Quick Start Guide
               </Typography>
             </Button>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/aboutus")}}>
+            <Button sx={{ mt: 1, mx: 2, color: "white", display: "block" }} onClick={()=>{navigate("/app/aboutus")}}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
