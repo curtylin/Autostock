@@ -438,9 +438,6 @@ const CreateAlgorithm = () => {
             Save Algorithm
           </Button>
 
-          <Button type="submit" variant="contained" color="secondary">
-            Share
-          </Button>
         </div>
       </form>
       
