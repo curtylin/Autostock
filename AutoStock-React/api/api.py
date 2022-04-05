@@ -1000,6 +1000,8 @@ def enterBotsIntoComps():
     comparators = ["Above", "Below"]
     intervals = ["1", "24", "168"]
     newCompetitionsEntered = []
+    newAlgosCreated = 0
+    reusedAlgos = 0
 
     for comp in competitions:
         for bot in botsList:
@@ -1027,8 +1029,10 @@ def enterBotsIntoComps():
                     }
                     algoID = (bot['userID'] + comp['ticker'] + chosenIndicator)
                     algo_create_driver(algo, algoID)
+                    newAlgosCreated += 1
                 else:
                     algoID = algo[0].id
+                    reusedAlgos += 1
                 competitor_obj = {
                     "competition": comp['id'],
                     "userID": bot['userID'],
@@ -1040,7 +1044,7 @@ def enterBotsIntoComps():
     newCompsEnteredString = "\n"
     for comp in newCompetitionsEntered:
         newCompsEnteredString += comp + "\n"
-    return ("Successfully entered " + str(len(newCompetitionsEntered)) + " new bots into competitions: " + newCompsEnteredString), 200
+    return ("Successfully entered " + str(len(newCompetitionsEntered)) + " new bots into competitions: " + newCompsEnteredString + " new algos created: " + str(newAlgosCreated) + " reused algos: " + str(reusedAlgos)), 200
 
 
 @app.route('/findBestUsers', methods=['PUT'])
