@@ -21,10 +21,15 @@ const Home = () => {
   let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"];
   let randChoice = randTick[Math.floor(Math.random()*randTick.length)];
   console.log(randChoice);
+  let today = new Date().toISOString().slice(0, 10)
+  const d = new Date();
+  d.setFullYear(d.getFullYear()-1);
+  let lastYear = d.toISOString().slice(0,10)
+
   let body = `{
     "ticker": "${randChoice}" ,
-    "startDate": "2020-11-9",
-    "endDate": "2021-11-9"
+    "startDate": "${lastYear}",
+    "endDate": "${today.toString()}"
   }`
   const headers = new Headers()
   headers.append("content-type", "application/json")
@@ -78,7 +83,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <br></br>
       <h3>
         {username == "" ? (
