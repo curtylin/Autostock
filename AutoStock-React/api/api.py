@@ -1112,7 +1112,7 @@ def enterBotsIntoComps():
                         "period2": random.choice(periods),
                         "period2Number": str(random.randint(1,30)),
                         "public": True,
-                        "runningTIme": "30",
+                        "runningTime": "30",
                         "ticker": comp['ticker'],
                         "userID": bot['userID']
                     }
