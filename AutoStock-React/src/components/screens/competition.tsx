@@ -34,7 +34,6 @@ const Competition = () => {
   const textInput2 = React.useRef(null);
   const textInput3 = React.useRef(null);
 
-
   useEffect(() => {
     getCompDB().then(() => {
       console.log(competition)
@@ -291,11 +290,11 @@ const Competition = () => {
     }
     fetch("http://localhost:5000/create-thread", init)
       .then(response => {
-        return response.json() // or .text() or .blob() ...
+        return response.json() 
       })
 
-
   }
+
 
   return (
     <Layout>
@@ -432,7 +431,9 @@ const Competition = () => {
           New Thread
       </Button>  
       </Box>
- 
+    
+      
+
       {threads.map((thread: any, index: number) => {
         let threadProps = {
           id : thread.id,

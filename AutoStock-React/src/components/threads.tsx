@@ -118,8 +118,10 @@ const Threads = ({
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
+            {console.log(threadCreator)}
+            {console.log(users.get(threadCreator))}
           <Typography fontSize="20px" fontWeight="500" variant="h5" component="div">
-            <span className="dis_UserName">{users.has(threadCreator) ? users.get(threadCreator) : "Unknown"} </span>{threadTitle}
+            <span className="dis_UserName">{users.get(threadCreator) == "" || !users.has(threadCreator) ? "Anonymous" : users.get(threadCreator)} </span>{threadTitle}
           </Typography>          
           </AccordionSummary>
           <AccordionDetails>
