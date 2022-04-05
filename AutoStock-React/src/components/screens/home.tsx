@@ -4,6 +4,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import { Box, Button, Grid, Typography } from "@mui/material"
 import CompCard from "../compCard"
+import ComplexCompCard from "../complexCompCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
 import { Link } from "gatsby"
@@ -102,10 +103,11 @@ const Home = () => {
             compDeadline: comp.endDate,
             description: comp.description,
             id: comp.id,
+            logo: comp.logo,
           }
           return (
             <Grid key={index} item xs={4}>
-              <CompCard key={index} {...cardProps} />
+              <ComplexCompCard key={index} {...cardProps} />
             </Grid>
             
           )
