@@ -10,7 +10,15 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Backdrop, Card, CardActions, CardContent, CircularProgress, Grid, Typography } from "@mui/material"
+import {
+  Backdrop,
+  Card,
+  CardActions,
+  CardContent,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@mui/material"
 import { getUser } from "../../services/auth"
 
 const isBrowser = typeof window !== "undefined"
@@ -35,7 +43,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
-  const [data , setStockData] = useState([])
+  const [data, setStockData] = useState([])
   const [showSpinner, setShowSpinner] = useState(false)
   const showSpin = () => setShowSpinner(true)
   const noShowSpin = () => setShowSpinner(false)
@@ -75,17 +83,17 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       })
       .then(result => {
         setStockData(result)
-      }) 
+      })
       .catch(e => {
         // error in e.message
       })
-  };
+  }
   const [urls, setUrl] = useState("")
 
   const handleBacktest = (event: any) => {
     show()
     showSpin()
-    
+
     let currDate = new Date()
     //create json object
     let obj = {
@@ -136,7 +144,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         // error in e.message
       })
     event.preventDefault()
-
   }
 
   const [algorithm, setAlgorithm] = useState<any>([])
@@ -224,26 +231,21 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const BackTestingPart = () => (
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-        <Card variant="outlined" sx={{ minWidth: 275, mb:5}}>
-          <CardContent>
-            <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
-              {stock}
-            </Typography>
-            <Typography variant="h5">
-              Ending Value: ${BTendRes}
-            </Typography>
-            <Typography variant="h6">
-              PnL Percentage: {BTPnLPer.toString().substring(0,4)}%
-            </Typography>
-            <Typography variant="h6">
-              Started with: ${BTstart}
-            </Typography>
-          </CardContent>
-        </Card>
-          <img src={`${urls}`}></img>      
+      <Card variant="outlined" sx={{ minWidth: 275, mb: 5 }}>
+        <CardContent>
+          <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+            {stock}
+          </Typography>
+          <Typography variant="h5">Ending Value: ${BTendRes}</Typography>
+          <Typography variant="h6">
+            PnL Percentage: {BTPnLPer.toString().substring(0, 4)}%
+          </Typography>
+          <Typography variant="h6">Started with: ${BTstart}</Typography>
+        </CardContent>
+      </Card>
+      <img src={`${urls}`}></img>
     </div>
   )
-
 
   return (
     <Layout>

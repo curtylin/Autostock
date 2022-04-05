@@ -5,7 +5,6 @@ import Layout from "../layout"
 import Seo from "../seo"
 
 const Algorithm = () => {
-
   const [algorithm, setAlgorithm] = useState<any>([])
   const [username, setUsername] = useState("")
   useEffect(() => {
@@ -28,7 +27,7 @@ const Algorithm = () => {
         return res.json()
       })
       .then(result => {
-        console.log(result )
+        console.log(result)
         setAlgorithm(result)
       })
   }
@@ -48,27 +47,35 @@ const Algorithm = () => {
         console.log(result)
         if (result === null) {
           setUsername(window.history.state.userID)
-      } else {
+        } else {
           setUsername(result.username)
-      }
+        }
       })
   }
 
-
   return (
-  <Layout>
-    <Seo title="AutoStock" />
-    <h1 className="algo_name">{algorithm.name}</h1>
-    <h2>Ticker: {algorithm.ticker}</h2>
-    <h3>Time Interval: {algorithm.timeInterval >= 24 ? (<>{algorithm.timeInterval/24} Days</>) : (<>{algorithm.timeInterval} Hours</>)}</h3>
-    <h3>Indicator 1: {algorithm.indicator1}</h3>
-    <h3>Period 1: {algorithm.period1}      Comparator: {algorithm.comparator}      Period 2: {algorithm.period2}</h3>
-    <h3>Action: {algorithm.action}</h3>
-    <h2>Algorithm Runtime: {algorithm.runningTime} Days</h2>
-    <h3>Username: {username}</h3>
-  </Layout>
+    <Layout>
+      <Seo title="AutoStock" />
+      <h1 className="algo_name">{algorithm.name}</h1>
+      <h2>Ticker: {algorithm.ticker}</h2>
+      <h3>
+        Time Interval:{" "}
+        {algorithm.timeInterval >= 24 ? (
+          <>{algorithm.timeInterval / 24} Days</>
+        ) : (
+          <>{algorithm.timeInterval} Hours</>
+        )}
+      </h3>
+      <h3>Indicator 1: {algorithm.indicator1}</h3>
+      <h3>
+        Period 1: {algorithm.period1} Comparator: {algorithm.comparator} Period
+        2: {algorithm.period2}
+      </h3>
+      <h3>Action: {algorithm.action}</h3>
+      <h2>Algorithm Runtime: {algorithm.runningTime} Days</h2>
+      <h3>Username: {username}</h3>
+    </Layout>
   )
 }
-
 
 export default Algorithm

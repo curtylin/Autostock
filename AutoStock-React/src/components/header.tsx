@@ -48,82 +48,86 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
 
   const createRoute = () => {
-    let path = '/app/createalgorithm';
+    let path = "/app/createalgorithm"
     navigate(path)
   }
   const myAlgoRoute = () => {
-    let path = '/app/myalgorithms';
+    let path = "/app/myalgorithms"
     navigate(path)
   }
   const publicAlgoRoute = () => {
-    let path = '/app/publicalgorithms';
+    let path = "/app/publicalgorithms"
     navigate(path)
   }
 
   const QSGRoute = () => {
-    let path = '/app/quickstartguide';
+    let path = "/app/quickstartguide"
     navigate(path)
   }
   const ProfileRoute = () => {
-    let path = '/app/edituser';
+    let path = "/app/edituser"
     navigate(path)
   }
   const EditAccountRoute = () => {
-    let path = '/app/edituser';
+    let path = "/app/edituser"
     navigate(path)
   }
   const LoginRoute = () => {
-    let path = '/app/login';
+    let path = "/app/login"
     navigate(path)
   }
   const LogoutRoute = () => {
-    let path = '/';
+    let path = "/"
     navigate(path)
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          method: "GET",
-        })
-          .then(res => {
-            return res.json()
-          })
-          .then(result => {
-            console.log(result)
-            if (result === null) {
-                setUsername("")
-            } else {
-                setUsername(result.username)
-            }
-          })
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        console.log(result)
+        if (result === null) {
+          setUsername("")
+        } else {
+          setUsername(result.username)
+        }
+      })
   })
-  
+
   return (
     <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
-          <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
+          <Box sx={{ mr: 5, display: { lg: "none", md: "flex", sm: "flex" } }}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
-          
-          
-          <Link 
+
+          <Link
             to="/app/home"
             style={{ color: "black", textDecoration: "none" }}
             className="autostock-link"
-            >
-            <div 
+          >
+            <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 textAlign: "center",
-              }}>
-              <img style={{marginBottom:0, marginRight:5}} width={50} src={Logo}></img>
+              }}
+            >
+              <img
+                style={{ marginBottom: 0, marginRight: 5 }}
+                width={50}
+                src={Logo}
+              ></img>
             </div>
           </Link>
           <Typography
@@ -132,10 +136,9 @@ const Header = ({ siteTitle }: HeaderProps) => {
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs:"none", md: "flex" } }}
+            sx={{ mr: 5, display: { xs: "none", md: "flex" } }}
             style={{ color: "black" }}
           >
-            
             <Link
               to="/app/home"
               style={{ color: "black", textDecoration: "none" }}
@@ -150,7 +153,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
+            sx={{ mr: 5, display: { xs: "flex", md: "none" } }}
             style={{ color: "black" }}
           >
             <Link
@@ -162,104 +165,118 @@ const Header = ({ siteTitle }: HeaderProps) => {
             </Link>
           </Typography>
 
-          {isLoggedIn() ? <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleOpenAlgMenu}
-              sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
-            >
-              <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: { xs: "none", md: "none", lg:"flex" } }}
+          {isLoggedIn() ? (
+            <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
+              <Button
+                onClick={handleOpenAlgMenu}
+                sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
               >
-                Algorithms
-              </Typography>
-            </Button>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElAlg}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElAlg)}
-              onClose={handleCloseAlgMenu}
-            >
-              <MenuItem onClick={createRoute}>
-                Create Algorithm
-              </MenuItem>
-              <MenuItem onClick={myAlgoRoute}>
-                My Algorithms
-              </MenuItem>
-              <MenuItem onClick={publicAlgoRoute}>
-                Public Algorithms
-              </MenuItem>
-
-            </Menu>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/competitions")}}>
-              <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: {xs: "none", md:"none", lg:"flex" } }}
+                <Typography
+                  fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+                >
+                  Algorithms
+                </Typography>
+              </Button>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElAlg}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElAlg)}
+                onClose={handleCloseAlgMenu}
               >
-                Competitions
-              </Typography>
-            </Button>
-            <Button onClick={()=>{navigate("/app/leaderboards")}} sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
-              <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
+                <MenuItem onClick={createRoute}>Create Algorithm</MenuItem>
+                <MenuItem onClick={myAlgoRoute}>My Algorithms</MenuItem>
+                <MenuItem onClick={publicAlgoRoute}>Public Algorithms</MenuItem>
+              </Menu>
+              <Button
+                sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
+                onClick={() => {
+                  navigate("/app/competitions")
+                }}
               >
-                Leaderboards
-              </Typography>
-            </Button>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
-              <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: {xs: "none", md:"none", lg:"flex" } }}
+                <Typography
+                  fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+                >
+                  Competitions
+                </Typography>
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/app/leaderboards")
+                }}
+                sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
               >
-                Quick Start Guide
-              </Typography>
-            </Button>
-          </Box>
-          : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
-          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "flex", md: "flex" } }}>       
-            <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
+                <Typography
+                  fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+                >
+                  Leaderboards
+                </Typography>
+              </Button>
+              <Button
+                sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
+                onClick={() => {
+                  navigate("/app/quickstartguide")
+                }}
               >
-                {username == "" ? (
-                <>
-                
-                </>
-                ) : (
-                <>
-                Hi, {username}
-                </>
-                )}              
-              </Typography>            
+                <Typography
+                  fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+                >
+                  Quick Start Guide
+                </Typography>
+              </Button>
             </Box>
-          <Box  sx={{ flexGrow: 0, display: { } }}>
-            
+          ) : (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "none", md: "flex" },
+              }}
+            ></Box>
+          )}
+          <Box
+            justifyContent={"right"}
+            sx={{
+              paddingRight: 5,
+              flexGrow: 1,
+              display: { xs: "flex", md: "flex" },
+            }}
+          >
+            <Typography
+              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+              fontWeight="medium"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+            >
+              {username == "" ? <></> : <>Hi, {username}</>}
+            </Typography>
+          </Box>
+          <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="" />
@@ -285,15 +302,15 @@ const Header = ({ siteTitle }: HeaderProps) => {
               <MenuItem onClick={ProfileRoute}>Profile</MenuItem>
               <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
               <MenuItem onClick={LoginRoute}>Login</MenuItem>
-              <MenuItem 
+              <MenuItem
                 onClick={event => {
                   event.preventDefault()
                   logout(() => navigate(`/app/login`))
                 }}
-                >Logout</MenuItem>
-
+              >
+                Logout
+              </MenuItem>
             </Menu>
-            
           </Box>
         </Toolbar>
       </Container>
