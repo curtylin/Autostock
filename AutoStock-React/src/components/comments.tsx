@@ -40,7 +40,7 @@ const Comments = ({
     <div>
         <AccordionDetails sx={{ml:3}}>            
           <Typography fontSize="16px" fontWeight="300" variant="h5" component="div">
-            <span className="dis_UserName">{users.get(threadCreator) == "" || !users.has(threadCreator) ? "Anonymous" : users.get(threadCreator)} </span>{threadTitle}
+            <span className="dis_UserName">{users.get(commentUser) == "" || !users.has(commentUser) ? "Anonymous" : users.get(commentUser)} </span>{threadTitle}
           </Typography>  
         </AccordionDetails>
     </div>
