@@ -222,6 +222,7 @@ const Competition = () => {
                 // error in e.message
             })
         event.preventDefault();
+        window.location.reload();
   }
 
   const handleResubmit = (event: any) => {
