@@ -418,21 +418,19 @@ const Competition = () => {
       <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
         <h3>Create new thread</h3>
         <FormControl fullWidth>
-        <TextField required inputRef={textInput2} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        <TextField value={newThreadTitle}required inputRef={textInput2} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setNewThreadTitle(e.target.value)
                 }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
      
-        <TextField required inputRef={textInput3} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        <TextField inputRef={textInput3} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setNewThreadDescription(e.target.value)
                 }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
        
         </FormControl>
-        <Button onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
+        <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
           New Thread
       </Button>  
       </Box>
-    
-      
 
       {threads.map((thread: any, index: number) => {
         let threadProps = {

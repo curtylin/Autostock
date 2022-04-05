@@ -142,6 +142,7 @@ const Threads = ({
           })}    
           <AccordionDetails>
             <TextField 
+              value={newComment}
               fullWidth 
               inputRef={textInput}
               label="Enter your comment"
@@ -151,7 +152,7 @@ const Threads = ({
             />
           </AccordionDetails>  
           <AccordionDetails>
-            <Button onClick={submitComment} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
+            <Button disabled={!newComment} onClick={submitComment} size="small" startIcon={<AddIcon/>} style={{textTransform:"none"}} variant="contained">
               Comment
             </Button>
           </AccordionDetails>   
