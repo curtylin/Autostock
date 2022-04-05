@@ -6,7 +6,6 @@ import AddIcon from '@mui/icons-material/Add';
 import CommentDialog from "./commentDialog";
 import Comments from "./comments";
 import { getUser } from "../services/auth";
-import { eventNames } from "process";
 
 
 
@@ -61,7 +60,6 @@ const Threads = ({
     setSnackOpen(true)
 
     // clear the comment box
-    textInput.current.value = "";
     // add comment to the web page
     // send the comment to the database
     let body = `{
@@ -84,6 +82,8 @@ const Threads = ({
       .catch(err => {
         console.log(err)
       })
+
+      setNewComment("")
 
   }
 
@@ -120,7 +120,7 @@ const Threads = ({
           >
             {console.log(threadCreator)}
             {console.log(users.get(threadCreator))}
-          <Typography fontSize="20px" fontWeight="500" variant="h5" component="div">
+          <Typography fontSize="20px" fontWeight="500" variant="h4" component="div">
             <span className="dis_UserName">{users.get(threadCreator) == "" || !users.has(threadCreator) ? "Anonymous" : users.get(threadCreator)} </span>{threadTitle}
           </Typography>          
           </AccordionSummary>
