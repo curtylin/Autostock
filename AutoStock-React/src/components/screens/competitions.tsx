@@ -33,6 +33,7 @@ const Competitions = () => {
                   compDeadline: comp.closeDate,
                   description: comp.description,
                   id: comp.id,
+                  logo: comp.logo,
               }
               return (
                   <Grid key={index} item sm={12} md={4} lg={4} justifyContent="center">
