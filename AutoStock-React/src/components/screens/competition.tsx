@@ -34,7 +34,6 @@ const Competition = () => {
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
   const [openBackdrop, setOpenBackdrop] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     getCompDB().then(() => {
@@ -49,7 +48,6 @@ const Competition = () => {
       getDiscussionsDB()
       getThreadsDB()
     })
-    setIsLoaded(true)
       
   }, [chosenAlgorithm])
 
@@ -276,11 +274,12 @@ const Competition = () => {
     setSnackOpen(true);
     setOpenBackdrop(true)
 
+    console.log(newThreadDescription)
     let body = `{
       "compID": "${competition.id}",
       "userID": "${getUser().uid}",
       "threadTitle": "${newThreadTitle}",
-      "threadDescription": "${newThreadDescription}",
+      "threadDescription": "${newThreadDescription.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t")}",
       "date": "${new Date().toISOString()}"
     }`
     const headers = new Headers()
@@ -297,56 +296,13 @@ const Competition = () => {
       .then(text => {
         setNewThreadTitle("")
         setNewThreadDescription("")
+        console.log("RELOAD")
         // setTimeout(function(){
         // },1000);
         window.location.reload()
       })
     }
-    const Skeletons = () => {
-      return (
-        <div>
-          <Skeleton animation="wave" />
-          <Skeleton animation="wave" />
-          <Skeleton animation="wave" />
-        </div>
-      )
-    }
 
-    const DiscussionPart = () => {
-      return (
-        <div>
-          <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
-          <h3>Create new thread</h3>
-          <FormControl fullWidth>
-          <TextField value={newThreadTitle}required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setNewThreadTitle(e.target.value)
-                  }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
-      
-          <TextField value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setNewThreadDescription(e.target.value)
-                  }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
-        
-          </FormControl>
-          <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
-            New Thread
-        </Button>  
-        </Box>
-        <div>
-          {threads.map((thread: any, index: number) => {
-            let threadProps = {
-              id : thread.id,
-              threadTitle: thread.threadTitle,
-              threadDescription: thread.threadDescription,
-              threadCreator: thread.userID
-            }
-            return(
-              <Threads key={index} {...threadProps}/>   
-            )
-          })}
-        </div>
-      </div>
-      )
-    }
 
 
   return (
@@ -469,10 +425,35 @@ const Competition = () => {
 
       <h1>Discussions</h1>
 
-      {isLoaded ? <DiscussionPart/> : <Skeletons/>}
+      <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
+          <h3>Create new thread</h3>
+          <FormControl fullWidth>
+          <TextField inputProps={{ maxLength: 300}} value={newThreadTitle} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setNewThreadTitle(e.target.value)
+                  }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
       
-      
-
+          <TextField inputProps={{ maxLength: 1000}}value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setNewThreadDescription(e.target.value)
+                  }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
+        
+          </FormControl>
+          <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
+            New Thread
+        </Button>  
+        </Box>
+        <div>
+          {threads.map((thread: any, index: number) => {
+            let threadProps = {
+              id : thread.id,
+              threadTitle: thread.threadTitle,
+              threadDescription: thread.threadDescription,
+              threadCreator: thread.userID
+            }
+            return(
+              <Threads key={index} {...threadProps}/>   
+            )
+          })}
+        </div>
       <Snackbar
           open={snackOpen}
           autoHideDuration={4000}
