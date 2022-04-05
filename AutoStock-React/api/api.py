@@ -974,12 +974,14 @@ def generateCompetitions():
 
 def generateBot():
     botsList = [doc.to_dict() for doc in bots_ref.stream()]
+    username = "Bot" + str(len(botsList) + 1)
     bot_obj = {
-        "username" : "Bot" + str(len(botsList) + 1),
+        "username" : username,
         "userID" : "bot" + str(len(botsList) + 1),
         "bot" : True
     }
-    return bot_create_driver(bot_obj)
+    bot_create_driver(bot_obj)
+    return ("Bot Created: " + username), 200
 
 @app.route('/generate_bot', methods=['PUT'])
 def generateBotAPI():
@@ -1044,7 +1046,7 @@ def enterBotsIntoComps():
     newCompsEnteredString = "\n"
     for comp in newCompetitionsEntered:
         newCompsEnteredString += comp + "\n"
-    return ("Successfully entered " + str(len(newCompetitionsEntered)) + " new bots into competitions: " + newCompsEnteredString + " new algos created: " + str(newAlgosCreated) + " reused algos: " + str(reusedAlgos)), 200
+    return ("Successfully entered " + str(len(newCompetitionsEntered)) + " new bots into competitions: " + newCompsEnteredString + "\nNew algos created: " + str(newAlgosCreated) + "\nReused algos: " + str(reusedAlgos)), 200
 
 
 @app.route('/findBestUsers', methods=['PUT'])
