@@ -141,7 +141,8 @@ const Threads = ({
             let commentProps = {
               id: comment.id,
               commentText: comment.commentText,
-              commentUser: comment.userID
+              commentUser: comment.userID,
+              allUsers: users
             }
             return(
               <Comments key={index} {...commentProps}/>   

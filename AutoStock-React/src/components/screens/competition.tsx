@@ -11,6 +11,7 @@ import Seo from "../seo"
 import { getUser } from "../../services/auth"
 import { Accordion, AccordionDetails, AccordionSummary, Backdrop, Box, Card, CardContent, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Snackbar, Stack, TextField, Typography } from "@mui/material"
 import HighChart from "../highChart"
+import Skeleton from '@mui/material/Skeleton';
 import "./screens.css"
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
@@ -33,6 +34,7 @@ const Competition = () => {
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
   const [openBackdrop, setOpenBackdrop] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     getCompDB().then(() => {
@@ -47,6 +49,7 @@ const Competition = () => {
       getDiscussionsDB()
       getThreadsDB()
     })
+    setIsLoaded(true)
       
   }, [chosenAlgorithm])
 
@@ -298,9 +301,51 @@ const Competition = () => {
         // },1000);
         window.location.reload()
       })
-    
-    
+    }
+    const Skeletons = () => {
+      return (
+        <div>
+          <Skeleton animation="wave" />
+          <Skeleton animation="wave" />
+          <Skeleton animation="wave" />
+        </div>
+      )
+    }
 
+    const DiscussionPart = () => {
+      return (
+        <div>
+          <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
+          <h3>Create new thread</h3>
+          <FormControl fullWidth>
+          <TextField value={newThreadTitle}required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setNewThreadTitle(e.target.value)
+                  }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
+      
+          <TextField value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setNewThreadDescription(e.target.value)
+                  }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
+        
+          </FormControl>
+          <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
+            New Thread
+        </Button>  
+        </Box>
+        <div>
+          {threads.map((thread: any, index: number) => {
+            let threadProps = {
+              id : thread.id,
+              threadTitle: thread.threadTitle,
+              threadDescription: thread.threadDescription,
+              threadCreator: thread.userID
+            }
+            return(
+              <Threads key={index} {...threadProps}/>   
+            )
+          })}
+        </div>
+      </div>
+      )
     }
 
 
@@ -423,35 +468,10 @@ const Competition = () => {
       <Divider sx={{ mb:5, mt: 5}}/>
 
       <h1>Discussions</h1>
-      <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
-        <h3>Create new thread</h3>
-        <FormControl fullWidth>
-        <TextField value={newThreadTitle}required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setNewThreadTitle(e.target.value)
-                }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
-     
-        <TextField value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setNewThreadDescription(e.target.value)
-                }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
-       
-        </FormControl>
-        <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
-          New Thread
-      </Button>  
-      </Box>
 
-      {threads.map((thread: any, index: number) => {
-        let threadProps = {
-          id : thread.id,
-          threadTitle: thread.threadTitle,
-          threadDescription: thread.threadDescription,
-          threadCreator: thread.userID
-        }
-        return(
-          <Threads key={index} {...threadProps}/>
-          
-        )
-      })}
+      {isLoaded ? <DiscussionPart/> : <Skeletons/>}
+      
+      
 
       <Snackbar
           open={snackOpen}
