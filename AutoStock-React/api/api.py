@@ -1091,6 +1091,7 @@ def enterBotsIntoComps():
     newCompetitionsEntered = []
     newAlgosCreated = 0
     reusedAlgos = 0
+    newBots = []
 
     for comp in competitions:
         for bot in botsList:
@@ -1129,11 +1130,12 @@ def enterBotsIntoComps():
                 }
                 comp_enter_user_driver(competitor_obj)
                 newCompetitionsEntered.append(algoName + " into " + comp['name'])
+                newBots.append(bot['username'])
 
     newCompsEnteredString = "\n"
     for comp in newCompetitionsEntered:
         newCompsEnteredString += comp + "\n"
-    return ("Successfully entered " + str(len(newCompetitionsEntered)) + " new bots into competitions: " + newCompsEnteredString + "\nNew algos created: " + str(newAlgosCreated) + "\nReused algos: " + str(reusedAlgos)), 200
+    return ("Successfully entered " + str(len(set(newBots))) + " new bots into competitions: " + newCompsEnteredString + "\nNew algos created: " + str(newAlgosCreated) + "\nReused algos: " + str(reusedAlgos) + " \nTOTAL COMPETITORS ADDED: " + str(len(newCompetitionsEntered))), 200
 
 
 @app.route('/findBestUsers', methods=['PUT'])
