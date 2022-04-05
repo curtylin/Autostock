@@ -9,13 +9,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
-import { Accordion, AccordionDetails, AccordionSummary, Box, Card, CardContent, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Snackbar, Stack, TextField, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, Box, Card, CardContent, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Snackbar, Stack, TextField, Typography } from "@mui/material"
 import HighChart from "../highChart"
 import "./screens.css"
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
 import CommentDialog from "../commentDialog"
 import { TextSnippetOutlined } from "@mui/icons-material"
+import { useForceUpdate } from "@chakra-ui/react"
 
 const Competition = () => {
   const [snackOpen, setSnackOpen] = useState(false)
@@ -31,8 +32,7 @@ const Competition = () => {
   const [open, setOpen] = React.useState(false);
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
-  const textInput2 = React.useRef(null);
-  const textInput3 = React.useRef(null);
+  const [openBackdrop, setOpenBackdrop] = useState(false)
 
   useEffect(() => {
     getCompDB().then(() => {
@@ -271,6 +271,7 @@ const Competition = () => {
   const submitThread = () => {
     console.log("saved")
     setSnackOpen(true);
+    setOpenBackdrop(true)
 
     let body = `{
       "compID": "${competition.id}",
@@ -290,10 +291,17 @@ const Competition = () => {
       .then(response => {
         return response.json() 
       })
+      .then(text => {
+        setNewThreadTitle("")
+        setNewThreadDescription("")
+        // setTimeout(function(){
+        // },1000);
+        window.location.reload()
+      })
+    
+    
 
-      setNewThreadTitle("")
-      setNewThreadDescription("")
-  }
+    }
 
 
   return (
@@ -451,7 +459,12 @@ const Competition = () => {
           onClose={handleSnackClose}
           message="Thread submitted!"
         />
-                       
+      <Backdrop
+        sx={{ color: '#fff'}}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>            
 
     </Layout>
   )

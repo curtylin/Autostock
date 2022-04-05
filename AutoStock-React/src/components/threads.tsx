@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useState, useEffect } from "react";
-import { Accordion, AccordionDetails, AccordionSummary, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, Button, CircularProgress, IconButton, Snackbar, TextField, Typography } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import CommentDialog from "./commentDialog";
@@ -21,6 +21,7 @@ const Threads = ({
   const [newComment, setNewComment] = useState("")
   const textInput = React.useRef(null);
   const [users, setUsers] = useState(new Map<string, string>())
+  const [openBackdrop, setOpenBackdrop] = useState(false)
 
   useEffect(() => {
     getCommentsDB(id)
@@ -58,6 +59,7 @@ const Threads = ({
     console.log("SAVED")
     console.log(newComment)
     setSnackOpen(true)
+    setOpenBackdrop(true)
 
     // clear the comment box
     // add comment to the web page
@@ -82,9 +84,14 @@ const Threads = ({
       .catch(err => {
         console.log(err)
       })
+      .then(text => {
+        setNewComment("")
+        window.location.reload();
+      })
+      
 
-      setNewComment("")
 
+      
   }
 
   const handleClickOpen = () => {
@@ -163,6 +170,12 @@ const Threads = ({
           onClose={handleSnackClose}
           message="Comment submitted!"
         />
+        <Backdrop
+          sx={{ color: '#fff'}}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop> 
     </div>
   )
 }

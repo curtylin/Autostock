@@ -43,7 +43,9 @@ const Comments = ({
             <span className="dis_UserName">{users.get(commentUser) == "" || !users.has(commentUser) ? "Anonymous" : users.get(commentUser)} </span>{commentText}
           </Typography>  
         </AccordionDetails>
+        
     </div>
+
   )
 }
 export default Comments
