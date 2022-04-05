@@ -392,16 +392,20 @@ def comp_list_all_active():
         competitions : Return all competitions.
     """
     try:
-        comps = activeCompetitions_ref.stream()
-        competitions = []
-        for comp in comps:
-            compDict = comp.to_dict()
-            compDict['id'] = comp.id
-            compDict['active'] = True
-            competitions.append(compDict)
-        return jsonify(competitions), 200
+        return jsonify(active_comps_list_driver()), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
+def active_comps_list_driver():
+    comps = activeCompetitions_ref.stream()
+    competitions = []
+    for comp in comps:
+        compDict = comp.to_dict()
+        compDict['id'] = comp.id
+        compDict['active'] = True
+        competitions.append(compDict)
+    return competitions
+
 
 ## Returns all stale competitions
 @cross_origin()
@@ -628,15 +632,19 @@ def bots_list():
         Gets all bots in the collection.
         read() : Fetches documents from Firestore collection as JSON.
     """
-    return bots_list_driver()
-
-def bots_list_driver():
     try:
-        # Check if ID was passed to URL query
-        bots = [doc.to_dict() for doc in bots_ref.stream()]
-        return jsonify(bots), 200
+        return jsonify(bots_list_driver()), 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+def bots_list_driver():
+    bots = bots_ref.stream()
+    botsList = []
+    for bot in bots:
+        botDict = bot.to_dict()
+        botDict['id'] = bot.id
+        botsList.append(botDict)
+    return botsList
 
 
 
@@ -982,20 +990,8 @@ def enterBotsCompAPI():
     return enterBotsIntoComps()
 
 def enterBotsIntoComps():
-    comps = activeCompetitions_ref.stream()
-    competitions = []
-    for comp in comps:
-        compDict = comp.to_dict()
-        compDict['id'] = comp.id
-        compDict['active'] = True
-        competitions.append(compDict)
-
-    bots = bots_ref.stream()
-    botsList = []
-    for bot in bots:
-        botDict = bot.to_dict()
-        botDict['id'] = bot.id
-        botsList.append(botDict)
+    competitions = active_comps_list_driver()
+    botsList = bots_list_driver()
 
     # indicators = ["EMA", "SMA", "BBANDS", "KAMA", "DEMA", "MA", "TRIX", "TEMA"]
     indicators = ["SMA"]
@@ -1003,40 +999,54 @@ def enterBotsIntoComps():
     periods = ["open", "close", "high", "low"]
     comparators = ["Above", "Below"]
     intervals = ["1", "24", "168"]
+    newCompetitionsEntered = []
 
     for comp in competitions:
         for bot in botsList:
             competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", bot['userID']).get()
             if len(competitors) == 0:
                 chosenIndicator = random.choice(indicators)
-                algo = {
-                    "action": random.choice(actions),
-                    "comparator": random.choice(comparators),
-                    "indicator1": chosenIndicator,
-                    "interval": random.choice(intervals),
-                    "name": bot['username'] + "'s " + comp['ticker'] + " " + chosenIndicator,
-                    "period1": random.choice(periods),
-                    "period1Number": str(random.randint(1,30)),
-                    "period2": random.choice(periods),
-                    "period2Number": str(random.randint(1,30)),
-                    "public": True,
-                    "runningTIme": 30,
-                    "ticker": compDict['ticker'],
-                    "userID": bot['userID']
-                }
-                algoID = (bot['userID'] + comp['ticker'] + chosenIndicator)
-                algo_create_driver(algo, algoID)
+                algo = algorithms_ref.where("ticker", "==", comp['ticker']).where("indicator", "==", chosenIndicator).where("userID", "==", bot['userID']).get()
+                algoID = ""
+                if len(algo) == 0:
+                    algoName = str(bot['username']) + "'s " + str(comp['ticker']) + " " + str(chosenIndicator)
+                    algo = {
+                        "action": random.choice(actions),
+                        "comparator": random.choice(comparators),
+                        "indicator1": chosenIndicator,
+                        "interval": random.choice(intervals),
+                        "name": algoName,
+                        "period1": random.choice(periods),
+                        "period1Number": str(random.randint(1,30)),
+                        "period2": random.choice(periods),
+                        "period2Number": str(random.randint(1,30)),
+                        "public": True,
+                        "runningTIme": 30,
+                        "ticker": comp['ticker'],
+                        "userID": bot['userID']
+                    }
+                    algoID = (bot['userID'] + comp['ticker'] + chosenIndicator)
+                    algo_create_driver(algo, algoID)
+                else:
+                    algoID = algo[0].id
                 competitor_obj = {
                     "competition": comp['id'],
                     "userID": bot['userID'],
                     "algorithm" : algoID
                 }
                 comp_enter_user_driver(competitor_obj)
+                newCompetitionsEntered.append(algoName + " into " + comp['name'])
 
-    return "Successfully entered bots into competitions", 200
+    newCompsEnteredString = "\n"
+    for comp in newCompetitionsEntered:
+        newCompsEnteredString += comp + "\n"
+    return ("Successfully entered " + str(len(newCompetitionsEntered)) + " new bots into competitions: " + newCompsEnteredString), 200
 
 
-
+@app.route('/findBestUsers', methods=['PUT'])
+def findBestUsersAPI():
+    findBestUsers()
+    return "Successfully Ran Competitions", 200
 
 def findBestUsers():
     competitions = []
