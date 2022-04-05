@@ -7,3 +7,10 @@
 .compCard:hover{
     box-shadow: 0 6px 6px -6px black;
 }
+.cardImage{
+    height:200px;
+    width:100%;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
