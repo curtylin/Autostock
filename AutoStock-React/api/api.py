@@ -1105,14 +1105,14 @@ def enterBotsIntoComps():
                         "action": random.choice(actions),
                         "comparator": random.choice(comparators),
                         "indicator1": chosenIndicator,
-                        "interval": random.choice(intervals),
+                        "timeInterval": random.choice(intervals),
                         "name": algoName,
                         "period1": random.choice(periods),
                         "period1Number": str(random.randint(1,30)),
                         "period2": random.choice(periods),
                         "period2Number": str(random.randint(1,30)),
                         "public": True,
-                        "runningTIme": 30,
+                        "runningTIme": "30",
                         "ticker": comp['ticker'],
                         "userID": bot['userID']
                     }
@@ -1206,7 +1206,7 @@ scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
 scheduler.add_job(func=generateBot, trigger="cron", day_of_week=1, hour = 8, minute = 0)
-scheduler.add_job(func=enterBotsIntoComps, trigger="cron", day_of_week=1, hour=8, minute = 30)
+scheduler.add_job(func=enterBotsIntoComps, trigger="cron", day_of_week=6, hour=8, minute = 30)
 # scheduler.add_job(func=scheduleTest, trigger='interval', seconds=15)
 
 
