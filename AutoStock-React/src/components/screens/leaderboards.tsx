@@ -70,7 +70,7 @@ const Leaderboards = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <title>Leaderboards</title>
       <h1>Leaderboards</h1>
       <Stack direction="column" spacing={2} sx={{my: 5}}>

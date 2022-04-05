@@ -208,7 +208,7 @@ const CreateAlgorithm = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h1>Create Algorithm</h1>
       <h3>Need help? See our <Link to="/app/quickstartcreatealgo">guide to create an algorithm</Link>!</h3>
 
