@@ -270,8 +270,6 @@ const Competition = () => {
 
   const submitThread = () => {
     console.log("saved")
-    textInput2.current.value =""
-    textInput3.current.value =""
     setSnackOpen(true);
 
     let body = `{
@@ -293,6 +291,8 @@ const Competition = () => {
         return response.json() 
       })
 
+      setNewThreadTitle("")
+      setNewThreadDescription("")
   }
 
 
@@ -418,11 +418,11 @@ const Competition = () => {
       <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
         <h3>Create new thread</h3>
         <FormControl fullWidth>
-        <TextField value={newThreadTitle}required inputRef={textInput2} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        <TextField value={newThreadTitle}required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setNewThreadTitle(e.target.value)
                 }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
      
-        <TextField inputRef={textInput3} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        <TextField value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setNewThreadDescription(e.target.value)
                 }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
        
