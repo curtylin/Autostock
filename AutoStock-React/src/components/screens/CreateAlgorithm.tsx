@@ -10,7 +10,13 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
+import {
+  Grid,
+  CircularProgress,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material"
 import { getUser } from "../../services/auth"
 import { Link } from "gatsby"
 
@@ -34,8 +40,8 @@ const CreateAlgorithm = () => {
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
-  const show = () => setShowBT(true)  
-  const [data , setStockData] = useState([])
+  const show = () => setShowBT(true)
+  const [data, setStockData] = useState([])
   const [showSpinner, setShowSpinner] = useState(false)
   const showSpin = () => setShowSpinner(true)
   const noShowSpin = () => setShowSpinner(false)
@@ -43,7 +49,7 @@ const CreateAlgorithm = () => {
   const [BTendRes, setBTendRes] = useState("")
   const [BTPnLPer, setBTPnLPer] = useState("")
   const [BTPnLNu, setBTPnLNum] = useState("")
-  const [BTstart, setBTstart] = useState("")  
+  const [BTstart, setBTstart] = useState("")
   useEffect(() => {
     jsConfetti = new JSConfetti()
   })
@@ -75,11 +81,11 @@ const CreateAlgorithm = () => {
       })
       .then(result => {
         setStockData(result)
-      }) 
+      })
       .catch(e => {
         // error in e.message
       })
-  };
+  }
   const [urls, setUrl] = useState("")
 
   const handleBacktest = (event: any) => {
@@ -136,7 +142,6 @@ const CreateAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
-
   }
 
   const handleSubmit = (event: any) => {
@@ -181,27 +186,22 @@ const CreateAlgorithm = () => {
     event.preventDefault()
   }
 
-
   const BackTestingPart = () => (
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-      <Card variant="outlined" sx={{ minWidth: 275, mb:5}}>
+      <Card variant="outlined" sx={{ minWidth: 275, mb: 5 }}>
         <CardContent>
           <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
             {stock}
           </Typography>
-          <Typography variant="h5">
-            Ending Value: ${BTendRes}
-          </Typography>
+          <Typography variant="h5">Ending Value: ${BTendRes}</Typography>
           <Typography variant="h6">
-            PnL Percentage: {BTPnLPer.toString().substring(0,4)}%
+            PnL Percentage: {BTPnLPer.toString().substring(0, 4)}%
           </Typography>
-          <Typography variant="h6">
-            Started with: ${BTstart}
-          </Typography>
+          <Typography variant="h6">Started with: ${BTstart}</Typography>
         </CardContent>
       </Card>
-      <img src={`${urls}`}></img>      
+      <img src={`${urls}`}></img>
     </div>
   )
 
@@ -209,7 +209,11 @@ const CreateAlgorithm = () => {
     <Layout>
       <Seo title="AutoStock" />
       <h1>Create Algorithm</h1>
-      <h3>Need help? See our <Link to="/app/quickstartcreatealgo">guide to create an algorithm</Link>!</h3>
+      <h3>
+        Need help? See our{" "}
+        <Link to="/app/quickstartcreatealgo">guide to create an algorithm</Link>
+        !
+      </h3>
 
       <form>
         <div>
@@ -286,24 +290,40 @@ const CreateAlgorithm = () => {
             }}
           >
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
+            <MenuItem value={"ADXR"}>
+              ADXR - Average Directional Index Rating
+            </MenuItem>
             <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
             <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
             <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
-            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
+            <MenuItem value={"DEMA"}>
+              DEMA - Double Exponential Moving Average
+            </MenuItem>
+            <MenuItem value={"KAMA"}>
+              KAMA - Kaufman Adaptive Moving Average
+            </MenuItem>
             <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+            <MenuItem value={"MACD"}>
+              MACD- Moving Average Convergence Divergence
+            </MenuItem>
             <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
             <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
             <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
             <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"SAREXT"}>
+              SAREXT - Parabolic SAR - Extended
+            </MenuItem>
             <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"T3"}>
+              T3 - Triple Exponential Moving Average
+            </MenuItem>
             <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
-            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
+            <MenuItem value={"TEMA"}>
+              TEMA - Triple Exponential Moving Average
+            </MenuItem>
+            <MenuItem value={"ULTIMATE"}>
+              ULTIMATE - Ultimate Oscilator
+            </MenuItem>
             <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
@@ -402,7 +422,7 @@ const CreateAlgorithm = () => {
           </FormControl>
         </div>
         {/* Running Time */}
-        <FormControl required sx={{ my: 2, minWidth: {xs: 300, md: 500} }}>
+        <FormControl required sx={{ my: 2, minWidth: { xs: 300, md: 500 } }}>
           <InputLabel id="demo-simple-select-standard-label">
             Algorithm Running Time
           </InputLabel>
@@ -426,7 +446,7 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
-        
+
         <div>
           <Button
             type="submit"
@@ -443,7 +463,7 @@ const CreateAlgorithm = () => {
           </Button>
         </div>
       </form>
-      
+
       <div>
         <h2>Historical Data</h2>
         <HighChart stock={stock} stockData={data} />
@@ -460,8 +480,6 @@ const CreateAlgorithm = () => {
         {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
-
-      
     </Layout>
   )
 }

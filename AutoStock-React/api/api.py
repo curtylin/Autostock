@@ -1,6 +1,7 @@
 import random
 
 from flask import Flask , request, jsonify
+from flask import send_from_directory
 from firebase_admin import credentials, firestore, initialize_app, storage
 from flask_cors import CORS, cross_origin
 import backtrader as bt
@@ -30,7 +31,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # !!!
 
 
-cors = CORS(app)
+CORS(app)
 
 cred = credentials.Certificate("firestore_apikey.json")
 # firebase_admin.initialize_app(cred)
@@ -43,15 +44,28 @@ competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
 
-
+ 
+ 
 @app.errorhandler(404)
 def not_found(error):
-    # return app.send_static_file('index.html')
+    #return app.send_static_file('index.html')
     return error
 
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
+
+
+@app.route('/', defaults={'u_path': ''})
+@app.route('/<path:u_path>')
+def catch_all(u_path):
+    if u_path == "":
+        return app.send_static_file('index.html')
+    else:
+        return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
+
+
+#@app.route('/')
+#def index():
+#    return app.send_static_file('index.html')
+    #return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
 
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
@@ -990,3 +1004,6 @@ scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
