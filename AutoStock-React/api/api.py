@@ -44,6 +44,9 @@ competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
 bots_ref = db.collection('bots')
 
+discussions_ref = db.collection('discussions')
+threads_ref = db.collection('threads')
+comments_ref = db.collection('comments')
 
 @app.errorhandler(404)
 def not_found(error):
@@ -488,6 +491,90 @@ def comp_read(id):
         return jsonify(compDict), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
+## 
+@app.route('/get-discussions/<id>', methods=['GET'])
+def disc_read(id):
+    """
+         id : is the competition id. Gets all algorithms by this competition id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document that matches query ID.
+    """
+    try:
+        # Check if ID was passed to URL query
+        disc = discussions_ref.where("compID", "==", id).get()
+        discussions = []
+        for d in disc:
+            disc_Dict = d.to_dict()
+            disc_Dict["id"] = d.id
+            discussions.append(disc_Dict)
+        return jsonify(discussions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/get-threads/<id>', methods=['GET'])
+def thread_read(id):
+    """
+        id : is the thread id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document that matches query ID.
+    """
+    try:
+        threads = threads_ref.where("compID", "==", id).stream()
+        thr = []
+        for t in threads:
+            thread_Dict = t.to_dict()
+            thread_Dict["id"] = t.id
+            thr.append(thread_Dict)
+        return jsonify(thr), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/get-comments/<id>', methods=['GET'])
+def comm_read(id):
+    """
+        id : is the thread id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document that matches query ID.
+    """
+    try:
+        comm = comments_ref.where("threadID", "==", id).stream()
+        comments = []
+        for c in comm:
+            comm_Dict = c.to_dict()
+            comm_Dict["id"] = c.id
+            comments.append(comm_Dict)
+        return jsonify(comments), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/add-comment', methods=['POST'])
+def comm_create():
+    """
+        create() : Add document to Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post'}
+    """
+    try:
+        comments_ref.document().set(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/create-thread', methods=['POST'])
+def thr_create():
+    """
+        create() : Add document to Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post'}
+    """
+    try:
+        threads_ref.document().set(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+
 
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.

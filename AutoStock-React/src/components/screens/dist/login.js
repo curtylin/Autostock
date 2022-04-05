@@ -29,8 +29,8 @@ var styles_1 = require("@mui/material/styles");
 var firebase_wrapper_1 = require("../../services/firebase-wrapper");
 function Copyright(props) {
     return (React.createElement(Typography_1["default"], __assign({ variant: "body2", color: "text.secondary", align: "center" }, props),
-        "Copyright ©AutoStock ",
-        React.createElement(Link_1["default"], { color: "inherit", href: "https://localhost:8000/" }, "AutoStock"),
+        "Copyright ©Autostock ",
+        React.createElement(Link_1["default"], { color: "inherit", href: "https://localhost:8000/" }, "Autostock"),
         " ",
         new Date().getFullYear(),
         "."));

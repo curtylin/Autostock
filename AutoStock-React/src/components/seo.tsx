@@ -17,7 +17,7 @@ interface SEOProps {
 
 function Seo({ description = "", lang = "en", meta = [], title }: SEOProps) {
   const metaDescription = "blah blah blah meta description"
-  const defaultTitle = "AutoStock"
+  const defaultTitle = "Autostock"
 
   return (
     <Helmet
