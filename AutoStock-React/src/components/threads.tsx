@@ -125,15 +125,13 @@ const Threads = ({
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            {console.log(threadCreator)}
-            {console.log(users.get(threadCreator))}
           <Typography fontSize="20px" fontWeight="500" variant="h4" component="div">
             <span className="dis_UserName">{users.get(threadCreator) == "" || !users.has(threadCreator) ? "Anonymous" : users.get(threadCreator)} </span>{threadTitle}
           </Typography>          
           </AccordionSummary>
           <AccordionDetails>
             <Typography fontSize="16px" fontWeight="300" variant="h5" component="div">
-              {threadDescription}
+              {threadDescription.replace(/\\n/g, "\n").replace(/\\r/g, "\r").replace(/\\t/g, "\t")}
             </Typography>        
           </AccordionDetails>
           {/* COMMENTS */}
@@ -150,6 +148,7 @@ const Threads = ({
           })}    
           <AccordionDetails>
             <TextField 
+              inputProps={{ maxLength: 2000 }}
               value={newComment}
               fullWidth 
               inputRef={textInput}
