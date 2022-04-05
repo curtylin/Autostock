@@ -12,7 +12,7 @@ import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
 import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
 import { getUser } from "../../services/auth"
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 
 let jsConfetti: any
 
@@ -179,6 +179,7 @@ const CreateAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+    navigate('/app/myalgorithms')
   }
 
 
@@ -438,9 +439,6 @@ const CreateAlgorithm = () => {
             Save Algorithm
           </Button>
 
-          <Button type="submit" variant="contained" color="secondary">
-            Share
-          </Button>
         </div>
       </form>
       

@@ -41,6 +41,7 @@ const MyAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+    window.location.reload()
   }
 
   const handleUnshare = (event: any) => {
@@ -64,6 +65,7 @@ const MyAlgorithm = () => {
           // error in e.message
         })
       event.preventDefault()
+      window.location.reload()
     }
 
   const handleEdit = (event: any) => {
@@ -90,6 +92,7 @@ const MyAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+    window.location.reload()
   }
 
   const [algorithms, setAlgorithms] = useState([])
