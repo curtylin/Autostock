@@ -1082,12 +1082,9 @@ def enterBotsIntoComps():
     competitions = active_comps_list_driver()
     botsList = bots_list_driver()
 
-    # indicators = ["EMA", "SMA", "BBANDS", "KAMA", "DEMA", "MA", "TRIX", "TEMA"]
-    indicators = ["SMA"]
+    indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
     actions = ["buy", "sell"]
-    periods = ["open", "close", "high", "low"]
     comparators = ["Above", "Below"]
-    intervals = ["1", "24", "168"]
     newCompetitionsEntered = []
     newAlgosCreated = 0
     reusedAlgos = 0
@@ -1097,27 +1094,30 @@ def enterBotsIntoComps():
         for bot in botsList:
             competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", bot['userID']).get()
             if len(competitors) == 0:
-                chosenIndicator = random.choice(indicators)
-                algo = algorithms_ref.where("ticker", "==", comp['ticker']).where("indicator", "==", chosenIndicator).where("userID", "==", bot['userID']).get()
+                algo = algorithms_ref.where("ticker", "==", comp['ticker']).where("userID", "==", bot['userID']).get()
                 algoID = ""
                 if len(algo) == 0:
-                    algoName = str(bot['username']) + "'s " + str(comp['ticker']) + " " + str(chosenIndicator)
+                    algoName = str(bot['username']) + "'s " + str(comp['ticker']) + " Competition Algorithm"
+                    entries = []
+                    for i in range(random.randint(1,3)):
+                        entry = {
+                            "action": random.choice(actions),
+                            "indicator1": random.choice(indicators),
+                            "comparator": random.choice(comparators),
+                            "indicator2": random.choice(indicators),
+                            "paramsOne": {},
+                            "paramsTwo": {}
+                        }
+                        entries.append(entry)
                     algo = {
-                        "action": random.choice(actions),
-                        "comparator": random.choice(comparators),
-                        "indicator1": chosenIndicator,
-                        "timeInterval": random.choice(intervals),
                         "name": algoName,
-                        "period1": random.choice(periods),
-                        "period1Number": str(random.randint(1,30)),
-                        "period2": random.choice(periods),
-                        "period2Number": str(random.randint(1,30)),
+                        "ticker": comp['ticker'],
                         "public": True,
                         "runningTime": "30",
-                        "ticker": comp['ticker'],
                         "userID": bot['userID']
+                        "entry" : entries
                     }
-                    algoID = (bot['userID'] + comp['ticker'] + chosenIndicator)
+                    algoID = (bot['userID'] + comp['ticker'])
                     algo_create_driver(algo, algoID)
                     newAlgosCreated += 1
                 else:
