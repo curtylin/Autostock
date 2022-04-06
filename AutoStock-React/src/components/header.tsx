@@ -20,50 +20,6 @@ interface HeaderProps {
   siteTitle: string
 }
 
-const pages = [
-  <Link
-    to="/app/createalgorithm"
-    style={{ color: "black", textDecoration: "none" }}
-  >
-    Create Algorithm
-  </Link>,
-  <Link
-    to="/app/myalgorithms"
-    style={{ color: "black", textDecoration: "none" }}
-  >
-    My Algorithms
-  </Link>,
-  <Link
-    to="/app/publicalgorithms"
-    style={{ color: "black", textDecoration: "none" }}
-  >
-    Public Algorithms
-  </Link>,
-]
-
-const settings = [
-  <Link to="/app/quickstartguide" style={{ color: "black", textDecoration: "none" }}>
-  Quick Start Guide
-  </Link>,
-  "Profile",
-  <Link to="/app/edituser" style={{ color: "black", textDecoration: "none" }}>
-    Edit Account
-  </Link>,
-  <Link to="/app/login" style={{ color: "black", textDecoration: "none" }}>
-    Login
-  </Link>,
-  <Link
-    to="/"
-    style={{ color: "black", textDecoration: "none" }}
-    onClick={event => {
-      event.preventDefault()
-      logout(() => navigate(`/app/login`))
-    }}
-  >
-    Logout
-  </Link>,
-]
-
 const Header = ({ siteTitle }: HeaderProps) => {
   const [username, setUsername] = useState("")
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -90,6 +46,41 @@ const Header = ({ siteTitle }: HeaderProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+
+  const createRoute = () => {
+    let path = '/app/createalgorithm';
+    navigate(path)
+  }
+  const myAlgoRoute = () => {
+    let path = '/app/myalgorithms';
+    navigate(path)
+  }
+  const publicAlgoRoute = () => {
+    let path = '/app/publicalgorithms';
+    navigate(path)
+  }
+
+  const QSGRoute = () => {
+    let path = '/app/quickstartguide';
+    navigate(path)
+  }
+  const ProfileRoute = () => {
+    let path = '/app/edituser';
+    navigate(path)
+  }
+  const EditAccountRoute = () => {
+    let path = '/app/edituser';
+    navigate(path)
+  }
+  const LoginRoute = () => {
+    let path = '/app/login';
+    navigate(path)
+  }
+  const LogoutRoute = () => {
+    let path = '/';
+    navigate(path)
+  }
+
   useEffect(() =>{
     fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
           headers: {
@@ -109,7 +100,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 setUsername(result.username)
             }
           })
-  })
+  },[])
   
   return (
     <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
@@ -185,11 +176,16 @@ const Header = ({ siteTitle }: HeaderProps) => {
               open={Boolean(anchorElAlg)}
               onClose={handleCloseAlgMenu}
             >
-              {pages.map(page => (
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={createRoute}>
+                Create Algorithm
+              </MenuItem>
+              <MenuItem onClick={myAlgoRoute}>
+                My Algorithms
+              </MenuItem>
+              <MenuItem onClick={publicAlgoRoute}>
+                Public Algorithms
+              </MenuItem>
+
             </Menu>
             <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/competitions")}}>
               <Typography
@@ -211,6 +207,17 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
               >
                 Leaderboards
+              </Typography>
+            </Button>
+            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
+              <Typography
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium"
+                noWrap
+                component="div"
+                sx={{ display: {xs: "none", md:"none", lg:"flex" } }}
+              >
+                Quick Start Guide
               </Typography>
             </Button>
           </Box>
@@ -257,11 +264,17 @@ const Header = ({ siteTitle }: HeaderProps) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map(setting => (
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={QSGRoute}>Quick Start Guide</MenuItem>
+              <MenuItem onClick={ProfileRoute}>Profile</MenuItem>
+              <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
+              <MenuItem onClick={LoginRoute}>Login</MenuItem>
+              <MenuItem 
+                onClick={event => {
+                  event.preventDefault()
+                  logout(() => navigate(`/app/login`))
+                }}
+                >Logout</MenuItem>
+
             </Menu>
             
           </Box>

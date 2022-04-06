@@ -9,6 +9,7 @@ import { navigate } from "gatsby"
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const MyAlgorithm = () => {
@@ -40,6 +41,7 @@ const MyAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+    window.location.reload()
   }
 
   const handleUnshare = (event: any) => {
@@ -63,6 +65,7 @@ const MyAlgorithm = () => {
           // error in e.message
         })
       event.preventDefault()
+      window.location.reload()
     }
 
   const handleEdit = (event: any) => {
@@ -89,6 +92,7 @@ const MyAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+    window.location.reload()
   }
 
   const [algorithms, setAlgorithms] = useState([])
@@ -136,7 +140,7 @@ const MyAlgorithm = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <title>My Algorithms</title>
       <h1>My Algorithms</h1>
       <div className="mdc-data-table">
@@ -164,7 +168,11 @@ const MyAlgorithm = () => {
                   role="columnheader"
                   scope="col"
                 >
-                  {" "}
+                  <Button color="primary" variant="contained" className="mdc-button mdc-button--raised"
+                        onClick={event => {navigate('/app/createalgorithm')}}
+                        startIcon={<AddIcon />}>
+                         <span className="mdc-button__label">Algorithm</span> 
+                      </Button> 
                 </th>
               </tr>
             </thead>
