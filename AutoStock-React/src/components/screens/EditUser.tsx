@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField"
 import FormControl from "@mui/material/FormControl"
 //import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { getUser } from "../../services/auth"
+import { navigate } from "gatsby"
 import Layout from "../layout"
 import Seo from "../seo"
 import Tooltip from "@mui/material/Tooltip"
@@ -85,6 +86,7 @@ const EditUser = () => {
             })
           event.preventDefault()
           setUsernameInDB(true)
+          navigate('/app/home')
         }
       })
 
@@ -131,6 +133,7 @@ const EditUser = () => {
               // error in e.message
             })
           event.preventDefault()
+          navigate('/app/home')
         }
       })
   }
@@ -146,7 +149,7 @@ const EditUser = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h1>Edit Account Information</h1>
       {/*  User Name */}
       <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>

@@ -23,10 +23,18 @@ const ComplexCompCard = ({
     compDeadline,
     description,
     id,
+    logo,
 }: any) => {
     return (
         <Card variant="outlined" className="compCard" sx={{  maxWidth: 500 }}>
-            <CardActionArea> {/*CHANGE THIS TO CORRESPONDING COMP*/}
+            <CardActionArea
+            id={id}
+            onClick={event => {navigate(`/app/competition`, 
+            {
+              state: {id},
+            }
+              )
+              }}> {/*CHANGE THIS TO CORRESPONDING COMP*/}
                 <CardHeader
                 className="compHeader"
                 title={compTicker}
@@ -34,24 +42,22 @@ const ComplexCompCard = ({
                 subheader={compLength.length > 2 ? compLength : `Competition Length: ${compLength} days`}
                 />
                 <CardMedia
+                style={{
+                  width: "auto",
+                  maxHeight: "200px",
+                  margin: "auto",
+                }}
                 component="img"
-                height="194"
+                height="140"
                 // maybe scrape for an image using the ticker
-                image="https://images.unsplash.com/photo-1601382270349-49c15bddf738?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                alt="Paella dish"
+                image={logo}
+                alt="Ticker logo"
                 sx={{mb:0}}
-                />
+                >
+                  
+                </CardMedia>
                 <CardContent>
-                <Typography sx={{
-                    display: '-webkit-box',
-                    overflow: 'hidden',
-                    WebkitBoxOrient: 'vertical',
-                    WebkitLineClamp: 1,
-                    }}
-                    variant="body2"
-                    color="text.secondary">
-                    {description}
-                </Typography>
+               
                 <Button className="mdc-button mdc-button--raised"
                         id={id}
                         onClick={event => {navigate(`/app/competition`, 
