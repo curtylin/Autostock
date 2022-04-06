@@ -1,3 +1,4 @@
+from queue import Empty
 import random
 
 from flask import Flask , request, jsonify
@@ -63,12 +64,19 @@ def backtest():
 
 def backtest_driver(req):
     dataDict = req
-
+    entry = dataDict["entry"][0]
+    if entry is None or len(entry) == 0:
+        return "Entry is None", 400
+    indi = entry["indicator"]
     class StrategyTest(bt.SignalStrategy):
+        
         def __init__(self):
-            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-            crossover = bt.ind.CrossOver(sma1, sma2)
-            self.signal_add(bt.SIGNAL_LONG, crossover)
+            if indi == "SMA":
+                period1num, period2num = int(entry["period1Number"]), int(entry["period2Number"])
+                sma1, sma2 = bt.ind.SMA(period=period1num), bt.ind.SMA(period=period2num)
+                crossover = bt.ind.CrossOver(sma1, sma2)
+                self.signal_add(bt.SIGNAL_LONG, crossover)
+            
 
 
     cerebro = bt.Cerebro()
