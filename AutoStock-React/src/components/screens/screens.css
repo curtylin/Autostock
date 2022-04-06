@@ -16,6 +16,10 @@
 
 }
 
+.dis_UserName{
+    color: #0081FF;
+    font-weight: 550;
+}
 .btn_signUp{
     opacity: 75%;
     background-color: white;

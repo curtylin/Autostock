@@ -22,7 +22,7 @@ const Competitions = () => {
 
   return (
     <Layout>
-        <Seo title="AutoStock" />
+        <Seo title="Autostock" />
         <h1>Competitions</h1>
           <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
               {competitions.slice(0, 6).map((comp: any, index: number) => {
@@ -33,6 +33,7 @@ const Competitions = () => {
                   compDeadline: comp.closeDate,
                   description: comp.description,
                   id: comp.id,
+                  logo: comp.logo,
               }
               return (
                   <Grid key={index} item sm={12} md={4} lg={4} justifyContent="center">

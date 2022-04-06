@@ -255,7 +255,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h2>Edit Algorithm</h2>
 
       <form>
