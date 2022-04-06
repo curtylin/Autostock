@@ -28,9 +28,9 @@ const handleDelete = () => {
 const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
-  const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("None")
   const [comparator1, setComparator1] = useState("")
+  const [indicator2, setIndicator2] = useState("None")
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
@@ -86,30 +86,22 @@ const CreateAlgorithm = () => {
     show()
     showSpin()
     let currDate = new Date()
-    //create json object
-    let obj = {
-      symbol: stock,
-      cash: 1000,
-      startDate: `${
-        currDate.getFullYear() - 1
-      }-${currDate.getMonth()}-${currDate.getDate()}`,
-      endDate: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}`,
-    }
     const headers = new Headers()
     headers.append("content-type", "application/json")
 
-    let entry = `{
-        "action": "${action}",
-        "indicator": "${indicator1}",
-        "comparator": "${comparator1}",
-        "params": []
-      }`
+    let entry =`{
+      "action": "${action}",
+      "indicator1": "${indicator1}",
+      "comparator": "${comparator1}",
+      "indicator2": "${indicator2}",
+      "paramsOne": {}
+      "paramsTwo": {}
+    }`
     
     let body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": 1000,
-      "interval": "${timeInterval}",
       "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
       "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
       "runtime": "${runningTime}",
@@ -153,15 +145,16 @@ const CreateAlgorithm = () => {
   const handleSubmit = (event: any) => {
     let entry =`{
         "action": "${action}",
-        "indicator": "${indicator1}",
+        "indicator1": "${indicator1}",
         "comparator": "${comparator1}",
-        "params": []
+        "indicator2": "${indicator2}",
+        "paramsOne": {},
+        "paramsTwo": {}
       }`
 
     let body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
-      "action": "${action}",
       "runtime": "${runningTime}",
       "public": false,
       "userID": "${getUser().uid}",
@@ -264,29 +257,6 @@ const CreateAlgorithm = () => {
             <Chip label="Deletable" onDelete={handleDelete}/>
           </Stack> */}
           </FormControl>
-          {/* Time Interval */}
-          <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
-            <InputLabel required id="demo-simple-select-standard-label">
-              Time Interval
-            </InputLabel>
-            <Tooltip title="How often?" placement="right" arrow>
-              <Select
-                required
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                label="Time Interval "
-                value={timeInterval}
-                onChange={e => {
-                  setTimeInterval(e.target.value)
-                }}
-              >
-                <MenuItem value="">None</MenuItem>
-                <MenuItem value={1}>1 Hour</MenuItem>
-                <MenuItem value={24}>1 Day</MenuItem>
-                <MenuItem value={168}>1 Week</MenuItem>
-              </Select>
-            </Tooltip>
-          </FormControl>
         </div>
         <div>
           <Divider sx={{my:2, mb:2}}/>
@@ -334,8 +304,7 @@ const CreateAlgorithm = () => {
           </Select>
           {/* </Tooltip> */}
         </FormControl>
-        <div>
-           {/* Comparator 1 */}
+        {/* Comparator 1 */}
         <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Comparator
@@ -359,21 +328,47 @@ const CreateAlgorithm = () => {
             </Select>
           </Tooltip>
         </FormControl>
-        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }} disabled>
-          <InputLabel id="demo-simple-select-standard-label">
-            Previous Day Value
+        {/* Indicator 2*/}
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+          <InputLabel required id="demo-simple-select-standard-label">
+            Indicator 2 (Yeterday's Value)
           </InputLabel>
-          <Tooltip title="Previous Day Value" placement="left" arrow>
-            <Select
-              required
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Previous Day Value"
-            >
-            </Select>
-          </Tooltip>
+          {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
+          <Select
+            required
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            label="Indicator 2 "
+            value={indicator2}
+            onChange={e => {
+              setIndicator2(e.target.value)
+            }}
+          >
+            <MenuItem value={"None"}>None</MenuItem>
+            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
+            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+            <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+            <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
+            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
+            <MenuItem value={"MA"}>MA - Moving average</MenuItem>
+            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
+            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
+            <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
+            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
+            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+            <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+          </Select>
+          {/* </Tooltip> */}
         </FormControl>
-        </div>
         <div>
           <div>
           {/* Action */}

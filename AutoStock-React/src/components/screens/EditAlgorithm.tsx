@@ -29,12 +29,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
-  const [indicator1, setIndicator1] = useState("")
-  const [period1, setPeriod1] = useState("")
-  const [period1Number, setPeriod1Number] = useState("")
-  const [indicator2, setIndicator2] = useState("")
-  const [period2, setPeriod2] = useState("")
-  const [period2Number, setPeriod2Number] = useState("")
+  const [indicator1, setIndicator1] = useState("None")
+  const [comparator1, setComparator1] = useState("")
+  const [indicator2, setIndicator2] = useState("None")
   const [action, setAction] = useState("")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
@@ -165,39 +162,40 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           return res.json()
         })
         .then(result => {
+          console.log(result)
           setAlgoName(result.name)
           setStocks(result.ticker)
-          setTimeInterval(result.timeInterval)
-          setIndicator1(result.indicator1)
-          setPeriod1(result.period1)
-          setPeriod1Number(result.period1Number)
-          setIndicator2(result.comparator)
-          setPeriod2(result.period2)
-          setPeriod2Number(result.period2Number)
-          setAction(result.action)
-          setRunningTime(result.runningTime)
+          setIndicator1(result.entry[0].indicator1)
+          setComparator1(result.entry[0].comparator)
+          setIndicator2(result.entry[0].indicator2)
+          setAction(result.entry[0].action)
+          setRunningTime(result.runtime)
           setAlgorithm(result)
         })
     }
   }
 
   const handleSubmit = (event: any) => {
+    let entry =`{
+      "action": "${action}",
+      "indicator1": "${indicator1}",
+      "comparator": "${comparator1}",
+      "indicator2": "${indicator2}",
+      "paramsOne": {}
+      "paramsTwo": {}
+    }`
+
     let body = `{
-            "name": "${algoName}",
-            "ticker": "${stock}",
-            "indicator1": "${indicator1}",
-            "timeInterval": "${timeInterval}",
-            "comparator": "${indicator2}",
-            "runningTime": "${runningTime}",
-            "period1": "${period1}",
-            "period1Number": "${period1Number}",
-            "period2": "${period2}",
-            "period2Number": "${period2Number}",
-            "public": false,
-            "userID": "${getUser().uid}",
-            "action": "${action}"
-            }
-            `
+      "name": "${algoName}",
+      "ticker": "${stock}",
+      "action": "${action}",
+      "runtime": "${runningTime}",
+      "public": false,
+      "userID": "${getUser().uid}",
+      "entry": [
+        ${entry}
+      ]
+    }`
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
@@ -298,28 +296,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             <Chip label="Deletable" onDelete={handleDelete}/>
           </Stack> */}
           </FormControl>
-          {/* Time Interval */}
-          <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
-            <InputLabel required id="demo-simple-select-standard-label">
-              Time Interval
-            </InputLabel>
-            <Tooltip title="How often?" placement="right" arrow>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                label="Time Interval"
-                value={timeInterval}
-                onChange={e => {
-                  setTimeInterval(e.target.value)
-                }}
-              >
-                <MenuItem value="">None</MenuItem>
-                <MenuItem value={1}>1 Hour</MenuItem>
-                <MenuItem value={24}>1 Day</MenuItem>
-                <MenuItem value={168}>1 Week</MenuItem>
-              </Select>
-            </Tooltip>
-          </FormControl>
         </div>
         <div>
           <Divider sx={{my:2, mb:2}}/>
@@ -340,6 +316,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               setIndicator1(e.target.value)
             }}
           >
+            <MenuItem value={"None"}>None</MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
             <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
             <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
@@ -364,60 +341,20 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </Select>
           {/* </Tooltip> */}
         </FormControl>
-        {/* Period 1 */}
-        <FormControl required sx={{ my: 2, mr: 5, minWidth: 125 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            Period 1
-          </InputLabel>
-          <Tooltip title="Period 1" placement="left" arrow>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Period 1"
-              value={period1}
-              onChange={e => {
-                setPeriod1(e.target.value)
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"low"}>low</MenuItem>
-              <MenuItem value={"high"}>high</MenuItem>
-              <MenuItem value={"open"}>open</MenuItem>
-              <MenuItem value={"close"}>close</MenuItem>
-            </Select>
-          </Tooltip>
-        </FormControl>
-        {/* Period 1 Number */}
-        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
-          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
-            <TextField
-              required
-              type="number"
-              id="outlined-search"
-              label="Period 1 Number"
-              value={period1Number}
-              onChange={e => {
-                setPeriod1Number(e.target.value)
-              }}
-            />
-          </Tooltip>
-          </FormControl>
         <div>
-        {/* Indicator 2 */}
+        {/* Comparator 1 */}
         <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
-            Indicator 2
+          Comparator
           </InputLabel>
-          <Tooltip title="Indicator 2" placement="left" arrow>
+          <Tooltip title="Comparator 1" placement="left" arrow>
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Indicator2"
-              value={indicator2}
+              label="Comparator 1"
+              value={comparator1}
               onChange={e => {
-                setIndicator2(e.target.value)
+                setComparator1(e.target.value)
               }}
             >
               <MenuItem value="">
@@ -428,61 +365,51 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             </Select>
           </Tooltip>
         </FormControl>
-        </div>
-        <div>
-        {/* Period 2 */}
-        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 125 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            Period 2
+        {/* Indicator 2*/}
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+          <InputLabel required id="demo-simple-select-standard-label">
+            Indicator 2 (Yeterday's Value)
           </InputLabel>
-          <Tooltip title="Period 2" placement="left" arrow>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Period 2"
-              value={period2}
-              onChange={e => {
-                setPeriod2(e.target.value)
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"low"}>low</MenuItem>
-              <MenuItem value={"high"}>high</MenuItem>
-              <MenuItem value={"open"}>open</MenuItem>
-              <MenuItem value={"close"}>close</MenuItem>
-            </Select>
-          </Tooltip>
+          {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
+          <Select
+            required
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            label="Indicator 2 "
+            value={indicator2}
+            onChange={e => {
+              setIndicator2(e.target.value)
+            }}
+          >
+            <MenuItem value={"None"}>None</MenuItem>
+            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
+            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+            <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+            <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
+            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
+            <MenuItem value={"MA"}>MA - Moving average</MenuItem>
+            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
+            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
+            <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
+            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
+            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
+            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
+            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+            <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+          </Select>
+          {/* </Tooltip> */}
         </FormControl>
-        {/* Period 2 Number */}
-        <FormControl sx={{ my: 2, minWidth: 175, maxWidth: 175 }}>
-          <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
-            <TextField
-              required
-              type="number"
-              id="outlined-search"
-              label="Period 2 Number"
-              value={period2Number}
-              onChange={e => {
-                setPeriod2Number(e.target.value)
-              }}
-              
-            />
-          </Tooltip>
-          </FormControl>
-          <div>
-          <Button  sx={{borderRadius:1000}}>
-              <AddIcon/> Add Indicators
-          </Button>
-        </div>
         </div>
         <div>
-        <Divider sx={{my:2, mb:2}}/>
-        </div>
-        <div>
-          {/* Action */}
-          <FormControl required sx={{ my: 2, minWidth: 200 }}>
+            {/* Action */}
+                    <FormControl required sx={{ my: 2, minWidth: 200 }}>
             <InputLabel id="demo-simple-select-standard-label">
               Action
             </InputLabel>
@@ -504,6 +431,14 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               </Select>
             </Tooltip>
           </FormControl>
+          <div>
+          <Button  sx={{borderRadius:1000}}>
+              <AddIcon/> Add Condition
+          </Button>
+        </div>
+        </div>
+        <div>
+        <Divider sx={{my:2, mb:2}}/>
         </div>
         {/* Running Time */}
         <FormControl required sx={{ my: 2, minWidth: 500 }}>
