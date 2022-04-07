@@ -11,10 +11,11 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Grid, CircularProgress, Card, CardContent, Typography } from "@mui/material"
+import { Grid, CircularProgress, Card, CardContent, Typography, Accordion, AccordionDetails, AccordionSummary } from "@mui/material"
 import { getUser } from "../../services/auth"
 import AddIcon from '@mui/icons-material/Add';
 import { Link, navigate } from "gatsby"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 let jsConfetti: any
 
@@ -58,6 +59,7 @@ const CreateAlgorithm = () => {
       })
   }
 
+
   const handleBlur = () => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
@@ -82,6 +84,8 @@ const CreateAlgorithm = () => {
         // error in e.message
       })
   };
+
+  
   const [urls, setUrl] = useState("")
 
   const handleBacktest = (event: any) => {
@@ -448,8 +452,19 @@ const CreateAlgorithm = () => {
       </form>
       
       <div>
-        <h2>Historical Data</h2>
-        <HighChart stock={stock} stockData={data} />
+        <Accordion sx={{mb:2}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Historical Data</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+            <HighChart stock={stock} stockData={data} />
+              
+            </AccordionDetails>
+        </Accordion>
       </div>
       <div id="BackTestButton">
         <Button
