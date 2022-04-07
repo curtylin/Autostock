@@ -156,6 +156,7 @@ const CreateAlgorithm = () => {
       "name": "${algoName}",
       "ticker": "${stock}",
       "runtime": "${runningTime}",
+      "PnL": 0.0,
       "public": false,
       "userID": "${getUser().uid}",
       "entry": [
