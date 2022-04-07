@@ -24,8 +24,8 @@ const Competitions = () => {
   return (
     <Layout>
         <Seo title="Autostock" />
-        <h1>Entered Competitions:</h1>
-        <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
+        <h1>Entered Competitions</h1>
+        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
               {competitions.slice(0, 6).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
@@ -37,7 +37,7 @@ const Competitions = () => {
                   logo: comp.logo,
               }
               return (
-                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="center">
+                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="left">
                       <ComplexCompCard key={index} {...cardProps} />
                   </Grid>
               )
