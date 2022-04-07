@@ -17,6 +17,7 @@ import AddIcon from "@mui/icons-material/Add"
 import CommentDialog from "./commentDialog"
 import Comments from "./comments"
 import { getUser } from "../services/auth"
+import { navigate } from "gatsby"
 
 const Threads = ({
   id,
@@ -24,6 +25,7 @@ const Threads = ({
   threadDescription,
   threadCreator,
   users,
+  competitionID,
 }: any) => {
   const [snackOpen, setSnackOpen] = useState(false)
   const [open, setOpen] = useState(false)
@@ -79,7 +81,7 @@ const Threads = ({
       })
       .then(text => {
         setNewComment("")
-        window.location.reload()
+        navigate("/app/competition", {state: { competitionID },})
       })
   }
 

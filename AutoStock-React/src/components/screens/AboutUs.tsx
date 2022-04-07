@@ -76,7 +76,7 @@ const AboutUs = () => {
 
       <hr></hr>
       <img
-        src="https://media-exp1.licdn.com/dms/image/C5603AQHwwK5bJU13AA/profile-displayphoto-shrink_200_200/0/1591376666560?e=1654128000&v=beta&t=7YdhOkopgDn31-WMuTt6bkYEcnG2xM0c2PM0Ne710-o"
+        src="https://i.imgur.com/854jut8.jpg"
         alt="Curtis Lin portrait"
         width="250"
       ></img>
@@ -98,13 +98,13 @@ const AboutUs = () => {
 
       <hr></hr>
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/autostock-fef22.appspot.com/o/jony.png?alt=media&token=d99b5016-45cc-4b4f-90cd-eba7dc57f37f"
+        src="https://i.imgur.com/63zNA4E.jpg"
         alt="Jonathan Fairbanks portrait"
         width="250"
       ></img>
       <h2>Jonathan Fairbanks</h2>
       <h4>Backend</h4>
-      <p>Jonathan's BIO HERE</p>
+      <p>I like Hotdog. </p>
 
       <hr></hr>
       <img
