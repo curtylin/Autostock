@@ -6,11 +6,10 @@ import Seo from "../seo"
 
 import { getUser } from "../../services/auth"
 import { navigate } from "gatsby"
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
-
+import Snackbar from "@mui/material/Snackbar"
+import IconButton from "@mui/material/IconButton"
+import CloseIcon from "@mui/icons-material/Close"
+import AddIcon from "@mui/icons-material/Add"
 
 const MyAlgorithm = () => {
   const [open, setOpen] = React.useState(false);
@@ -194,7 +193,7 @@ const MyAlgorithm = () => {
                       {algorithm.name}
                     </td>
                     <td className="table_data">
-                      10%
+                      {algorithm.PnL == undefined ? "--" : algorithm.PnL+"%"}
                     </td>
                     <td className="table_data">
                       <Button className="mdc-button mdc-button--raised"

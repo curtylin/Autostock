@@ -93,7 +93,7 @@ const PublicAlgorithms = () => {
                     <td className="table_data" scope="row">
                       <Link className="table_links" to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
                     </td>
-                    <td className="table_data">10</td>
+                    <td className="table_data">{algorithm.PnL == undefined ? "--" : algorithm.PnL+"%"}</td>
                     <td className="table_data">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
                   </tr>
                 )

@@ -25,8 +25,7 @@ const App = () => (
   <Router basepath="/app">
     <RouterPage path="/login" pageComponent={<Login />} />
     <RouterPage path="/createaccount" pageComponent={<CreateAccount />} />
-    <RouterPage path="/landing" pageComponent={<LandingPage/>} />
-
+    <RouterPage path="/landing" pageComponent={<LandingPage />} />
 
     <PrivateRoute path="/algorithm" component={Algorithm} />
     <PrivateRoute path="/leaderboards" component={Leaderboards} />
@@ -43,9 +42,6 @@ const App = () => (
     <PrivateRoute path="/quickstartguide" component={QuickStartGuide} />
     <PrivateRoute path="/quickstartcreatealgo" component={QuickStartAlgo} />
     <PrivateRoute path="/home" component={Home} />
-  
-
-
     <RouterPage path="/" pageComponent={<Index />} />
   </Router>
 )

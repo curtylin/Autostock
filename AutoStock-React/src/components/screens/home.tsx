@@ -8,13 +8,13 @@ import ComplexCompCard from "../complexCompCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
 import { Link } from "gatsby"
-import { getUser} from "../../services/auth"
+import { getUser } from "../../services/auth"
 import "./screens.css"
 import { KeyboardArrowRight } from "@mui/icons-material"
 
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
-  const [data , setStockData] = useState([])
+  const [data, setStockData] = useState([])
   const [username, setUsername] = useState("")
 
 
@@ -56,28 +56,25 @@ const Home = () => {
         setStockData(result)
       })
 
-      fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          method: "GET",
-        })
-          .then(res => {
-            return res.json()
-          })
-          .then(result => {
-            console.log(result)
-            if (result === null) {
-                setUsername("")
-            } else {
-                setUsername(result.username)
-            }
-          })
-
-
-  
-    }, [])
+    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        console.log(result)
+        if (result === null) {
+          setUsername("")
+        } else {
+          setUsername(result.username)
+        }
+      })
+  }, [])
 
   
 
