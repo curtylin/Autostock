@@ -3,18 +3,36 @@ import Button from "@mui/material/Button"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import InputLabel from "@mui/material/InputLabel"
-import Select, {SelectChangeEvent} from "@mui/material/Select"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
 import Threads from "../threads"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import Layout from "../layout"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
-import { Accordion, AccordionDetails, AccordionSummary, Backdrop, Box, Card, CardContent, CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Snackbar, Stack, TextField, Typography } from "@mui/material"
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Backdrop,
+  Box,
+  Card,
+  CardContent,
+  CircularProgress,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Snackbar,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material"
 import HighChart from "../highChart"
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton"
 import "./screens.css"
-import AddIcon from '@mui/icons-material/Add';
-import Dialog from '@mui/material/Dialog';
+import AddIcon from "@mui/icons-material/Add"
+import Dialog from "@mui/material/Dialog"
 import CommentDialog from "../commentDialog"
 import { TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
@@ -29,8 +47,8 @@ const Competition = () => {
   const [discussions, setDiscussions] = useState([])
   const [threads, setThreads] = useState([])
   const [comments, setComments] = useState([])
-  const [data , setStockData] = useState([])
-  const [open, setOpen] = React.useState(false);
+  const [data, setStockData] = useState([])
+  const [open, setOpen] = React.useState(false)
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
   const [users, setUsers] = useState(new Map<string, string>())
@@ -47,7 +65,6 @@ const Competition = () => {
       getThreadsDB()
       getUsersDB()
     })
-      
   }, [chosenAlgorithm])
 
   const getUsersDB = () => {
@@ -63,8 +80,10 @@ const Competition = () => {
         return res.json()
       })
       .then(result => {
-        for(let i = 0; i < result.length; i++){
-          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        for (let i = 0; i < result.length; i++) {
+          setUsers(
+            prev => new Map([...prev, [result[i].userID, result[i].username]])
+          )
         }
       })
   }
@@ -158,20 +177,23 @@ const Competition = () => {
       })
   }
 
-  const handleSnackClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
+  const handleSnackClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return
     }
 
-    setSnackOpen(false);
-  };
+    setSnackOpen(false)
+  }
 
   const handleExpand = (event: any) => {
     let today = new Date().toISOString().slice(0, 10)
-    const d = new Date();
-    d.setFullYear(d.getFullYear()-1);
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
 
-    let lastYear = d.toISOString().slice(0,10)
+    let lastYear = d.toISOString().slice(0, 10)
 
     console.log(today)
     console.log(lastYear)
@@ -197,16 +219,15 @@ const Competition = () => {
       .then(result => {
         setStockData(result)
       })
-
   }
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = (value: string) => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   // HANDLE SUBMITTING ALGORITHM
   const handleSubmit = (event: any) => {
@@ -219,23 +240,23 @@ const Competition = () => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
-        method: "POST",
-        headers,
-        body,
+      method: "POST",
+      headers,
+      body,
     }
     fetch("http://127.0.0.1:5000/enter-competition", init)
-            .then(response => {
-                return response.json() // or .text() or .blob() ...
-            })
-            .then(text => {
-                // text is the response body
-                // console.log(text);
-            })
-            .catch(e => {
-                // error in e.message
-            })
-        event.preventDefault();
-        window.location.reload();
+      .then(response => {
+        return response.json() // or .text() or .blob() ...
+      })
+      .then(text => {
+        // text is the response body
+        // console.log(text);
+      })
+      .catch(e => {
+        // error in e.message
+      })
+    event.preventDefault()
+    window.location.reload()
   }
 
   const handleResubmit = (event: any) => {
@@ -250,42 +271,59 @@ const Competition = () => {
       headers,
       body,
     }
-    fetch(`http://localhost:5000/edit-competition-algorithm/${competitiorID}`, init)
-            .then(response => {
-                return response.json() // or .text() or .blob() ...
-            })
-            .then(text => {
-                // text is the response body
-                // console.log(text);
-            })
-            .catch(e => {
-                // error in e.message
-            })
-        event.preventDefault();
+    fetch(
+      `http://localhost:5000/edit-competition-algorithm/${competitiorID}`,
+      init
+    )
+      .then(response => {
+        return response.json() // or .text() or .blob() ...
+      })
+      .then(text => {
+        // text is the response body
+        // console.log(text);
+      })
+      .catch(e => {
+        // error in e.message
+      })
+    event.preventDefault()
   }
 
-  let submitButton;
+  let submitButton
   const closeDate = new Date(competition.endDate)
-  if (closeDate > new Date())
-  {
+  if (closeDate > new Date()) {
     // console.log("submissions open")
-    if (competitiorID == "")
-    {
-      submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}> Submit Algorithm </Button>
+    if (competitiorID == "") {
+      submitButton = (
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
+          {" "}
+          Submit Algorithm{" "}
+        </Button>
+      )
+    } else {
+      submitButton = (
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={handleResubmit}
+        >
+          {" "}
+          Update Algorithm{" "}
+        </Button>
+      )
     }
-    else
-    {
-      submitButton = <Button type="submit" variant="contained" color="primary" onClick={handleResubmit}> Update Algorithm </Button>
-    }
-  }
-  else
-  {
+  } else {
     // console.log("submissions closed ")
   }
 
   const submitThread = () => {
     console.log("saved")
-    setSnackOpen(true);
+    setSnackOpen(true)
     setOpenBackdrop(true)
 
     console.log(newThreadDescription)
@@ -293,7 +331,10 @@ const Competition = () => {
       "compID": "${competition.id}",
       "userID": "${getUser().uid}",
       "threadTitle": "${newThreadTitle}",
-      "threadDescription": "${newThreadDescription.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t")}",
+      "threadDescription": "${newThreadDescription
+        .replace(/\n/g, "\\\\n")
+        .replace(/\r/g, "\\\\r")
+        .replace(/\t/g, "\\\\t")}",
       "date": "${new Date().toISOString()}"
     }`
     const headers = new Headers()
@@ -315,183 +356,262 @@ const Competition = () => {
         // },1000);
         window.location.reload()
       })
-    }
-
-
+  }
 
   return (
     <Layout>
       <Seo title="Autostock" />
-      <Typography fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            fontWeight="Bold"sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }} textAlign="center" variant= "h1"  gutterBottom>
-          {competition.name}
-        </Typography>
-     
-        <Typography sx={{ marginBottom: 5, fontSize: 20}} fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            fontWeight="medium" variant= "h2" textAlign="center" gutterBottom>
-          Ticker:  <span className="stockTickName">{competition.ticker}</span>
-        </Typography>
+      <Typography
+        fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+        fontWeight="Bold"
+        sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }}
+        textAlign="center"
+        variant="h1"
+        gutterBottom
+      >
+        {competition.name}
+      </Typography>
 
-        <Card sx={{marginBottom: 2,  minWidth: 275 }}>
-          <CardContent>
-          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
-              Competition Details:
-            </Typography>
-          <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="400" variant= "h2"  gutterBottom>
-              Submissions Close: {competition.endDate}
-            </Typography>
-            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="400" variant= "h2"  gutterBottom>
-              Participants:  <span className="stockTickName"> {competition.competitiors}</span>
-            </Typography>
-            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="400" variant= "h2"  gutterBottom>
-              Duration: {competition.duration}            
-            </Typography>
-            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="400" variant= "h2"  gutterBottom>
-              Starting Balance: {competition.startingBalance}            
-            </Typography>
-          </CardContent>
-        </Card>
-        <Accordion sx={{}}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+      <Typography
+        sx={{ marginBottom: 5, fontSize: 20 }}
+        fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+        fontWeight="medium"
+        variant="h2"
+        textAlign="center"
+        gutterBottom
+      >
+        Ticker: <span className="stockTickName">{competition.ticker}</span>
+      </Typography>
+
+      <Card sx={{ marginBottom: 2, minWidth: 275 }}>
+        <CardContent>
+          <Typography
+            sx={{ fontSize: 20 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            variant="h2"
+            gutterBottom
           >
-          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium" variant= "h2"  gutterBottom>
+            Competition Details:
+          </Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 18 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Submissions Close: {competition.endDate}
+          </Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 18 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Participants:{" "}
+            <span className="stockTickName"> {competition.competitiors}</span>
+          </Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 18 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Duration: {competition.duration}
+          </Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 18 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Starting Balance: {competition.startingBalance}
+          </Typography>
+        </CardContent>
+      </Card>
+      <Accordion sx={{}}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography
+            sx={{ fontSize: 20 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            variant="h2"
+            gutterBottom
+          >
             Description
           </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-          <Typography sx={{ fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="400" variant= "h3"  gutterBottom>
-              {competition.description}
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion sx={{mb:2}}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-            onClick={handleExpand}
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography
+            sx={{ fontSize: 18 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h3"
+            gutterBottom
           >
-          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium" variant= "h2"  gutterBottom>
+            {competition.description}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion sx={{ mb: 2 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          onClick={handleExpand}
+        >
+          <Typography
+            sx={{ fontSize: 20 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            variant="h2"
+            gutterBottom
+          >
             Historical Data
           </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <HighChart stock={competition.ticker} stockData={data}/>
+        </AccordionSummary>
+        <AccordionDetails>
+          <HighChart stock={competition.ticker} stockData={data} />
+        </AccordionDetails>
+      </Accordion>
 
-          </AccordionDetails>
+      {new Date(competition.endDate) > new Date() ? (
+        <h2>Submissions Open</h2>
+      ) : (
+        <h2>Submissions Closed</h2>
+      )}
+      {new Date(competition.endDate) > new Date() ? (
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+          <InputLabel required id="demo-simple-select-standard-label">
+            Choose an Algorithm
+          </InputLabel>
+          {/* GET USERS ALGORITHMS */}
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            label="Choose an Algorithm"
+            value={chosenAlgorithm}
+            onChange={e => {
+              setChosenAlgorithm(e.target.value)
+            }}
+          >
+            {algorithms.map((algorithm: any, key: any) => {
+              return (
+                <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>
+      ) : (
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }} disabled>
+          <InputLabel required id="demo-simple-select-standard-label">
+            Choose an Algorithm
+          </InputLabel>
+          {/* GET USERS ALGORITHMS */}
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            label="Choose an Algorithm"
+            value={chosenAlgorithm}
+            onChange={e => {
+              setChosenAlgorithm(e.target.value)
+            }}
+          >
+            {algorithms.map((algorithm: any, key: any) => {
+              return (
+                <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
+              )
+            })}
+          </Select>
+        </FormControl>
+      )}
 
-        </Accordion>
-
-      {new Date(competition.endDate) > new Date() ? <h2>Submissions Open</h2> : <h2>Submissions Closed</h2>}
-      {new Date(competition.endDate) > new Date() ?
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
-                        <InputLabel required id="demo-simple-select-standard-label" >
-                            Choose an Algorithm
-                        </InputLabel>
-                            {/* GET USERS ALGORITHMS */}
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                label="Choose an Algorithm"
-                                value={chosenAlgorithm}
-                                onChange={e => {
-                                    setChosenAlgorithm(e.target.value)
-                                }}
-                            >
-                            {algorithms.map((algorithm: any, key: any) => {
-                                 return (
-                                 <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
-                                 )
-                            })}
-                            </Select>
+      <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+        {/* maybe change size to match menuItem */}
+        {submitButton}
+        {/* {submitButton} */}
       </FormControl>
-      :
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}} disabled>
-                        <InputLabel required id="demo-simple-select-standard-label" >
-                            Choose an Algorithm
-                        </InputLabel>
-                            {/* GET USERS ALGORITHMS */}
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                label="Choose an Algorithm"
-                                value={chosenAlgorithm}
-                                onChange={e => {
-                                    setChosenAlgorithm(e.target.value)
-                                }}
-                            >
-                            {algorithms.map((algorithm: any, key: any) => {
-                                 return (
-                                 <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
-                                 )
-                            })}
-                            </Select>
-      </FormControl>}
-      
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
-         {/* maybe change size to match menuItem */}
-         {submitButton}
-         {/* {submitButton} */}
-      </FormControl>
 
-      <Divider sx={{ mb:5, mt: 5}}/>
+      <Divider sx={{ mb: 5, mt: 5 }} />
 
       <h1>Discussions</h1>
 
-      <Box border={1} sx={{p: 2, mb: 2}} borderRadius={1}>
-          <h3>Create new thread</h3>
-          <FormControl fullWidth>
-          <TextField inputProps={{ maxLength: 300}} value={newThreadTitle} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setNewThreadTitle(e.target.value)
-                  }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
-      
-          <TextField inputProps={{ maxLength: 1000}}value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setNewThreadDescription(e.target.value)
-                  }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
-        
-          </FormControl>
-          <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
-            New Thread
+      <Box border={1} sx={{ p: 2, mb: 2 }} borderRadius={1}>
+        <h3>Create new thread</h3>
+        <FormControl fullWidth>
+          <TextField
+            inputProps={{ maxLength: 300 }}
+            value={newThreadTitle}
+            required
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setNewThreadTitle(e.target.value)
+            }}
+            sx={{ mb: 1 }}
+            label="Thread title"
+            fullWidth
+          ></TextField>
+
+          <TextField
+            inputProps={{ maxLength: 1000 }}
+            value={newThreadDescription}
+            multiline
+            rows={3}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setNewThreadDescription(e.target.value)
+            }}
+            sx={{ mb: 0 }}
+            label="Thread description"
+            fullWidth
+          ></TextField>
+        </FormControl>
+        <Button
+          disabled={!newThreadTitle}
+          onClick={submitThread}
+          startIcon={<AddIcon />}
+          style={{ textTransform: "none" }}
+          sx={{ mt: 1, width: { xs: 310, s: 300 } }}
+          variant="contained"
+        >
+          New Thread
         </Button>
-        </Box>
-        <div>
-          {threads.map((thread: any, index: number) => {
-            let threadProps = {
-              id : thread.id,
-              threadTitle: thread.threadTitle,
-              threadDescription: thread.threadDescription,
-              threadCreator: thread.userID,
-              users: users
-            }
-            return(
-              <Threads key={index} {...threadProps}/>
-            )
-          })}
-        </div>
+      </Box>
+      <div>
+        {threads.map((thread: any, index: number) => {
+          let threadProps = {
+            id: thread.id,
+            threadTitle: thread.threadTitle,
+            threadDescription: thread.threadDescription,
+            threadCreator: thread.userID,
+            users: users,
+          }
+          return <Threads key={index} {...threadProps} />
+        })}
+      </div>
       <Snackbar
-          open={snackOpen}
-          autoHideDuration={4000}
-          onClose={handleSnackClose}
-          message="Thread submitted!"
-        />
-      <Backdrop
-        sx={{ color: '#fff'}}
-        open={openBackdrop}
-      >
+        open={snackOpen}
+        autoHideDuration={4000}
+        onClose={handleSnackClose}
+        message="Thread submitted!"
+      />
+      <Backdrop sx={{ color: "#fff" }} open={openBackdrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
-
     </Layout>
   )
 }

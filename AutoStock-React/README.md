@@ -1,6 +1,5 @@
 REPO WAS BUILT FOLLOWING THIS: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-gatsby-project-with-typescript
 
-
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
   <a href="https://www.gatsbyjs.com">

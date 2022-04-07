@@ -11,7 +11,9 @@ const Competitions = () => {
   const [competitions, setCompetitions] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`)
+    fetch(
+      `http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`
+    )
       .then(res => {
         return res.json()
       })
@@ -20,34 +22,44 @@ const Competitions = () => {
       })
   }, [])
 
-
   return (
     <Layout>
-        <Seo title="Autostock" />
-        <h1>Upcoming Competitions</h1>
-          <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
-              {competitions.map((comp: any, index: number) => {
-              let cardProps = {
-                  compLength: comp.duration,
-                  compTicker: comp.name,
-                  compStartingVal: `Starting Balance: ${comp.startingBalance}`,
-                  compDeadline: comp.closeDate,
-                  description: comp.description,
-                  id: comp.id,
-                  logo: comp.logo,
-              }
-              return (
-                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="center">
-                      <ComplexCompCard key={index} {...cardProps} />
-                  </Grid>
-              )
-              })}
-              
-          </Grid>
-        
+      <Seo title="Autostock" />
+      <h1>Upcoming Competitions</h1>
+      <Grid
+        direction={{ xs: "column", md: "row" }}
+        justifyContent="left"
+        alignContent={{ xs: "center", sm: "flex", md: "flex" }}
+        container
+        spacing={3}
+        sx={{ mb: 5 }}
+      >
+        {competitions.map((comp: any, index: number) => {
+          let cardProps = {
+            compLength: comp.duration,
+            compTicker: comp.name,
+            compStartingVal: `Starting Balance: ${comp.startingBalance}`,
+            compDeadline: comp.closeDate,
+            description: comp.description,
+            id: comp.id,
+            logo: comp.logo,
+          }
+          return (
+            <Grid
+              key={index}
+              item
+              sm={12}
+              md={4}
+              lg={4}
+              justifyContent="center"
+            >
+              <ComplexCompCard key={index} {...cardProps} />
+            </Grid>
+          )
+        })}
+      </Grid>
     </Layout>
   )
 }
 
 export default Competitions
-
