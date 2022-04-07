@@ -1,27 +1,27 @@
 .text-link {
-    text-decoration: none;
-    color:white;
-    font-weight: 600;
-    font-size: 1.2rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
-.autostock-link{
-    text-decoration: none;
-    color:black;
+.autostock-link {
+  text-decoration: none;
+  color: black;
 }
-.navbar{
-    background-color: #059a76;
-    margin-bottom: 25px;
+.navbar {
+  background-color: #059a76;
+  margin-bottom: 25px;
 }
-.algoAccordion{
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    background-color: "transparent";
-    border:none
+.algoAccordion {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: "transparent";
+  border: none;
 }
-.drawerItem{
-    color:black;
+.drawerItem {
+  color: black;
 }
-.drawerItem:hover{
-    color:#059A76;
+.drawerItem:hover {
+  color: #059a76;
 }

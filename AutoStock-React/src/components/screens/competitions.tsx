@@ -8,7 +8,6 @@ import Seo from "../seo"
 import { getUser } from "../../services/auth"
 import { navigate } from "gatsby"
 
-
 const Competitions = () => {
   const [competitions, setCompetitions] = useState([])
   const [enteredComps, setEnteredComps] = useState([])
@@ -23,7 +22,7 @@ const Competitions = () => {
         setCompetitions(result)
       })
 
-      fetch(`http://localhost:5000/list-entered-competitions/${getUser().uid}`)
+    fetch(`http://localhost:5000/list-entered-competitions/${getUser().uid}`)
       .then(res => {
         return res.json()
       })
@@ -31,7 +30,9 @@ const Competitions = () => {
         setEnteredComps(result)
       })
 
-      fetch(`http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`)
+    fetch(
+      `http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`
+    )
       .then(res => {
         return res.json()
       })
@@ -39,7 +40,6 @@ const Competitions = () => {
         setNotEnteredCompetitions(result)
       })
   }, [])
-
 
   return (
     <Layout>
@@ -134,4 +134,3 @@ const Competitions = () => {
 }
 
 export default Competitions
-

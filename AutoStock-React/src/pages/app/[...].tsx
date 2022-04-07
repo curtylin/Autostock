@@ -37,7 +37,10 @@ const App = () => (
     <PrivateRoute path="/myalgorithms" component={MyAlgorithm} />
     <PrivateRoute path="/competition" component={competition} />
     <PrivateRoute path="/competitions" component={competitions} />
-    <PrivateRoute path="/notenteredcompetitions" component={notEnteredCompetitions} />
+    <PrivateRoute
+      path="/notenteredcompetitions"
+      component={notEnteredCompetitions}
+    />
     <PrivateRoute path="/enteredcompetitions" component={enteredCompetitions} />
     <PrivateRoute path="/allcompetitions" component={allCompetitions} />
     <PrivateRoute path="/publicalgorithms" component={PublicAlgorithms} />
