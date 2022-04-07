@@ -117,15 +117,32 @@ const Algorithm = () => {
             fontWeight="medium" variant= "h2" textAlign="center" gutterBottom>
           User: {username}
         </Typography>
+        <Card sx={{marginBottom: 2,  minWidth: 275 }}>
+          <CardContent>
+            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="medium" variant= "h2"  gutterBottom>
+              Description:
+            </Typography>            
+            <Typography sx={{ml:5, fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
+              {algorithm.description}
+            </Typography>
+            
+          </CardContent> 
+        </Card>
 
         <Card sx={{marginBottom: 2,  minWidth: 275 }}>
           <CardContent>
             <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                   fontWeight="medium" variant= "h2"  gutterBottom>
+              Algorithm Details:
+            </Typography>    
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Ticker: <span className="stockTickName"> {algorithm.ticker}</span>
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Algorithm Runtime: {algorithm.runtime} Days            
             </Typography>
           </CardContent> 
@@ -137,18 +154,22 @@ const Algorithm = () => {
               <CardContent>
                 <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                       fontWeight="medium" variant= "h2"  gutterBottom>
+                  Indicators:
+                </Typography>    
+                <Typography sx={{ ml:5, fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                      fontWeight="400" variant= "h2"  gutterBottom>
                   Indicator 1: <span className="dataToRight">{entry.indicator1}</span>
                  </Typography>
-                <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                      fontWeight="medium" variant= "h2"  gutterBottom>
+                <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                      fontWeight="400" variant= "h2"  gutterBottom>
                   Comparator: {entry.comparator}          
                 </Typography>
-                <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                      fontWeight="medium" variant= "h2"  gutterBottom>
+                <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                      fontWeight="400" variant= "h2"  gutterBottom>
                   Indicator 2: <span className="dataToRight">{entry.indicator2}</span>
                  </Typography>
-                <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                      fontWeight="medium" variant= "h2"  gutterBottom>
+                <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                      fontWeight="400" variant= "h2"  gutterBottom>
                   Action: {entry.action}
                 </Typography>
               </CardContent> 
