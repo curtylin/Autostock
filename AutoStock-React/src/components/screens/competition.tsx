@@ -33,6 +33,7 @@ const Competition = () => {
   const [open, setOpen] = React.useState(false);
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
+  const [users, setUsers] = useState(new Map<string, string>())
   const [openBackdrop, setOpenBackdrop] = useState(false)
 
   useEffect(() => {
@@ -44,9 +45,29 @@ const Competition = () => {
 
       getDiscussionsDB()
       getThreadsDB()
+      getUsersDB()
     })
-
+      
   }, [chosenAlgorithm])
+
+  const getUsersDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-user", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for(let i = 0; i < result.length; i++){
+          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        }
+      })
+  }
 
   const getThreadsDB = async () => {
     fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
@@ -304,7 +325,7 @@ const Competition = () => {
             fontWeight="Bold"sx={{ marginTop: 5, fontSize: 40, fontWeight: "bold" }} textAlign="center" variant= "h1"  gutterBottom>
           {competition.name}
         </Typography>
-
+     
         <Typography sx={{ marginBottom: 5, fontSize: 20}} fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="medium" variant= "h2" textAlign="center" gutterBottom>
           Ticker:  <span className="stockTickName">{competition.ticker}</span>
@@ -312,21 +333,25 @@ const Competition = () => {
 
         <Card sx={{marginBottom: 2,  minWidth: 275 }}>
           <CardContent>
-          <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                   fontWeight="medium" variant= "h2"  gutterBottom>
+              Competition Details:
+            </Typography>
+          <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Submissions Close: {competition.endDate}
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Participants:  <span className="stockTickName"> {competition.competitiors}</span>
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
-              Duration: {competition.duration}
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
+              Duration: {competition.duration}            
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
-              Starting Balance: {competition.startingBalance}
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
+              Starting Balance: {competition.startingBalance}            
             </Typography>
           </CardContent>
         </Card>
@@ -336,10 +361,13 @@ const Competition = () => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Details</Typography>
+          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium" variant= "h2"  gutterBottom>
+            Description
+          </Typography>
           </AccordionSummary>
           <AccordionDetails>
-          <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+          <Typography sx={{ fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                   fontWeight="400" variant= "h3"  gutterBottom>
               {competition.description}
             </Typography>
@@ -352,7 +380,10 @@ const Competition = () => {
             id="panel1a-header"
             onClick={handleExpand}
           >
-            <Typography>Historical Data</Typography>
+          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium" variant= "h2"  gutterBottom>
+            Historical Data
+          </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <HighChart stock={competition.ticker} stockData={data}/>
@@ -423,11 +454,11 @@ const Competition = () => {
           <TextField inputProps={{ maxLength: 300}} value={newThreadTitle} required onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setNewThreadTitle(e.target.value)
                   }} sx={{mb:1}} label="Thread title" fullWidth></TextField>
-
+      
           <TextField inputProps={{ maxLength: 1000}}value={newThreadDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setNewThreadDescription(e.target.value)
                   }} sx={{mb:0}} label="Thread description" fullWidth></TextField>
-
+        
           </FormControl>
           <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
             New Thread
@@ -439,7 +470,8 @@ const Competition = () => {
               id : thread.id,
               threadTitle: thread.threadTitle,
               threadDescription: thread.threadDescription,
-              threadCreator: thread.userID
+              threadCreator: thread.userID,
+              users: users
             }
             return(
               <Threads key={index} {...threadProps}/>
