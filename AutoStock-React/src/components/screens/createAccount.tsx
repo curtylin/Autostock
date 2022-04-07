@@ -19,7 +19,7 @@ import {
   signInWithPopup,
 } from "firebase/auth"
 import { initializeApp } from "firebase/app"
-import GoogleIcon from '@mui/icons-material/Google'
+import GoogleIcon from "@mui/icons-material/Google"
 
 const isBrowser = typeof window !== "undefined"
 
@@ -31,9 +31,9 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright ©AutoStock "}
+      {"Copyright ©Autostock "}
       <Link color="inherit" href="https://localhost:8000/">
-        AutoStock
+        Autostock
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -54,14 +54,14 @@ export default function createAccountSide() {
   const [username, setUsername] = React.useState<string | undefined>("")
 
   const firebaseConfig = {
-    apiKey: process.env.GATSBY_APP_FIREBASE_KEY,
-    authDomain: process.env.GATSBY_APP_FIREBASE_DOMAIN,
-    databaseURL: process.env.GATSBY_APP_FIREBASE_DATABASE,
-    projectId: process.env.GATSBY_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.GATSBY_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.GATSBY_APP_FIREBASE_SENDER_ID,
-    appId: process.env.GATSBY_APP_FIREBASE_APP_ID,
-    measurementId: process.env.GATSBY_APP_FIREBASE_MEASUREMENT_ID,
+    apiKey: "AIzaSyAE4N61Ipw7s7HZEJ_e0t_GVVtlhuWsff0",
+    authDomain: "autostock-fef22.firebaseapp.com",
+    databaseURL: "",
+    projectId: "autostock-fef22",
+    storageBucket: "autostock-fef22.appspot.com",
+    messagingSenderId: "507308167136",
+    appId: "1:507308167136:web:5476d8a59822d82baae585",
+    measurementId: "G-VJL2BNZ0XD",
   }
 
   const app = initializeApp(firebaseConfig)

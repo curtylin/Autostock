@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField"
 import FormControl from "@mui/material/FormControl"
 //import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { getUser } from "../../services/auth"
+import { navigate } from "gatsby"
 import Layout from "../layout"
 import Seo from "../seo"
 import Tooltip from "@mui/material/Tooltip"
@@ -15,12 +16,12 @@ const EditUser = () => {
 
   useEffect(() => {
     getUserDB()
-    console.log("username: "+ username)
+    console.log("username: " + username)
   }, [])
 
   const getUserDB = () => {
     //fetch post to localhost
-    fetch(`http://localhost:5000/get-user/${getUser().uid}` , {
+    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -31,11 +32,10 @@ const EditUser = () => {
         return res.json()
       })
       .then(result => {
-        try{
+        try {
           setUsername(result.username)
           setUsernameInDB(true)
-        }
-        catch(e){
+        } catch (e) {
           setUsername("")
           setUsernameInDB(false)
         }
@@ -44,7 +44,7 @@ const EditUser = () => {
 
   const handleSubmit = (event: any) => {
     console.log("Saving user")
-    fetch(`http://localhost:5000/check-user/${username}` , {
+    fetch(`http://localhost:5000/check-user/${username}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -55,12 +55,9 @@ const EditUser = () => {
         return res.json()
       })
       .then(result => {
-        if (result.dupe == true)
-        {
+        if (result.dupe == true) {
           alert("Username already exists")
-        }
-        else
-        {
+        } else {
           let body = `{
             "username": "${username}",
             "userID": "${getUser().uid}"
@@ -85,14 +82,13 @@ const EditUser = () => {
             })
           event.preventDefault()
           setUsernameInDB(true)
+          navigate("/app/home")
         }
       })
-
   }
 
   const handleUpdateUser = (event: any) => {
-
-    fetch(`http://localhost:5000/check-user/${username}` , {
+    fetch(`http://localhost:5000/check-user/${username}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -103,13 +99,13 @@ const EditUser = () => {
         return res.json()
       })
       .then(result => {
-        if (result.dupe == true)
-        {
+        if (result.dupe == true) {
           alert("Username already exists")
           return
-        } else{
+        } else {
           let body = `{
-            "username": "${username}"
+            "username": "${username}",
+            "bot": false
             }
             `
           const headers = new Headers()
@@ -131,46 +127,53 @@ const EditUser = () => {
               // error in e.message
             })
           event.preventDefault()
+          navigate("/app/home")
         }
       })
   }
 
-  let submitButton;
-  if (usernameInDB == false)
-  {
-    submitButton = <Button type="submit" variant="contained" onClick={handleSubmit}> Save Information </Button>
+  let submitButton
+  if (usernameInDB == false) {
+    submitButton = (
+      <Button type="submit" variant="contained" onClick={handleSubmit}>
+        {" "}
+        Save Information{" "}
+      </Button>
+    )
   } else {
-    submitButton = <Button type="submit" variant="contained" onClick = {handleUpdateUser}> Update Information </Button>
+    submitButton = (
+      <Button type="submit" variant="contained" onClick={handleUpdateUser}>
+        {" "}
+        Update Information{" "}
+      </Button>
+    )
   }
-
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h1>Edit Account Information</h1>
       {/*  User Name */}
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
-          <Tooltip title="What do you want to be called?" placement="left" arrow>
-            <TextField
-              required
-              onChange={e => {
-                setUsername(e.target.value)
-              }}
-              sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
-              id="outlined-search"
-              value={username}
-              label="User Name"
-              type="search"
-            />
-          </Tooltip>
+      <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+        <Tooltip title="What do you want to be called?" placement="left" arrow>
+          <TextField
+            required
+            onChange={e => {
+              setUsername(e.target.value)
+            }}
+            sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
+            id="outlined-search"
+            value={username}
+            label="User Name"
+            type="search"
+          />
+        </Tooltip>
       </FormControl>
       <div>
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
-        {submitButton}
-      </FormControl>
+        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+          {submitButton}
+        </FormControl>
       </div>
-
-      
     </Layout>
   )
 }

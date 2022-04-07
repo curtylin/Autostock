@@ -2,3 +2,7 @@
 package.json
 package-lock.json
 public
+api/venv/
+venv
+api/venv_bak
+api
