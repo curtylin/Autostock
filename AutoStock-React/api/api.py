@@ -64,28 +64,70 @@ def backtest():
         return backtest_driver(request.json)
     except Exception as e:
         return f"An Error Occurred: {e}"
+    # return backtest_driver(request.json)
+
+def strategyFactory(entryObj):
+    print(entryObj)
+
+    class strategy(bt.Strategy):
+
+        def log(self, txt, dt=None):
+            ''' Logging function for this strategy'''
+            dt = dt or self.datas[0].datetime.date(0)
+            print('%s, %s' % (dt.isoformat(), txt))
+
+        def __init__(self):
+            # Set a value inside the time series
+            self.dataclose = self.datas[0].close
+
+            self.sma = bt.indicators.SMA(self.datas[0].close)
+            self.ema = bt.indicators.EMA(self.datas[0].close)
+
+            self.indicatorDict = {"None": None,
+                                  "SMA": self.sma, "EMA": self.ema}
+
+        def next(self):
+
+            for buyOrSell in entryObj:
+
+                comparator = buyOrSell["comparator"]
+                indicatorOne = buyOrSell["indicatorOne"]
+                indicatorTwo = buyOrSell["indicatorTwo"]
+                action = buyOrSell["action"]
+
+                todayValue = self.dataclose[0] if indicatorOne == "NONE" else self.indicatorDict[indicatorOne][0]
+
+                yesterdayValue = self.dataclose[-1] if indicatorTwo == "NONE" else self.indicatorDict[indicatorTwo][-1]
+
+                if comparator == "above" and (todayValue > yesterdayValue):
+                    if action == "buy":
+                        self.buy()
+                    elif action == "sell":
+                        self.sell()
+
+                elif comparator == "below" and (todayValue < yesterdayValue):
+                    if action == "buy":
+                        self.buy()
+                    elif action == "sell":
+                        self.sell()
+
+    return strategy
+
+
 
 def backtest_driver(req):
     dataDict = req
-    entry = dataDict["entry"][0]
+
+    print(dataDict)
+    entry = dataDict["entry"]
     if entry is None or len(entry) == 0:
         return "Entry is None", 400
-    indi = entry["indicator"]
-    class StrategyTest(bt.SignalStrategy):
-        
-        def __init__(self):
-            if indi == "SMA":
-                period1num, period2num = int(entry["period1Number"]), int(entry["period2Number"])
-                sma1, sma2 = bt.ind.SMA(period=period1num), bt.ind.SMA(period=period2num)
-                crossover = bt.ind.CrossOver(sma1, sma2)
-                self.signal_add(bt.SIGNAL_LONG, crossover)
-            
-
+    strategy = strategyFactory(entry)
 
     cerebro = bt.Cerebro()
     cerebro.broker.setcash(dataDict['cash'])
     cerebro.broker.setcommission(commission=0.0)
-    cerebro.addstrategy(StrategyTest)
+    cerebro.addstrategy(strategy)
 
     financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
 
@@ -109,8 +151,6 @@ def backtest_driver(req):
         print("The file does not exist")
 
     response["url"] = url
-
-    print(response)
 
     return response
 
