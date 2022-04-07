@@ -29,9 +29,9 @@ const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [indicator1, setIndicator1] = useState("None")
-  const [comparator1, setComparator1] = useState("")
+  const [comparator1, setComparator1] = useState("Above")
   const [indicator2, setIndicator2] = useState("None")
-  const [action, setAction] = useState("")
+  const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)  
@@ -321,9 +321,6 @@ const CreateAlgorithm = () => {
                 setComparator1(e.target.value)
               }}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               <MenuItem value={"Above"}>Goes Above</MenuItem>
               <MenuItem value={"Below"}>Goes Below</MenuItem>
             </Select>
@@ -387,9 +384,6 @@ const CreateAlgorithm = () => {
                   setAction(e.target.value)
                 }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 <MenuItem value={"buy"}>Buy</MenuItem>
                 <MenuItem value={"sell"}>Sell</MenuItem>
               </Select>
