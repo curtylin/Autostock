@@ -83,25 +83,25 @@ const Header = ({ siteTitle }: HeaderProps) => {
 
   useEffect(() => {
     fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        console.log(result)
-        if (result === null) {
-          setUsername("")
-        } else {
-          setUsername(result.username)
-        }
-      })
-  })
-
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        })
+          .then(res => {
+            return res.json()
+          })
+          .then(result => {
+            console.log(result)
+            if (result === null) {
+                setUsername("")
+            } else {
+                setUsername(result.username)
+            }
+          })
+  },[])
+  
   return (
     <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
       <Container maxWidth="xl">
@@ -139,6 +139,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             sx={{ mr: 5, display: { xs: "none", md: "flex" } }}
             style={{ color: "black" }}
           >
+            
             <Link
               to="/app/home"
               style={{ color: "black", textDecoration: "none" }}

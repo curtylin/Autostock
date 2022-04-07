@@ -3,7 +3,7 @@
   "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.0",
-  "author": "AutoStock team",
+  "author": "Autostock team",
   "dependencies": {
     "@chakra-ui/gatsby-plugin": "^2.0.2",
     "@chakra-ui/react": "^1.7.2",
