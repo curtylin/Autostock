@@ -1,3 +1,5 @@
+# PROTOTYPE DEMO
+
 # Running Development Frontend
 run the following code in the WSL terminal (MAKE SURE YOU ARE IN THE auto-stock DIRECTORY !! VERY IMPORTANT)
 
