@@ -1082,7 +1082,8 @@ def enterBotsIntoComps():
     competitions = active_comps_list_driver()
     botsList = bots_list_driver()
 
-    indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
+    # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
+    indicators = ["NONE", "SMA", "EMA"]
     actions = ["buy", "sell"]
     comparators = ["Above", "Below"]
     newCompetitionsEntered = []
