@@ -47,7 +47,7 @@ const Competitions = () => {
         <h1>Competitions</h1>
 
         <h3>Upcoming Competitions</h3>
-        <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
+        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
               {notEnteredComps.slice(0, 3).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
@@ -59,7 +59,7 @@ const Competitions = () => {
                   logo: comp.logo,
               }
               return (
-                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="center">
+                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="left">
                       <ComplexCompCard key={index} {...cardProps} />
                   </Grid>
               )
@@ -68,7 +68,7 @@ const Competitions = () => {
           <Button className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/notenteredcompetitions`)}}> See More</Button>
           <h3>Your Competitions</h3>
           {enteredComps.length > 0 ?
-          <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
+          <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
               {enteredComps.slice(0, 3).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
@@ -80,7 +80,7 @@ const Competitions = () => {
                   logo: comp.logo,
               }
               return (
-                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="center">
+                  <Grid key={index} item sm={12} md={4} lg={4} justifyContent="left">
                       <ComplexCompCard key={index} {...cardProps} />
                   </Grid>
               )
@@ -96,7 +96,7 @@ const Competitions = () => {
         {enteredComps.length > 0 ? <Button className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/enteredcompetitions`)}}> See More</Button> : null}
 
         <h3>All Competitions</h3>
-        <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
+        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
               {competitions.slice(0, 3).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
