@@ -1,12 +1,12 @@
 import * as React from "react"
-import {navigate} from "@reach/router"
+import { navigate } from "@reach/router"
 import {
   Card,
   CardContent,
   Typography,
   CardActions,
   Button,
-  CardActionArea
+  CardActionArea,
 } from "@mui/material"
 
 const CompCard = ({
@@ -19,13 +19,14 @@ const CompCard = ({
 }: any) => {
   return (
     <Card sx={{ minWidth: 275 }}>
-      <CardActionArea id={id}
-                        onClick={event => {navigate(`/app/competition`, 
-                        {
-                          state: {id},
-                        }
-                          )
-                          }}>
+      <CardActionArea
+        id={id}
+        onClick={event => {
+          navigate(`/app/competition`, {
+            state: { id },
+          })
+        }}
+      >
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {`Competition Length: ${compLength}`}
@@ -36,14 +37,16 @@ const CompCard = ({
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {compStartingVal}
           </Typography>
-          
-          <Typography  sx={{
-            display: '-webkit-box',
-            overflow: 'hidden',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 3,
+
+          <Typography
+            sx={{
+              display: "-webkit-box",
+              overflow: "hidden",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
             }}
-            variant="body2">
+            variant="body2"
+          >
             {compDeadline}
             <br />
             {description}
@@ -51,16 +54,18 @@ const CompCard = ({
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <Button size="small"
-                        id={id}
-                        onClick={event => {navigate(`/app/competition`, 
-                        {
-                          state: {id},
-                        }
-                          )
-                          }}> Learn More
-
-                </Button>
+        <Button
+          size="small"
+          id={id}
+          onClick={event => {
+            navigate(`/app/competition`, {
+              state: { id },
+            })
+          }}
+        >
+          {" "}
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   )
