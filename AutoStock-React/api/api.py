@@ -85,6 +85,11 @@ def strategyFactory(entryObj):
 
             self.indicatorDict = {"None": None,
                                   "SMA": self.sma, "EMA": self.ema}
+        def buySell(self, action):
+            if action == "buy":
+                self.buy()
+            elif action == "sell":
+                self.sell()
 
         def next(self):
 
@@ -100,16 +105,10 @@ def strategyFactory(entryObj):
                 yesterdayValue = self.dataclose[-1] if indicatorTwo == "NONE" else self.indicatorDict[indicatorTwo][-1]
 
                 if comparator == "above" and (todayValue > yesterdayValue):
-                    if action == "buy":
-                        self.buy()
-                    elif action == "sell":
-                        self.sell()
+                    self.buySell(action)
 
                 elif comparator == "below" and (todayValue < yesterdayValue):
-                    if action == "buy":
-                        self.buy()
-                    elif action == "sell":
-                        self.sell()
+                    self.buySell(action)
 
     return strategy
 
