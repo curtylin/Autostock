@@ -44,16 +44,17 @@ const PublicAlgorithms = () => {
         return res.json()
       })
       .then(result => {
-        for(let i = 0; i < result.length; i++){
-          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        for (let i = 0; i < result.length; i++) {
+          setUsers(
+            prev => new Map([...prev, [result[i].userID, result[i].username]])
+          )
         }
       })
   }
 
-
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <title>Public Algorithms</title>
       <h1>Public Algorithms</h1>
       <div className="mdc-data-table">
@@ -62,24 +63,17 @@ const PublicAlgorithms = () => {
             <thead>
               <tr className="mdc-data-table__header-row">
                 <th
-                  className="mdc-data-table__header-cell"
+                  className="table_header"
                   role="columnheader"
                   scope="col"
+                  align="center"
                 >
                   Algorithm Name
                 </th>
-                <th
-                  className="mdc-data-table__header-cell mdc-data-table__header-cell--numeric"
-                  role="columnheader"
-                  scope="col"
-                >
+                <th className="table_header" role="columnheader" scope="col">
                   Day Gain (%)
                 </th>
-                <th
-                  className="mdc-data-table__header-cell"
-                  role="columnheader"
-                  scope="col"
-                >
+                <th className="table_header" role="columnheader" scope="col">
                   {" "}
                   Creator{" "}
                 </th>
@@ -88,12 +82,24 @@ const PublicAlgorithms = () => {
             <tbody className="mdc-data-table__content">
               {algorithms.map((algorithm: any, key: any) => {
                 return (
-                  <tr className="mdc-data-table__row" key={key}>
-                    <td className="mdc-data-table__cell" scope="row">
-                      <Link to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
+                  <tr className="table_row" key={key}>
+                    <td className="table_data" scope="row">
+                      <Link
+                        className="table_links"
+                        to="/app/algorithm"
+                        state={algorithm}
+                      >
+                        {algorithm.name}
+                      </Link>
                     </td>
-                    <td className="mdc-data-table__cell">10</td>
-                    <td className="mdc-data-table__cell">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
+                    <td className="table_data">
+                      {algorithm.PnL == undefined ? "--" : algorithm.PnL + "%"}
+                    </td>
+                    <td className="table_data">
+                      {users.has(algorithm.userID)
+                        ? users.get(algorithm.userID)
+                        : algorithm.userID}
+                    </td>
                   </tr>
                 )
               })}

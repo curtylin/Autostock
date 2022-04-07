@@ -1,0 +1,36 @@
+FROM node:16-alpine as build-step
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+COPY ./src ./src
+COPY ./public ./public
+RUN npm install
+RUN gatsby build
+
+FROM python:3.9
+WORKDIR /app
+COPY --from=build-step /app/public ./public
+
+RUN mkdir ./api
+COPY api/requirements.txt api/api.py api/.flaskenv api/firestore_apikey.json ./api/
+RUN pip install -U pip
+RUN pip install git+https://github.com/backtrader2/backtrader
+RUN pip install -r ./api/requirements.txt
+ENV FLASK_ENV production
+
+
+
+
+# TA Lib for Python
+#RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
+#    tar -xzf ta-lib-0.4.0-src.tar.gz && \
+#    cd ta-lib/ && \
+#    ./configure --prefix=/usr && \
+#    sudo make install
+
+# RUN rm ta-lib-0.4.0-src.tar.gz && rm -rf ta-lib
+
+
+EXPOSE 5000
+WORKDIR /app/api
+CMD ["gunicorn", "-b", ":5000", "api:app" ]
