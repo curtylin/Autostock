@@ -13,39 +13,21 @@ const Threads = ({
   id,
   threadTitle,
   threadDescription,
-  threadCreator
+  threadCreator,
+  users
 }: any) => {
   const [snackOpen, setSnackOpen] = useState(false)
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState("")
   const textInput = React.useRef(null);
-  const [users, setUsers] = useState(new Map<string, string>())
+  // const [users, setUsers] = useState(new Map<string, string>())
   const [openBackdrop, setOpenBackdrop] = useState(false)
 
   useEffect(() => {
     getCommentsDB(id)
-    getUsersDB()
   }, [])
 
-  const getUsersDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/list-user", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then(res => {
-        return res.json()
-      })
-      .then(result => {
-        for(let i = 0; i < result.length; i++){
-          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
-        }
-      })
-  }
 
   const handleSnackClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {

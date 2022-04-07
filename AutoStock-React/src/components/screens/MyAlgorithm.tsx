@@ -193,7 +193,7 @@ const MyAlgorithm = () => {
                       {algorithm.name}
                     </td>
                     <td className="table_data">
-                      10%
+                      {algorithm.PnL == undefined ? "--" : algorithm.PnL+"%"}
                     </td>
                     <td className="table_data">
                       <Button className="mdc-button mdc-button--raised"
