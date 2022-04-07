@@ -54,7 +54,7 @@ const QuickStartGuide = () => {
 
             <h2>1. Create an algorithm</h2>
             <p>You can get started by <Link to="/app/createalgorithm">creating an algorithm.</Link></p>
-            <img src="https://i.imgur.com/vYtuZIC.gif"></img>
+            <img src="https://i.imgur.com/ems0VXa.gif"></img>
             <br></br>
 
             <h2>2. Backtest your algorithm</h2>
@@ -64,7 +64,7 @@ const QuickStartGuide = () => {
             <br></br>
 
             <h2>3. Save your algorithm</h2>
-            <p>Once you have saved your algorithm, remember to save it and your algorithm will be available for you to see in the "<Link to="/app/myalgorithm">My Algorithms</Link>" page. Here, you can edit, share, and delete your algorithm.</p>
+            <p>Once you have saved your algorithm, remember to save it and your algorithm will be available for you to see in the "<Link to="/app/myalgorithm">My Algorithms</Link>" page. Here, you can edit, share, and delete your algorithm. <br></br><br></br> Please note: There will only be a day gain IF and only if you have submitted your algorithm to an active competition. Otherwise, please use the backtest function in the edit algorithm page.</p>
             <img src="https://i.imgur.com/HFqAOBv.gif"></img>
             <img src="https://i.imgur.com/2NZRo09.gif"></img>
             <br></br>
