@@ -45,6 +45,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [BTPnLPer, setBTPnLPer] = useState("")
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
+  const [AlgoDescription, setAlgoDescription] = useState("")
+
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -171,6 +173,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           setAction(result.entry[0].action)
           setRunningTime(result.runtime)
           setAlgorithm(result)
+          setAlgoDescription(result.description)
         })
     }
   }
@@ -267,16 +270,14 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
-              sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
+              sx={{ mt: 2, mr: 5, minWidth: {xs: 300, md: 703}, maxWidth:300 }}
               id="outlined-search"
               label="Algorithm Name"
               type="text"
             />
           </Tooltip>
-        </div>
-        <div>
           {/* Stock Symbol */}
-          <FormControl sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
+          <FormControl sx={{ my: 2, minWidth: 300, maxWidth: 300 }}>
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
                 onBlur={handleBlur}
@@ -296,6 +297,12 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             <Chip label="Deletable" onDelete={handleDelete}/>
           </Stack> */}
           </FormControl>
+        </div>
+        <div>
+        <TextField inputProps={{ maxLength: 1000}} value={AlgoDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setAlgoDescription(e.target.value)
+                    }} sx={{mb:0}} label="Algorithm description" fullWidth>
+        </TextField>
         </div>
         <div>
           <Divider sx={{my:2, mb:2}}/>

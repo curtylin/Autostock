@@ -44,6 +44,8 @@ const CreateAlgorithm = () => {
   const [BTPnLPer, setBTPnLPer] = useState("")
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")  
+  const [newAlgoDescription, setAlgoDescription] = useState("")
+
   useEffect(() => {
     jsConfetti = new JSConfetti()
   })
@@ -158,6 +160,7 @@ const CreateAlgorithm = () => {
       "runtime": "${runningTime}",
       "public": false,
       "userID": "${getUser().uid}",
+      "description": "${newAlgoDescription}",
       "entry": [
         ${entry}
       ]
@@ -230,16 +233,14 @@ const CreateAlgorithm = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
-              sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}
+              sx={{ mt: 2, mr: 5, minWidth:{xs: 300, md: 703}, maxWidth: 300 }}
               id="outlined-search"
               label="Algorithm Name "
               type="search"
             />
           </Tooltip>
-        </div>
-        <div>
-          {/* Stock Symbol */}
-          <FormControl sx={{ my: 2, mr: 5, minWidth: 300, maxWidth: 300 }}>
+           {/* Stock Symbol */}
+           <FormControl sx={{ my: 2, minWidth: 300, maxWidth: 300 }}>
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
                 onBlur={handleBlur}
@@ -257,6 +258,12 @@ const CreateAlgorithm = () => {
             <Chip label="Deletable" onDelete={handleDelete}/>
           </Stack> */}
           </FormControl>
+        </div>
+        <div>
+          <TextField inputProps={{ maxLength: 1000}}value={newAlgoDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setAlgoDescription(e.target.value)
+                    }} sx={{mb:0}} label="Algorithm description" fullWidth>
+          </TextField>
         </div>
         <div>
           <Divider sx={{my:2, mb:2}}/>
