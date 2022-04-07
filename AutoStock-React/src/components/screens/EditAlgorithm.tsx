@@ -100,15 +100,26 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
 
+    let entry =`{
+      "action": "${action}",
+      "indicator1": "${indicator1}",
+      "comparator": "${comparator1}",
+      "indicator2": "${indicator2}",
+      "paramsOne": {}
+      "paramsTwo": {}
+    }`
+    
     let body = `{
+      "name": "${algoName}",
       "ticker": "${stock}",
       "cash": 1000,
-      "startDate": "${
-        currDate.getFullYear() - 1
-      }-${currDate.getMonth()}-${currDate.getDate()}",
-      "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}"
-      }
-      `
+      "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
+      "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
+      "runtime": "${runningTime}",
+      "entry": [
+        ${entry}
+      ]
+    }`
 
     let init = {
       method: "POST",
