@@ -33,6 +33,7 @@ const Competition = () => {
   const [open, setOpen] = React.useState(false);
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
+  const [users, setUsers] = useState(new Map<string, string>())
   const [openBackdrop, setOpenBackdrop] = useState(false)
 
   useEffect(() => {
@@ -47,9 +48,29 @@ const Competition = () => {
 
       getDiscussionsDB()
       getThreadsDB()
+      getUsersDB()
     })
       
   }, [chosenAlgorithm])
+
+  const getUsersDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-user", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for(let i = 0; i < result.length; i++){
+          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        }
+      })
+  }
 
   const getThreadsDB = async () => {
     fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
@@ -447,7 +468,8 @@ const Competition = () => {
               id : thread.id,
               threadTitle: thread.threadTitle,
               threadDescription: thread.threadDescription,
-              threadCreator: thread.userID
+              threadCreator: thread.userID,
+              users: users
             }
             return(
               <Threads key={index} {...threadProps}/>   
