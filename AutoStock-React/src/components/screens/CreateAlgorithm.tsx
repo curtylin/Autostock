@@ -242,6 +242,7 @@ const CreateAlgorithm = () => {
               id="outlined-search"
               label="Algorithm Name "
               type="search"
+              inputProps={{ maxLength: 100}}
             />
           </Tooltip>
            {/* Stock Symbol */}
@@ -256,6 +257,7 @@ const CreateAlgorithm = () => {
                 type="search"
                 id="outlined-search"
                 label="Stock "
+                inputProps={{ maxLength: 9}}
               />
             </Tooltip>
             {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
@@ -277,15 +279,14 @@ const CreateAlgorithm = () => {
         
         {/* Indicator */}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-          <InputLabel required id="demo-simple-select-standard-label">
+          <InputLabel id="demo-simple-select-standard-label">
             Indicator 1 (Today's Value)
           </InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
-            required
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            label="Indicator 1 "
+            label="Indicator 1 (Today's Value)"
             value={indicator1}
             onChange={e => {
               setIndicator1(e.target.value)
@@ -317,16 +318,15 @@ const CreateAlgorithm = () => {
           {/* </Tooltip> */}
         </FormControl>
         {/* Comparator 1 */}
-        <FormControl required sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
+        <FormControl sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Comparator
           </InputLabel>
-          <Tooltip title="Comparator 1" placement="left" arrow>
+          <Tooltip title="Comparator" placement="left" arrow>
             <Select
-              required
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Comparator 1 "
+              label="Comparator"
               value={comparator1}
               onChange={e => {
                 setComparator1(e.target.value)
@@ -339,7 +339,7 @@ const CreateAlgorithm = () => {
         </FormControl>
         {/* Indicator 2*/}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-          <InputLabel required id="demo-simple-select-standard-label">
+          <InputLabel  id="demo-simple-select-standard-label">
             Indicator 2 (Yeterday's Value)
           </InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
@@ -347,7 +347,7 @@ const CreateAlgorithm = () => {
             required
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            label="Indicator 2 "
+            label="Indicator 2 (Yesterday's Value)"
             value={indicator2}
             onChange={e => {
               setIndicator2(e.target.value)
@@ -381,7 +381,7 @@ const CreateAlgorithm = () => {
         <div>
           <div>
           {/* Action */}
-          <FormControl required sx={{ my: 2, minWidth: 200 }}>
+          <FormControl sx={{ my: 2, minWidth: 200 }}>
             <InputLabel id="demo-simple-select-standard-label">
               Action
             </InputLabel>
@@ -389,7 +389,7 @@ const CreateAlgorithm = () => {
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                label="Action *"
+                label="Action"
                 value={action}
                 onChange={e => {
                   setAction(e.target.value)
@@ -413,7 +413,7 @@ const CreateAlgorithm = () => {
         </div>
 
         {/* Running Time */}
-        <FormControl required sx={{ my: 2, minWidth: {xs: 300, md: 500} }}>
+        <FormControl sx={{ my: 2, minWidth: {xs: 300, md: 500} }}>
           <InputLabel id="demo-simple-select-standard-label">
             Algorithm Running Time
           </InputLabel>
@@ -421,7 +421,7 @@ const CreateAlgorithm = () => {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Algorithm Running Time *"
+              label="Algorithm Running Time"
               value={runningTime}
               onChange={e => {
                 setRunningTime(e.target.value)
@@ -439,6 +439,7 @@ const CreateAlgorithm = () => {
         </FormControl>
         <div>
           <Button
+            disabled={!algoName || !stock}
             type="submit"
             variant="contained"
             color="primary"
@@ -447,6 +448,14 @@ const CreateAlgorithm = () => {
           >
             Save Algorithm
           </Button>
+          
+          <Typography
+            color="red"
+            hidden={algoName != "" && stock != ""}
+            fontSize={16}
+          >
+            Please fill out an Algorithm Name and Stock Ticker before Saving
+          </Typography>
 
         </div>
       </form>
@@ -468,6 +477,7 @@ const CreateAlgorithm = () => {
       </div>
       <div id="BackTestButton">
         <Button
+          disabled={!stock}
           type="submit"
           variant="contained"
           sx={{ my: 2, mr: 5, minWidth: 300 }}
@@ -475,6 +485,13 @@ const CreateAlgorithm = () => {
         >
           BackTest
         </Button>
+        <Typography
+            color="red"
+            hidden={stock != ""}
+            fontSize={16}
+          >
+            Please fill out a Stock Ticker before BackTesting
+          </Typography>
         {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>

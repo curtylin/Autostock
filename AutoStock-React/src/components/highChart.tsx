@@ -17,7 +17,7 @@ import "../components/highChartsCSS.css"
 const HighChart = ({ stock, stockData }: any) => {
   const ChartOptions = {
     title: {
-      text: stock.toUpperCase(),
+      text: stock,
     },
     yAxis: [
       {
