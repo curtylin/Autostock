@@ -32,9 +32,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
-  const [indicator1, setIndicator1] = useState("None")
+  const [indicator1, setIndicator1] = useState("NONE")
   const [comparator1, setComparator1] = useState("Above")
-  const [indicator2, setIndicator2] = useState("None")
+  const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
@@ -371,7 +371,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               setIndicator1(e.target.value)
             }}
           >
-            <MenuItem value={"None"}>None</MenuItem>
+            <MenuItem value={"NONE"}>None</MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
             <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
             <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
@@ -431,7 +431,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               setIndicator2(e.target.value)
             }}
           >
-            <MenuItem value={"None"}>None</MenuItem>
+            <MenuItem value={"NONE"}>None</MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
             <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
             <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
