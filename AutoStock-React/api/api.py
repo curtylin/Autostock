@@ -418,7 +418,7 @@ def comp_list_all_stale():
         return f"An Error Occurred: {e}"
 
 ## gives the list of competitions that the user has entered themselves
-@app.route('/list-competition/<id>', methods=['GET'])
+@app.route('/list-entered-competitions/<id>', methods=['GET'])
 def comp_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
