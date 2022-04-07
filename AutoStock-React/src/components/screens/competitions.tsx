@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Box, Button, Grid, Typography } from "@mui/material"
+import { Box, Button, Divider, Grid, Typography } from "@mui/material"
 import CompCard from "../compCard"
 import Layout from "../layout"
 import MediaCompCard from "../mediaCompCard"
@@ -66,8 +66,11 @@ const Competitions = () => {
               })}
           </Grid>
           <Box sx={{ width: 1 }}>
-            <Button style={{ float: "right"}} sx={{mt:0, pt: 0}} className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/notenteredcompetitions`)}}> See More</Button>
+            <Button style={{ float: "right"}}  className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/notenteredcompetitions`)}}> See More</Button>
+            
           </Box>
+          
+          <Divider sx={{mt:6}}/>
             
           <Box sx={{mt:3}}>
             <h3>Your Competitions</h3>
@@ -100,6 +103,8 @@ const Competitions = () => {
         }
         {enteredComps.length > 0 ? <Box sx={{ width: 1 }}> <Button style={{ float: "right"}} sx={{mt:0, pt: 0}} className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/enteredcompetitions`)}}> See More</Button></Box>
  : null}
+        <Divider sx={{mt:6}}/>
+
         <Box sx={{mt:3}}>
             <h3>All Competitions</h3>
           </Box>
