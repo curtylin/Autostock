@@ -27,7 +27,7 @@ const Layout = ({ children }: LayoutProps) => {
   `)
 
   const siteTitle: string = data.site.siteMetadata?.title || `Title`
-  
+
   return (
     <>
       <Header siteTitle={siteTitle} />

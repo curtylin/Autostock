@@ -20,14 +20,13 @@ const Home = () => {
   const [username, setUsername] = useState("")
   const [enteredComps, setEnteredComps] = useState([])
 
-
-  let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"];
-  let randChoice = randTick[Math.floor(Math.random()*randTick.length)];
-  console.log(randChoice);
+  let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"]
+  let randChoice = randTick[Math.floor(Math.random() * randTick.length)]
+  console.log(randChoice)
   let today = new Date().toISOString().slice(0, 10)
-  const d = new Date();
-  d.setFullYear(d.getFullYear()-1);
-  let lastYear = d.toISOString().slice(0,10)
+  const d = new Date()
+  d.setFullYear(d.getFullYear() - 1)
+  let lastYear = d.toISOString().slice(0, 10)
 
   let body = `{
     "ticker": "${randChoice}" ,
@@ -50,7 +49,7 @@ const Home = () => {
       .then(result => {
         setCompetitions(result)
       })
-      
+
     fetch("http://localhost:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
@@ -87,21 +86,18 @@ const Home = () => {
       })
   }, [])
 
-  
-
   return (
     <Layout>
       <Seo title="Autostock" />
       <br></br>
       <h3>
         {username == "" ? (
-        <>
-        Hi! Looks like you have not <Link to="/app/edituser">set a username.</Link>
-        </>
+          <>
+            Hi! Looks like you have not{" "}
+            <Link to="/app/edituser">set a username.</Link>
+          </>
         ) : (
-        <>
-        Welcome back {username}!
-        </>
+          <>Welcome back {username}!</>
         )}
       </h3>
       <h2>Today's Top Headlines:</h2>
@@ -123,14 +119,17 @@ const Home = () => {
             <Grid key={index} item xs={4}>
               <ComplexCompCard key={index} {...cardProps} />
             </Grid>
-            
           )
         })}
         {enteredComps.length < 3 ? 
         <Button variant="outlined" onClick={event => {navigate(`/app/enteredcompetitions`)}} startIcon={<AddIcon/>} sx={{minWidth:320,maxWidth:320, ml:3, mt: 2}}>SEE MORE</Button>
         : null}
       </Grid>
-      <Button  sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }} className="btn_viewBattles" variant="contained">
+      <Button
+        sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }}
+        className="btn_viewBattles"
+        variant="contained"
+      >
         <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             noWrap
@@ -191,7 +190,10 @@ const Home = () => {
         </Typography>
       </Button>
       <br></br>
-      <h3>Lost? Take a look at our <Link to="/app/quickstartguide">Quick Start Guide</Link>!</h3>
+      <h3>
+        Lost? Take a look at our{" "}
+        <Link to="/app/quickstartguide">Quick Start Guide</Link>!
+      </h3>
     </Layout>
   )
 }
