@@ -45,7 +45,7 @@ const AboutUs = () => {
             <p>Brandon's BIO HERE</p>
 
             <hr></hr>
-            <img src="https://media-exp1.licdn.com/dms/image/C5603AQHwwK5bJU13AA/profile-displayphoto-shrink_200_200/0/1591376666560?e=1654128000&v=beta&t=7YdhOkopgDn31-WMuTt6bkYEcnG2xM0c2PM0Ne710-o" alt="Curtis Lin portrait" width="250"></img>
+            <img src="https://i.imgur.com/854jut8.jpg" alt="Curtis Lin portrait" width="250"></img>
             <h2>Curtis Lin</h2>
             <h4>Fullstack</h4>
             <a href="https://www.linkedin.com/in/curtis-lin/"><img style={{display:"flex"}} width={100} src={linkedIn}></img></a>
@@ -56,10 +56,10 @@ const AboutUs = () => {
 
 
             <hr></hr>
-            <img src="https://firebasestorage.googleapis.com/v0/b/autostock-fef22.appspot.com/o/jony.png?alt=media&token=d99b5016-45cc-4b4f-90cd-eba7dc57f37f" alt="Jonathan Fairbanks portrait" width="250"></img>
+            <img src="https://i.imgur.com/63zNA4E.jpg" alt="Jonathan Fairbanks portrait" width="250"></img>
             <h2>Jonathan Fairbanks</h2>
             <h4>Backend</h4>
-            <p>Hi I am Jonathan! Nice to meet you! I don't have a profile picture because I like to be in the shadows... catch me fighting Spiderman on the weekend because I am your neighborhood villain.</p>
+            <p>I like Hotdog.</p>
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho" alt="Nick Mountz portrait" width="250"></img>
