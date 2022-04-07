@@ -273,16 +273,23 @@ def algo_read(id):
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
+    return update_algo_driver(id, request)
+    
+def update_algo_driver(id, req):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
     try:
-        algorithms_ref.document(id).update(request.json)
+        if type(req) is dict:
+            algorithms_ref.document(id).update(req)
+        else:
+            algorithms_ref.document(id).update(req.json)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## Be sure to pass in the algorithm id in the url
 @app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
@@ -1048,6 +1055,7 @@ def findBestUsers():
             backtestResults = {"PnL": 0}
             try:
                 backtestResults = backtest_driver(algo_dict)
+                update_algo_driver(algo_dict["id"], {"PnL" : backtestResults["PnL"]})
             except Exception as e:
                 print(e)
 
