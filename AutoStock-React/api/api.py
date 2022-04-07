@@ -83,7 +83,7 @@ def strategyFactory(entryObj):
             self.sma = bt.indicators.SMA(self.datas[0].close)
             self.ema = bt.indicators.EMA(self.datas[0].close)
 
-            self.indicatorDict = {"None": None,
+            self.indicatorDict = {"NONE": None,
                                   "SMA": self.sma, "EMA": self.ema}
         def buySell(self, action):
             if action == "buy":
