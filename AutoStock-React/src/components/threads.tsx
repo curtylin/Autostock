@@ -79,8 +79,10 @@ const Threads = ({
       })
       .then(text => {
         setNewComment("")
-        window.location.reload()
+        getCommentsDB(id)
+        setOpenBackdrop(false)
       })
+
   }
 
   const handleClickOpen = () => {

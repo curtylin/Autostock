@@ -351,10 +351,8 @@ const Competition = () => {
       .then(text => {
         setNewThreadTitle("")
         setNewThreadDescription("")
-        console.log("RELOAD")
-        // setTimeout(function(){
-        // },1000);
-        window.location.reload()
+        getThreadsDB()
+        setOpenBackdrop(false)
       })
   }
 
