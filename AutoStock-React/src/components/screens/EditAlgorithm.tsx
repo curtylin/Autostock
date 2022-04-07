@@ -188,7 +188,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [algorithm, setAlgorithm] = useState<any>([])
   useEffect(() => {
     getAlgoDB()
-    console.log(algorithm)
   }, [])
 
   const getAlgoDB = () => {
@@ -227,7 +226,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "indicator1": "${indicator1}",
       "comparator": "${comparator1}",
       "indicator2": "${indicator2}",
-      "paramsOne": {}
+      "paramsOne": {},
       "paramsTwo": {}
     }`
 
@@ -235,6 +234,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "name": "${algoName}",
       "ticker": "${stock}",
       "action": "${action}",
+      "description": "${AlgoDescription}",
       "runtime": "${runningTime}",
       "public": false,
       "userID": "${getUser().uid}",
@@ -249,28 +249,27 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       headers,
       body,
     }
-    if (isBrowser) {
-      fetch(
-        `http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`,
-        init
-      )
-        .then(response => {
-          return response.json() // or .text() or .blob() ...
+    console.log("sending api call")
+    fetch(
+      `http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`,
+      init
+    )
+      .then(response => {
+        return response.json() // or .text() or .blob() ...
+      })
+      .then(text => {
+        // text is the response body
+        console.log(text)
+        jsConfetti.addConfetti({
+          emojis: ["💰", "🚀", "📈", "💸", "💵"],
+          // emojiSize: 100,
         })
-        .then(text => {
-          // text is the response body
-          console.log(text)
-          jsConfetti.addConfetti({
-            emojis: ["💰", "🚀", "📈", "💸", "💵"],
-            // emojiSize: 100,
-          })
-          jsConfetti.addConfetti()
-        })
-        .catch(e => {
-          // error in e.message
-        })
-      event.preventDefault()
-    }
+        jsConfetti.addConfetti()
+      })
+      .catch(e => {
+        // error in e.message
+      })
+    event.preventDefault()
   }
 
   const BackTestingPart = () => (
@@ -344,7 +343,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </FormControl>
         </div>
         <div>
-        <TextField inputProps={{ maxLength: 1000}} value={AlgoDescription} multiline rows={3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        <TextField inputProps={{ maxLength: 1000}} value={AlgoDescription} multiline rows={3} 
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       setAlgoDescription(e.target.value)
                     }} sx={{mb:0}} label="Algorithm description" fullWidth>
         </TextField>
