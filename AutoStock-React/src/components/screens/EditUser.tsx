@@ -150,7 +150,7 @@ const EditUser = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h1>Edit Account Information</h1>
       {/*  User Name */}
       <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>

@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material"
 import { getUser } from "../../services/auth"
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 
 let jsConfetti: any
 
@@ -184,6 +184,7 @@ const CreateAlgorithm = () => {
         // error in e.message
       })
     event.preventDefault()
+    navigate('/app/myalgorithms')
   }
 
   const BackTestingPart = () => (
@@ -207,7 +208,7 @@ const CreateAlgorithm = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <h1>Create Algorithm</h1>
       <h3>
         Need help? See our{" "}
@@ -458,9 +459,6 @@ const CreateAlgorithm = () => {
             Save Algorithm
           </Button>
 
-          <Button type="submit" variant="contained" color="secondary">
-            Share
-          </Button>
         </div>
       </form>
 

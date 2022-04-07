@@ -54,7 +54,7 @@ const PublicAlgorithms = () => {
 
   return (
     <Layout>
-      <Seo title="AutoStock" />
+      <Seo title="Autostock" />
       <title>Public Algorithms</title>
       <h1>Public Algorithms</h1>
       <div className="mdc-data-table">
