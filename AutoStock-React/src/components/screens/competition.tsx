@@ -38,6 +38,7 @@ import { TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
 
 const Competition = () => {
+  const [snackOpenSubmit, setSnackOpenSubmit] = useState(false)
   const [snackOpen, setSnackOpen] = useState(false)
   const [algorithms, setAlgorithms] = useState([])
   const [competitiorID, setCompetitiorID] = useState("")
@@ -186,6 +187,7 @@ const Competition = () => {
     }
 
     setSnackOpen(false)
+    setSnackOpenSubmit(false)
   }
 
   const handleExpand = (event: any) => {
@@ -247,6 +249,7 @@ const Competition = () => {
     fetch("http://127.0.0.1:5000/enter-competition", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
+        
       })
       .then(text => {
         // text is the response body
@@ -256,7 +259,10 @@ const Competition = () => {
         // error in e.message
       })
     event.preventDefault()
-    window.location.reload()
+    getCurrentAlgorithm()
+    setSnackOpenSubmit(true)
+
+    // window.location.reload()
   }
 
   const handleResubmit = (event: any) => {
@@ -606,6 +612,12 @@ const Competition = () => {
         autoHideDuration={4000}
         onClose={handleSnackClose}
         message="Thread submitted!"
+      />
+       <Snackbar
+        open={snackOpenSubmit}
+        autoHideDuration={4000}
+        onClose={handleSnackClose}
+        message="Algorithm submitted!"
       />
       <Backdrop sx={{ color: "#fff" }} open={openBackdrop}>
         <CircularProgress color="inherit" />
