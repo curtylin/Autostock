@@ -49,9 +49,13 @@ comments_ref = db.collection('comments')
 
 
 @app.errorhandler(404)
-def not_found(error):
-    # return app.send_static_file('index.html')
-    return error
+@app.route('/', defaults={'e_path': ''})
+@app.route('/<path:e_path>')
+def catch_all_error(e_path):
+    if e_path == "":
+        return app.send_static_file('index.html')
+    else:
+        return send_from_directory(app.static_folder + '/app/[...]/', 'index.html')
 
 
 @app.route('/', defaults={'u_path': ''})
