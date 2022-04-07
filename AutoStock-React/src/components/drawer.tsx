@@ -106,7 +106,7 @@ export default function TemporaryDrawer() {
                 style={{ color: "#059a76", textDecoration: "none" }}
                 className="autostock-link"
                 >
-                AutoStock
+                Autostock
                 </Link>
             </Typography>
           

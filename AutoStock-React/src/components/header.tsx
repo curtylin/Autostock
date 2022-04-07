@@ -122,7 +122,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 setUsername(result.username)
             }
           })
-  })
+  },[])
   
   return (
     <AppBar sx={{ mb: 0 }} style={{ background: "#059a76" }} position="sticky">
