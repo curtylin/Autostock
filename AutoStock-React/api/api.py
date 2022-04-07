@@ -431,9 +431,18 @@ def comp_read_user_id(id):
         competitions = []
         for comp in comps:
             compDict = comp.to_dict()
-            compDict['id'] = comp.id
-            competitions.append(compDict)
-        return jsonify(competitions), 200
+            competitions.append(compDict["competition"])
+        
+        comps = activeCompetitions_ref.stream()
+        activeComps = []
+        for comp in comps:
+            if comp.id in set(competitions):
+                compDict = comp.to_dict()
+                compDict['id'] = comp.id
+                compDict['active'] = True
+                activeComps.append(compDict)
+
+        return jsonify(activeComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -451,7 +460,7 @@ def comp_read_notRegistered_user_id(id):
         enteredCompetitions = []
         for comp in comps:
             compDict = comp.to_dict()
-            enteredCompetitions.append(comp.id)
+            enteredCompetitions.append(compDict["competition"])
 
         activeComps = activeCompetitions_ref.stream()
         notEnteredComps = []
