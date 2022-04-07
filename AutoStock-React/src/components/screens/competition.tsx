@@ -33,23 +33,41 @@ const Competition = () => {
   const [open, setOpen] = React.useState(false);
   const [newThreadDescription, setNewThreadDescription] = useState("")
   const [newThreadTitle, setNewThreadTitle] = useState("")
+  const [users, setUsers] = useState(new Map<string, string>())
   const [openBackdrop, setOpenBackdrop] = useState(false)
 
   useEffect(() => {
     getCompDB().then(() => {
-      console.log(competition)
       if (chosenAlgorithm == "") {
         getCurrentAlgorithm()
       }
-      getAlgorithmsDB() 
-      console.log(chosenAlgorithm)
-      console.log("lol")
+      getAlgorithmsDB()
 
       getDiscussionsDB()
       getThreadsDB()
+      getUsersDB()
     })
       
   }, [chosenAlgorithm])
+
+  const getUsersDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-user", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for(let i = 0; i < result.length; i++){
+          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        }
+      })
+  }
 
   const getThreadsDB = async () => {
     fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
@@ -85,7 +103,6 @@ const Competition = () => {
 
   const getCompDB = async () => {
     //fetch post to localhost
-    console.log("getting comp db" + window.history.state.id) 
     fetch(`http://localhost:5000/get-competition/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
@@ -121,7 +138,6 @@ const Competition = () => {
 
   const getCurrentAlgorithm = () => {
     //fetch post to localhost
-    // console.log("getting competitor information from db: " + getUser().uid) 
     fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
@@ -134,10 +150,7 @@ const Competition = () => {
       })
       .then(result => {
         for (let i = 0; i < result.length; i++) {
-          console.log(result[i].competition , competitionID)
-          if (result[i].competition === competitionID)
-          {
-            console.log("algo: " + result[i].algorithm)
+          if (result[i].competition === competitionID) {
             setChosenAlgorithm(result[i].algorithm)
             setCompetitiorID(result[i].id)
           }
@@ -157,7 +170,7 @@ const Competition = () => {
     let today = new Date().toISOString().slice(0, 10)
     const d = new Date();
     d.setFullYear(d.getFullYear()-1);
-    
+
     let lastYear = d.toISOString().slice(0,10)
 
     console.log(today)
@@ -233,9 +246,9 @@ const Competition = () => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
-        method: "PUT",
-        headers,
-        body,
+      method: "PUT",
+      headers,
+      body,
     }
     fetch(`http://localhost:5000/edit-competition-algorithm/${competitiorID}`, init)
             .then(response => {
@@ -292,7 +305,7 @@ const Competition = () => {
     }
     fetch("http://localhost:5000/create-thread", init)
       .then(response => {
-        return response.json() 
+        return response.json()
       })
       .then(text => {
         setNewThreadTitle("")
@@ -321,23 +334,27 @@ const Competition = () => {
 
         <Card sx={{marginBottom: 2,  minWidth: 275 }}>
           <CardContent>
-          <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                   fontWeight="medium" variant= "h2"  gutterBottom>
+              Competition Details:
+            </Typography>
+          <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Submissions Close: {competition.endDate}
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Participants:  <span className="stockTickName"> {competition.competitiors}</span>
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Duration: {competition.duration}            
             </Typography>
-            <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                  fontWeight="medium" variant= "h2"  gutterBottom>
+            <Typography sx={{ ml:5,fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
               Starting Balance: {competition.startingBalance}            
             </Typography>
-          </CardContent> 
+          </CardContent>
         </Card>
         <Accordion sx={{}}>
           <AccordionSummary
@@ -345,12 +362,15 @@ const Competition = () => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Details</Typography>
+          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium" variant= "h2"  gutterBottom>
+            Description
+          </Typography>
           </AccordionSummary>
           <AccordionDetails>
-          <Typography sx={{ fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+          <Typography sx={{ fontSize: 18}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                   fontWeight="400" variant= "h3"  gutterBottom>
-              {competition.description}           
+              {competition.description}
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -361,18 +381,21 @@ const Competition = () => {
             id="panel1a-header"
             onClick={handleExpand}
           >
-            <Typography>Historical Data</Typography>
+          <Typography sx={{fontSize: 20}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="medium" variant= "h2"  gutterBottom>
+            Historical Data
+          </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <HighChart stock={competition.ticker} stockData={data}/>
-            
+
           </AccordionDetails>
-         
+
         </Accordion>
-      
+
       {new Date(competition.endDate) > new Date() ? <h2>Submissions Open</h2> : <h2>Submissions Closed</h2>}
-      {new Date(competition.endDate) > new Date() ? 
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}> 
+      {new Date(competition.endDate) > new Date() ?
+      <FormControl sx={{my: 2, mr: 5, minWidth: 300}}>
                         <InputLabel required id="demo-simple-select-standard-label" >
                             Choose an Algorithm
                         </InputLabel>
@@ -392,11 +415,11 @@ const Competition = () => {
                                  )
                             })}
                             </Select>
-      </FormControl> 
-      : 
-      <FormControl sx={{my: 2, mr: 5, minWidth: 300}} disabled> 
+      </FormControl>
+      :
+      <FormControl sx={{my: 2, mr: 5, minWidth: 300}} disabled>
                         <InputLabel required id="demo-simple-select-standard-label" >
-                            Choose an Algorithm 
+                            Choose an Algorithm
                         </InputLabel>
                             {/* GET USERS ALGORITHMS */}
                             <Select
@@ -440,7 +463,7 @@ const Competition = () => {
           </FormControl>
           <Button disabled={!newThreadTitle} onClick={submitThread} startIcon={<AddIcon/>} style={{textTransform:"none"}} sx={{mt:1, width:{xs:310, s:300}}} variant="contained">
             New Thread
-        </Button>  
+        </Button>
         </Box>
         <div>
           {threads.map((thread: any, index: number) => {
@@ -448,10 +471,11 @@ const Competition = () => {
               id : thread.id,
               threadTitle: thread.threadTitle,
               threadDescription: thread.threadDescription,
-              threadCreator: thread.userID
+              threadCreator: thread.userID,
+              users: users
             }
             return(
-              <Threads key={index} {...threadProps}/>   
+              <Threads key={index} {...threadProps}/>
             )
           })}
         </div>
@@ -466,7 +490,7 @@ const Competition = () => {
         open={openBackdrop}
       >
         <CircularProgress color="inherit" />
-      </Backdrop>            
+      </Backdrop>
 
     </Layout>
   )
