@@ -426,8 +426,6 @@ def comp_read_user_id(id):
         competitions : Return document(s) that matches query userID.
     """
     try:
-        # Check if ID was passed to URL query
-        # id = request.args.get('id')
         userID = id
         comps = competitors_ref.where("userID", "==", userID).stream()
         competitions = []
@@ -436,6 +434,33 @@ def comp_read_user_id(id):
             compDict['id'] = comp.id
             competitions.append(compDict)
         return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+## gives the list of competitions that the user have not entered
+@app.route('/list-nonregisted-competitions/<id>', methods=['GET'])
+def comp_read_user_id(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document(s) that matches query userID.
+    """
+    try:
+        userID = id
+        comps = competitors_ref.where("userID", "==", userID).stream()
+        enteredCompetitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            enteredCompetitions.append(comp.id)
+
+        activeComps = activeCompetitions_ref.stream()
+        notEnteredComps = []
+        for comp in activeComps:
+            if comp.id not in set(enteredCompetitions):
+                compDict = comp.to_dict()
+                compDict['id'] = comp.id
+                notEnteredComps.append(compDict)
+        return jsonify(notEnteredComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
