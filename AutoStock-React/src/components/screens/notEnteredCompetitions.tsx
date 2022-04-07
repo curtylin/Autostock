@@ -5,12 +5,13 @@ import Layout from "../layout"
 import MediaCompCard from "../mediaCompCard"
 import ComplexCompCard from "../complexCompCard"
 import Seo from "../seo"
+import { getUser } from "../../services/auth"
 
 const Competitions = () => {
   const [competitions, setCompetitions] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/list-competitions")
+    fetch(`http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`)
       .then(res => {
         return res.json()
       })
