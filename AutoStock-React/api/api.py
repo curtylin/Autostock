@@ -1114,7 +1114,7 @@ def enterBotsIntoComps():
                         "ticker": comp['ticker'],
                         "public": True,
                         "runningTime": "30",
-                        "userID": bot['userID']
+                        "userID": bot['userID'],
                         "entry" : entries
                     }
                     algoID = (bot['userID'] + comp['ticker'])
