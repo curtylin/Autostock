@@ -39,7 +39,7 @@ const ComplexCompCard = ({
                 className="compHeader"
                 title={compTicker}
 
-                subheader={compLength.length > 2 ? compLength : `Competition Length: ${compLength} days`}
+                subheader={compLength}
                 />
                 <CardMedia
                 style={{
