@@ -21,8 +21,8 @@ import {
   signInWithPopup,
 } from "firebase/auth"
 import { initializeApp } from "firebase/app"
-import GoogleIcon from '@mui/icons-material/Google'
-import logo from '../../images/AutostockLogo_greenandblack.jpg'
+import GoogleIcon from "@mui/icons-material/Google"
+import logo from "../../images/AutostockLogo_greenandblack.jpg"
 import { Center } from "@chakra-ui/react"
 
 function Copyright(props: any) {
@@ -55,14 +55,14 @@ export default function SignInSide() {
   const [password, setPassword] = React.useState<string | undefined>("")
 
   const firebaseConfig = {
-    apiKey: process.env.GATSBY_APP_FIREBASE_KEY,
-    authDomain: process.env.GATSBY_APP_FIREBASE_DOMAIN,
-    databaseURL: process.env.GATSBY_APP_FIREBASE_DATABASE,
-    projectId: process.env.GATSBY_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.GATSBY_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.GATSBY_APP_FIREBASE_SENDER_ID,
-    appId: process.env.GATSBY_APP_FIREBASE_APP_ID,
-    measurementId: process.env.GATSBY_APP_FIREBASE_MEASUREMENT_ID,
+    apiKey: "AIzaSyAE4N61Ipw7s7HZEJ_e0t_GVVtlhuWsff0",
+    authDomain: "autostock-fef22.firebaseapp.com",
+    databaseURL: "",
+    projectId: "autostock-fef22",
+    storageBucket: "autostock-fef22.appspot.com",
+    messagingSenderId: "507308167136",
+    appId: "1:507308167136:web:5476d8a59822d82baae585",
+    measurementId: "G-VJL2BNZ0XD",
   }
 
   const app = initializeApp(firebaseConfig)
@@ -142,7 +142,11 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         >
-          <Box sx={{display:{xs:'none', md:'block'}}} justifyContent="center" alignItems="center">
+          <Box
+            sx={{ display: { xs: "none", md: "block" } }}
+            justifyContent="center"
+            alignItems="center"
+          >
             <div
               style={{
                 display: "flex",
@@ -165,19 +169,17 @@ export default function SignInSide() {
             >
               <h6 style={{ color: "#FFFFFF" }}>An Algo-Trading Platform.</h6>
             </div>
-            <div 
+            <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 textAlign: "center",
                 width: "100%",
-              }}>
-              <img width={500} src={logo} alt="logo"/>
-
+              }}
+            >
+              <img width={500} src={logo} alt="logo" />
             </div>
-
           </Box>
-
         </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
@@ -189,15 +191,16 @@ export default function SignInSide() {
               alignItems: "center",
             }}
           >
-            <div 
+            <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 textAlign: "center",
                 width: "100%",
-              }}>
-              <img width={100} src={logo} alt="logo"/>
-              </div>
+              }}
+            >
+              <img width={100} src={logo} alt="logo" />
+            </div>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
@@ -208,7 +211,6 @@ export default function SignInSide() {
               }}
             >
               {/* <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google logo" /> */}
-
               Sign in with Google
             </Button>
             <Box

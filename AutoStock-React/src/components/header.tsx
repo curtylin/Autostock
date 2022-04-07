@@ -48,40 +48,40 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
 
   const createRoute = () => {
-    let path = '/app/createalgorithm';
+    let path = "/app/createalgorithm"
     navigate(path)
   }
   const myAlgoRoute = () => {
-    let path = '/app/myalgorithms';
+    let path = "/app/myalgorithms"
     navigate(path)
   }
   const publicAlgoRoute = () => {
-    let path = '/app/publicalgorithms';
+    let path = "/app/publicalgorithms"
     navigate(path)
   }
 
   const QSGRoute = () => {
-    let path = '/app/quickstartguide';
+    let path = "/app/quickstartguide"
     navigate(path)
   }
   const ProfileRoute = () => {
-    let path = '/app/edituser';
+    let path = "/app/edituser"
     navigate(path)
   }
   const EditAccountRoute = () => {
-    let path = '/app/edituser';
+    let path = "/app/edituser"
     navigate(path)
   }
   const LoginRoute = () => {
-    let path = '/app/login';
+    let path = "/app/login"
     navigate(path)
   }
   const LogoutRoute = () => {
-    let path = '/';
+    let path = "/"
     navigate(path)
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
           headers: {
             Accept: "application/json",
@@ -107,7 +107,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
-          <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
+          <Box sx={{ mr: 0, display:{lg:"none", md:"flex", sm:"flex"}}}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
           
@@ -132,7 +132,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs:"none", md: "flex" } }}
+            sx={{ mr: {xs:0}, pr:10, display: { xs:"flex", md: "flex" } }}
             style={{ color: "black" }}
           >
             
@@ -142,23 +142,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
               className="autostock-link"
             >
               {siteTitle}
-            </Link>
-          </Typography>
-          <Typography
-            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            fontWeight="Bold"
-            variant="h4"
-            noWrap
-            component="div"
-            sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
-            style={{ color: "black" }}
-          >
-            <Link
-              to="/app/home"
-              style={{ color: "black", textDecoration: "none" }}
-              className="autostock-link"
-            >
-              AS
             </Link>
           </Typography>
 
@@ -239,27 +222,18 @@ const Header = ({ siteTitle }: HeaderProps) => {
             </Button>
           </Box>
           : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
-          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "flex", md: "flex" } }}>       
+          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "none",sm:"flex", md: "flex" } }}>
             <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
-              >
-                {username == "" ? (
-                <>
-                
-                </>
-                ) : (
-                <>
-                Hi, {username}
-                </>
-                )}              
-              </Typography>            
-            </Box>
-          <Box  sx={{ flexGrow: 0, display: { } }}>
-            
+              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+              fontWeight="medium"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+            >
+              {username == "" ? <></> : <>Hi, {username}</>}
+            </Typography>
+          </Box>
+          <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="" />
