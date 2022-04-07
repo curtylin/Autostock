@@ -14,6 +14,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Backdrop, Card, CardActi
 import { getUser } from "../../services/auth"
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { navigate } from "gatsby"
 
 
 
@@ -270,6 +271,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         // error in e.message
       })
     event.preventDefault()
+    navigate('/app/myalgorithms')
   }
 
   const BackTestingPart = () => (
