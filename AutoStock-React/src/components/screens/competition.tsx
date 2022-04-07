@@ -36,6 +36,7 @@ import Dialog from "@mui/material/Dialog"
 import CommentDialog from "../commentDialog"
 import { TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
+import { navigate } from "gatsby"
 
 const Competition = () => {
   const [snackOpen, setSnackOpen] = useState(false)
@@ -233,7 +234,7 @@ const Competition = () => {
   const handleSubmit = (event: any) => {
     let body = `{
         "algorithm": "${chosenAlgorithm}",
-        "competition": "${competition.id}",
+        "competition": "${competitionID}",
         "userID": "${getUser().uid}"
         }
         `
@@ -256,7 +257,7 @@ const Competition = () => {
         // error in e.message
       })
     event.preventDefault()
-    window.location.reload()
+    navigate("/app/competition", {state: { competitionID },})
   }
 
   const handleResubmit = (event: any) => {
@@ -354,7 +355,7 @@ const Competition = () => {
         console.log("RELOAD")
         // setTimeout(function(){
         // },1000);
-        window.location.reload()
+        navigate("/app/competition", {state: { competitionID},})
       })
   }
 
@@ -599,6 +600,7 @@ const Competition = () => {
             threadDescription: thread.threadDescription,
             threadCreator: thread.userID,
             users: users,
+            competitionID: competitionID
           }
           return <Threads key={index} {...threadProps} />
         })}
