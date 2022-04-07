@@ -30,9 +30,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("None")
-  const [comparator1, setComparator1] = useState("")
+  const [comparator1, setComparator1] = useState("Above")
   const [indicator2, setIndicator2] = useState("None")
-  const [action, setAction] = useState("")
+  const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
@@ -357,9 +357,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 setComparator1(e.target.value)
               }}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               <MenuItem value={"Above"}>Goes Above</MenuItem>
               <MenuItem value={"Below"}>Goes Below</MenuItem>
             </Select>
@@ -423,9 +420,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                   setAction(e.target.value)
                 }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 <MenuItem value={"buy"}>Buy</MenuItem>
                 <MenuItem value={"sell"}>Sell</MenuItem>
               </Select>
