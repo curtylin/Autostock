@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
 import Layout from "../layout"
 import Logo from "../../images/AutostockLogo_green.jpg"
+import linkedIn from "../../images/LI-Logo.png"
 
 const AboutUs = () => {
 
@@ -46,27 +47,25 @@ const AboutUs = () => {
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQHwwK5bJU13AA/profile-displayphoto-shrink_200_200/0/1591376666560?e=1654128000&v=beta&t=7YdhOkopgDn31-WMuTt6bkYEcnG2xM0c2PM0Ne710-o" alt="Curtis Lin portrait" width="250"></img>
             <h2>Curtis Lin</h2>
-            <h4>Full Stack</h4>
-            <p>I am proud to have joined Autostock for the capstone project as the main guy for full stack engineering. For this project, I did everything relating to the database including competitions, algorithms, and users. For my rank 3, I realized there was a need for bots for each competition to boost the competitiveness. This is my first time working on React and I am proud of what I have done. 
-
+            <h4>Fullstack</h4>
+            <a href="https://www.linkedin.com/in/curtis-lin/"><img style={{display:"flex"}} width={100} src={linkedIn}></img></a>
+            <p>I am proud to have joined Autostock for the capstone project as the guy for full stack engineering. For this project, I did everything relating to the database including competitions, algorithms, and users. For my rank 3, I realized there was a need for bots for each competition to boost the competitiveness. This is my first time working on React and I am proud of what I have done. 
                 In my freetime, I love experiencing new flavors and places. I also take plenty of pictures to document all of my experiences.
                 <br></br>
-                Find me on <Link to="https://www.linkedin.com/in/curtis-lin">LinkedIn</Link>!</p>
+            </p>
+
 
             <hr></hr>
             <img src="https://firebasestorage.googleapis.com/v0/b/autostock-fef22.appspot.com/o/jony.png?alt=media&token=d99b5016-45cc-4b4f-90cd-eba7dc57f37f" alt="Jonathan Fairbanks portrait" width="250"></img>
             <h2>Jonathan Fairbanks</h2>
             <h4>Backend</h4>
-            <p>Jonathan's BIO HERE</p>
+            <p>Hi I am Jonathan! Nice to meet you! I don't have a profile picture because I like to be in the shadows... catch me fighting Spiderman on the weekend because I am your neighborhood villain.</p>
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho" alt="Nick Mountz portrait" width="250"></img>
             <h2>Nick Mountz</h2>
             <h4>Frontend</h4>
             <p>Nick's BIO HERE</p>
-
-
-
             <br></br>
 
 
