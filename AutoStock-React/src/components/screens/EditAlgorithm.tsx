@@ -355,6 +355,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           <Divider sx={{my:2, mb:2}}/>
         </div>
         <h4>Indicators</h4>
+        <div>
         {/* Indicator */}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
@@ -395,9 +396,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </Select>
           {/* </Tooltip> */}
         </FormControl>
-        <div>
         {/* Comparator 1 */}
-        <FormControl sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
+        <FormControl sx={{ ml:{sm:0, md:0}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
           Comparator
           </InputLabel>
