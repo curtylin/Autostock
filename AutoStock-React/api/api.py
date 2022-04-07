@@ -1,6 +1,8 @@
+from queue import Empty
 import random
 
 from flask import Flask , request, jsonify
+from flask import send_from_directory
 from firebase_admin import credentials, firestore, initialize_app, storage
 from flask_cors import CORS, cross_origin
 import backtrader as bt
@@ -30,7 +32,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # !!!
 
 
-cors = CORS(app)
+CORS(app)
 
 cred = credentials.Certificate("firestore_apikey.json")
 # firebase_admin.initialize_app(cred)
@@ -42,6 +44,7 @@ staleCompetitions_ref = db.collection('staleCompetitions')
 competitions_ref = db.collection('competitions')
 competitors_ref = db.collection('competitors')
 users_ref = db.collection('users')
+bots_ref = db.collection('bots')
 
 discussions_ref = db.collection('discussions')
 threads_ref = db.collection('threads')
@@ -49,12 +52,24 @@ comments_ref = db.collection('comments')
 
 @app.errorhandler(404)
 def not_found(error):
-    # return app.send_static_file('index.html')
+    #return app.send_static_file('index.html')
     return error
 
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
+
+
+@app.route('/', defaults={'u_path': ''})
+@app.route('/<path:u_path>')
+def catch_all(u_path):
+    if u_path == "":
+        return app.send_static_file('index.html')
+    else:
+        return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
+
+
+#@app.route('/')
+#def index():
+#    return app.send_static_file('index.html')
+    #return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
 
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
@@ -63,21 +78,69 @@ def backtest():
         return backtest_driver(request.json)
     except Exception as e:
         return f"An Error Occurred: {e}"
+    # return backtest_driver(request.json)
+
+def strategyFactory(entryObj):
+    print(entryObj)
+
+    class strategy(bt.Strategy):
+
+        def log(self, txt, dt=None):
+            ''' Logging function for this strategy'''
+            dt = dt or self.datas[0].datetime.date(0)
+            print('%s, %s' % (dt.isoformat(), txt))
+
+        def __init__(self):
+            # Set a value inside the time series
+            self.dataclose = self.datas[0].close
+
+            self.sma = bt.indicators.SMA(self.datas[0].close)
+            self.ema = bt.indicators.EMA(self.datas[0].close)
+
+            self.indicatorDict = {"NONE": None,
+                                  "SMA": self.sma, "EMA": self.ema}
+        def buySell(self, action):
+            if action == "buy":
+                self.buy()
+            elif action == "sell":
+                self.sell()
+
+        def next(self):
+
+            for buyOrSell in entryObj:
+
+                comparator = buyOrSell["comparator"]
+                indicatorOne = buyOrSell["indicatorOne"]
+                indicatorTwo = buyOrSell["indicatorTwo"]
+                action = buyOrSell["action"]
+
+                todayValue = self.dataclose[0] if indicatorOne == "NONE" else self.indicatorDict[indicatorOne][0]
+
+                yesterdayValue = self.dataclose[-1] if indicatorTwo == "NONE" else self.indicatorDict[indicatorTwo][-1]
+
+                if comparator == "above" and (todayValue > yesterdayValue):
+                    self.buySell(action)
+
+                elif comparator == "below" and (todayValue < yesterdayValue):
+                    self.buySell(action)
+
+    return strategy
+
+
 
 def backtest_driver(req):
     dataDict = req
 
-    class StrategyTest(bt.SignalStrategy):
-        def __init__(self):
-            sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
-            crossover = bt.ind.CrossOver(sma1, sma2)
-            self.signal_add(bt.SIGNAL_LONG, crossover)
-
+    print(dataDict)
+    entry = dataDict["entry"]
+    if entry is None or len(entry) == 0:
+        return "Entry is None", 400
+    strategy = strategyFactory(entry)
 
     cerebro = bt.Cerebro()
     cerebro.broker.setcash(dataDict['cash'])
     cerebro.broker.setcommission(commission=0.0)
-    cerebro.addstrategy(StrategyTest)
+    cerebro.addstrategy(strategy)
 
     financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
 
@@ -101,8 +164,6 @@ def backtest_driver(req):
         print("The file does not exist")
 
     response["url"] = url
-
-    print(response)
 
     return response
 
@@ -198,11 +259,19 @@ def algo_create():
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
+    return algo_create_driver(request.json)
+
+
+def algo_create_driver(req_obj, id=None):
     try:
-        algorithms_ref.document().set(request.json)
+        if id is not None:
+            algorithms_ref.document(id).set(req_obj)
+        else:
+            algorithms_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## Returns all public algorithms
 @cross_origin()
@@ -265,16 +334,24 @@ def algo_read(id):
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
+    try:
+        algorithms_ref.document(id).update(request.json)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+    
+def update_algo_after_bt(id, req):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
     try:
-        algorithms_ref.document(id).update(request.json)
+        algorithms_ref.document(id).update(req)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## Be sure to pass in the algorithm id in the url
 @app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
@@ -386,16 +463,20 @@ def comp_list_all_active():
         competitions : Return all competitions.
     """
     try:
-        comps = activeCompetitions_ref.stream()
-        competitions = []
-        for comp in comps:
-            compDict = comp.to_dict()
-            compDict['id'] = comp.id
-            compDict['active'] = True
-            competitions.append(compDict)
-        return jsonify(competitions), 200
+        return jsonify(active_comps_list_driver()), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
+def active_comps_list_driver():
+    comps = activeCompetitions_ref.stream()
+    competitions = []
+    for comp in comps:
+        compDict = comp.to_dict()
+        compDict['id'] = comp.id
+        compDict['active'] = True
+        competitions.append(compDict)
+    return competitions
+
 
 ## Returns all stale competitions
 @cross_origin()
@@ -419,7 +500,7 @@ def comp_list_all_stale():
 
 ## gives the list of competitions that the user has entered themselves
 @app.route('/list-competition/<id>', methods=['GET'])
-def comp_read_user_id(id):
+def comp_info_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -436,6 +517,63 @@ def comp_read_user_id(id):
             compDict['id'] = comp.id
             competitions.append(compDict)
         return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+
+## gives the list of competitions that the user has entered themselves
+@app.route('/list-entered-competitions/<id>', methods=['GET'])
+def comp_read_user_id(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document(s) that matches query userID.
+    """
+    try:
+        userID = id
+        comps = competitors_ref.where("userID", "==", userID).stream()
+        competitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            competitions.append(compDict["competition"])
+        
+        comps = activeCompetitions_ref.stream()
+        activeComps = []
+        for comp in comps:
+            if comp.id in set(competitions):
+                compDict = comp.to_dict()
+                compDict['id'] = comp.id
+                compDict['active'] = True
+                activeComps.append(compDict)
+
+        return jsonify(activeComps), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+## gives the list of competitions that the user have not entered
+@app.route('/list-nonregisted-competitions/<id>', methods=['GET'])
+def comp_read_notRegistered_user_id(id):
+    """
+        id : is the user id. Gets all algorithms by this user id.
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return document(s) that matches query userID.
+    """
+    try:
+        userID = id
+        comps = competitors_ref.where("userID", "==", userID).stream()
+        enteredCompetitions = []
+        for comp in comps:
+            compDict = comp.to_dict()
+            enteredCompetitions.append(compDict["competition"])
+
+        activeComps = activeCompetitions_ref.stream()
+        notEnteredComps = []
+        for comp in activeComps:
+            if comp.id not in set(enteredCompetitions):
+                compDict = comp.to_dict()
+                compDict['id'] = comp.id
+                notEnteredComps.append(compDict)
+        return jsonify(notEnteredComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -479,7 +617,7 @@ def comp_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
-## 
+##
 @app.route('/get-discussions/<id>', methods=['GET'])
 def disc_read(id):
     """
@@ -643,8 +781,11 @@ def comp_enter_user():
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
+    return comp_enter_user_driver(request.json)
+
+def comp_enter_user_driver(req_obj):
     try:
-        competitors_ref.document().set(request.json)
+        competitors_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
@@ -678,6 +819,46 @@ def comp_unregister_competition(id):
         return f"An Error Occurred: {e}"
 
 ## End comp CRUD Block
+
+## Start Bot CRUD Block
+@app.route('/create-bot', methods=['POST'])
+def bot_create():
+    """
+        create() : Add document to Firestore collection with request body.
+        Ensure you pass a custom ID as part of json body in post request,
+        e.g. json={'id': '1', 'title': 'Write a blog post'}
+    """
+    return bot_create_driver(request.json)
+
+def bot_create_driver(req_obj):
+    try:
+        bots_ref.document(req_obj["userID"]).set(req_obj)
+        users_ref.document(req_obj["userID"]).set(req_obj)
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+
+@app.route('/list-bots', methods=['GET'])
+def bots_list():
+    """
+        Gets all bots in the collection.
+        read() : Fetches documents from Firestore collection as JSON.
+    """
+    try:
+        return jsonify(bots_list_driver()), 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+def bots_list_driver():
+    bots = bots_ref.stream()
+    botsList = []
+    for bot in bots:
+        botDict = bot.to_dict()
+        botDict['id'] = bot.id
+        botsList.append(botDict)
+    return botsList
+
+
 
 ## Beginning of yahoo Finance information
 @app.route('/gethighchartdata', methods=['POST'])
@@ -1003,6 +1184,90 @@ def generateCompetitions():
 
         active_comp_create_driver(comp_obj)
 
+def generateBot():
+    botsList = [doc.to_dict() for doc in bots_ref.stream()]
+    username = "Bot" + str(len(botsList) + 1)
+    bot_obj = {
+        "username" : username,
+        "userID" : "bot" + str(len(botsList) + 1),
+        "bot" : True
+    }
+    bot_create_driver(bot_obj)
+    return ("Bot Created: " + username), 200
+
+@app.route('/generate_bot', methods=['PUT'])
+def generateBotAPI():
+    return generateBot()
+
+@app.route('/enterBotsComp', methods=['PUT'])
+def enterBotsCompAPI():
+    return enterBotsIntoComps()
+
+def enterBotsIntoComps():
+    competitions = active_comps_list_driver()
+    botsList = bots_list_driver()
+
+    # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
+    indicators = ["NONE", "SMA", "EMA"]
+    actions = ["buy", "sell"]
+    comparators = ["Above", "Below"]
+    newCompetitionsEntered = []
+    newAlgosCreated = 0
+    reusedAlgos = 0
+    newBots = []
+
+    for comp in competitions:
+        for bot in botsList:
+            competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", bot['userID']).get()
+            if len(competitors) == 0:
+                algo = algorithms_ref.where("ticker", "==", comp['ticker']).where("userID", "==", bot['userID']).get()
+                algoID = ""
+                if len(algo) == 0:
+                    algoName = str(bot['username']) + "'s " + str(comp['ticker']) + " Competition Algorithm"
+                    entries = []
+                    for i in range(random.randint(1,3)):
+                        entry = {
+                            "action": random.choice(actions),
+                            "indicator1": random.choice(indicators),
+                            "comparator": random.choice(comparators),
+                            "indicator2": random.choice(indicators),
+                            "paramsOne": {},
+                            "paramsTwo": {}
+                        }
+                        entries.append(entry)
+                    algo = {
+                        "name": algoName,
+                        "ticker": comp['ticker'],
+                        "public": True,
+                        "runningTime": "30",
+                        "userID": bot['userID'],
+                        "entry" : entries
+                    }
+                    algoID = (bot['userID'] + comp['ticker'])
+                    algo_create_driver(algo, algoID)
+                    newAlgosCreated += 1
+                else:
+                    algoID = algo[0].id
+                    reusedAlgos += 1
+                competitor_obj = {
+                    "competition": comp['id'],
+                    "userID": bot['userID'],
+                    "algorithm" : algoID
+                }
+                comp_enter_user_driver(competitor_obj)
+                newCompetitionsEntered.append(algoName + " into " + comp['name'])
+                newBots.append(bot['username'])
+
+    newCompsEnteredString = "\n"
+    for comp in newCompetitionsEntered:
+        newCompsEnteredString += comp + "\n"
+    return ("Successfully entered " + str(len(set(newBots))) + " new bots into competitions: " + newCompsEnteredString + "\nNew algos created: " + str(newAlgosCreated) + "\nReused algos: " + str(reusedAlgos) + " \nTOTAL COMPETITORS ADDED: " + str(len(newCompetitionsEntered))), 200
+
+
+@app.route('/findBestUsers', methods=['PUT'])
+def findBestUsersAPI():
+    findBestUsers()
+    return "Successfully Ran Competitions", 200
 
 def findBestUsers():
     competitions = []
@@ -1040,6 +1305,7 @@ def findBestUsers():
             backtestResults = {"PnL": 0}
             try:
                 backtestResults = backtest_driver(algo_dict)
+                update_algo_after_bt(algo_dict["id"], {"PnL" : backtestResults["PnL"]})
             except Exception as e:
                 print(e)
 
@@ -1068,6 +1334,8 @@ scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # Need to figure out what server it will be hosted on to get correct market open time
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
+scheduler.add_job(func=generateBot, trigger="cron", day_of_week=1, hour = 8, minute = 0)
+scheduler.add_job(func=enterBotsIntoComps, trigger="cron", day_of_week=6, hour=8, minute = 30)
 # scheduler.add_job(func=scheduleTest, trigger='interval', seconds=15)
 
 
@@ -1077,3 +1345,6 @@ scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)

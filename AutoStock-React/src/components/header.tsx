@@ -27,6 +27,8 @@ const Header = ({ siteTitle }: HeaderProps) => {
     null
   )
   const [anchorElAlg, setAnchorElAlg] = React.useState<null | HTMLElement>(null)
+  const [anchorComp, setAnchorComp] = React.useState<null | HTMLElement>(null)
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -36,9 +38,16 @@ const Header = ({ siteTitle }: HeaderProps) => {
   const handleOpenAlgMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElAlg(event.currentTarget)
   }
+  const handleOpenCompMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorComp(event.currentTarget)
+  }
+  
 
   const handleCloseAlgMenu = () => {
     setAnchorElAlg(null)
+  }
+  const handleCloseCompMenu = () => {
+    setAnchorComp(null)
   }
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
@@ -48,40 +57,53 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
 
   const createRoute = () => {
-    let path = '/app/createalgorithm';
+    let path = "/app/createalgorithm"
     navigate(path)
   }
   const myAlgoRoute = () => {
-    let path = '/app/myalgorithms';
+    let path = "/app/myalgorithms"
     navigate(path)
   }
   const publicAlgoRoute = () => {
-    let path = '/app/publicalgorithms';
+    let path = "/app/publicalgorithms"
     navigate(path)
   }
 
-  const QSGRoute = () => {
-    let path = '/app/quickstartguide';
+  const leaderboardRoute = () => {
+    let path = '/app/leaderboards';
     navigate(path)
   }
-  const ProfileRoute = () => {
-    let path = '/app/edituser';
+  const competitionsRoute = () => {
+    let path = '/app/competitions';
     navigate(path)
   }
-  const EditAccountRoute = () => {
-    let path = '/app/edituser';
-    navigate(path)
-  }
-  const LoginRoute = () => {
-    let path = '/app/login';
-    navigate(path)
-  }
-  const LogoutRoute = () => {
+  const myCompRoute = () => {
     let path = '/';
     navigate(path)
   }
 
-  useEffect(() =>{
+  const QSGRoute = () => {
+    let path = "/app/quickstartguide"
+    navigate(path)
+  }
+  const ProfileRoute = () => {
+    let path = "/app/edituser"
+    navigate(path)
+  }
+  const EditAccountRoute = () => {
+    let path = "/app/edituser"
+    navigate(path)
+  }
+  const LoginRoute = () => {
+    let path = "/app/login"
+    navigate(path)
+  }
+  const LogoutRoute = () => {
+    let path = "/"
+    navigate(path)
+  }
+
+  useEffect(() => {
     fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
           headers: {
             Accept: "application/json",
@@ -107,7 +129,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
-          <Box sx={{ mr: 5, display:{lg:"none", md:"flex", sm:"flex"}}}>
+          <Box sx={{ mr: 0, display:{lg:"none", md:"flex", sm:"flex"}}}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
           
@@ -132,7 +154,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
             variant="h4"
             noWrap
             component="div"
-            sx={{ mr: 5, display: { xs:"none", md: "flex" } }}
+            sx={{ mr: {xs:0}, pr:10, display: { xs:"flex", md: "flex" } }}
             style={{ color: "black" }}
           >
             
@@ -144,28 +166,11 @@ const Header = ({ siteTitle }: HeaderProps) => {
               {siteTitle}
             </Link>
           </Typography>
-          <Typography
-            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            fontWeight="Bold"
-            variant="h4"
-            noWrap
-            component="div"
-            sx={{ mr: 5, display: { xs:"flex", md: "none" } }}
-            style={{ color: "black" }}
-          >
-            <Link
-              to="/app/home"
-              style={{ color: "black", textDecoration: "none" }}
-              className="autostock-link"
-            >
-              AS
-            </Link>
-          </Typography>
 
           {isLoggedIn() ? <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={handleOpenAlgMenu}
-              sx={{ mt: 1, mx: 5, color: "white", display: "block" }}
+              sx={{ mt: 1, mx: 2, color: "white", display: "block" }}
             >
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
@@ -204,7 +209,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               </MenuItem>
 
             </Menu>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/competitions")}}>
+            <Button sx={{ mt: 1, mx: 2, color: "white", display: "block" }} onClick={handleOpenCompMenu}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
@@ -215,18 +220,36 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Competitions
               </Typography>
             </Button>
-            <Button onClick={()=>{navigate("/app/leaderboards")}} sx={{ mt: 1, mx: 5, color: "white", display: "block" }}>
-              <Typography
-                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-                fontWeight="medium"
-                noWrap
-                component="div"
-                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
-              >
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorComp}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorComp)}
+              onClose={handleCloseCompMenu}
+            >
+              <MenuItem onClick={competitionsRoute}>
+                Current Competitions
+              </MenuItem>
+              <MenuItem onClick={competitionsRoute}>  
+              {/* ------------------------UPDATE TO MY COMPETITIONS----------------------- */}
+                Competitions
+              </MenuItem>
+              <MenuItem onClick={leaderboardRoute}>
                 Leaderboards
-              </Typography>
-            </Button>
-            <Button sx={{ mt: 1, mx: 5, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
+              </MenuItem>
+
+            </Menu>
+
+            <Button sx={{ mt: 1, mx: 2, color: "white", display: "block" }} onClick={()=>{navigate("/app/quickstartguide")}}>
               <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
@@ -237,29 +260,31 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 Quick Start Guide
               </Typography>
             </Button>
-          </Box>
-          : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
-          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "flex", md: "flex" } }}>       
-            <Typography
+            <Button sx={{ mt: 1, mx: 2, color: "white", display: "block" }} onClick={()=>{navigate("/app/aboutus")}}>
+              <Typography
                 fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
                 fontWeight="medium"
                 noWrap
                 component="div"
-                sx={{ display: { xs: "none", md: "none",  lg:"flex"} }}
+                sx={{ display: {xs: "none", md:"none", lg:"flex" } }}
               >
-                {username == "" ? (
-                <>
-                
-                </>
-                ) : (
-                <>
-                Hi, {username}
-                </>
-                )}              
-              </Typography>            
-            </Box>
-          <Box  sx={{ flexGrow: 0, display: { } }}>
-            
+                About Us
+              </Typography>
+            </Button>
+          </Box>
+          : <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "none", md: "flex" } }}></Box>}
+          <Box  justifyContent={"right"} sx={{ paddingRight: 5, flexGrow: 1, display: { xs: "none",sm:"flex", md: "flex" } }}>
+            <Typography
+              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+              fontWeight="medium"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", md: "none", lg: "flex" } }}
+            >
+              {username == "" ? <></> : <>Hi, {username}</>}
+            </Typography>
+          </Box>
+          <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="" />
