@@ -11,7 +11,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Grid, CircularProgress, Card, CardContent, Typography, Accordion, AccordionDetails, AccordionSummary } from "@mui/material"
+import { Grid, CircularProgress, Card, CardContent, Typography, Accordion, AccordionDetails, AccordionSummary, Box } from "@mui/material"
 import { getUser } from "../../services/auth"
 import AddIcon from '@mui/icons-material/Add';
 import { Link, navigate } from "gatsby"
@@ -226,8 +226,10 @@ const CreateAlgorithm = () => {
     <Layout>
       <Seo title="Autostock" />
       <h1>Create Algorithm</h1>
-      <h3>Need help? See our <Link to="/app/quickstartcreatealgo">guide to create an algorithm</Link>!</h3>
-
+      <Typography sx={{fontSize: 20, mb:2}} justifyContent="center" fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                  fontWeight="400" variant= "h2"  gutterBottom>
+        Need help? See our <Link to="/app/quickstartcreatealgo">guide</Link> to create an algorithm!
+      </Typography>
       <form>
         <h4>Algorithm Details</h4>
         <div>
@@ -272,11 +274,14 @@ const CreateAlgorithm = () => {
                     }} sx={{mb:0}} label="Algorithm description" fullWidth>
           </TextField>
         </div>
+
         <div>
           <Divider sx={{my:2, mb:2}}/>
         </div>
+
         <h4>Indicators</h4>
         
+        <div>
         {/* Indicator */}
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
@@ -315,10 +320,9 @@ const CreateAlgorithm = () => {
             <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
             <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
           </Select>
-          {/* </Tooltip> */}
         </FormControl>
-        {/* Comparator 1 */}
-        <FormControl sx={{ ml:{sm:0, md:30}, my: 2, mr: 5, minWidth: 200 }}>
+             {/* Comparator 1 */}
+        <FormControl sx={{ ml:{sm:0, md:0}, my: 2, mr: 5, minWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
             Comparator
           </InputLabel>
@@ -378,6 +382,8 @@ const CreateAlgorithm = () => {
           </Select>
           {/* </Tooltip> */}
         </FormControl>
+        </div>
+       
         <div>
           <div>
           {/* Action */}
