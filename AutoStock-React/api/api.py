@@ -81,7 +81,6 @@ def backtest():
     # return backtest_driver(request.json)
 
 def strategyFactory(entryObj):
-    print(entryObj)
 
     class strategy(bt.Strategy):
 
@@ -96,9 +95,16 @@ def strategyFactory(entryObj):
 
             self.sma = bt.indicators.SMA(self.datas[0].close)
             self.ema = bt.indicators.EMA(self.datas[0].close)
+            self.accum = bt.indicators.Accum(self.datas[0].close)
+            #self.kama = bt.indicators.kama(self.datas[0].close)
+            self.ama = bt.indicators.AdaptiveMovingAverage(self.datas[0].close)
+            self.alln = bt.indicators.AllN(self.datas[0].close)
+            
 
             self.indicatorDict = {"NONE": None,
-                                  "SMA": self.sma, "EMA": self.ema}
+                                  "SMA": self.sma, "EMA": self.ema , "ACCUM": self.accum, "AMA": self.ama, "ALLN": self.alln}
+                                  #, "KAMA": self.kama}
+
         def buySell(self, action):
             if action == "buy":
                 self.buy()
