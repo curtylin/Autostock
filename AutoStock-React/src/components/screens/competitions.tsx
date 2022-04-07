@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { Box, Grid, Typography } from "@mui/material"
+import { Box, Button, Grid, Typography } from "@mui/material"
 import CompCard from "../compCard"
 import Layout from "../layout"
 import MediaCompCard from "../mediaCompCard"
 import ComplexCompCard from "../complexCompCard"
 import Seo from "../seo"
 import { getUser } from "../../services/auth"
+import { navigate } from "gatsby"
 
 
 const Competitions = () => {
@@ -64,6 +65,7 @@ const Competitions = () => {
               )
               })}
           </Grid>
+          <Button className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/notenteredcompetitions`)}}> See More</Button>
           <h3>Your Competitions</h3>
           {enteredComps.length > 0 ?
           <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
@@ -91,6 +93,7 @@ const Competitions = () => {
             You have not entered any competitions yet.
           </Typography>
         }
+        {enteredComps.length > 0 ? <Button className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/enteredcompetitions`)}}> See More</Button> : null}
 
         <h3>All Competitions</h3>
         <Grid direction={{xs:'column', md:'row'}} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 5}}>
@@ -111,6 +114,7 @@ const Competitions = () => {
               )
               })}
           </Grid>
+          <Button className="mdc-button mdc-button--raised" onClick={event => {navigate(`/app/allcompetitions`)}}> See More</Button>
     </Layout>
   )
 }
