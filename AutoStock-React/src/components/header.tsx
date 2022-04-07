@@ -236,11 +236,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               open={Boolean(anchorComp)}
               onClose={handleCloseCompMenu}
             >
-              <MenuItem onClick={competitionsRoute}>
-                Current Competitions
-              </MenuItem>
               <MenuItem onClick={competitionsRoute}>  
-              {/* ------------------------UPDATE TO MY COMPETITIONS----------------------- */}
                 Competitions
               </MenuItem>
               <MenuItem onClick={leaderboardRoute}>
