@@ -37,6 +37,7 @@ import CommentDialog from "../commentDialog"
 import { TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
 
+
 const Competition = () => {
   const [snackOpenSubmit, setSnackOpenSubmit] = useState(false)
   const [snackOpen, setSnackOpen] = useState(false)
@@ -88,7 +89,7 @@ const Competition = () => {
         }
       })
   }
-
+  
   const getThreadsDB = async () => {
     fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
       headers: {
@@ -438,7 +439,7 @@ const Competition = () => {
             variant="h2"
             gutterBottom
           >
-            Starting Balance: {competition.startingBalance}
+            Starting Balance: ${competition.startingBalance}
           </Typography>
         </CardContent>
       </Card>
@@ -472,7 +473,7 @@ const Competition = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ mb: 2 }}>
+      <Accordion sx={{ mb: 3 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -496,12 +497,12 @@ const Competition = () => {
       </Accordion>
 
       {new Date(competition.endDate) > new Date() ? (
-        <h2>Submissions Open</h2>
+        <h2>Submissions <span className="openText">Open</span></h2>
       ) : (
-        <h2>Submissions Closed</h2>
+        <h2>Submissions <span className="closedText">Closed</span></h2>
       )}
       {new Date(competition.endDate) > new Date() ? (
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+        <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }}>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm
           </InputLabel>
@@ -522,8 +523,9 @@ const Competition = () => {
             })}
           </Select>
         </FormControl>
-      ) : (
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }} disabled>
+      ) : 
+      (
+        <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }} disabled>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm
           </InputLabel>
@@ -544,7 +546,9 @@ const Competition = () => {
             })}
           </Select>
         </FormControl>
-      )}
+      )
+
+      }
 
       <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
         {/* maybe change size to match menuItem */}

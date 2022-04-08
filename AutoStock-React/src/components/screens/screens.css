@@ -21,6 +21,12 @@
   background-color: white;
   text-transform: none;
 }
+.closedText {
+  color: #eb1b1b;
+}
+.openText{
+  color: #0081ff;
+}
 .stockTickName {
   color: #059a76;
 }
