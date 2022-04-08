@@ -70,7 +70,7 @@ const EditUser = () => {
             headers,
             body,
           }
-          fetch(`http://127.0.0.1:5000/create-user`, init)
+          fetch(`http://localhost:5000/create-user`, init)
             .then(response => {
               return response.json() // or .text() or .blob() ...
             })
@@ -115,7 +115,7 @@ const EditUser = () => {
             headers,
             body,
           }
-          fetch(`http://127.0.0.1:5000/update-user/${getUser().uid}`, init)
+          fetch(`http://localhost:5000/update-user/${getUser().uid}`, init)
             .then(response => {
               return response.json() // or .text() or .blob() ...
             })
