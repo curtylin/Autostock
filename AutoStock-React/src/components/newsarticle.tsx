@@ -83,21 +83,28 @@ function SwipeableTextMobileStepper() {
                 alignItems="center"
                 justifyContent="center">
                   <Typography
-                    
                     sx={{
                       display: "-webkit-box",
                       overflow: "hidden",
                       WebkitBoxOrient: "vertical",
                       WebkitLineClamp: 1,
-                      margin:"auto"
+                      margin:"auto",
+                      mb:2
                     }}
-                    fontWeight="600"
+                    style={{
+                      color: "#059a76"
+                    }}
+                    fontWeight="550"
+                    fontSize="20px"
                     variant="body2"
                   >
                     {article.title}
                   </Typography>
                 </Box>
-                
+                <Box
+                display="flex" 
+                alignItems="center"
+                justifyContent="center">
                 <Typography
                   sx={{
                     display: "-webkit-box",
@@ -111,6 +118,7 @@ function SwipeableTextMobileStepper() {
                     {article.publisher}
                   </Link>
                 </Typography>
+                </Box>
               </div>
                 
               ) : // component="img"
