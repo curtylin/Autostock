@@ -1,20 +1,23 @@
 import * as React from "react"
 import Highcharts from "highcharts/highstock"
 import HighchartsReact from "highcharts-react-official"
-//import indicatorsAll from "highcharts/indicators/indicators-all";
-//import annotationsAdvanced from "highcharts/modules/annotations-advanced"
-//import priceIndicator from "highcharts/modules/price-indicator"
-//import fullScreen from "highcharts/modules/full-screen"
-//import stockTools from "highcharts/modules/stock-tools"
+import indicatorsAll from "highcharts/indicators/indicators-all"
+import annotationsAdvanced from "highcharts/modules/annotations-advanced"
+import priceIndicator from "highcharts/modules/price-indicator"
+import fullScreen from "highcharts/modules/full-screen"
+import stockTools from "highcharts/modules/stock-tools"
 import "../components/highChartsCSS.css"
-
-//indicatorsAll(Highcharts);
-//annotationsAdvanced(Highcharts)
-//priceIndicator(Highcharts)
-//fullScreen(Highcharts)
-//stockTools(Highcharts)
+import { isBrowser } from "../services/auth"
 
 const HighChart = ({ stock, stockData }: any) => {
+  if (isBrowser()) {
+    indicatorsAll(Highcharts)
+    annotationsAdvanced(Highcharts)
+    priceIndicator(Highcharts)
+    fullScreen(Highcharts)
+    stockTools(Highcharts)
+  }
+
   const ChartOptions = {
     title: {
       text: stock,
