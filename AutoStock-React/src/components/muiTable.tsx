@@ -9,18 +9,34 @@ import Paper from "@mui/material/Paper"
 import TablePagination from "@mui/material/TablePagination"
 import Button from "@mui/material/Button"
 import { navigate } from "gatsby"
+import Snackbar from "@mui/material/Snackbar"
+import IconButton from "@mui/material/IconButton"
+import CloseIcon from "@mui/icons-material/Close"
+import AddIcon from "@mui/icons-material/Add"
 
-export default function MuiTable({ algorithm }: any) {
+const MuiTable = ({ algorithm }: any) => {
   const [page, setPage] = React.useState(0)
   const [rows, setRows] = React.useState(algorithm)
+  const [open, setOpen] = React.useState(false)
+  const [openUnshared, setOpenUnshared] = React.useState(false)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+
+  const openMsg = () => setOpen(true)
+  const openMsgUnshared = () => setOpenUnshared(true)
 
   React.useEffect(() => {
     setRows(algorithm)
-    console.log(rows)
-  }, [rows])
+  }, [algorithm])
 
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value)
+    setPage(0)
   }
 
   const handleShare = (event: any) => {
@@ -29,6 +45,7 @@ export default function MuiTable({ algorithm }: any) {
         }
         `
     const headers = new Headers()
+    openMsg()
     headers.append("content-type", "application/json")
     let init = {
       method: "PUT",
@@ -36,14 +53,20 @@ export default function MuiTable({ algorithm }: any) {
       body,
     }
 
-    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
-        return response.json() // or .text() or .blob() ...
+        console.log(response)
+        if (response.status === 200) {
+          event.preventDefault()
+          window.location.reload() // or .text() or .blob() ...
+          return response.json()
+        } // or .text() or .blob() ...
       })
       .catch(e => {
         // error in e.message
       })
     event.preventDefault()
+    //window.location.reload()
   }
 
   const handleUnshare = (event: any) => {
@@ -52,20 +75,25 @@ export default function MuiTable({ algorithm }: any) {
           }
           `
     const headers = new Headers()
+    openMsgUnshared()
     headers.append("content-type", "application/json")
     let init = {
       method: "PUT",
       headers,
       body,
     }
-    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
-        return response.json() // or .text() or .blob() ...
+        console.log(response)
+        if (response.status === 200) {
+          event.preventDefault()
+          window.location.reload() // or .text() or .blob() ...
+          return response.json()
+        }
       })
       .catch(e => {
         // error in e.message
       })
-    event.preventDefault()
   }
 
   const handleEdit = (event: any) => {
@@ -83,9 +111,11 @@ export default function MuiTable({ algorithm }: any) {
     }
     console.log(event.target.id)
 
-    fetch(`http://127.0.0.1:5000/delete-algorithm/${event.target.id}`, init)
+    fetch(`http://localhost:5000/delete-algorithm/${event.target.id}`, init)
       .then(response => {
-        return response.json() // or .text() or .blob() ...
+        window.location.reload() // or .text() or .blob() ...
+        event.preventDefault()
+        return response.json()
       })
       .catch(e => {
         // error in e.message
@@ -93,8 +123,33 @@ export default function MuiTable({ algorithm }: any) {
     event.preventDefault()
   }
 
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return
+    }
+
+    setOpen(false)
+    setOpenUnshared(false)
+  }
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  )
+
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * 10 - rows.length) : 0
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   return (
     <Paper sx={{ width: "100%", mb: 2 }}>
@@ -102,78 +157,95 @@ export default function MuiTable({ algorithm }: any) {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Algorithm Name</TableCell>
-              <TableCell align="right">Day Gain (%)</TableCell>
-              <TableCell align="right">Options</TableCell>
+              <TableCell align="left">
+                <text style={{ fontWeight: "bold", fontSize: "20px" }}>
+                  Algorithm Name
+                </text>
+              </TableCell>
+              <TableCell align="left">
+                <text style={{ fontWeight: "bold", fontSize: "20px" }}>
+                  Day Gain (%)
+                </text>
+              </TableCell>
+              <TableCell align="left">
+                <text style={{ fontWeight: "bold", fontSize: "20px" }}>
+                  Options
+                </text>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * 10, page * 10 + 10).map((row: any) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{"10%"}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    className="mdc-button mdc-button--raised"
-                    id={row.id}
-                    sx={{ m: 1 }}
-                    onClick={event => {
-                      navigate("/app/editalgorithm", {
-                        state: { algorithm },
-                      })
-                    }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    <span id={row.id} className="mdc-button__label">
-                      Edit
-                    </span>
-                  </Button>
-
-                  {row.public ? (
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: any) => (
+                <TableRow key={row.name} hover={true}>
+                  <TableCell align="left" width="50%">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="left">
+                    {row.PnL == undefined ? "--" : row.PnL + "%"}
+                  </TableCell>
+                  <TableCell align="left">
                     <Button
+                      size="small"
                       className="mdc-button mdc-button--raised"
                       id={row.id}
-                      onClick={handleUnshare}
-                    >
-                      <span id={row.id} className="mdc-button__label">
-                        Unshare
-                      </span>
-                    </Button>
-                  ) : (
-                    <Button
-                      className="mdc-button mdc-button--raised "
-                      id={row.id}
-                      onClick={handleShare}
+                      sx={{ m: 1 }}
+                      onClick={event => {
+                        navigate("/app/editalgorithm", {
+                          state: { algorithm: row },
+                        })
+                      }}
                       variant="contained"
                       color="primary"
+                    >
+                      <span id={row.id} className="mdc-button__label">
+                        Edit
+                      </span>
+                    </Button>
+
+                    {row.public ? (
+                      <Button
+                        size="small"
+                        className="mdc-button mdc-button--raised"
+                        id={row.id}
+                        onClick={handleUnshare}
+                      >
+                        <span id={row.id} className="mdc-button__label">
+                          Unshare
+                        </span>
+                      </Button>
+                    ) : (
+                      <Button
+                        size="small"
+                        className="mdc-button mdc-button--raised "
+                        id={row.id}
+                        onClick={handleShare}
+                        variant="contained"
+                        color="primary"
+                        sx={{ m: 1 }}
+                      >
+                        <span id={row.id} className="mdc-button__label">
+                          Share
+                        </span>
+                      </Button>
+                    )}
+                    <Button
+                      size="small"
+                      className="mdc-button mdc-button--raised"
+                      id={row.id}
+                      onClick={handleDelete}
+                      variant="contained"
+                      color="error"
                       sx={{ m: 1 }}
                     >
                       <span id={row.id} className="mdc-button__label">
-                        Share
+                        Delete
                       </span>
                     </Button>
-                  )}
-                  <Button
-                    className="mdc-button mdc-button--raised"
-                    id={row.id}
-                    onClick={handleDelete}
-                    variant="contained"
-                    color="error"
-                    sx={{ m: 1 }}
-                  >
-                    <span id={row.id} className="mdc-button__label">
-                      Delete
-                    </span>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                </TableRow>
+              ))}
             {emptyRows > 0 && (
               <TableRow
                 style={{
@@ -187,12 +259,30 @@ export default function MuiTable({ algorithm }: any) {
         </Table>
       </TableContainer>
       <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
         component="div"
         count={rows.length}
-        rowsPerPage={10}
+        rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Shared your algorithm!"
+        action={action}
+      />
+      <Snackbar
+        open={openUnshared}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Unshared your algorithm!"
+        action={action}
       />
     </Paper>
   )
 }
+
+export default MuiTable

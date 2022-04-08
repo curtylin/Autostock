@@ -10,9 +10,10 @@ import Snackbar from "@mui/material/Snackbar"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
 import AddIcon from "@mui/icons-material/Add"
+import MuiTable from "../muiTable"
 
 const MyAlgorithm = () => {
-  const [open, setOpen] = React.useState(false)
+  /*const [open, setOpen] = React.useState(false)
   const [openUnshared, setOpenUnshared] = React.useState(false)
 
   const openMsg = () => setOpen(true)
@@ -32,7 +33,7 @@ const MyAlgorithm = () => {
       body,
     }
 
-    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -56,7 +57,7 @@ const MyAlgorithm = () => {
       headers,
       body,
     }
-    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -82,7 +83,7 @@ const MyAlgorithm = () => {
     }
     console.log(event.target.id)
 
-    fetch(`http://127.0.0.1:5000/delete-algorithm/${event.target.id}`, init)
+    fetch(`http://localhost:5000/delete-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -91,13 +92,15 @@ const MyAlgorithm = () => {
       })
     event.preventDefault()
     window.location.reload()
-  }
+  }*/
 
   const [algorithms, setAlgorithms] = useState([])
+
   useEffect(() => {
     getAlgorithmsDB()
     console.log(algorithms)
   }, [])
+
   const getAlgorithmsDB = () => {
     //fetch post to localhost
     fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
@@ -111,10 +114,11 @@ const MyAlgorithm = () => {
         return res.json()
       })
       .then(result => {
+        console.log(result)
         setAlgorithms(result)
       })
   }
-
+  /*
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -137,13 +141,15 @@ const MyAlgorithm = () => {
         <CloseIcon fontSize="small" />
       </IconButton>
     </React.Fragment>
-  )
+  )*/
 
   return (
     <Layout>
       <Seo title="Autostock" />
       <title>My Algorithms</title>
       <h1>My Algorithms</h1>
+      <MuiTable algorithm={algorithms} />
+      {/*
       <div className="mdc-data-table">
         <div className="mdc-data-table__table-container">
           <table className="mdc-data-table__table" aria-label="my-algorithms">
@@ -238,8 +244,8 @@ const MyAlgorithm = () => {
             </tbody>
           </table>
         </div>
-      </div>
-      <Snackbar
+      </div>*/}
+      {/*<Snackbar
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
@@ -252,7 +258,7 @@ const MyAlgorithm = () => {
         onClose={handleClose}
         message="Unshared your algorithm!"
         action={action}
-      />
+      />*/}
     </Layout>
   )
 }

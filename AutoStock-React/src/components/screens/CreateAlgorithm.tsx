@@ -132,7 +132,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/backtest", init)
+    fetch("http://localhost:5000/backtest", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -186,7 +186,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/create-algorithm", init)
+    fetch("http://localhost:5000/create-algorithm", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
