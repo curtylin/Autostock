@@ -80,18 +80,7 @@ const ComplexCompCard = ({
           sx={{ mb: 0 }}
         ></CardMedia>
         <CardContent>
-          <Button
-            className="mdc-button mdc-button--raised"
-            id={id}
-            onClick={event => {
-              navigate(`/app/competition`, {
-                state: { id },
-              })
-            }}
-          >
-            {" "}
-            Learn More
-          </Button>
+         
         </CardContent>
         
       </CardActionArea>
