@@ -103,49 +103,53 @@ const Home = () => {
       <h2>Today's Top Headlines:</h2>
       <News/>
       <Divider sx={{my:3}}/>
-      <h2>Your Competitions</h2>
-      <Grid container spacing={2} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        {enteredComps.slice(0, 3).map((comp: any, index: number) => {
-          let cardProps = {
-            compLength: comp.duration,
-            compTicker: comp.name,
-            compStartingVal: `Starting Balance: ${comp.startingBalance}`,
-            compDeadline: comp.endDate,
-            description: comp.description,
-            id: comp.id,
-            logo: comp.logo,
-          }
-          return (
-            <Grid key={index} item xs={4}>
-              <ComplexCompCard key={index} {...cardProps} />
-            </Grid>
-          )
-        })}
-        {enteredComps.length < 3 ? 
-        <Button variant="outlined" onClick={event => {navigate(`/app/enteredcompetitions`)}} startIcon={<AddIcon/>} sx={{minWidth:320,maxWidth:320, ml:3, mt: 2}}>SEE MORE</Button>
-        : null}
-      </Grid>
-      <Button
-        sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }}
-        className="btn_viewBattles"
-        variant="contained"
-      >
-        <Typography
-            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            noWrap
-            component="div"
-            sx={{  display: { xs: "flex", md: "none" } }}
-            >
-            <Link
-                to="/app/enteredcompetitions"
-                style={{ color: "white", textDecoration: "none", justifyContent:"center", textAlign:'center'}}
-                className="autostock-link"
-                >
-                View Your Competitions
-            </Link>
-        </Typography>
-      </Button>
-      <Divider sx={{my:3}}/>
+      {enteredComps.length > 0 ? 
+      <div>
+        <h2>Your Competitions</h2>
+        <Grid container spacing={2} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {enteredComps.slice(0, 3).map((comp: any, index: number) => {
+            let cardProps = {
+              compLength: comp.duration,
+              compTicker: comp.name,
+              compStartingVal: `Starting Balance: ${comp.startingBalance}`,
+              compDeadline: comp.endDate,
+              description: comp.description,
+              id: comp.id,
+              logo: comp.logo,
+            }
+            return (
+              <Grid key={index} item xs={4}>
+                <ComplexCompCard key={index} {...cardProps} />
+              </Grid>
+            )
+          })}
+          {enteredComps.length < 3 ? 
+          <Button variant="outlined" onClick={event => {navigate(`/app/enteredcompetitions`)}} startIcon={<AddIcon/>} sx={{minWidth:320,maxWidth:320, ml:3, mt: 2}}>SEE MORE</Button>
+          : null}
+        </Grid>
+        <Button
+          sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }}
+          className="btn_viewBattles"
+          variant="contained"
+        >
+          <Typography
+              fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+              noWrap
+              component="div"
+              sx={{  display: { xs: "flex", md: "none" } }}
+              >
+              <Link
+                  to="/app/enteredcompetitions"
+                  style={{ color: "white", textDecoration: "none", justifyContent:"center", textAlign:'center'}}
+                  className="autostock-link"
+                  >
+                  View Your Competitions
+              </Link>
+          </Typography>
+        </Button>
+        <Divider sx={{my:3}}/>
+      </div>
+      : null}
 
       <div id="chart" style={{marginTop: 25, marginBottom: 25}} >
         <h2>Featured Stock:<span className="stockTickName"> {randChoice}</span></h2>
