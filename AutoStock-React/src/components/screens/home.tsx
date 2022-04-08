@@ -3,15 +3,14 @@ import { useEffect, useState } from "react"
 import Layout from "../layout"
 import Seo from "../seo"
 import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Divider, Grid, Typography } from "@mui/material"
-import CompCard from "../compCard"
 import ComplexCompCard from "../complexCompCard"
 import HighChart from "../highChart"
 import News from "../newsarticle"
 import { Link, navigate } from "gatsby"
 import { getUser } from "../../services/auth"
 import "./screens.css"
-import { KeyboardArrowRight } from "@mui/icons-material"
 import AddIcon from '@mui/icons-material/Add';
+import Container from '@mui/material/Container';
 
 
 const Home = () => {
@@ -89,24 +88,50 @@ const Home = () => {
   return (
     <Layout>
       <Seo title="Autostock" />
-      <br></br>
-      <h3>
-        {username == "" ? (
-          <>
-            Hi! Looks like you have not{" "}
-            <Link to="/app/edituser">set a username.</Link>
-          </>
-        ) : (
-          <>Welcome back {username}!</>
-        )}
-      </h3>
+      <Box
+          sx={{
+            bgcolor: 'white',
+            pt: 8,
+            pb: 6,
+          }}
+        >
+          <Container maxWidth="md">
+          <Typography
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="500"
+            fontSize="40px"
+            variant="h2"
+            component="div"
+            sx={{
+              mt: { xs: 0, md: 0 },
+              mb: 0,
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+            }}
+            style={{ color: "black" }}
+          >
+            {username == "" ? (
+              <>
+                Hi! Looks like you have not&nbsp;
+                <Link className="dis_UserName" to="/app/edituser">set a username.</Link>
+              </>
+            ) : (
+              <>Welcome back,<span className="dis_UserName">{username}</span>!</>
+            )}
+          </Typography>
+         
+          </Container>
+          
+        </Box>
+     
       <h2>Today's Top Headlines:</h2>
       <News/>
       <Divider sx={{my:3}}/>
       {enteredComps.length > 0 ? 
       <div>
         <h2>Your Competitions</h2>
-        <Grid container spacing={2} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+      <Grid direction={{xs:'column', md:'row'}}alignContent={{xs:'center',sm:'flex', md:'flex'}} justifyContent="left" container spacing={1} sx={{flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {enteredComps.slice(0, 3).map((comp: any, index: number) => {
             let cardProps = {
               compLength: comp.duration,
@@ -115,7 +140,7 @@ const Home = () => {
               compDeadline: comp.endDate,
               description: comp.description,
               id: comp.id,
-              logo: comp.logo,
+              logo: comp.logo 
             }
             return (
               <Grid key={index} item xs={4}>
@@ -124,13 +149,14 @@ const Home = () => {
             )
           })}
           {enteredComps.length < 3 ? 
-          <Button variant="outlined" onClick={event => {navigate(`/app/enteredcompetitions`)}} startIcon={<AddIcon/>} sx={{minWidth:320,maxWidth:320, ml:3, mt: 2}}>SEE MORE</Button>
+          <Button variant="outlined" onClick={event => {navigate(`/app/notenteredcompetitions`)}} startIcon={<AddIcon/>} sx={{ minWidth:340,maxWidth:340, ml:{xs:3, lg:3}, mt: 1}}>Enter Competitions</Button>
           : null}
         </Grid>
         <Button
-          sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }}
+          sx={{ margin: "auto", flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }}
           className="btn_viewBattles"
           variant="contained"
+       
         >
           <Typography
               fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
@@ -158,7 +184,7 @@ const Home = () => {
       <Divider sx={{my:3}}/>
 
       <h2>Featured Competitions</h2>
-      <Grid container spacing={2} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+      <Grid direction={{xs:'column', md:'row'}}alignContent={{xs:'center',sm:'flex', md:'flex'}} justifyContent="left" container spacing={1} sx={{flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {competitions.slice(0, 3).map((comp: any, index: number) => {
           let cardProps = {
             compLength: comp.duration,
@@ -177,7 +203,7 @@ const Home = () => {
           )
         })}
       </Grid>
-      <Button  sx={{ flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }} className="btn_viewBattles" variant="contained">
+      <Button  sx={{  margin: "auto", flexGrow: 1, display: { xs: "flex", md: "none", lg: "none" } }} className="btn_viewBattles" variant="contained">
         <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             noWrap

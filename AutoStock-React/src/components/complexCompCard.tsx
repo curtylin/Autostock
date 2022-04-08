@@ -26,7 +26,7 @@ const ComplexCompCard = ({
   logo,
 }: any) => {
   return (
-    <Card variant="outlined" className="compCard" sx={{ maxWidth: 500 }}>
+    <Card variant="outlined" className="compCard" sx={{ minWidth: 340, maxWidth: 340 }}>
       <CardActionArea
         id={id}
         onClick={event => {
