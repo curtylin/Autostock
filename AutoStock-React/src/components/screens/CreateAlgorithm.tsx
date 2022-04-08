@@ -108,7 +108,7 @@ const CreateAlgorithm = () => {
       "indicator1": "${indicator1}",
       "comparator": "${comparator1}",
       "indicator2": "${indicator2}",
-      "paramsOne": {}
+      "paramsOne": {},
       "paramsTwo": {}
     }`
 

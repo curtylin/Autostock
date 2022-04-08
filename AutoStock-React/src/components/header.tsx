@@ -15,6 +15,7 @@ import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
 import Logo from "../images/AutostockLogo_black_small.png"
+import PersonIcon from '@mui/icons-material/Person';
 
 interface HeaderProps {
   siteTitle: string
@@ -304,7 +305,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
           <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src="" />
+                <PersonIcon fontSize="large"/>
               </IconButton>
             </Tooltip>
             <Menu

@@ -145,10 +145,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
 
     let entry = `{
       "action": "${action}",
-      "indicator1": "${indicator1}",
+      "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicator2": "${indicator2}",
-      "paramsOne": {}
+      "indicatorTwo": "${indicator2}",
+      "paramsOne": {},
       "paramsTwo": {}
     }`
 
