@@ -87,7 +87,7 @@ def strategyFactory(entryObj):
         def log(self, txt, dt=None):
             ''' Logging function for this strategy'''
             dt = dt or self.datas[0].datetime.date(0)
-            print('%s, %s' % (dt.isoformat(), txt))
+           # print('%s, %s' % (dt.isoformat(), txt))
 
         def __init__(self):
             # Set a value inside the time series
@@ -99,11 +99,49 @@ def strategyFactory(entryObj):
             #self.kama = bt.indicators.kama(self.datas[0].close)
             self.ama = bt.indicators.AdaptiveMovingAverage(self.datas[0].close)
             self.alln = bt.indicators.AllN(self.datas[0].close)
+            self.anyn = bt.indicators.AnyN(self.datas[0].close)
+            self.average = bt.indicators.Average(self.datas[0].close)
+            self.bbands = bt.indicators.BollingerBands(self.datas[0].close)
+            self.bbandspct = bt.indicators.BollingerBandsPct(self.datas[0].close)
+            self.dpo = bt.indicators.DetrendedPriceOscillator(self.datas[0].close)
+            self.dma = bt.indicators.DicksonMovingAverage(self.datas[0].close)
+            self.dema = bt.indicators.DoubleExponentialMovingAverage(self.datas[0].close)
+            self.downday = bt.indicators.DownDay(self.datas[0].close)
+            self.downdaybool = bt.indicators.DownDayBool(self.datas[0].close)
+            self.downmove = bt.indicators.DownMove(self.datas[0].close)
+            self.envelope = bt.indicators.Envelope(self.datas[0].close)  
+            self.expsmoothing = bt.indicators.ExponentialSmoothing(self.datas[0].close)
+            self.ffih = bt.indicators.FindFirstIndexHighest(self.datas[0].close)
+            self.ffil = bt.indicators.FindFirstIndexLowest(self.datas[0].close)
+            self.flih = bt.indicators.FindLastIndexHighest(self.datas[0].close)
+            self.flil = bt.indicators.FindLastIndexLowest(self.datas[0].close)
+            self.highest = bt.indicators.Highest(self.datas[0].close)
+            self.hull = bt.indicators.HullMovingAverage(self.datas[0].close)
+            self.hurst = bt.indicators.HurstExponent(self.datas[0].close)
+            #self.ichi = bt.indicators.Ichimoku(self.datas[0].close)
+            self.kst = bt.indicators.KnowSureThing(self.datas[0].close)
+            self.LAGF = bt.indicators.LaguerreFilter(self.datas[0].close)
+            self.LRSI = bt.indicators.LaguerreRSI(self.datas[0].close)
+            self.low = bt.indicators.Lowest(self.datas[0].close)
+            self.macd = bt.indicators.MACD(self.datas[0].close)
+            self.macdhisto = bt.indicators.MACDHisto(self.datas[0].close)
+            self.meanDev = bt.indicators.MeanDeviation(self.datas[0].close)
+            self.momentum = bt.indicators.MomentumOscillator(self.datas[0].close)
+            #self.nzd = bt.indicators.OperationN(self.datas[0].close)
+            #self.movavgbase = bt.indicators.MovingAverageBase(self.datas[0].close)
+            
+
+
             
 
             self.indicatorDict = {"NONE": None,
-                                  "SMA": self.sma, "EMA": self.ema , "ACCUM": self.accum, "AMA": self.ama, "ALLN": self.alln}
-                                  #, "KAMA": self.kama}
+                                  "SMA": self.sma , "EMA": self.ema , "ACCUM": self.accum, "AMA": self.ama, "ALLN": self.alln, "ANYN": self.anyn, "AVERAGE": self.average 
+                                   , "BBANDS": self.bbands,"BBANDSPCT": self.bbandspct, "DPO": self.dpo, "DMA": self.dma, "DEMA": self.dema, "DOWND": self.downday,
+                                  "DOWNDB": self.downdaybool, "DOWNM": self.downmove, "EVE": self.envelope,"EXPSMOOTH": self.expsmoothing,"FFIH": self.ffih, "FFIL": self.ffil,
+                                  "FLIH": self.flih, "FLIL": self.flil, "MAXN": self.highest, "HMA": self.hull, "HURST": self.hurst
+                                  , "KST": self.kst, "LAGF": self.LAGF, "LRSI": self.LRSI, "MINN": self.LRSI, "MACD": self.macd, "MACDHISTO": self.macdhisto,
+                                  "MEANDEV": self.meanDev, "MOMENTUMOSC": self.momentum, "NZD": self.nzd}
+                                 
 
         def buySell(self, action):
             if action == "buy":
