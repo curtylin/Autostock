@@ -47,7 +47,7 @@ const Competitions = () => {
         <h1>Competitions</h1>
         
         <h3>Upcoming Competitions</h3>
-        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 1}}>
+        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={1} sx={{mb: 1}}>
               {notEnteredComps.slice(0, 3).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
@@ -76,7 +76,7 @@ const Competitions = () => {
             <h3>Your Competitions</h3>
           </Box>
           {enteredComps.length > 0 ?
-          <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 1}}>
+          <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={1} sx={{mb: 1}}>
               {enteredComps.slice(0, 3).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
@@ -108,7 +108,7 @@ const Competitions = () => {
         <Box sx={{mt:3}}>
             <h3>All Competitions</h3>
           </Box>
-        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={3} sx={{mb: 1}}>
+        <Grid direction={{xs:'column', md:'row'}} justifyContent="left" alignContent={{xs:'center',sm:'flex', md:'flex'}} container spacing={1} sx={{mb: 1}}>
               {competitions.slice(0, 3).map((comp: any, index: number) => {
               let cardProps = {
                   compLength: comp.duration,
