@@ -165,7 +165,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               style={{ color: "black", textDecoration: "none" }}
               className="autostock-link"
             >
-              {siteTitle}
+              Autostock
             </Link>
           </Typography>
 
