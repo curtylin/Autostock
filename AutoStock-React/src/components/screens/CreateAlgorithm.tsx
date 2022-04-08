@@ -114,9 +114,7 @@ const CreateAlgorithm = () => {
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": 1000,
-      "startDate": "${
-        currDate.getFullYear() - 1
-      }-${currDate.getMonth()}-${currDate.getDate()}",
+      "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
       "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
       "runtime": "${runningTime}",
       "entry": [
