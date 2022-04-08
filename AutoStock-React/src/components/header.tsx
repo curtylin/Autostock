@@ -302,6 +302,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               {username == "" ? <></> : <>Hi, {username}</>}
             </Typography>
           </Box>
+          {isLoggedIn() ?
           <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -327,7 +328,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
               <MenuItem onClick={QSGRoute}>Quick Start Guide</MenuItem>
               <MenuItem onClick={ProfileRoute}>Profile</MenuItem>
               <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
-              <MenuItem onClick={LoginRoute}>Login</MenuItem>
               <MenuItem
                 onClick={event => {
                   event.preventDefault()
@@ -338,6 +338,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               </MenuItem>
             </Menu>
           </Box>
+           : null}
         </Toolbar>
       </Container>
     </AppBar>
