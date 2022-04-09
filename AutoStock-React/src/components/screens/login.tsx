@@ -34,7 +34,7 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright ©Autostock "}
-      <Link color="inherit" href="https://34.106.176.23:8000/">
+      <Link color="inherit" href="https://localhost:8000/">
         Autostock
       </Link>{" "}
       {new Date().getFullYear()}

@@ -22,9 +22,9 @@ const IndexPage = () => {
   }, [])
 
   const getUserDB = () => {
-    //fetch post to 34.106.176.23
+    //fetch post to localhost
     // console.log("getting comp db" + window.history.state.id)
-    fetch(`http://34.106.176.23:5000/get-user/${getUser().uid}`, {
+    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
