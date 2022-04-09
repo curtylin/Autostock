@@ -638,6 +638,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </AccordionDetails>
         </Accordion>
       </div>
+      <Divider sx={{ my: 2, mb: 2 }} />
+              <input type="date"></input>
       <Stack direction="row">
         <div id="BackTestButton">
           <Button
