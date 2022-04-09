@@ -45,7 +45,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("NONE")
-  const [comparator1, setComparator1] = useState("Above")
+  const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
