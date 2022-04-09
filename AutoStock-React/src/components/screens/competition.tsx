@@ -359,15 +359,8 @@ const Competition = () => {
       .then(text => {
         setNewThreadTitle("")
         setNewThreadDescription("")
-<<<<<<< HEAD
-        console.log("RELOAD")
-        // setTimeout(function(){
-        // },1000);
-        navigate("/app/competition", {state: { competitionID},})
-=======
         getThreadsDB()
         setOpenBackdrop(false)
->>>>>>> origin/master
       })
   }
 
