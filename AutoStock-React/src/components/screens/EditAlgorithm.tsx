@@ -497,8 +497,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                   setComparator1(e.target.value)
                 }}
               >
-                <MenuItem value={"Above"}>Goes Above</MenuItem>
-                <MenuItem value={"Below"}>Goes Below</MenuItem>
+                <MenuItem value={"above"}>Goes Above</MenuItem>
+                <MenuItem value={"below"}>Goes Below</MenuItem>
               </Select>
             </Tooltip>
           </FormControl>
