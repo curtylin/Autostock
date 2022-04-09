@@ -11,9 +11,9 @@ const QuickStartGuide = () => {
   }, [])
 
   const getUserDB = () => {
-    //fetch post to localhost
+    //fetch post to 34.106.176.23
     // console.log("getting comp db" + window.history.state.id)
-    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+    fetch(`http://34.106.176.23:5000/get-user/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
