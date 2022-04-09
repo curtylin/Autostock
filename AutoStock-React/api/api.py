@@ -159,7 +159,7 @@ def strategyFactory(entryObj):
                                   , "KST": self.kst, "LAGF": self.LAGF, "LRSI": self.LRSI, "MINN": self.LRSI, "MACD": self.macd, "MACDHISTO": self.macdhisto,
                                   "MEANDEV": self.meanDev, "MOMENTUMOSC": self.momentum, "PCTCHANGE": self.pctchange, "PCTRANK": self.pctrank, "PPO": self.ppo
                                   ,"PPOSHORT": self.pposhort, "PRICEOSC": self.priceosc, "RSIEMA":self.rsiema, "RSISMA":self.rsisma, "RSISAFE":self.rsisafe,
-                                  "ROC":self.roc, "ROC100":self.roc100, "REDUCEN":self.roc100, "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
+                                  "ROC":self.roc, "ROC100":self.roc100,  "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
                                   "SUMN":self.sumn, "TEMA": self.trema, "TRIX": self.trix, "TRIXSIGNAL": self.trixsignal, "TSI": self.tsi, "UPDAY": self.upday,
                                   "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema}
                                  
@@ -1375,8 +1375,7 @@ def enterBotsIntoComps():
     competitions = active_comps_list_driver()
     botsList = bots_list_driver()
 
-    # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
-    indicators = ["NONE", "SMA", "EMA"]
+    indicators = ["NONE", "SMA", "EMA", "ACCUM", "AMA", "ALLN", "ANYN", "AVERAGE", "BBANDS", "BBANDSPCT", "DPO", "DMA", "DEMA", "DOWND", "DOWNDB", "DOWNM", "EVE", "EXPSMOOTH", "FFIH", "FFIL", "FLIH", "FLIL", "MAXN", "HMA", "HURST", "KST", "LAGF", "LRSI", "MINN", "MACD", "MACDHISTO", "MEANDEV", "MOMENTUMOSC", "PCTCHANGE", "PCTRANK", "PPO", "PPOSHORT", "PRICEOSC", "RSIEMA", "RSISMA", "RSISAFE", "ROC", "ROC100", "RMI", "RSI", "SMMA", "STDDEV", "SUMN", "TEMA", "TRIX", "TRIXSIGNAL", "TSI", "UPDAY", "UPDAYBOOL", "WA", "WMA", "ZLEMA", "ZLIND"]
     actions = ["buy", "sell"]
     comparators = ["above", "below"]
     newCompetitionsEntered = []
