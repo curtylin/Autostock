@@ -550,7 +550,7 @@ const CreateAlgorithm = () => {
         <Typography color="red" hidden={stock != ""} fontSize={16}>
           Please fill out a Stock Ticker before BackTesting
         </Typography>
-        {showSpinner ? <CircularProgress color="inherit" /> : null}
+        {showSpinner ? <CircularProgress sx={{mt:1}} color="inherit" /> : null}
       </div>
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
     </Layout>
