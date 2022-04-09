@@ -40,7 +40,7 @@ const CreateAlgorithm = () => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [indicator1, setIndicator1] = useState("NONE")
-  const [comparator1, setComparator1] = useState("Above")
+  const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
@@ -105,20 +105,16 @@ const CreateAlgorithm = () => {
 
     let entry = `{
       "action": "${action}",
-      "indicator1": "${indicator1}",
+      "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicator2": "${indicator2}",
-      "paramsOne": {},
-      "paramsTwo": {}
+      "indicatorTwo": "${indicator2}"
     }`
 
     let body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": 1000,
-      "startDate": "${
-        currDate.getFullYear() - 1
-      }-${currDate.getMonth()}-${currDate.getDate()}",
+      "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
       "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
       "runtime": "${runningTime}",
       "entry": [
@@ -159,11 +155,9 @@ const CreateAlgorithm = () => {
   const handleSubmit = (event: any) => {
     let entry = `{
         "action": "${action}",
-        "indicator1": "${indicator1}",
+        "indicatorOne": "${indicator1}",
         "comparator": "${comparator1}",
-        "indicator2": "${indicator2}",
-        "paramsOne": {},
-        "paramsTwo": {}
+        "indicatorTwo": "${indicator2}"
       }`
 
     let body = `{
@@ -381,8 +375,8 @@ const CreateAlgorithm = () => {
                   setComparator1(e.target.value)
                 }}
               >
-                <MenuItem value={"Above"}>Goes Above</MenuItem>
-                <MenuItem value={"Below"}>Goes Below</MenuItem>
+                <MenuItem value={"above"}>Goes Above</MenuItem>
+                <MenuItem value={"below"}>Goes Below</MenuItem>
               </Select>
             </Tooltip>
           </FormControl>

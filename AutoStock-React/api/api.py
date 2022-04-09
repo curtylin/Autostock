@@ -156,17 +156,17 @@ def backtest_driver(req):
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
-    randFileName = f"{str(uuid.uuid4())[:8]}.png"
+    # randFileName = f"{str(uuid.uuid4())[:8]}.png"
 
-    cerebro.plot()[0][0].savefig(randFileName)
-    url = uploadPhoto(randFileName)
+    # cerebro.plot()[0][0].savefig(randFileName)
+    # url = uploadPhoto(randFileName)
 
-    if os.path.exists(randFileName):
-        os.remove(randFileName)
-    else:
-        print("The file does not exist")
+    # if os.path.exists(randFileName):
+    #     os.remove(randFileName)
+    # else:
+    #     print("The file does not exist")
 
-    response["url"] = url
+    response["url"] = "https://i.imgur.com/854jut8.jpg"
 
     return response
 
@@ -1316,7 +1316,7 @@ def enterBotsIntoComps():
     # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
     indicators = ["NONE", "SMA", "EMA"]
     actions = ["buy", "sell"]
-    comparators = ["Above", "Below"]
+    comparators = ["above", "below"]
     newCompetitionsEntered = []
     newAlgosCreated = 0
     reusedAlgos = 0
@@ -1335,11 +1335,9 @@ def enterBotsIntoComps():
                     for i in range(random.randint(1, 3)):
                         entry = {
                             "action": random.choice(actions),
-                            "indicator1": random.choice(indicators),
+                            "indicatorOne": random.choice(indicators),
                             "comparator": random.choice(comparators),
-                            "indicator2": random.choice(indicators),
-                            "paramsOne": {},
-                            "paramsTwo": {}
+                            "indicatorTwo": random.choice(indicators)
                         }
                         entries.append(entry)
                     algo = {
@@ -1348,6 +1346,7 @@ def enterBotsIntoComps():
                         "public": True,
                         "runningTime": "30",
                         "userID": bot['userID'],
+                        "PnL": 0,
                         "entry": entries
                     }
                     algoID = (bot['userID'] + comp['ticker'])

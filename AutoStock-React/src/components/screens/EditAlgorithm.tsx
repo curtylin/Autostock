@@ -147,9 +147,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "action": "${action}",
       "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicatorTwo": "${indicator2}",
-      "paramsOne": {},
-      "paramsTwo": {}
+      "indicatorTwo": "${indicator2}"
     }`
 
     let body = `{
@@ -233,9 +231,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const handleSubmit = (event: any) => {
     let entry = `{
       "action": "${action}",
-      "indicator1": "${indicator1}",
+      "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicator2": "${indicator2}",
+      "indicatorTwo": "${indicator2}",
       "paramsOne": {},
       "paramsTwo": {}
     }`
