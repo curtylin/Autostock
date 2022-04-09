@@ -45,7 +45,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("NONE")
-  const [comparator1, setComparator1] = useState("Above")
+  const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
@@ -421,46 +421,62 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             >
               <MenuItem value={"NONE"}>None</MenuItem>
               <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-              <MenuItem value={"ADXR"}>
-                ADXR - Average Directional Index Rating
-              </MenuItem>
-              <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+              <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
+              <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
+              <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
+              <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
+              <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
               <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"EMA"}>
-                EMA - Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"DEMA"}>
-                DEMA - Double Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"KAMA"}>
-                KAMA - Kaufman Adaptive Moving Average
-              </MenuItem>
-              <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-              <MenuItem value={"MACD"}>
-                MACD- Moving Average Convergence Divergence
-              </MenuItem>
-              <MenuItem value={"PPO"}>
-                PPO - Percentage Price Oscilator
-              </MenuItem>
+              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
+              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+              <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
+              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+              <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
+              <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
+               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
+               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
+              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
+              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
+              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
+              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+              <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
+              <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
+              <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
+              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
+              <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
+              <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
+              <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
+              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
+              <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
+              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
+              <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
+              <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
+              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
+              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
+              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
+              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
+              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
+              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
               <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+              <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
+              <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
               <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-              <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-              <MenuItem value={"SAREXT"}>
-                SAREXT - Parabolic SAR - Extended
-              </MenuItem>
-              <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-              <MenuItem value={"T3"}>
-                T3 - Triple Exponential Moving Average
-              </MenuItem>
+              <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
+              <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
+              <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
+              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
               <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-              <MenuItem value={"TEMA"}>
-                TEMA - Triple Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"ULTIMATE"}>
-                ULTIMATE - Ultimate Oscilator
-              </MenuItem>
-              <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+              <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
+              <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
+              <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
+              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
+              <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
               <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
+              <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
             </Select>
             {/* </Tooltip> */}
           </FormControl>
@@ -481,8 +497,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                   setComparator1(e.target.value)
                 }}
               >
-                <MenuItem value={"Above"}>Goes Above</MenuItem>
-                <MenuItem value={"Below"}>Goes Below</MenuItem>
+                <MenuItem value={"above"}>Goes Above</MenuItem>
+                <MenuItem value={"below"}>Goes Below</MenuItem>
               </Select>
             </Tooltip>
           </FormControl>
@@ -501,48 +517,64 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 setIndicator2(e.target.value)
               }}
             >
-              <MenuItem value={"NONE"}>None</MenuItem>
+             <MenuItem value={"NONE"}>None</MenuItem>
               <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-              <MenuItem value={"ADXR"}>
-                ADXR - Average Directional Index Rating
-              </MenuItem>
-              <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+              <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
+              <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
+              <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
+              <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
+              <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
               <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"EMA"}>
-                EMA - Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"DEMA"}>
-                DEMA - Double Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"KAMA"}>
-                KAMA - Kaufman Adaptive Moving Average
-              </MenuItem>
-              <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-              <MenuItem value={"MACD"}>
-                MACD- Moving Average Convergence Divergence
-              </MenuItem>
-              <MenuItem value={"PPO"}>
-                PPO - Percentage Price Oscilator
-              </MenuItem>
+              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
+              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+              <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
+              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+              <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
+              <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
+               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
+               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
+              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
+              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
+              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
+              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+              <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
+              <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
+              <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
+              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
+              <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
+              <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
+              <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
+              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
+              <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
+              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
+              <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
+              <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
+              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
+              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
+              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
+              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
+              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
+              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
               <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+              <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
+              <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
               <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-              <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-              <MenuItem value={"SAREXT"}>
-                SAREXT - Parabolic SAR - Extended
-              </MenuItem>
-              <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-              <MenuItem value={"T3"}>
-                T3 - Triple Exponential Moving Average
-              </MenuItem>
+              <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
+              <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
+              <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
+              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
               <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-              <MenuItem value={"TEMA"}>
-                TEMA - Triple Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"ULTIMATE"}>
-                ULTIMATE - Ultimate Oscilator
-              </MenuItem>
-              <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+              <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
+              <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
+              <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
+              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
+              <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
               <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
+              <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
             </Select>
             {/* </Tooltip> */}
           </FormControl>
