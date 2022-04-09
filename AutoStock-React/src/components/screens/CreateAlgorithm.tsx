@@ -537,6 +537,9 @@ const CreateAlgorithm = () => {
           </AccordionDetails>
         </Accordion>
       </div>
+      <Divider sx={{ my: 2, mb: 2 }} />
+              <input type="date"></input>
+
       <div id="BackTestButton">
         <Button
           disabled={!stock}
