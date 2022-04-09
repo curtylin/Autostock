@@ -3,6 +3,8 @@ import { Link } from "gatsby"
 import Layout from "../layout"
 import Logo from "../../images/AutostockLogo_green.jpg"
 import linkedIn from "../../images/LI-Logo.png"
+import { Divider, IconButton, Stack, Typography } from "@mui/material"
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const AboutUs = () => {
 
@@ -34,21 +36,57 @@ const AboutUs = () => {
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C4E03AQGi-_LJJPb3Uw/profile-displayphoto-shrink_200_200/0/1587842235640?e=1654128000&v=beta&t=mISNSvknyptico7TEqa9hth2e4s98q2HxmInKCZaS8o" alt="Albert Zhang portrait" width="250"></img>
-            <h2>Albert Zhang</h2>
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+                <Typography
+                    fontSize={28}
+                    fontWeight={600}
+                    sx={{mb:0, mt: 1}}
+                >
+                    Albert Zhang
+                </Typography>
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com">
+                    <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
+                </IconButton>
+            </Stack>
             <h4>Weekend</h4>
             <p>Albert's BIO HERE</p>
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C4D03AQGa2YqdqowjTg/profile-displayphoto-shrink_200_200/0/1626983303468?e=1654128000&v=beta&t=BbviMuehzZhurC__h_R9HOiyZQx4RIL_ku1yGUqgXt4" alt="Brandon Nham portrait" width="250"></img>
-            <h2>Brandon Nham</h2>
-            <h4>Frontend</h4>
-            <p>Brandon's BIO HERE</p>
+            
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+                <Typography
+                    fontSize={28}
+                    fontWeight={600}
+                    sx={{mb:0, mt: 1}}
+                >
+                    Brandon Nham
+                </Typography>
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com/in/brandon-nham/">
+                    <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
+                </IconButton>
+            </Stack>
+            <h4>Front End</h4>
+            
+            <p>With Autostock, I focused on the front end of the project. For my personal feature, the discussion boards, I was able to dip my toes into the back end. For me, this project has 
+                given me the opportunity to work closely with a team on new skills that I have found to enjoy. I also enjoy learning new skills outside of class like cooking and playing the guitar, even though 
+                I am not very good at either. </p>
 
             <hr></hr>
             <img src="https://i.imgur.com/854jut8.jpg" alt="Curtis Lin portrait" width="250"></img>
-            <h2>Curtis Lin</h2>
-            <h4>Fullstack</h4>
-            <a href="https://www.linkedin.com/in/curtis-lin/"><img style={{display:"flex"}} width={100} src={linkedIn}></img></a>
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+                <Typography
+                    fontSize={28}
+                    fontWeight={600}
+                    sx={{mb:0, mt: 1}}
+                >
+                    Curtis Lin
+                </Typography>
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com/in/curtis-lin/">
+                    <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
+                </IconButton>
+            </Stack>
+            <h4>Full Stack</h4>
             <p>I am proud to have joined Autostock for the capstone project as the guy for full stack engineering. For this project, I did everything relating to the database including competitions, algorithms, and users. For my rank 3, I realized there was a need for bots for each competition to boost the competitiveness. This is my first time working on React and I am proud of what I have done. 
                 In my freetime, I love experiencing new flavors and places. I also take plenty of pictures to document all of my experiences.
                 <br></br>
@@ -57,14 +95,36 @@ const AboutUs = () => {
 
             <hr></hr>
             <img src="https://i.imgur.com/63zNA4E.jpg" alt="Jonathan Fairbanks portrait" width="250"></img>
-            <h2>Jonathan Fairbanks</h2>
-            <h4>Backend</h4>
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+                <Typography
+                    fontSize={28}
+                    fontWeight={600}
+                    sx={{mb:0, mt: 1}}
+                >
+                    Jonathan Fairbanks
+                </Typography>
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com">
+                    <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
+                </IconButton>
+            </Stack>
+            <h4>Back End</h4>
             <p>I like Hotdog.</p>
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho" alt="Nick Mountz portrait" width="250"></img>
-            <h2>Nick Mountz</h2>
-            <h4>Frontend</h4>
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+                <Typography
+                    fontSize={28}
+                    fontWeight={600}
+                    sx={{mb:0, mt: 1}}
+                >
+                    Nick Mountz
+                </Typography>
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com">
+                    <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
+                </IconButton>
+            </Stack>
+            <h4>Front end</h4>
             <p>Nick's BIO HERE</p>
             <br></br>
 
