@@ -37,6 +37,25 @@ const handleDelete = () => {
 }
 
 const CreateAlgorithm = () => {
+  let currDate = new Date()
+  var currentMonth = ""
+  if (currDate.getMonth() < 10) {
+    currentMonth = "0" + (currDate.getMonth()+ 1)
+  } else {
+    currentMonth = "" + (currDate.getMonth()+ 1)
+  }
+  var currentDate = ""
+  if ((currDate.getDate()-1) < 10) {
+    currentDate = "0" + (currDate.getDate() -1)
+  } else {
+    currentDate = "" + (currDate.getDate() -1)
+  }
+  var yesterdaysDay = ""
+  if ((currDate.getDate()-2) < 10) {
+    yesterdaysDay = "0" + (currDate.getDate() -2)
+  } else {
+    yesterdaysDay = "" + (currDate.getDate() -2)
+  }
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [indicator1, setIndicator1] = useState("NONE")
@@ -56,6 +75,10 @@ const CreateAlgorithm = () => {
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
   const [newAlgoDescription, setAlgoDescription] = useState("")
+  const [startDate, setStartDate] = useState(`${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`)
+  const [endDate, setEndDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
+  const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
+  const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -99,7 +122,6 @@ const CreateAlgorithm = () => {
   const handleBacktest = (event: any) => {
     show()
     showSpin()
-    let currDate = new Date()
     const headers = new Headers()
     headers.append("content-type", "application/json")
 
@@ -114,8 +136,8 @@ const CreateAlgorithm = () => {
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": 1000,
-      "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
-      "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
+      "startDate": "${startDate}",
+      "endDate": "${endDate}",
       "runtime": "${runningTime}",
       "entry": [
         ${entry}
@@ -570,8 +592,10 @@ const CreateAlgorithm = () => {
         </Accordion>
       </div>
       <Divider sx={{ my: 2, mb: 2 }} />
-              <input type="date"></input>
-
+      <label htmlFor="start"> Start Date: </label>
+        <input type="date" id="start" name="startDate" value={startDate} onChange={e => {setStartDate(e.target.value)}} max={yesterdaysDate}></input>
+      <label htmlFor="end"> End Date:</label>
+        <input type="date" id="end" name="endDate" value={endDate} onChange={e => {setEndDate(e.target.value)}} max={todaysDate}></input>
       <div id="BackTestButton">
         <Button
           disabled={!stock}
