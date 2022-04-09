@@ -38,7 +38,9 @@ const handleDelete = () => {
 }
 
 const CreateAlgorithm = () => {
-  let currDate = new Date()
+  var currDate = new Date()
+  var yesterday = new Date()
+  yesterday.setDate(currDate.getDate() - 1)
   var currentMonth = ""
   if (currDate.getMonth() < 10) {
     currentMonth = "0" + (currDate.getMonth()+ 1)
@@ -46,16 +48,16 @@ const CreateAlgorithm = () => {
     currentMonth = "" + (currDate.getMonth()+ 1)
   }
   var currentDate = ""
-  if ((currDate.getDate()-1) < 10) {
-    currentDate = "0" + (currDate.getDate() -1)
+  if ((currDate.getDate()) < 10) {
+    currentDate = "0" + (currDate.getDate())
   } else {
-    currentDate = "" + (currDate.getDate() -1)
+    currentDate = "" + (currDate.getDate())
   }
   var yesterdaysDay = ""
-  if ((currDate.getDate()-2) < 10) {
-    yesterdaysDay = "0" + (currDate.getDate() -2)
+  if ((yesterday.getDate()) < 10) {
+    yesterdaysDay = "0" + (yesterday.getDate())
   } else {
-    yesterdaysDay = "" + (currDate.getDate() -2)
+    yesterdaysDay = "" + (yesterday.getDate())
   }
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
@@ -81,6 +83,7 @@ const CreateAlgorithm = () => {
   const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
   const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
   const [startingAmount, setStartingAmount] = useState(1000)
+
 
   useEffect(() => {
     jsConfetti = new JSConfetti()

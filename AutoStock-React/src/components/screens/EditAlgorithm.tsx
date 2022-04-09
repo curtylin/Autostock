@@ -39,7 +39,12 @@ const theme = {
 const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
-let currDate = new Date()
+
+
+const EditAlgorithm = ({ location }: { location: any }) => {
+  var currDate = new Date()
+  var yesterday = new Date()
+  yesterday.setDate(currDate.getDate() - 1)
   var currentMonth = ""
   if (currDate.getMonth() < 10) {
     currentMonth = "0" + (currDate.getMonth()+ 1)
@@ -47,19 +52,17 @@ let currDate = new Date()
     currentMonth = "" + (currDate.getMonth()+ 1)
   }
   var currentDate = ""
-  if ((currDate.getDate()-1) < 10) {
-    currentDate = "0" + (currDate.getDate() -1)
+  if ((currDate.getDate()) < 10) {
+    currentDate = "0" + (currDate.getDate())
   } else {
-    currentDate = "" + (currDate.getDate() -1)
+    currentDate = "" + (currDate.getDate())
   }
   var yesterdaysDay = ""
-  if ((currDate.getDate()-2) < 10) {
-    yesterdaysDay = "0" + (currDate.getDate() -2)
+  if ((yesterday.getDate()) < 10) {
+    yesterdaysDay = "0" + (yesterday.getDate())
   } else {
-    yesterdaysDay = "" + (currDate.getDate() -2)
+    yesterdaysDay = "" + (yesterday.getDate())
   }
-
-const EditAlgorithm = ({ location }: { location: any }) => {
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
@@ -180,10 +183,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": ${startingAmount},
-      "startDate": "${
-        currDate.getFullYear() - 1
-      }-${currDate.getMonth()}-${currDate.getDate()}",
-      "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
+      "startDate": "${startDate}",
+      "endDate": "${endDate}",
       "runtime": "${runningTime}",
       "entry": [
         ${entry}
