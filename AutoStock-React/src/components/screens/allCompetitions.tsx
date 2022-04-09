@@ -10,7 +10,7 @@ const Competitions = () => {
   const [competitions, setCompetitions] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/list-competitions")
+    fetch("http://34.106.176.23:5000/list-competitions")
       .then(res => {
         return res.json()
       })

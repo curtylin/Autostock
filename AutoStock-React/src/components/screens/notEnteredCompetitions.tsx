@@ -12,7 +12,7 @@ const Competitions = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`
+      `http://34.106.176.23:5000/list-nonregisted-competitions/${getUser().uid}`
     )
       .then(res => {
         return res.json()
