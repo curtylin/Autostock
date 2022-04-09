@@ -159,7 +159,7 @@ def strategyFactory(entryObj):
                                   , "KST": self.kst, "LAGF": self.LAGF, "LRSI": self.LRSI, "MINN": self.LRSI, "MACD": self.macd, "MACDHISTO": self.macdhisto,
                                   "MEANDEV": self.meanDev, "MOMENTUMOSC": self.momentum, "PCTCHANGE": self.pctchange, "PCTRANK": self.pctrank, "PPO": self.ppo
                                   ,"PPOSHORT": self.pposhort, "PRICEOSC": self.priceosc, "RSIEMA":self.rsiema, "RSISMA":self.rsisma, "RSISAFE":self.rsisafe,
-                                  "ROC":self.roc, "ROC100":self.roc100, "REDUCEN":self.roc100, "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
+                                  "ROC":self.roc, "ROC100":self.roc100,  "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
                                   "SUMN":self.sumn, "TEMA": self.trema, "TRIX": self.trix, "TRIXSIGNAL": self.trixsignal, "TSI": self.tsi, "UPDAY": self.upday,
                                   "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema}
                                  
