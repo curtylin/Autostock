@@ -179,7 +179,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     let body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
-      "cash": 1000,
+      "cash": ${startingAmount},
       "startDate": "${
         currDate.getFullYear() - 1
       }-${currDate.getMonth()}-${currDate.getDate()}",
@@ -714,14 +714,15 @@ const EditAlgorithm = ({ location }: { location: any }) => {
 
         <input type="date" id="end" name="endDate" value={endDate} onChange={e => {setEndDate(e.target.value)}} max={todaysDate}></input>
       </Stack>
-      <FormControl>
-        <TextField
-        id="outlined-search"
-        label="Starting Amount"
-        value={startingAmount}
-        inputProps={{ maxLength: 7 }}
-        >
-        </TextField>
+      <FormControl sx={{ m: 1 }}>
+          <TextField
+            id="outlined-search"
+            label="Starting Amount"
+            value={startingAmount}
+            inputProps={{ maxLength: 7 }}
+            onChange={e => {setStartingAmount(parseInt(e.target.value))}}
+            >
+          </TextField>
       </FormControl>
       <Stack direction="row">
         <div id="BackTestButton">
