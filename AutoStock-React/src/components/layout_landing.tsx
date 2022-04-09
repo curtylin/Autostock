@@ -6,14 +6,30 @@
  */
 
 import * as React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 
 import Header from "./header"
 import "./layout_landing.css"
+import { Box, Typography } from "@mui/material"
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 interface LayoutProps {
   children: React.ReactNode
 }
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'Copyright © '}
+        {'Autostock '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+const theme = createTheme();
+
 
 const LayoutLanding = ({ children }: LayoutProps) => {
   const siteTitle: string = "Autostock"
@@ -23,15 +39,18 @@ const LayoutLanding = ({ children }: LayoutProps) => {
       <Header siteTitle={siteTitle} />
       <div className="layout_body" style={{}}>
         <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `2rem`,
-          }}
-        >
-          © {new Date().getFullYear()}
-          {` `}
-          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">AutoStock</a>
-        </footer>
+        <ThemeProvider theme={theme}>
+                  {/* Footer */}
+            <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+            
+            <Typography variant="body2" color="text.secondary" align="center">
+              <Link className="aboutUsLink" to="/app/aboutus" >About us</Link>
+            </Typography>
+            <Copyright />
+          </Box>
+          {/* End footer */}
+      </ThemeProvider>
+            
       </div>
     </>
   )

@@ -81,8 +81,10 @@ const Threads = ({
       })
       .then(text => {
         setNewComment("")
-        navigate("/app/competition", {state: { competitionID },})
+        getCommentsDB(id)
+        setOpenBackdrop(false)
       })
+
   }
 
   const handleClickOpen = () => {
