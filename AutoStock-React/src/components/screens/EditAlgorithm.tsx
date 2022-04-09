@@ -39,6 +39,25 @@ const theme = {
 const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
+let currDate = new Date()
+  var currentMonth = ""
+  if (currDate.getMonth() < 10) {
+    currentMonth = "0" + (currDate.getMonth()+ 1)
+  } else {
+    currentMonth = "" + (currDate.getMonth()+ 1)
+  }
+  var currentDate = ""
+  if ((currDate.getDate()-1) < 10) {
+    currentDate = "0" + (currDate.getDate() -1)
+  } else {
+    currentDate = "" + (currDate.getDate() -1)
+  }
+  var yesterdaysDay = ""
+  if ((currDate.getDate()-2) < 10) {
+    yesterdaysDay = "0" + (currDate.getDate() -2)
+  } else {
+    yesterdaysDay = "" + (currDate.getDate() -2)
+  }
 
 const EditAlgorithm = ({ location }: { location: any }) => {
   const [algoName, setAlgoName] = useState("")
@@ -61,6 +80,11 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
   const [AlgoDescription, setAlgoDescription] = useState("")
+  const [startDate, setStartDate] = useState(`${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`)
+  const [endDate, setEndDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
+  const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
+  const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
+  const [startingAmount, setStartingAmount] = useState(1000)
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -670,8 +694,35 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </AccordionDetails>
         </Accordion>
       </div>
-      <Divider sx={{ my: 2, mb: 2 }} />
-              <input type="date"></input>
+      <Divider sx={{ mt: 5, mb:2 }} />
+      <h4>Backtesting</h4>
+
+      <Stack direction="row" sx={{mb: 3}}>
+        <Typography
+          sx={{mr: 1, pt:1}}
+        >
+          Start Date:
+        </Typography>
+        <Box sx={{mr: 10}}>
+          <input type="date" id="start" name="startDate" value={startDate} onChange={e => {setStartDate(e.target.value)}} max={yesterdaysDate}></input>
+        </Box>
+        <Typography
+          sx={{mr: 1, pt:1}}
+        >
+          End Date:
+        </Typography>   
+
+        <input type="date" id="end" name="endDate" value={endDate} onChange={e => {setEndDate(e.target.value)}} max={todaysDate}></input>
+      </Stack>
+      <FormControl>
+        <TextField
+        id="outlined-search"
+        label="Starting Amount"
+        value={startingAmount}
+        inputProps={{ maxLength: 7 }}
+        >
+        </TextField>
+      </FormControl>
       <Stack direction="row">
         <div id="BackTestButton">
           <Button

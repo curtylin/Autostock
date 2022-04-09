@@ -21,6 +21,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Stack,
 } from "@mui/material"
 import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
@@ -79,6 +80,7 @@ const CreateAlgorithm = () => {
   const [endDate, setEndDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
   const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
   const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
+  const [startingAmount, setStartingAmount] = useState(1000)
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -274,7 +276,7 @@ const CreateAlgorithm = () => {
               }}
               id="outlined-search"
               label="Algorithm Name "
-              type="search"
+              type="text"
               inputProps={{ maxLength: 100 }}
             />
           </Tooltip>
@@ -528,33 +530,7 @@ const CreateAlgorithm = () => {
         </div>
         <div>
           <Divider sx={{ my: 2, mb: 2 }} />
-        </div>
-
-        {/* Running Time */}
-        <FormControl sx={{ my: 2, minWidth: { xs: 300, md: 500 } }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            Algorithm Running Time
-          </InputLabel>
-          <Tooltip title="How long will this run?" placement="right" arrow>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Algorithm Running Time"
-              value={runningTime}
-              onChange={e => {
-                setRunningTime(e.target.value)
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={1}>1 Day</MenuItem>
-              <MenuItem value={3}>3 Days</MenuItem>
-              <MenuItem value={7}>1 Week</MenuItem>
-              <MenuItem value={30}>1 Month</MenuItem>
-            </Select>
-          </Tooltip>
-        </FormControl>
+        </div>        
         <div>
           <Button
             disabled={!algoName || !stock}
@@ -591,11 +567,36 @@ const CreateAlgorithm = () => {
           </AccordionDetails>
         </Accordion>
       </div>
-      <Divider sx={{ my: 2, mb: 2 }} />
-      <label htmlFor="start"> Start Date: </label>
-        <input type="date" id="start" name="startDate" value={startDate} onChange={e => {setStartDate(e.target.value)}} max={yesterdaysDate}></input>
-      <label htmlFor="end"> End Date:</label>
+      <Divider sx={{ mt: 5, mb:2 }} />
+      <h4>Backtesting</h4>
+
+      <Stack direction="row" sx={{mb: 3}}>
+        <Typography
+          sx={{mr: 1, pt:1}}
+        >
+          Start Date:
+        </Typography>
+        <Box sx={{mr: 10}}>
+          <input type="date" id="start" name="startDate" value={startDate} onChange={e => {setStartDate(e.target.value)}} max={yesterdaysDate}></input>
+        </Box>
+        <Typography
+          sx={{mr: 1, pt:1}}
+        >
+          End Date:
+        </Typography>   
+
         <input type="date" id="end" name="endDate" value={endDate} onChange={e => {setEndDate(e.target.value)}} max={todaysDate}></input>
+      </Stack>
+      <FormControl>
+        <TextField
+        id="outlined-search"
+        label="Starting Amount"
+        value={startingAmount}
+        inputProps={{ maxLength: 7 }}
+        >
+        </TextField>
+      </FormControl>
+            
       <div id="BackTestButton">
         <Button
           disabled={!stock}
