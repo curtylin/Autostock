@@ -41,7 +41,7 @@ function Copyright(props) {
     "Copyright ©Autostock ",
     React.createElement(
       Link_1["default"],
-      { color: "inherit", href: "https://34.106.176.23:8000/" },
+      { color: "inherit", href: "https://localhost:8000/" },
       "Autostock"
     ),
     " ",

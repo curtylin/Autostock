@@ -70,7 +70,7 @@ const Threads = ({
       headers,
       body,
     }
-    fetch(`http://34.106.176.23:5000/add-comment`, init)
+    fetch(`http://localhost:5000/add-comment`, init)
       .then(res => {
         return res.json()
       })
@@ -91,7 +91,7 @@ const Threads = ({
   }
 
   const getCommentsDB = (id: any) => {
-    fetch(`http://34.106.176.23:5000/get-comments/${id}`, {
+    fetch(`http://localhost:5000/get-comments/${id}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
