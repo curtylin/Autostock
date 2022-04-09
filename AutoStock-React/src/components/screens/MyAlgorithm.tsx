@@ -32,7 +32,7 @@ const MyAlgorithm = () => {
       body,
     }
 
-    fetch(`http://34.106.176.23:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -56,7 +56,7 @@ const MyAlgorithm = () => {
       headers,
       body,
     }
-    fetch(`http://34.106.176.23:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://127.0.0.1:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -82,7 +82,7 @@ const MyAlgorithm = () => {
     }
     console.log(event.target.id)
 
-    fetch(`http://34.106.176.23:5000/delete-algorithm/${event.target.id}`, init)
+    fetch(`http://127.0.0.1:5000/delete-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -99,8 +99,8 @@ const MyAlgorithm = () => {
     console.log(algorithms)
   }, [])
   const getAlgorithmsDB = () => {
-    //fetch post to 34.106.176.23
-    fetch(`http://34.106.176.23:5000/list-algorithm/${getUser().uid}`, {
+    //fetch post to localhost
+    fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
