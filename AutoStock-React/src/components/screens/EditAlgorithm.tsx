@@ -22,11 +22,13 @@ import {
   Divider,
   Grid,
   Typography,
+  Stack,
 } from "@mui/material"
 import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import { navigate } from "gatsby"
+import { Box } from "@mui/system"
 
 const isBrowser = typeof window !== "undefined"
 let jsConfetti: any
@@ -286,14 +288,46 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       <h2>Backtesting Data: {algoName}</h2>
       <Card variant="outlined" sx={{ minWidth: 275, mb: 5 }}>
         <CardContent>
-          <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+        <Typography
+            sx={{ fontSize: 30 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            variant="h2"
+            gutterBottom
+          >
             {stock}
           </Typography>
-          <Typography variant="h5">Ending Value: ${BTendRes}</Typography>
-          <Typography variant="h6">
+          <Typography
+            sx={{ ml: 5, fontSize: 22 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Ending Value: ${BTendRes}
+          </Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 22 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
             PnL Percentage: {BTPnLPer.toString().substring(0, 4)}%
           </Typography>
-          <Typography variant="h6">Started with: ${BTstart}</Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 22 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Started with: ${BTstart}          
+          </Typography>
         </CardContent>
       </Card>
       <img src={`${urls}`}></img>
@@ -636,21 +670,25 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </AccordionDetails>
         </Accordion>
       </div>
-      <div id="BackTestButton">
-        <Button
-          disabled={!stock}
-          type="submit"
-          variant="contained"
-          sx={{ my: 2, mr: 5, minWidth: 300 }}
-          onClick={handleBacktest}
-        >
-          BackTest
-        </Button>
-        <Typography color="red" hidden={stock != ""} fontSize={16}>
-          Please fill out a Stock Ticker before BackTesting
-        </Typography>
-        {showSpinner ? <CircularProgress color="inherit" /> : null}
-      </div>
+      <Stack direction="row">
+        <div id="BackTestButton">
+          <Button
+            disabled={!stock}
+            type="submit"
+            variant="contained"
+            sx={{ my: 2, mr: 5, minWidth: 300 }}
+            onClick={handleBacktest}
+          >
+            BackTest
+          </Button>
+          <Typography color="red" hidden={stock != ""} fontSize={16}>
+            Please fill out a Stock Ticker before BackTesting
+          </Typography>
+        </div>
+        {showSpinner ? <CircularProgress sx={{marginLeft:5, marginTop:2}} color="inherit" />: null}
+
+      </Stack>
+      
 
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
     </Layout>
