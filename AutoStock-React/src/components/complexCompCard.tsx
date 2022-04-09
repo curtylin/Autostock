@@ -1,75 +1,75 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import { CardActionArea } from '@mui/material';
-import '../components/complexCompCard.css';
-import { Link, navigate } from '@reach/router';
-import Button from "@mui/material/Button";
+import * as React from "react"
+import { styled } from "@mui/material/styles"
+import Card from "@mui/material/Card"
+import CardHeader from "@mui/material/CardHeader"
+import CardMedia from "@mui/material/CardMedia"
+import CardContent from "@mui/material/CardContent"
+import CardActions from "@mui/material/CardActions"
+import Collapse from "@mui/material/Collapse"
+import Avatar from "@mui/material/Avatar"
+import IconButton, { IconButtonProps } from "@mui/material/IconButton"
+import Typography from "@mui/material/Typography"
+import { red } from "@mui/material/colors"
+import { CardActionArea } from "@mui/material"
+import "../components/complexCompCard.css"
+import { Link, navigate } from "@reach/router"
+import Button from "@mui/material/Button"
 
 const subheaders = ""
 const ComplexCompCard = ({
-    compLength,
-    compTicker,
-    compStartingVal,
-    compDeadline,
-    description,
-    id,
-    logo,
+  compLength,
+  compTicker,
+  compStartingVal,
+  compDeadline,
+  description,
+  id,
+  logo,
 }: any) => {
-    return (
-        <Card variant="outlined" className="compCard" sx={{  maxWidth: 500 }}>
-            <CardActionArea
+  return (
+    <Card variant="outlined" className="compCard" sx={{ maxWidth: 500 }}>
+      <CardActionArea
+        id={id}
+        onClick={event => {
+          navigate(`/app/competition`, {
+            state: { id },
+          })
+        }}
+      >
+        {" "}
+        {/*CHANGE THIS TO CORRESPONDING COMP*/}
+        <CardHeader
+          className="compHeader"
+          title={compTicker}
+          subheader={compLength}
+        />
+        <CardMedia
+          style={{
+            width: "auto",
+            maxHeight: "200px",
+            margin: "auto",
+          }}
+          component="img"
+          height="140"
+          // maybe scrape for an image using the ticker
+          image={logo}
+          alt="Ticker logo"
+          sx={{ mb: 0 }}
+        ></CardMedia>
+        <CardContent>
+          <Button
+            className="mdc-button mdc-button--raised"
             id={id}
-            onClick={event => {navigate(`/app/competition`, 
-            {
-              state: {id},
-            }
-              )
-              }}> {/*CHANGE THIS TO CORRESPONDING COMP*/}
-                <CardHeader
-                className="compHeader"
-                title={compTicker}
-
-                subheader={compLength}
-                />
-                <CardMedia
-                style={{
-                  width: "auto",
-                  maxHeight: "200px",
-                  margin: "auto",
-                }}
-                component="img"
-                height="140"
-                // maybe scrape for an image using the ticker
-                image={logo}
-                alt="Ticker logo"
-                sx={{mb:0}}
-                >
-                  
-                </CardMedia>
-                <CardContent>
-               
-                <Button className="mdc-button mdc-button--raised"
-                        id={id}
-                        onClick={event => {navigate(`/app/competition`, 
-                        {
-                          state: {id},
-                        }
-                          )
-                          }}> Learn More
-
-                </Button>
-                </CardContent>
-                {/* <CardActions disableSpacing>
+            onClick={event => {
+              navigate(`/app/competition`, {
+                state: { id },
+              })
+            }}
+          >
+            {" "}
+            Learn More
+          </Button>
+        </CardContent>
+        {/* <CardActions disableSpacing>
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -79,7 +79,7 @@ const ComplexCompCard = ({
                     <ExpandMoreIcon />
                 </ExpandMore>
                 </CardActions> */}
-                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>Method:</Typography>
                     <Typography paragraph>
@@ -108,13 +108,11 @@ const ComplexCompCard = ({
                     </Typography>
                 </CardContent>
                 </Collapse> */}
-         </CardActionArea>
-
+      </CardActionArea>
     </Card>
   )
 }
 export default ComplexCompCard
-
 
 // interface ExpandMoreProps extends IconButtonProps {
 //   expand: boolean;
@@ -139,5 +137,5 @@ export default ComplexCompCard
 //   };
 
 //   return (
-    
+
 // }

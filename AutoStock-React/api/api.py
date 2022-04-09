@@ -1,7 +1,7 @@
 from queue import Empty
 import random
 
-from flask import Flask , request, jsonify
+from flask import Flask, request, jsonify
 from flask import send_from_directory
 from firebase_admin import credentials, firestore, initialize_app, storage
 from flask_cors import CORS, cross_origin
@@ -18,9 +18,6 @@ import atexit
 
 # TODO: Move scheduler to another flask service
 from apscheduler.schedulers.background import BackgroundScheduler
-
-
-
 
 app = Flask(__name__, static_folder="../public", static_url_path="/")
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -50,11 +47,11 @@ discussions_ref = db.collection('discussions')
 threads_ref = db.collection('threads')
 comments_ref = db.collection('comments')
 
+
 @app.errorhandler(404)
 def not_found(error):
-    #return app.send_static_file('index.html')
+    # return app.send_static_file('index.html')
     return error
-
 
 
 @app.route('/', defaults={'u_path': ''})
@@ -63,13 +60,13 @@ def catch_all(u_path):
     if u_path == "":
         return app.send_static_file('index.html')
     else:
-        return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
+        return send_from_directory(app.static_folder + '/app/[...]/', 'index.html')
 
 
-#@app.route('/')
-#def index():
+# @app.route('/')
+# def index():
 #    return app.send_static_file('index.html')
-    #return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
+# return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
 
 @cross_origin()
 @app.route('/backtest', methods=['POST'])
@@ -79,6 +76,7 @@ def backtest():
     except Exception as e:
         return f"An Error Occurred: {e}"
     # return backtest_driver(request.json)
+
 
 def strategyFactory(entryObj):
 
@@ -171,7 +169,6 @@ def strategyFactory(entryObj):
     return strategy
 
 
-
 def backtest_driver(req):
     dataDict = req
 
@@ -186,7 +183,8 @@ def backtest_driver(req):
     cerebro.broker.setcommission(commission=0.0)
     cerebro.addstrategy(strategy)
 
-    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']), todate=parse(dataDict['endDate']))
+    financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']),
+                                            todate=parse(dataDict['endDate']))
 
     cerebro.adddata(financeData)
 
@@ -197,25 +195,25 @@ def backtest_driver(req):
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
-    randFileName = f"{str(uuid.uuid4())[:8]}.png"
+    # randFileName = f"{str(uuid.uuid4())[:8]}.png"
 
-    cerebro.plot()[0][0].savefig(randFileName)
-    url = uploadPhoto(randFileName)
+    # cerebro.plot()[0][0].savefig(randFileName)
+    # url = uploadPhoto(randFileName)
 
-    if os.path.exists(randFileName):
-        os.remove(randFileName)
-    else:
-        print("The file does not exist")
+    # if os.path.exists(randFileName):
+    #     os.remove(randFileName)
+    # else:
+    #     print("The file does not exist")
 
-    response["url"] = url
+    response["url"] = "https://i.imgur.com/854jut8.jpg"
 
     return response
-
 
 
 @app.route('/test')
 def test():
     return "this works"
+
 
 @app.route('/list-user', methods=['GET'])
 def user_list():
@@ -247,6 +245,7 @@ def user_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Be sure to pass in the user id in the url
 @app.route('/check-user/<name>', methods=['GET'])
 def user_dupe_check(name):
@@ -266,6 +265,7 @@ def user_dupe_check(name):
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-user/<id>', methods=['POST', 'PUT'])
 def user_update(id):
@@ -280,6 +280,7 @@ def user_update(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/create-user', methods=['POST'])
 def user_create():
     """
@@ -292,6 +293,7 @@ def user_create():
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
@@ -336,6 +338,7 @@ def algo_read_public():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Be sure to pass in the user id in the url
 @app.route('/list-algorithm/<id>', methods=['GET'])
 def algo_read_user_id(id):
@@ -358,6 +361,7 @@ def algo_read_user_id(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Be sure to pass in the user id in the url
 @app.route('/get-algorithm/<id>', methods=['GET'])
 def algo_read(id):
@@ -375,6 +379,7 @@ def algo_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
@@ -383,7 +388,8 @@ def algo_update(id):
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
-    
+
+
 def update_algo_after_bt(id, req):
     """
         update() : Update document in Firestore collection with request body.
@@ -414,17 +420,19 @@ def algo_delete_id(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 def comp_unregister_competition_algorithm(algoID):
     """
         delete() : Delete a document from Firestore collection.
     """
     try:
-        matchingCompsWithAlgo = competitors_ref.where("algorithm", "==", algoID).stream()       
+        matchingCompsWithAlgo = competitors_ref.where("algorithm", "==", algoID).stream()
         for matchingComp in matchingCompsWithAlgo:
             competitors_ref.document(matchingComp.id).delete()
         return True
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## End algo CRUD Block
 ####################################################################################################################
@@ -441,12 +449,14 @@ def comp_create():
     """
     return active_comp_create_driver(request.json)
 
+
 def active_comp_create_driver(req_obj):
     try:
         activeCompetitions_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 def stale_comp_create_driver(id, req_obj):
     try:
@@ -455,9 +465,11 @@ def stale_comp_create_driver(id, req_obj):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/active-to-stale-competition/<id>', methods=['PUT'])
 def active_to_stale_comp(id):
     return active_to_stale_comp_driver(id)
+
 
 def active_to_stale_comp_driver(id):
     try:
@@ -469,7 +481,6 @@ def active_to_stale_comp_driver(id):
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
-
 
 
 ## Returns all competitions
@@ -498,6 +509,7 @@ def comp_list_all():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Returns all active competitions
 @cross_origin()
 @app.route('/list-active-competitions', methods=['GET'])
@@ -510,6 +522,7 @@ def comp_list_all_active():
         return jsonify(active_comps_list_driver()), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 def active_comps_list_driver():
     comps = activeCompetitions_ref.stream()
@@ -541,6 +554,7 @@ def comp_list_all_stale():
         return jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## gives the list of competitions that the user has entered themselves
 @app.route('/list-competition/<id>', methods=['GET'])
@@ -580,7 +594,7 @@ def comp_read_user_id(id):
         for comp in comps:
             compDict = comp.to_dict()
             competitions.append(compDict["competition"])
-        
+
         comps = activeCompetitions_ref.stream()
         activeComps = []
         for comp in comps:
@@ -593,6 +607,7 @@ def comp_read_user_id(id):
         return jsonify(activeComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## gives the list of competitions that the user have not entered
 @app.route('/list-nonregisted-competitions/<id>', methods=['GET'])
@@ -620,6 +635,7 @@ def comp_read_notRegistered_user_id(id):
         return jsonify(notEnteredComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 # ## gives the list of competitions that the user has entered themselves
 # @app.route('/get-competition-user/<id>', methods=['GET'])
@@ -656,10 +672,12 @@ def comp_read(id):
             raise Exception("Competition not found")
         compDict = competition.to_dict()
         compDict['id'] = id
-        compDict['competitiors'] = len([doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
+        compDict['competitiors'] = len(
+            [doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
         return jsonify(compDict), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ##
 @app.route('/get-discussions/<id>', methods=['GET'])
@@ -681,6 +699,7 @@ def disc_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/get-threads/<id>', methods=['GET'])
 def thread_read(id):
     """
@@ -698,6 +717,7 @@ def thread_read(id):
         return jsonify(thr), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 @app.route('/get-comments/<id>', methods=['GET'])
 def comm_read(id):
@@ -717,6 +737,7 @@ def comm_read(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/add-comment', methods=['POST'])
 def comm_create():
     """
@@ -729,6 +750,7 @@ def comm_create():
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 @app.route('/create-thread', methods=['POST'])
 def thr_create():
@@ -744,7 +766,6 @@ def thr_create():
         return f"An Error Occurred: {e}"
 
 
-
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.
 @app.route('/update-active-competition/<id>', methods=['POST', 'PUT'])
@@ -756,12 +777,14 @@ def comp_update_active(id):
     """
     return comp_update_active_driver(id, request.json)
 
+
 def comp_update_active_driver(id, req):
     try:
         activeCompetitions_ref.document(id).update(req)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 @app.route('/update-stale-competition/<id>', methods=['POST', 'PUT'])
 def comp_update_stale(id):
@@ -775,6 +798,7 @@ def comp_update_stale(id):
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## Might be legacy code.. will probably delete since deleting through URL is probably easier.
 @app.route('/delete-active-competition', methods=['GET', 'DELETE'])
@@ -790,6 +814,7 @@ def comp_delete():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Be sure to pass in the competition id in the url
 @app.route('/delete-active-competition/<id>', methods=['GET', 'DELETE'])
 def comp_delete_active_id(id):
@@ -804,6 +829,7 @@ def comp_delete_active_id(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/delete-stale-competition/<id>', methods=['GET', 'DELETE'])
 def comp_delete_stale_id(id):
     """
@@ -817,6 +843,7 @@ def comp_delete_stale_id(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## enters user into competition
 @app.route('/enter-competition', methods=['POST'])
 def comp_enter_user():
@@ -827,12 +854,14 @@ def comp_enter_user():
     """
     return comp_enter_user_driver(request.json)
 
+
 def comp_enter_user_driver(req_obj):
     try:
         competitors_ref.document().set(req_obj)
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## edits user submitted algorithm in competition
 @app.route('/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
@@ -848,6 +877,7 @@ def comp_edit_algorithm(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## Be sure to pass in the competition id in the url
 @app.route('/unregister-competition/<id>', methods=['GET', 'DELETE'])
 def comp_unregister_competition(id):
@@ -862,6 +892,7 @@ def comp_unregister_competition(id):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 ## End comp CRUD Block
 
 ## Start Bot CRUD Block
@@ -874,6 +905,7 @@ def bot_create():
     """
     return bot_create_driver(request.json)
 
+
 def bot_create_driver(req_obj):
     try:
         bots_ref.document(req_obj["userID"]).set(req_obj)
@@ -881,6 +913,7 @@ def bot_create_driver(req_obj):
         return jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 @app.route('/list-bots', methods=['GET'])
 def bots_list():
@@ -893,6 +926,7 @@ def bots_list():
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
 def bots_list_driver():
     bots = bots_ref.stream()
     botsList = []
@@ -901,7 +935,6 @@ def bots_list_driver():
         botDict['id'] = bot.id
         botsList.append(botDict)
     return botsList
-
 
 
 ## Beginning of yahoo Finance information
@@ -913,16 +946,17 @@ def get_highchart_data():
         data = yf.download(dataDict['ticker'], dataDict['startDate'], dataDict['endDate'])
 
         dates = data['Close'].index.tolist()
-        closes = list(map(lambda x: round(x,2), data['Close'].tolist()))
+        closes = list(map(lambda x: round(x, 2), data['Close'].tolist()))
 
         unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
         unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
-        dataList = [[i,j] for i,j in zip(unixDatesWithMS,closes)]
+        dataList = [[i, j] for i, j in zip(unixDatesWithMS, closes)]
 
         return jsonify(dataList)
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 @app.route('/getNews/<ticker>', methods=['GET'])
 def get_yahoo_news(ticker):
@@ -938,6 +972,8 @@ def get_yahoo_news(ticker):
         return jsonify(listOfNews)
     except Exception as e:
         return f"An Error Occurred: {e}"
+
+
 @app.route('/getLogo/<ticker>', methods=['GET'])
 def get_stock_logo(ticker):
     try:
@@ -945,15 +981,19 @@ def get_stock_logo(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 def get_stock_logo_driver(ticker):
     # Check internal cache
     # TODO: Set up cache
     ticker_info = yf.Ticker(ticker)
     return ticker_info.info['logo_url']
 
+
 @app.route('/getInfo/<ticker>', methods=['GET'])
 def get_stock_info(ticker):
     return get_stock_info_driver(ticker)
+
+
 def get_stock_info_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -961,9 +1001,12 @@ def get_stock_info_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getRecommendations/<ticker>')
 def get_stock_recommendations(ticker):
     return get_stock_recommendations_driver(ticker)
+
+
 def get_stock_recommendations_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -980,9 +1023,12 @@ def get_stock_recommendations_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getStockSplits/<ticker>', methods=['GET'])
 def get_stock_splits(ticker):
     return get_stock_splits_driver(ticker)
+
+
 def get_stock_splits_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -991,9 +1037,12 @@ def get_stock_splits_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getStockCalendar/<ticker>', methods=['GET'])
 def get_stock_calendar(ticker):
     return get_stock_calendar_driver(ticker)
+
+
 def get_stock_calendar_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1002,9 +1051,12 @@ def get_stock_calendar_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getStockFinancials/<ticker>', methods=['GET'])
 def get_stock_financials(ticker):
     return get_stock_financials_driver(ticker)
+
+
 def get_stock_financials_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1013,9 +1065,12 @@ def get_stock_financials_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getStockActions/<ticker>', methods=['GET'])
 def get_stock_actions(ticker):
     return get_stock_actions_driver(ticker)
+
+
 def get_stock_actions_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1024,9 +1079,12 @@ def get_stock_actions_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getStockDividends/<ticker>', methods=['GET'])
 def get_stock_dividends(ticker):
     return get_stock_dividends_driver(ticker)
+
+
 def get_stock_dividends_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1035,9 +1093,12 @@ def get_stock_dividends_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getQuartFinancials/<ticker>', methods=['GET'])
 def get_quart_financials(ticker):
     return get_quart_financials_driver(ticker)
+
+
 def get_quart_financials_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1046,9 +1107,12 @@ def get_quart_financials_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getQuartEarnings/<ticker>', methods=['GET'])
 def get_quart_earnings(ticker):
     return get_quart_earnings_driver(ticker)
+
+
 def get_quart_earnings_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1057,9 +1121,12 @@ def get_quart_earnings_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getMajorHolders/<ticker>', methods=['GET'])
 def get_major_holders(ticker):
     return get_major_holders_driver(ticker)
+
+
 def get_major_holders_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1068,9 +1135,12 @@ def get_major_holders_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getInstHolders/<ticker>', methods=['GET'])
 def get_institutional_holders(ticker):
     return get_institutional_holders_driver(ticker)
+
+
 def get_institutional_holders_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1079,9 +1149,12 @@ def get_institutional_holders_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getBalanceSheet/<ticker>', methods=['GET'])
 def get_balance_sheet(ticker):
     return get_balance_sheet_driver(ticker)
+
+
 def get_balance_sheet_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1090,9 +1163,12 @@ def get_balance_sheet_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getQuartBalanceSheet/<ticker>', methods=['GET'])
 def get_quartery_balance_sheet(ticker):
     return get_quartery_balance_sheet_driver(ticker)
+
+
 def get_quartery_balance_sheet_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1101,9 +1177,12 @@ def get_quartery_balance_sheet_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getCashflow/<ticker>', methods=['GET'])
 def get_cashflow(ticker):
     return get_cashflow_driver(ticker)
+
+
 def get_cashflow_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1112,9 +1191,12 @@ def get_cashflow_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getQuartCashflow/<ticker>', methods=['GET'])
 def get_quart_cashflow(ticker):
     return get_quart_cashflow_driver(ticker)
+
+
 def get_quart_cashflow_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1123,9 +1205,12 @@ def get_quart_cashflow_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getEarnings/<ticker>', methods=['GET'])
 def get_earnings(ticker):
     return get_earnings_driver(ticker)
+
+
 def get_earnings_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1134,9 +1219,12 @@ def get_earnings_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getSustainability/<ticker>', methods=['GET'])
 def get_sustainability(ticker):
     return get_sustainability_driver(ticker)
+
+
 def get_sustainability_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1145,9 +1233,12 @@ def get_sustainability_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getIsin/<ticker>', methods=['GET'])
 def get_isin(ticker):
     return get_isin_driver(ticker)
+
+
 def get_isin_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1156,9 +1247,12 @@ def get_isin_driver(ticker):
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
 @app.route('/getOptions/<ticker>', methods=['GET'])
 def get_options(ticker):
     return get_options_driver(ticker)
+
+
 def get_options_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1166,6 +1260,7 @@ def get_options_driver(ticker):
         return jsonify(ticker_info.options)
     except Exception as e:
         return f"An Error Occurred: {e}"
+
 
 ## END yahoo finance information
 
@@ -1184,7 +1279,6 @@ def uploadPhoto(filename):
         blob = bucket.blob(filename)
         blob.upload_from_filename(filename)
 
-
         # Make the blob publicly viewable
         blob.make_public()
 
@@ -1195,9 +1289,12 @@ def uploadPhoto(filename):
     except Exception as e:
         return f"An Error Occured: {e}"
 
+
 ## Schedule jobs
 
-randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP', 'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
+randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP',
+                   'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
+
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
@@ -1206,8 +1303,8 @@ def generateCompetitions():
     amount_competitions = 5
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
-    randomTimes = [today + timedelta(days=random.randint(3,30)) for _ in range(amount_competitions)]
-    randomInitialStarting = [ int( f"1{random.randint(3,7) * '0'}" ) for _ in range(amount_competitions)]
+    randomTimes = [today + timedelta(days=random.randint(3, 30)) for _ in range(amount_competitions)]
+    randomInitialStarting = [int(f"1{random.randint(3, 7) * '0'}") for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
         close_time = randomTimes[i]
@@ -1222,30 +1319,34 @@ def generateCompetitions():
             "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
-            "leaderboard": [], # Should be a list of algorithmIDs, sorted by highest value first
-            "logo": get_stock_logo_driver(ticker) # TODO: Change this to use the cached version instead
-            }
+            "leaderboard": [],  # Should be a list of algorithmIDs, sorted by highest value first
+            "logo": get_stock_logo_driver(ticker)  # TODO: Change this to use the cached version instead
+        }
 
         active_comp_create_driver(comp_obj)
+
 
 def generateBot():
     botsList = [doc.to_dict() for doc in bots_ref.stream()]
     username = "Bot" + str(len(botsList) + 1)
     bot_obj = {
-        "username" : username,
-        "userID" : "bot" + str(len(botsList) + 1),
-        "bot" : True
+        "username": username,
+        "userID": "bot" + str(len(botsList) + 1),
+        "bot": True
     }
     bot_create_driver(bot_obj)
     return ("Bot Created: " + username), 200
+
 
 @app.route('/generate_bot', methods=['PUT'])
 def generateBotAPI():
     return generateBot()
 
+
 @app.route('/enterBotsComp', methods=['PUT'])
 def enterBotsCompAPI():
     return enterBotsIntoComps()
+
 
 def enterBotsIntoComps():
     competitions = active_comps_list_driver()
@@ -1254,7 +1355,7 @@ def enterBotsIntoComps():
     # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
     indicators = ["NONE", "SMA", "EMA"]
     actions = ["buy", "sell"]
-    comparators = ["Above", "Below"]
+    comparators = ["above", "below"]
     newCompetitionsEntered = []
     newAlgosCreated = 0
     reusedAlgos = 0
@@ -1262,21 +1363,20 @@ def enterBotsIntoComps():
 
     for comp in competitions:
         for bot in botsList:
-            competitors = competitors_ref.where("competition" , "==", comp['id']).where("userID", "==", bot['userID']).get()
+            competitors = competitors_ref.where("competition", "==", comp['id']).where("userID", "==",
+                                                                                       bot['userID']).get()
             if len(competitors) == 0:
                 algo = algorithms_ref.where("ticker", "==", comp['ticker']).where("userID", "==", bot['userID']).get()
                 algoID = ""
                 if len(algo) == 0:
                     algoName = str(bot['username']) + "'s " + str(comp['ticker']) + " Competition Algorithm"
                     entries = []
-                    for i in range(random.randint(1,3)):
+                    for i in range(random.randint(1, 3)):
                         entry = {
                             "action": random.choice(actions),
-                            "indicator1": random.choice(indicators),
+                            "indicatorOne": random.choice(indicators),
                             "comparator": random.choice(comparators),
-                            "indicator2": random.choice(indicators),
-                            "paramsOne": {},
-                            "paramsTwo": {}
+                            "indicatorTwo": random.choice(indicators)
                         }
                         entries.append(entry)
                     algo = {
@@ -1285,7 +1385,8 @@ def enterBotsIntoComps():
                         "public": True,
                         "runningTime": "30",
                         "userID": bot['userID'],
-                        "entry" : entries
+                        "PnL": 0,
+                        "entry": entries
                     }
                     algoID = (bot['userID'] + comp['ticker'])
                     algo_create_driver(algo, algoID)
@@ -1296,7 +1397,7 @@ def enterBotsIntoComps():
                 competitor_obj = {
                     "competition": comp['id'],
                     "userID": bot['userID'],
-                    "algorithm" : algoID
+                    "algorithm": algoID
                 }
                 comp_enter_user_driver(competitor_obj)
                 newCompetitionsEntered.append(algoName + " into " + comp['name'])
@@ -1305,13 +1406,17 @@ def enterBotsIntoComps():
     newCompsEnteredString = "\n"
     for comp in newCompetitionsEntered:
         newCompsEnteredString += comp + "\n"
-    return ("Successfully entered " + str(len(set(newBots))) + " new bots into competitions: " + newCompsEnteredString + "\nNew algos created: " + str(newAlgosCreated) + "\nReused algos: " + str(reusedAlgos) + " \nTOTAL COMPETITORS ADDED: " + str(len(newCompetitionsEntered))), 200
+    return ("Successfully entered " + str(
+        len(set(newBots))) + " new bots into competitions: " + newCompsEnteredString + "\nNew algos created: " + str(
+        newAlgosCreated) + "\nReused algos: " + str(reusedAlgos) + " \nTOTAL COMPETITORS ADDED: " + str(
+        len(newCompetitionsEntered))), 200
 
 
 @app.route('/findBestUsers', methods=['PUT'])
 def findBestUsersAPI():
     findBestUsers()
     return "Successfully Ran Competitions", 200
+
 
 def findBestUsers():
     competitions = []
@@ -1349,10 +1454,9 @@ def findBestUsers():
             backtestResults = {"PnL": 0}
             try:
                 backtestResults = backtest_driver(algo_dict)
-                update_algo_after_bt(algo_dict["id"], {"PnL" : backtestResults["PnL"]})
+                update_algo_after_bt(algo_dict["id"], {"PnL": backtestResults["PnL"]})
             except Exception as e:
                 print(e)
-
 
             leaderboardsPair.append((leader_obj, backtestResults["PnL"]))
         # Update competition with sorted best players
@@ -1371,6 +1475,7 @@ def scheduleTest():
     print(f"schedule posted at {datetime.now()}")
     generateCompetitions()
 
+
 scheduler = BackgroundScheduler({'apscheduler.job_defaults.max_instances': 5})
 scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # scheduler.add_job(func=findBestUsers, trigger="interval", hours=12)
@@ -1378,10 +1483,9 @@ scheduler.add_job(func=generateCompetitions, trigger="interval", days=7)
 # Need to figure out what server it will be hosted on to get correct market open time
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=7, minute=30)
 scheduler.add_job(func=findBestUsers, trigger='cron', hour=14)
-scheduler.add_job(func=generateBot, trigger="cron", day_of_week=1, hour = 8, minute = 0)
-scheduler.add_job(func=enterBotsIntoComps, trigger="cron", day_of_week=6, hour=8, minute = 30)
+scheduler.add_job(func=generateBot, trigger="cron", day_of_week=1, hour=8, minute=0)
+scheduler.add_job(func=enterBotsIntoComps, trigger="cron", day_of_week=6, hour=8, minute=30)
 # scheduler.add_job(func=scheduleTest, trigger='interval', seconds=15)
-
 
 
 # CRON jobs for whatever else I need can be set here.

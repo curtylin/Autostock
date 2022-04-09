@@ -10,13 +10,23 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import { Accordion, AccordionSummary, AccordionDetails, Backdrop, Card, CardActions, CardContent, CircularProgress, Divider, Grid, Typography } from "@mui/material"
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Backdrop,
+  Card,
+  CardActions,
+  CardContent,
+  CircularProgress,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material"
 import { getUser } from "../../services/auth"
-import AddIcon from '@mui/icons-material/Add';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddIcon from "@mui/icons-material/Add"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import { navigate } from "gatsby"
-
-
 
 const isBrowser = typeof window !== "undefined"
 let jsConfetti: any
@@ -39,7 +49,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
-  const [data , setStockData] = useState([])
+  const [data, setStockData] = useState([])
   const [showSpinner, setShowSpinner] = useState(false)
   const showSpin = () => setShowSpinner(true)
   const noShowSpin = () => setShowSpinner(false)
@@ -49,7 +59,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
   const [AlgoDescription, setAlgoDescription] = useState("")
-
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -64,10 +73,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   }
   const handleExpand = (event: any) => {
     let today = new Date().toISOString().slice(0, 10)
-    const d = new Date();
-    d.setFullYear(d.getFullYear()-1);
-    
-    let lastYear = d.toISOString().slice(0,10)
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
+
+    let lastYear = d.toISOString().slice(0, 10)
 
     let body = `{
       "ticker": "${stock}",
@@ -82,14 +91,13 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("http://34.106.176.23:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
       .then(result => {
         setStockData(result)
       })
-
   }
 
   const handleBlur = () => {
@@ -105,23 +113,23 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       headers,
       body,
     }
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("http://34.106.176.23/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
       .then(result => {
         setStockData(result)
-      }) 
+      })
       .catch(e => {
         // error in e.message
       })
-  };
+  }
   const [urls, setUrl] = useState("")
 
   const handleBacktest = (event: any) => {
     show()
     showSpin()
-    
+
     let currDate = new Date()
     //create json object
     let obj = {
@@ -135,20 +143,20 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
 
-    let entry =`{
+    let entry = `{
       "action": "${action}",
-      "indicator1": "${indicator1}",
+      "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicator2": "${indicator2}",
-      "paramsOne": {}
-      "paramsTwo": {}
+      "indicatorTwo": "${indicator2}"
     }`
-    
+
     let body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": 1000,
-      "startDate": "${currDate.getFullYear() - 1}-${currDate.getMonth()}-${currDate.getDate()}",
+      "startDate": "${
+        currDate.getFullYear() - 1
+      }-${currDate.getMonth()}-${currDate.getDate()}",
       "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
       "runtime": "${runningTime}",
       "entry": [
@@ -162,7 +170,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/backtest", init)
+    fetch("http://34.106.176.23:5000/backtest", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -183,7 +191,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         // error in e.message
       })
     event.preventDefault()
-
   }
 
   const [algorithm, setAlgorithm] = useState<any>([])
@@ -194,7 +201,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const getAlgoDB = () => {
     if (isBrowser) {
       fetch(
-        `http://localhost:5000/get-algorithm/${window.history.state.algorithm.id}`,
+        `http://34.106.176.23:5000/get-algorithm/${window.history.state.algorithm.id}`,
         {
           headers: {
             Accept: "application/json",
@@ -222,11 +229,11 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   }
 
   const handleSubmit = (event: any) => {
-    let entry =`{
+    let entry = `{
       "action": "${action}",
-      "indicator1": "${indicator1}",
+      "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicator2": "${indicator2}",
+      "indicatorTwo": "${indicator2}",
       "paramsOne": {},
       "paramsTwo": {}
     }`
@@ -252,7 +259,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     }
     console.log("sending api call")
     fetch(
-      `http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`,
+      `http://34.106.176.23:5000/update-algorithm/${window.history.state.algorithm.id}`,
       init
     )
       .then(response => {
@@ -271,32 +278,27 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         // error in e.message
       })
     event.preventDefault()
-    navigate('/app/myalgorithms')
+    navigate("/app/myalgorithms")
   }
 
   const BackTestingPart = () => (
     <div>
       <h2>Backtesting Data: {algoName}</h2>
-        <Card variant="outlined" sx={{ minWidth: 275, mb:5}}>
-          <CardContent>
-            <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
-              {stock}
-            </Typography>
-            <Typography variant="h5">
-              Ending Value: ${BTendRes}
-            </Typography>
-            <Typography variant="h6">
-              PnL Percentage: {BTPnLPer.toString().substring(0,4)}%
-            </Typography>
-            <Typography variant="h6">
-              Started with: ${BTstart}
-            </Typography>
-          </CardContent>
-        </Card>
-          <img src={`${urls}`}></img>      
+      <Card variant="outlined" sx={{ minWidth: 275, mb: 5 }}>
+        <CardContent>
+          <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+            {stock}
+          </Typography>
+          <Typography variant="h5">Ending Value: ${BTendRes}</Typography>
+          <Typography variant="h6">
+            PnL Percentage: {BTPnLPer.toString().substring(0, 4)}%
+          </Typography>
+          <Typography variant="h6">Started with: ${BTstart}</Typography>
+        </CardContent>
+      </Card>
+      <img src={`${urls}`}></img>
     </div>
   )
-
 
   return (
     <Layout>
@@ -314,11 +316,16 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
-              sx={{ mt: 2, mr: 5, minWidth: {xs: 300, md: 703}, maxWidth:300 }}
+              sx={{
+                mt: 2,
+                mr: 5,
+                minWidth: { xs: 300, md: 703 },
+                maxWidth: 300,
+              }}
               id="outlined-search"
               label="Algorithm Name"
-              type="text"              
-              inputProps={{ maxLength: 100}}
+              type="text"
+              inputProps={{ maxLength: 100 }}
             />
           </Tooltip>
           {/* Stock Symbol */}
@@ -335,7 +342,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 type="search"
                 id="outlined-search"
                 label="Stock"
-                inputProps={{ maxLength: 9}}
+                inputProps={{ maxLength: 9 }}
               />
             </Tooltip>
             {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
@@ -345,121 +352,170 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </FormControl>
         </div>
         <div>
-        <TextField inputProps={{ maxLength: 1000}} value={AlgoDescription} multiline rows={3} 
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setAlgoDescription(e.target.value)
-                    }} sx={{mb:0}} label="Algorithm description" fullWidth>
-        </TextField>
+          <TextField
+            inputProps={{ maxLength: 1000 }}
+            value={AlgoDescription}
+            multiline
+            rows={3}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setAlgoDescription(e.target.value)
+            }}
+            sx={{ mb: 0 }}
+            label="Algorithm description"
+            fullWidth
+          ></TextField>
         </div>
         <div>
-          <Divider sx={{my:2, mb:2}}/>
+          <Divider sx={{ my: 2, mb: 2 }} />
         </div>
         <h4>Indicators</h4>
         <div>
-        {/* Indicator */}
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            Indicator 1
-          </InputLabel>
-          {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            label="Indicator 1"
-            value={indicator1}
-            onChange={e => {
-              setIndicator1(e.target.value)
-            }}
-          >
-            <MenuItem value={"NONE"}>None</MenuItem>
-            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
-            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
-            <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-            <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
-            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
-            <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
-            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
-            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
-            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-            <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
-            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
-            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
-            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
-            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
-            <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
-          </Select>
-          {/* </Tooltip> */}
-        </FormControl>
-        {/* Comparator 1 */}
-        <FormControl sx={{ ml:{sm:0, md:0}, my: 2, mr: 5, minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-          Comparator
-          </InputLabel>
-          <Tooltip title="Comparator 1" placement="left" arrow>
+          {/* Indicator */}
+          <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+            <InputLabel id="demo-simple-select-standard-label">
+              Indicator 1
+            </InputLabel>
+            {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Comparator"
-              value={comparator1}
+              label="Indicator 1"
+              value={indicator1}
               onChange={e => {
-                setComparator1(e.target.value)
+                setIndicator1(e.target.value)
               }}
             >
-              <MenuItem value={"Above"}>Goes Above</MenuItem>
-              <MenuItem value={"Below"}>Goes Below</MenuItem>
+              <MenuItem value={"NONE"}>None</MenuItem>
+              <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+              <MenuItem value={"ADXR"}>
+                ADXR - Average Directional Index Rating
+              </MenuItem>
+              <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+              <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+              <MenuItem value={"EMA"}>
+                EMA - Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"DEMA"}>
+                DEMA - Double Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"KAMA"}>
+                KAMA - Kaufman Adaptive Moving Average
+              </MenuItem>
+              <MenuItem value={"MA"}>MA - Moving average</MenuItem>
+              <MenuItem value={"MACD"}>
+                MACD- Moving Average Convergence Divergence
+              </MenuItem>
+              <MenuItem value={"PPO"}>
+                PPO - Percentage Price Oscilator
+              </MenuItem>
+              <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+              <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
+              <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
+              <MenuItem value={"SAREXT"}>
+                SAREXT - Parabolic SAR - Extended
+              </MenuItem>
+              <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+              <MenuItem value={"T3"}>
+                T3 - Triple Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+              <MenuItem value={"TEMA"}>
+                TEMA - Triple Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"ULTIMATE"}>
+                ULTIMATE - Ultimate Oscilator
+              </MenuItem>
+              <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+              <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
             </Select>
-          </Tooltip>
-        </FormControl>
-        {/* Indicator 2*/}
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            Indicator 2 (Yeterday's Value)
-          </InputLabel>
-          {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            label="Indicator 2 (Yeterday's Value)"
-            value={indicator2}
-            onChange={e => {
-              setIndicator2(e.target.value)
-            }}
+            {/* </Tooltip> */}
+          </FormControl>
+          {/* Comparator 1 */}
+          <FormControl
+            sx={{ ml: { sm: 0, md: 0 }, my: 2, mr: 5, minWidth: 200 }}
           >
-            <MenuItem value={"NONE"}>None</MenuItem>
-            <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-            <MenuItem value={"ADXR"}>ADXR - Average Directional Index Rating</MenuItem>
-            <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
-            <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-            <MenuItem value={"EMA"}>EMA - Exponential Moving Average</MenuItem>
-            <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
-            <MenuItem value={"KAMA"}>KAMA - Kaufman Adaptive Moving Average</MenuItem>
-            <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-            <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
-            <MenuItem value={"PPO"}>PPO - Percentage Price Oscilator</MenuItem>
-            <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
-            <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-            <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-            <MenuItem value={"SAREXT"}>SAREXT - Parabolic SAR - Extended</MenuItem>
-            <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-            <MenuItem value={"T3"}>T3 - Triple Exponential Moving Average</MenuItem>
-            <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-            <MenuItem value={"TEMA"}>TEMA - Triple Exponential Moving Average</MenuItem>
-            <MenuItem value={"ULTIMATE"}>ULTIMATE - Ultimate Oscilator</MenuItem>
-            <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
-            <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
-          </Select>
-          {/* </Tooltip> */}
-        </FormControl>
+            <InputLabel id="demo-simple-select-standard-label">
+              Comparator
+            </InputLabel>
+            <Tooltip title="Comparator 1" placement="left" arrow>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                label="Comparator"
+                value={comparator1}
+                onChange={e => {
+                  setComparator1(e.target.value)
+                }}
+              >
+                <MenuItem value={"Above"}>Goes Above</MenuItem>
+                <MenuItem value={"Below"}>Goes Below</MenuItem>
+              </Select>
+            </Tooltip>
+          </FormControl>
+          {/* Indicator 2*/}
+          <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+            <InputLabel id="demo-simple-select-standard-label">
+              Indicator 2 (Yeterday's Value)
+            </InputLabel>
+            {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Indicator 2 (Yeterday's Value)"
+              value={indicator2}
+              onChange={e => {
+                setIndicator2(e.target.value)
+              }}
+            >
+              <MenuItem value={"NONE"}>None</MenuItem>
+              <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+              <MenuItem value={"ADXR"}>
+                ADXR - Average Directional Index Rating
+              </MenuItem>
+              <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+              <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+              <MenuItem value={"EMA"}>
+                EMA - Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"DEMA"}>
+                DEMA - Double Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"KAMA"}>
+                KAMA - Kaufman Adaptive Moving Average
+              </MenuItem>
+              <MenuItem value={"MA"}>MA - Moving average</MenuItem>
+              <MenuItem value={"MACD"}>
+                MACD- Moving Average Convergence Divergence
+              </MenuItem>
+              <MenuItem value={"PPO"}>
+                PPO - Percentage Price Oscilator
+              </MenuItem>
+              <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+              <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
+              <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
+              <MenuItem value={"SAREXT"}>
+                SAREXT - Parabolic SAR - Extended
+              </MenuItem>
+              <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
+              <MenuItem value={"T3"}>
+                T3 - Triple Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+              <MenuItem value={"TEMA"}>
+                TEMA - Triple Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"ULTIMATE"}>
+                ULTIMATE - Ultimate Oscilator
+              </MenuItem>
+              <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+              <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+            </Select>
+            {/* </Tooltip> */}
+          </FormControl>
         </div>
         <div>
-            {/* Action */}
-            <FormControl  sx={{ my: 2, minWidth: 200 }}>
+          {/* Action */}
+          <FormControl sx={{ my: 2, minWidth: 200 }}>
             <InputLabel id="demo-simple-select-standard-label">
               Action
             </InputLabel>
@@ -479,13 +535,13 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             </Tooltip>
           </FormControl>
           <div>
-          <Button  sx={{borderRadius:1000}}>
-              <AddIcon/> Add Condition
-          </Button>
-        </div>
+            <Button sx={{ borderRadius: 1000 }}>
+              <AddIcon /> Add Condition
+            </Button>
+          </div>
         </div>
         <div>
-        <Divider sx={{my:2, mb:2}}/>
+          <Divider sx={{ my: 2, mb: 2 }} />
         </div>
         {/* Running Time */}
         <FormControl sx={{ my: 2, minWidth: 500 }}>
@@ -534,19 +590,18 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       </form>
 
       <div>
-        <Accordion sx={{mb:2}}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              onClick={handleExpand}
-            >
-              <Typography>Historical Data</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
+        <Accordion sx={{ mb: 2 }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            onClick={handleExpand}
+          >
+            <Typography>Historical Data</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             <HighChart stock={stock} stockData={data} />
-              
-            </AccordionDetails>
+          </AccordionDetails>
         </Accordion>
       </div>
       <div id="BackTestButton">
@@ -559,13 +614,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         >
           BackTest
         </Button>
-        <Typography
-            color="red"
-            hidden={stock != ""}
-            fontSize={16}
-          >
-            Please fill out a Stock Ticker before BackTesting
-          </Typography>
+        <Typography color="red" hidden={stock != ""} fontSize={16}>
+          Please fill out a Stock Ticker before BackTesting
+        </Typography>
         {showSpinner ? <CircularProgress color="inherit" /> : null}
       </div>
 
