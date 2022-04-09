@@ -163,7 +163,7 @@ const IndexPage = () => {
             fontWeight="600"
             component="div"
             textAlign="center"
-            sx={{ display: { xs: "none", md: "flex" }, mb: 5 }}
+            sx={{ display: { xs: "flex", md: "flex" }, mb: 5 }}
             style={{ color: "#059a76" }}
           >
             Start your journey with Autostock today!
