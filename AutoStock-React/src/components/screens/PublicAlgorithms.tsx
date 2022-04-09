@@ -15,8 +15,8 @@ const PublicAlgorithms = () => {
   }, [])
 
   const getAlgorithmsDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/list-algorithm", {
+    //fetch post to 34.106.176.23
+    fetch("http://34.106.176.23:5000/list-algorithm", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -32,8 +32,8 @@ const PublicAlgorithms = () => {
   }
 
   const getUsersDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/list-user", {
+    //fetch post to 34.106.176.23
+    fetch("http://34.106.176.23:5000/list-user", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -44,12 +44,13 @@ const PublicAlgorithms = () => {
         return res.json()
       })
       .then(result => {
-        for(let i = 0; i < result.length; i++){
-          setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
+        for (let i = 0; i < result.length; i++) {
+          setUsers(
+            prev => new Map([...prev, [result[i].userID, result[i].username]])
+          )
         }
       })
   }
-
 
   return (
     <Layout>
@@ -69,18 +70,10 @@ const PublicAlgorithms = () => {
                 >
                   Algorithm Name
                 </th>
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                >
+                <th className="table_header" role="columnheader" scope="col">
                   Day Gain (%)
                 </th>
-                <th
-                  className="table_header" 
-                  role="columnheader"
-                  scope="col"
-                >
+                <th className="table_header" role="columnheader" scope="col">
                   {" "}
                   Creator{" "}
                 </th>
@@ -91,10 +84,22 @@ const PublicAlgorithms = () => {
                 return (
                   <tr className="table_row" key={key}>
                     <td className="table_data" scope="row">
-                      <Link className="table_links" to="/app/algorithm" state={algorithm}>{algorithm.name}</Link>
+                      <Link
+                        className="table_links"
+                        to="/app/algorithm"
+                        state={algorithm}
+                      >
+                        {algorithm.name}
+                      </Link>
                     </td>
-                    <td className="table_data">{algorithm.PnL == undefined ? "--" : algorithm.PnL+"%"}</td>
-                    <td className="table_data">{users.has(algorithm.userID) ? (users.get(algorithm.userID)): (algorithm.userID)}</td>
+                    <td className="table_data">
+                      {algorithm.PnL == undefined ? "--" : algorithm.PnL + "%"}
+                    </td>
+                    <td className="table_data">
+                      {users.has(algorithm.userID)
+                        ? users.get(algorithm.userID)
+                        : algorithm.userID}
+                    </td>
                   </tr>
                 )
               })}

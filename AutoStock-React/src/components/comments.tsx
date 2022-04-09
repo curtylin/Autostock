@@ -1,17 +1,17 @@
 import * as React from "react"
-import { Accordion, AccordionDetails, AccordionSummary, Button, Typography } from "@mui/material"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AddIcon from '@mui/icons-material/Add';
-import CommentDialog from "./commentDialog";
-import { useState, useEffect } from "react";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Typography,
+} from "@mui/material"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import AddIcon from "@mui/icons-material/Add"
+import CommentDialog from "./commentDialog"
+import { useState, useEffect } from "react"
 
-
-const Comments = ({
-    id,
-    commentText,
-    commentUser,
-    allUsers
-}: any) => {  
+const Comments = ({ id, commentText, commentUser, allUsers }: any) => {
   const [users, setUsers] = useState(new Map<string, string>())
 
   useEffect(() => {
@@ -19,8 +19,8 @@ const Comments = ({
   }, [])
 
   // const getUsersDB = () => {
-  //   //fetch post to localhost
-  //   fetch("http://localhost:5000/list-user", {
+  //   //fetch post to 34.106.176.23
+  //   fetch("http://34.106.176.23:5000/list-user", {
   //     headers: {
   //       Accept: "application/json",
   //       "Content-Type": "application/json",
@@ -39,14 +39,22 @@ const Comments = ({
 
   return (
     <div>
-        <AccordionDetails sx={{ml:3}}>            
-          <Typography fontSize="16px" fontWeight="300" variant="h5" component="div">
-            <span className="dis_UserName">{allUsers.get(commentUser) == "" || !allUsers.has(commentUser) ? "Anonymous" : allUsers.get(commentUser)} </span>{commentText}
-          </Typography>  
-        </AccordionDetails>
-        
+      <AccordionDetails sx={{ ml: 3 }}>
+        <Typography
+          fontSize="16px"
+          fontWeight="300"
+          variant="h5"
+          component="div"
+        >
+          <span className="dis_UserName">
+            {allUsers.get(commentUser) == "" || !allUsers.has(commentUser)
+              ? "Anonymous"
+              : allUsers.get(commentUser)}{" "}
+          </span>
+          {commentText}
+        </Typography>
+      </AccordionDetails>
     </div>
-
   )
 }
 export default Comments
