@@ -83,7 +83,7 @@ const CreateAlgorithm = () => {
   const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
   const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
   const [startingAmount, setStartingAmount] = useState(1000)
-
+  const [validTicker, setValidTicker] = useState(true)
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -115,7 +115,12 @@ const CreateAlgorithm = () => {
         return res.json()
       })
       .then(result => {
-        setStockData(result)
+        if (result.length > 0) {
+          setValidTicker(true)
+          setStockData(result)
+        } else {
+          setValidTicker(false)
+        }
       })
       .catch(e => {
         // error in e.message
@@ -295,13 +300,16 @@ const CreateAlgorithm = () => {
                 type="search"
                 id="outlined-search"
                 label="Stock "
+                sx={{ input: { color: validTicker ? 'black' : 'red' } }}
                 inputProps={{ maxLength: 9 }}
               />
             </Tooltip>
-            {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
-            <Chip id="chp1" label="Deletable" onDelete={handleDelete} />
-            <Chip label="Deletable" onDelete={handleDelete}/>
-          </Stack> */}
+            <Typography
+              variant="caption"
+              color="red"
+            >
+              {validTicker ? null : "INVALID TICKER"}
+            </Typography>
           </FormControl>
         </div>
         <div>
