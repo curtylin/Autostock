@@ -133,7 +133,7 @@ const Leaderboards = () => {
                         return (
                           <tr className="table_row" key={key}>
                             <td className="table_data" scope="row">
-                              {algorithms.has(algorithm.algorithmID) ? (
+                              {algorithms.has(algorithm.algorithm) ? (
                                 <Link
                                   to="/app/algorithm"
                                   state={{
@@ -141,7 +141,7 @@ const Leaderboards = () => {
                                     userID: algorithm.userID,
                                   }}
                                 >
-                                  {algorithms.get(algorithm.algorithmID)}
+                                  {algorithms.get(algorithm.algorithm)}
                                 </Link>
                               ) : (
                                 "Private Algorithm"
