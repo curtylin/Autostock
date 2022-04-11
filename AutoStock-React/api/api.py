@@ -212,11 +212,13 @@ def backtest_driver(req):
 
     financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']),
                                             todate=parse(dataDict['endDate']))
+    
 
     cerebro.adddata(financeData)
 
     response = {}
     response["startingValue"] = cerebro.broker.getvalue()
+    print("line 222")
     cerebro.run()
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
@@ -1465,10 +1467,17 @@ def findBestUsers():
         endDate = competition["endDate"]
         startingCash = competition["startingBalance"]
 
+        competitors = competitors_ref.where("competition", "==", competitionId).get()
+        competitorsList = []
+        for competitor in competitors:
+            competitorDict = competitor.to_dict()
+            competitorDict["id"] = competitor.id
+            competitorsList.append(competitorDict)
+
         leaderboardsPair = []
-        for leader_obj in leaderboardList:
+        for competitor_obj in competitorsList:
             try:
-                algo = algorithms_ref.document(leader_obj["algorithmID"]).get()
+                algo = algorithms_ref.document(competitor_obj["algorithm"]).get()
                 algo_dict = algo.to_dict()
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
@@ -1483,8 +1492,9 @@ def findBestUsers():
                 update_algo_after_bt(algo_dict["id"], {"PnL": backtestResults["PnL"]})
             except Exception as e:
                 print(e)
-
-            leaderboardsPair.append((leader_obj, backtestResults["PnL"]))
+            
+            competitor_obj["PnL"] = backtestResults["PnL"]
+            leaderboardsPair.append((competitor_obj, backtestResults["PnL"]))
         # Update competition with sorted best players
         leaderboardsPair.sort(key=lambda tup: tup[1])
         newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
