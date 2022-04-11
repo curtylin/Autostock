@@ -5,11 +5,12 @@ html {
   box-sizing: border-box;
 }
 .layout_body {
-  background-image: url(../images/wance-paleri.jpg);
+  /* background-image: url(../images/wance-paleri.jpg); */
   /* image from : wance paleri @ https://unsplash.com/photos/-U35nb07DCM */
-  background-size: cover;
+  /* background-size: cover;
   overflow: hidden;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
+  background-color: #fafafa;
 }
 
 body {
@@ -25,6 +26,9 @@ body {
   -ms-font-feature-settings: "kern", "liga", "clig", "calt";
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
+}
+.aboutUsLink{
+  color: #797979
 }
 article,
 aside,

@@ -19,6 +19,9 @@ body {
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
+.aboutUsLink{
+  color: #797979
+}
 article,
 aside,
 details,
