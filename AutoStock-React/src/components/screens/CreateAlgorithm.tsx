@@ -21,6 +21,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  stepperClasses, Stepper
 } from "@mui/material"
 import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
@@ -68,6 +69,11 @@ const CreateAlgorithm = () => {
         setStocks(data)
       })
   }
+
+  const steps = [
+      'Create Algorithm',
+      'Analysis'
+  ]
 
   const handleBlur = () => {
     const headers = new Headers()
@@ -234,6 +240,10 @@ const CreateAlgorithm = () => {
         Need help? See our <Link to="/app/quickstartcreatealgo">guide</Link> to
         create an algorithm!
       </Typography>
+
+      <Stepper>
+
+      </Stepper>
       <form>
         <h4>Algorithm Details</h4>
         <div>
