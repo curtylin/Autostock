@@ -97,13 +97,48 @@ const CreateAlgorithm = () => {
       })
   }
 
+  const handleExpand = (event: any) => {
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
+
+    let lastYear = d.toISOString().slice(0, 10)
+
+    let body = `{
+      "ticker": "${stock}",
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
+    }`
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
+
+    fetch("http://localhost:5000/gethighchartdata ", init)
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        setStockData(result)
+      })
+  }
+
   const handleBlur = () => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
+
+    let lastYear = d.toISOString().slice(0, 10)
+
     let body = `{
       "ticker": "${stock}",
-      "startDate": "2020-11-9",
-      "endDate": "2021-11-9"
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
     }`
     let init = {
       method: "POST",
@@ -570,6 +605,7 @@ const CreateAlgorithm = () => {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            onClick={handleExpand}
           >
             <Typography>Historical Data</Typography>
           </AccordionSummary>
