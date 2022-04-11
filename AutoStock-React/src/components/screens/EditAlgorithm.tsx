@@ -88,6 +88,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
   const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
   const [startingAmount, setStartingAmount] = useState(1000)
+  const [validTicker, setValidTicker] = useState(true)
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -132,10 +133,16 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const handleBlur = () => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
+
+    let lastYear = d.toISOString().slice(0, 10)
+
     let body = `{
       "ticker": "${stock}",
-      "startDate": "2020-11-9",
-      "endDate": "2021-11-9"
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
     }`
     let init = {
       method: "POST",
@@ -147,7 +154,12 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         return res.json()
       })
       .then(result => {
-        setStockData(result)
+        if (result.length > 0) {
+          setValidTicker(true)
+          setStockData(result)
+        } else {
+          setValidTicker(false)
+        }
       })
       .catch(e => {
         // error in e.message
@@ -401,13 +413,16 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 type="search"
                 id="outlined-search"
                 label="Stock"
+                sx={{ input: { color: validTicker ? 'black' : 'red' } }}
                 inputProps={{ maxLength: 9 }}
               />
             </Tooltip>
-            {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
-            <Chip id="chp1" label="Deletable" onDelete={handleDelete} />
-            <Chip label="Deletable" onDelete={handleDelete}/>
-          </Stack> */}
+            <Typography
+              variant="caption"
+              color="red"
+            >
+              {validTicker ? null : "INVALID TICKER"}
+            </Typography>
           </FormControl>
         </div>
         <div>
