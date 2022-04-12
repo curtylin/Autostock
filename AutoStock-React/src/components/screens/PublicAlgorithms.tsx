@@ -93,7 +93,7 @@ const PublicAlgorithms = () => {
                       </Link>
                     </td>
                     <td className="table_data">
-                      {algorithm.PnL == undefined ? "--" : algorithm.PnL + "%"}
+                      {algorithm.PnLPercent == (undefined || 0) ? "--" : Number(algorithm.PnLPercent.toFixed(2)) + "%"}
                     </td>
                     <td className="table_data">
                       {users.has(algorithm.userID)

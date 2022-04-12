@@ -296,7 +296,7 @@ const Competition = () => {
   }
 
   let submitButton
-  const closeDate = new Date(competition.endDate)
+  const closeDate = new Date(competition.competitionLockDate)
   if (closeDate > new Date()) {
     // console.log("submissions open")
     if (competitiorID == "") {
@@ -408,7 +408,7 @@ const Competition = () => {
             variant="h2"
             gutterBottom
           >
-            Submissions Close: {competition.startDate}
+            Submissions Close: {competition.competitionLockDate}
           </Typography>
           <Typography
             sx={{ ml: 5, fontSize: 18 }}
@@ -496,12 +496,12 @@ const Competition = () => {
         </AccordionDetails>
       </Accordion>
 
-      {new Date(competition.startDate) > new Date() ? (
+      {new Date(competition.competitionLockDate) > new Date() ? (
         <h2>Submissions <span className="openText">Open</span></h2>
       ) : (
         <h2>Submissions <span className="closedText">Closed</span></h2>
       )}
-      {new Date(competition.startDate) > new Date() ? (
+      {new Date(competition.competitionLockDate) > new Date() ? (
         <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }}>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm

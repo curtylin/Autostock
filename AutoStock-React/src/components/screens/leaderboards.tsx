@@ -137,7 +137,7 @@ const Leaderboards = () => {
                                 <Link
                                   to="/app/algorithm"
                                   state={{
-                                    id: algorithm.algorithmID,
+                                    id: algorithm.algorithm,
                                     userID: algorithm.userID,
                                   }}
                                 >
@@ -147,7 +147,7 @@ const Leaderboards = () => {
                                 "Private Algorithm"
                               )}
                             </td>
-                            <td className="table_data">{algorithm.PnL}</td>
+                            <td className="table_data">{Number(algorithm.PnLPercent).toFixed(2)}</td>
                             <td className="table_data">
                               {users.has(algorithm.userID)
                                 ? users.get(algorithm.userID)
