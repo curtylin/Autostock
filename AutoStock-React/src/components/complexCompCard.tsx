@@ -26,7 +26,7 @@ const ComplexCompCard = ({
   logo,
 }: any) => {
   return (
-    <Card variant="outlined" className="compCard" sx={{ minWidth: 340, maxWidth: 340 }}>
+    <Card variant="outlined" className="compCard" sx={{ minWidth: 340, maxWidth: 340, minHeight: 300, maxHeight:300 }}>
       <CardActionArea
         id={id}
         onClick={event => {
@@ -48,7 +48,7 @@ const ComplexCompCard = ({
             fontWeight="600"
             fontSize="28px"
             variant="h4"
-            noWrap
+            // noWrap
             component="div"
             sx={{display: { xs: "flex", md: "flex" } }}
             style={{ color: "black" }}

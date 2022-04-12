@@ -31,7 +31,7 @@ const Competitions = () => {
         justifyContent="left"
         alignContent={{ xs: "center", sm: "flex", md: "flex" }}
         container
-        spacing={3}
+        spacing={1}
         sx={{ mb: 5 }}
       >
         {competitions.map((comp: any, index: number) => {
