@@ -147,7 +147,7 @@ const Leaderboards = () => {
                                 "Private Algorithm"
                               )}
                             </td>
-                            <td className="table_data">{algorithm.profit}</td>
+                            <td className="table_data">{algorithm.PnL}</td>
                             <td className="table_data">
                               {users.has(algorithm.userID)
                                 ? users.get(algorithm.userID)
