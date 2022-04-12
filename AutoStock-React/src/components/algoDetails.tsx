@@ -28,7 +28,7 @@ const AlgoDetails = ({
       required
       onChange={handleChange}
       onBlur={handleBlur}
-      value={algoName}
+      value={data.algoName}
       name="algoName"
       sx={{
         mt: 2,

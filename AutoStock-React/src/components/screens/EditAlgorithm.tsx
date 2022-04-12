@@ -10,7 +10,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import AlgoDetails from "../algoDetails"
+import EditAlgoDetails from "../editAlgoDetails"
 import {
   Accordion,
   AccordionSummary,
@@ -90,6 +90,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
   const [startingAmount, setStartingAmount] = useState(1000)
   const [validTicker, setValidTicker] = useState(true)
+  const [prevData, setPrevData] = useState({algoName: "", algoDescription: "", stock: ""})
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -260,7 +261,6 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           return res.json()
         })
         .then(result => {
-          console.log(result)
           setAlgoName(result.name)
           setStocks(result.ticker)
           setIndicator1(result.entry[0].indicatorOne)
@@ -273,6 +273,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         })
     }
   }
+
 
   const handleSubmit = (event: any) => {
     let entry = `{
@@ -383,12 +384,70 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       <Seo title="Autostock" />
       <h2>Edit Algorithm</h2>
 
-      <AlgoDetails updateAlgoDetails={updateAlgoDetails}/>
-      <Typography>
-        {algoName}
-        {AlgoDescription}
-        {stock}
-      </Typography>
+      <form>
+        <h4>Algorithm Details</h4>
+        <div>
+          {/* Algorithm Name */}
+          <Tooltip title="Give it a name!" placement="left" arrow>
+            <TextField
+              required
+              value={algoName || ""}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setAlgoName(e.target.value)
+              }}
+              sx={{
+                mt: 2,
+                mr: 5,
+                minWidth: { xs: 300, md: 703 },
+                maxWidth: 300,
+              }}
+              id="outlined-search"
+              label="Algorithm Name"
+              type="text"
+              inputProps={{ maxLength: 100 }}
+            />
+          </Tooltip>
+          {/* Stock Symbol */}
+          <FormControl sx={{ my: 2, minWidth: 300, maxWidth: 300 }}>
+            <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
+              <TextField
+                onBlur={handleBlur}
+                required
+                value={stock}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setStocks(e.target.value)
+                }}
+                type="search"
+                id="outlined-search"
+                label="Stock"
+                sx={{ input: { color: validTicker ? 'black' : 'red' } }}
+                inputProps={{ maxLength: 9 }}
+              />
+            </Tooltip>
+            <Typography
+              variant="caption"
+              color="red"
+            >
+              {validTicker ? null : "INVALID TICKER"}
+            </Typography>
+          </FormControl>
+        </div>
+        <div>
+          <TextField
+            inputProps={{ maxLength: 1000 }}
+            value={AlgoDescription}
+            multiline
+            rows={3}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setAlgoDescription(e.target.value)
+            }}
+            sx={{ mb: 0 }}
+            label="Algorithm description"
+            fullWidth
+          ></TextField>
+        </div>
+</form>
       
         <div>
           <Divider sx={{ my: 2, mb: 2 }} />
