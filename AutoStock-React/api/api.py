@@ -219,7 +219,6 @@ def backtest_driver(req):
     response = {}
     response["startingValue"] = cerebro.broker.getvalue()
     cerebro.run()
-    print("line 222")
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
@@ -1324,26 +1323,33 @@ def uploadPhoto(filename):
 randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP',
                    'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
 
+@app.route('/generate_comps', methods=['PUT'])
+def genComps():
+    return generateCompetitions(), 200
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
     today = date.today()
 
+
     amount_competitions = 5
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
-    randomTimes = [today + timedelta(days=random.randint(140, 365)) for _ in range(amount_competitions)]
+    randomEndTimes = [today - timedelta(days=random.randint(5, 50)) for _ in range(amount_competitions)]
+    randomStartTimes = list(map(lambda x: x-timedelta(days=random.randint(180, 365)), randomEndTimes))
     randomInitialStarting = [int(f"1{random.randint(3, 7) * '0'}") for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
-        close_time = randomTimes[i]
+        close_time = randomEndTimes[i]
+        start_time = randomStartTimes[i]
         ticker = randomSubsetTicker[i]
-        time_diff = str(close_time - today)
+        time_diff = str(close_time - today)[1:]
 
         comp_obj = {
-            "startDate": str(today),
+            "competitionLockDate" : str(today + timedelta(days=random.randint(7, 30))), 
+            "startDate": str(start_time),
             "endDate": str(close_time),
-            "description": f"Submit your algorithm before {str(close_time)} and compete for the largest gains!",
+            "description": f"Submit your algorithm before {str(today + timedelta(days=random.randint(7, 30)))} and compete for the largest gains!",
             "duration": time_diff,
             "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
             "startingBalance": randomInitialStarting[i],
@@ -1413,7 +1419,7 @@ def enterBotsIntoComps():
                         "public": True,
                         "runningTime": "30",
                         "userID": bot['userID'],
-                        "PnL": 0,
+                        "PnLPercentage": 0,
                         "entry": entries
                     }
                     algoID = (bot['userID'] + comp['ticker'])
@@ -1468,7 +1474,8 @@ def findBestUsers():
         endDate = competition["endDate"]
         startingCash = competition["startingBalance"]
 
-        print(startDate)
+        timeDelta = today - parse(endDate).date()
+
         competitors = competitors_ref.where("competition", "==", competitionId).get()
         competitorsList = []
         for competitor in competitors:
@@ -1485,27 +1492,27 @@ def findBestUsers():
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
                 algo_dict["startDate"] = startDate
-                algo_dict["endDate"] = str(today)
+                algo_dict["endDate"] = str(today - timeDelta)
             except Exception as e:
                 return f"An Error Occurred: {e}"
 
-            backtestResults = {"PnL": 0}
+            backtestResults = {"PnLPercent": 0}
             try:
                 backtestResults = backtest_driver(algo_dict)
-                update_algo_after_bt(algo_dict["id"], {"PnL": backtestResults["PnL"]})
+                update_algo_after_bt(algo_dict["id"], {"PnLPercent": backtestResults["PnLPercent"]})
             except Exception as e:
                 print(e)
             
-            competitor_obj["PnL"] = backtestResults["PnL"]
-            leaderboardsPair.append((competitor_obj, backtestResults["PnL"]))
+            competitor_obj["PnLPercent"] = backtestResults["PnLPercent"]
+            leaderboardsPair.append((competitor_obj, backtestResults["PnLPercent"]))
         # Update competition with sorted best players
-        leaderboardsPair.sort(key=lambda tup: tup[1])
+        leaderboardsPair.sort(key=lambda tup: tup[1], reverse=True)
         newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
         comp_update_active_driver(competitionId, {"leaderboard": newLeaderBoard})
 
         # Check out of date competitions and set them as stale
         
-        closeDate = parse(competition["endDate"])
+        closeDate = parse(competition["competitionLockDate"])
         if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)
 
