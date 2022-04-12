@@ -1270,7 +1270,7 @@ def get_isin_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         # Returns back in unix time
-        return ticker_info.sustainability.to_json()
+        return ticker_info.isin
     except Exception as e:
         return f"An Error Occurred: {e}"
 
