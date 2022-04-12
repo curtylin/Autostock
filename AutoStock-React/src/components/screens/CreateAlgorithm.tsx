@@ -27,6 +27,7 @@ import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
 import { Link, navigate } from "gatsby"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import AlgoDetails from "../algoDetails"
 
 let jsConfetti: any
 
@@ -88,6 +89,12 @@ const CreateAlgorithm = () => {
   useEffect(() => {
     jsConfetti = new JSConfetti()
   })
+
+  const updateAlgoDetails = (e: any) => {
+    setAlgoName(e.algoName)
+    setAlgoDescription(e.algoDescription)
+    setStocks(e.stock)
+  }
 
   const loadStocks = () => {
     fetch("https://api.iextrading.com/1.0/ref-data/symbols")
@@ -301,67 +308,9 @@ const CreateAlgorithm = () => {
         Need help? See our <Link to="/app/quickstartcreatealgo">guide</Link> to
         create an algorithm!
       </Typography>
-      <form>
-        <h4>Algorithm Details</h4>
-        <div>
-          {/* Algorithm Name */}
-          <Tooltip title="Give it a name!" placement="left" arrow>
-            <TextField
-              required
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setAlgoName(e.target.value)
-              }}
-              sx={{
-                mt: 2,
-                mr: 5,
-                minWidth: { xs: 300, md: 703 },
-                maxWidth: 300,
-              }}
-              id="outlined-search"
-              label="Algorithm Name "
-              type="text"
-              inputProps={{ maxLength: 100 }}
-            />
-          </Tooltip>
-          {/* Stock Symbol */}
-          <FormControl sx={{ my: 2, minWidth: 300, maxWidth: 300 }}>
-            <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
-              <TextField
-                onBlur={handleBlur}
-                required
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setStocks(e.target.value)
-                }}
-                type="search"
-                id="outlined-search"
-                label="Stock "
-                sx={{ input: { color: validTicker ? 'black' : 'red' } }}
-                inputProps={{ maxLength: 9 }}
-              />
-            </Tooltip>
-            <Typography
-              variant="caption"
-              color="red"
-            >
-              {validTicker ? null : "INVALID TICKER"}
-            </Typography>
-          </FormControl>
-        </div>
-        <div>
-          <TextField
-            inputProps={{ maxLength: 1000 }}
-            value={newAlgoDescription}
-            multiline
-            rows={3}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setAlgoDescription(e.target.value)
-            }}
-            sx={{ mb: 0 }}
-            label="Algorithm description"
-            fullWidth
-          ></TextField>
-        </div>
 
+      <AlgoDetails updateAlgoDetails={updateAlgoDetails}/>
+  
         <div>
           <Divider sx={{ my: 2, mb: 2 }} />
         </div>
@@ -597,8 +546,6 @@ const CreateAlgorithm = () => {
             Please fill out an Algorithm Name and Stock Ticker before Saving
           </Typography>
         </div>
-      </form>
-
       <div>
         <Accordion sx={{ mb: 2 }}>
           <AccordionSummary
