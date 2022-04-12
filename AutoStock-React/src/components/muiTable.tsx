@@ -269,7 +269,11 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
                       </Button>
                     </TableCell>
                   ) : (
-                    <TableCell align="left">{row.Creator}</TableCell>
+                    <TableCell align="left">
+                      {users.has(row.userID)
+                        ? users.get(row.userID)
+                        : row.userID}
+                    </TableCell>
                   )}
                 </TableRow>
               ))}
