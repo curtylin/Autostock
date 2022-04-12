@@ -1325,33 +1325,35 @@ randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 
 
 @app.route('/generate_comps', methods=['PUT'])
 def genComps():
-    return generateCompetitions(), 200
+    generateCompetitions()
+    return "Competitions Generated Successfully", 200
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
     today = date.today()
 
 
-    amount_competitions = 5
+    amount_competitions = 2
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
-    randomEndTimes = [today - timedelta(days=random.randint(5, 50)) for _ in range(amount_competitions)]
-    randomStartTimes = list(map(lambda x: x-timedelta(days=random.randint(180, 365)), randomEndTimes))
+    randomEndTimes = [today + timedelta(days=random.randint(22, 50)) for _ in range(amount_competitions)]
+    randomStartTimes = list(map(lambda x: x-timedelta(days=random.randint(220, 420)), randomEndTimes))
     randomInitialStarting = [int(f"1{random.randint(3, 7) * '0'}") for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
         close_time = randomEndTimes[i]
         start_time = randomStartTimes[i]
         ticker = randomSubsetTicker[i]
-        time_diff = str(close_time - today)[1:]
+        competition_lock_date = today + timedelta(days=random.randint(7, 21))
+        time_diff = str(competition_lock_date - close_time)[1:]
 
         comp_obj = {
-            "competitionLockDate" : str(today + timedelta(days=random.randint(7, 30))), 
+            "competitionLockDate" : str(competition_lock_date), 
             "startDate": str(start_time),
             "endDate": str(close_time),
-            "description": f"Submit your algorithm before {str(today + timedelta(days=random.randint(7, 30)))} and compete for the largest gains!",
+            "description": f"Submit your algorithm before {str(competition_lock_date)} and compete for the largest gains!",
             "duration": time_diff,
-            "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
+            "name": f"{ticker} {time_diff.split(' ')[0]} Day Competition",
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
             "leaderboard": [],  # Should be a list of algorithmIDs, sorted by highest value first
@@ -1467,14 +1469,14 @@ def findBestUsers():
     today = date.today()
     # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
+        if parse(competition['competitionLockDate']).date() > today:
+            continue
 
         competitionId = competition["id"]
         leaderboardList = competition["leaderboard"]
         startDate = competition["startDate"]
         endDate = competition["endDate"]
         startingCash = competition["startingBalance"]
-
-        timeDelta = today - parse(endDate).date()
 
         competitors = competitors_ref.where("competition", "==", competitionId).get()
         competitorsList = []
@@ -1492,7 +1494,7 @@ def findBestUsers():
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
                 algo_dict["startDate"] = startDate
-                algo_dict["endDate"] = str(today - timeDelta)
+                algo_dict["endDate"] = str(today)
             except Exception as e:
                 return f"An Error Occurred: {e}"
 
@@ -1512,7 +1514,7 @@ def findBestUsers():
 
         # Check out of date competitions and set them as stale
         
-        closeDate = parse(competition["competitionLockDate"])
+        closeDate = parse(competition["endDate"])
         if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)
 
