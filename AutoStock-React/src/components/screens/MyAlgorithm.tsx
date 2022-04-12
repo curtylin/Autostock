@@ -148,7 +148,7 @@ const MyAlgorithm = () => {
       <Seo title="Autostock" />
       <title>My Algorithms</title>
       <h1>My Algorithms</h1>
-      <MuiTable algorithm={algorithms} />
+      <MuiTable algorithm={algorithms} myAlg={true} />
       {/*
       <div className="mdc-data-table">
         <div className="mdc-data-table__table-container">

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react"
 import Layout from "../layout"
 import Seo from "../seo"
 import { Link } from "gatsby"
+import MuiTable from "../muiTable"
 
 const PublicAlgorithms = () => {
   const [algorithms, setAlgorithms] = useState([])
@@ -57,6 +58,8 @@ const PublicAlgorithms = () => {
       <Seo title="Autostock" />
       <title>Public Algorithms</title>
       <h1>Public Algorithms</h1>
+      <MuiTable algorithm={algorithms} myAlg={false} users={users} />
+      {/*
       <div className="mdc-data-table">
         <div className="mdc-data-table__table-container">
           <table className="mdc-data-table__table" aria-label="my-algorithms">
@@ -107,6 +110,7 @@ const PublicAlgorithms = () => {
           </table>
         </div>
       </div>
+      */}
     </Layout>
   )
 }
