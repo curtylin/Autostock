@@ -537,6 +537,25 @@ def comp_list_all():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+## Returns all competitions
+@cross_origin()
+@app.route('/list-ongoing-competitions', methods=['GET'])
+def comp_list_ongoing():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return all competitions.
+    """
+    try:
+        activeComps = activeCompetitions_ref.where("competitionLockDate", "<=", str(date.today())).get()
+        competitions = []
+        for comp in activeComps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = True
+            competitions.append(compDict)
+        return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 ## Returns all active competitions
 @cross_origin()
