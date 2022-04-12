@@ -10,14 +10,27 @@ import Tooltip from "@mui/material/Tooltip"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 
 
-const [indicator1, setIndicator1] = useState("NONE")
-const [comparator1, setComparator1] = useState("above")
-const [indicator2, setIndicator2] = useState("NONE")
-const [action, setAction] = useState("buy")
 
-const entries = ({
-    
+
+const Entries = ({
+    updateEntries
   }: any) => {
+    const [data, setData] = useState({indicator1: "NONE", indicator2: "NONE", comparator1: "above", action: "buy"})
+    
+
+    const handleBlur = (e:any) => {
+      updateEntries(data)
+    }
+
+    const handleChange = (e:any) => {
+      const { name, value } = e.target;
+      setData(prevState => ({
+          ...prevState,
+          [name]: value
+      }))
+    };
+
+    
     return (
     <div>
         <div>
@@ -28,13 +41,16 @@ const entries = ({
           </InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
+            onBlur={handleBlur}
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             label="Indicator 1 (Today's Value)"
-            value={indicator1}
-            onChange={e => {
-              setIndicator1(e.target.value)
-            }}
+            value={data.indicator1}
+            name="indicator1"
+            // onChange={e => {
+            //   setIndicator1(e.target.value)
+            // }}
+            onChange={handleChange}
           >
             <MenuItem value={"NONE"}>None</MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
@@ -105,13 +121,16 @@ const entries = ({
           </InputLabel>
           <Tooltip title="Comparator" placement="left" arrow>
             <Select
+              onBlur={handleBlur}
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               label="Comparator"
-              value={comparator1}
-              onChange={e => {
-                setComparator1(e.target.value)
-              }}
+              value={data.comparator1}
+              name="comparator1"
+              // onChange={e => {
+              //   setComparator1(e.target.value)
+              // }}
+              onChange={handleChange}
             >
               <MenuItem value={"above"}>Goes Above</MenuItem>
               <MenuItem value={"below"}>Goes Below</MenuItem>
@@ -126,13 +145,17 @@ const entries = ({
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
             required
+            onBlur={handleBlur}
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             label="Indicator 2 (Yesterday's Value)"
-            value={indicator2}
-            onChange={e => {
-              setIndicator2(e.target.value)
-            }}
+            value={data.indicator2}
+            name="indicator2"
+            // onChange={e => {
+            //   setIndicator2(e.target.value)
+            // }}
+            onChange={handleChange}
+
           >
             <MenuItem value={"NONE"}>None</MenuItem>
             <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
@@ -206,13 +229,16 @@ const entries = ({
             </InputLabel>
             <Tooltip title="Buy or Sell" placement="right" arrow>
               <Select
+                onBlur={handleBlur}
+                name="action"
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 label="Action"
-                value={action}
-                onChange={e => {
-                  setAction(e.target.value)
-                }}
+                value={data.action}
+                // onChange={e => {
+                //   setAction(e.target.value)
+                // }}
+                onChange={handleChange}
               >
                 <MenuItem value={"buy"}>Buy</MenuItem>
                 <MenuItem value={"sell"}>Sell</MenuItem>
@@ -225,4 +251,4 @@ const entries = ({
     )
   }
   
-  export default entries
+  export default Entries
