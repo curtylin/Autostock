@@ -13,8 +13,9 @@ import Snackbar from "@mui/material/Snackbar"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
 import AddIcon from "@mui/icons-material/Add"
+import { Link } from "gatsby"
 
-const MuiTable = ({ algorithm }: any) => {
+const MuiTable = ({ algorithm, myAlg, users }: any) => {
   const [page, setPage] = React.useState(0)
   const [rows, setRows] = React.useState(algorithm)
   const [open, setOpen] = React.useState(false)
@@ -167,11 +168,19 @@ const MuiTable = ({ algorithm }: any) => {
                   Day Gain (%)
                 </text>
               </TableCell>
-              <TableCell align="left">
-                <text style={{ fontWeight: "bold", fontSize: "20px" }}>
-                  Options
-                </text>
-              </TableCell>
+              {myAlg ? (
+                <TableCell align="left">
+                  <text style={{ fontWeight: "bold", fontSize: "20px" }}>
+                    Options
+                  </text>
+                </TableCell>
+              ) : (
+                <TableCell align="left">
+                  <text style={{ fontWeight: "bold", fontSize: "20px" }}>
+                    Creator
+                  </text>
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -179,71 +188,89 @@ const MuiTable = ({ algorithm }: any) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: any) => (
                 <TableRow key={row.name} hover={true}>
-                  <TableCell align="left" width="50%">
-                    {row.name}
-                  </TableCell>
+                  {myAlg ? (
+                    <TableCell align="left" width="50%">
+                      {row.name}
+                    </TableCell>
+                  ) : (
+                    <TableCell align="left" width="50%">
+                      <Link
+                        className="table_links"
+                        to="/app/algorithm"
+                        state={row}
+                      >
+                        {row.name}
+                      </Link>
+                    </TableCell>
+                  )}
+
                   <TableCell align="left">
                     {row.PnL == undefined ? "--" : row.PnL + "%"}
                   </TableCell>
-                  <TableCell align="left">
-                    <Button
-                      size="small"
-                      className="mdc-button mdc-button--raised"
-                      id={row.id}
-                      sx={{ m: 1 }}
-                      onClick={event => {
-                        navigate("/app/editalgorithm", {
-                          state: { algorithm: row },
-                        })
-                      }}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <span id={row.id} className="mdc-button__label">
-                        Edit
-                      </span>
-                    </Button>
 
-                    {row.public ? (
+                  {myAlg ? (
+                    <TableCell align="left">
                       <Button
                         size="small"
                         className="mdc-button mdc-button--raised"
                         id={row.id}
-                        onClick={handleUnshare}
-                      >
-                        <span id={row.id} className="mdc-button__label">
-                          Unshare
-                        </span>
-                      </Button>
-                    ) : (
-                      <Button
-                        size="small"
-                        className="mdc-button mdc-button--raised "
-                        id={row.id}
-                        onClick={handleShare}
+                        sx={{ m: 1 }}
+                        onClick={event => {
+                          navigate("/app/editalgorithm", {
+                            state: { algorithm: row },
+                          })
+                        }}
                         variant="contained"
                         color="primary"
+                      >
+                        <span id={row.id} className="mdc-button__label">
+                          Edit
+                        </span>
+                      </Button>
+
+                      {row.public ? (
+                        <Button
+                          size="small"
+                          className="mdc-button mdc-button--raised"
+                          id={row.id}
+                          onClick={handleUnshare}
+                        >
+                          <span id={row.id} className="mdc-button__label">
+                            Unshare
+                          </span>
+                        </Button>
+                      ) : (
+                        <Button
+                          size="small"
+                          className="mdc-button mdc-button--raised "
+                          id={row.id}
+                          onClick={handleShare}
+                          variant="contained"
+                          color="primary"
+                          sx={{ m: 1 }}
+                        >
+                          <span id={row.id} className="mdc-button__label">
+                            Share
+                          </span>
+                        </Button>
+                      )}
+                      <Button
+                        size="small"
+                        className="mdc-button mdc-button--raised"
+                        id={row.id}
+                        onClick={handleDelete}
+                        variant="contained"
+                        color="error"
                         sx={{ m: 1 }}
                       >
                         <span id={row.id} className="mdc-button__label">
-                          Share
+                          Delete
                         </span>
                       </Button>
-                    )}
-                    <Button
-                      size="small"
-                      className="mdc-button mdc-button--raised"
-                      id={row.id}
-                      onClick={handleDelete}
-                      variant="contained"
-                      color="error"
-                      sx={{ m: 1 }}
-                    >
-                      <span id={row.id} className="mdc-button__label">
-                        Delete
-                      </span>
-                    </Button>
-                  </TableCell>
+                    </TableCell>
+                  ) : (
+                    <TableCell align="left">{row.Creator}</TableCell>
+                  )}
                 </TableRow>
               ))}
             {emptyRows > 0 && (
