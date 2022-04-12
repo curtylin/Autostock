@@ -16,10 +16,16 @@
 .btn_getStarted {
   opacity: 85%;
   width: 200px;
-  height: 75px;
+  height: 60px;
   text-transform: none;
+  color:#1098F7;
 }
-
+.btn_getStarted:hover{
+  color: #059a76;
+}
+.autostockName{
+  font-weight: 600;
+}
 .btn_signUp {
   opacity: 75%;
   background-color: white;

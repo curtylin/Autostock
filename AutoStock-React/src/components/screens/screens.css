@@ -15,11 +15,18 @@
 .dis_UserName {
   color: #0081ff;
   font-weight: 550;
+  margin-left:0.75rem;
 }
 .btn_signUp {
   opacity: 75%;
   background-color: white;
   text-transform: none;
+}
+.closedText {
+  color: #eb1b1b;
+}
+.openText{
+  color: #0081ff;
 }
 .stockTickName {
   color: #059a76;

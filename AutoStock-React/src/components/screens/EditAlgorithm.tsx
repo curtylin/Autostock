@@ -22,11 +22,13 @@ import {
   Divider,
   Grid,
   Typography,
+  Stack,
 } from "@mui/material"
 import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import { navigate } from "gatsby"
+import { Box } from "@mui/system"
 
 const isBrowser = typeof window !== "undefined"
 let jsConfetti: any
@@ -38,12 +40,34 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
+
 const EditAlgorithm = ({ location }: { location: any }) => {
+  var currDate = new Date()
+  var yesterday = new Date()
+  yesterday.setDate(currDate.getDate() - 1)
+  var currentMonth = ""
+  if (currDate.getMonth() < 10) {
+    currentMonth = "0" + (currDate.getMonth()+ 1)
+  } else {
+    currentMonth = "" + (currDate.getMonth()+ 1)
+  }
+  var currentDate = ""
+  if ((currDate.getDate()) < 10) {
+    currentDate = "0" + (currDate.getDate())
+  } else {
+    currentDate = "" + (currDate.getDate())
+  }
+  var yesterdaysDay = ""
+  if ((yesterday.getDate()) < 10) {
+    yesterdaysDay = "0" + (yesterday.getDate())
+  } else {
+    yesterdaysDay = "" + (yesterday.getDate())
+  }
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
   const [timeInterval, setTimeInterval] = useState("")
   const [indicator1, setIndicator1] = useState("NONE")
-  const [comparator1, setComparator1] = useState("Above")
+  const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
   const [runningTime, setRunningTime] = useState("")
@@ -59,6 +83,12 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
   const [AlgoDescription, setAlgoDescription] = useState("")
+  const [startDate, setStartDate] = useState(`${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`)
+  const [endDate, setEndDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
+  const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
+  const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
+  const [startingAmount, setStartingAmount] = useState(1000)
+  const [validTicker, setValidTicker] = useState(true)
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -103,10 +133,16 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const handleBlur = () => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
+
+    let lastYear = d.toISOString().slice(0, 10)
+
     let body = `{
       "ticker": "${stock}",
-      "startDate": "2020-11-9",
-      "endDate": "2021-11-9"
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
     }`
     let init = {
       method: "POST",
@@ -118,7 +154,12 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         return res.json()
       })
       .then(result => {
-        setStockData(result)
+        if (result.length > 0) {
+          setValidTicker(true)
+          setStockData(result)
+        } else {
+          setValidTicker(false)
+        }
       })
       .catch(e => {
         // error in e.message
@@ -153,11 +194,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     let body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
-      "cash": 1000,
-      "startDate": "${
-        currDate.getFullYear() - 1
-      }-${currDate.getMonth()}-${currDate.getDate()}",
-      "endDate": "${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()}",
+      "cash": ${startingAmount},
+      "startDate": "${startDate}",
+      "endDate": "${endDate}",
       "runtime": "${runningTime}",
       "entry": [
         ${entry}
@@ -217,9 +256,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           console.log(result)
           setAlgoName(result.name)
           setStocks(result.ticker)
-          setIndicator1(result.entry[0].indicator1)
+          setIndicator1(result.entry[0].indicatorOne)
           setComparator1(result.entry[0].comparator)
-          setIndicator2(result.entry[0].indicator2)
+          setIndicator2(result.entry[0].indicatorTwo)
           setAction(result.entry[0].action)
           setRunningTime(result.runtime)
           setAlgorithm(result)
@@ -286,14 +325,46 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       <h2>Backtesting Data: {algoName}</h2>
       <Card variant="outlined" sx={{ minWidth: 275, mb: 5 }}>
         <CardContent>
-          <Typography variant="h4" component="div" sx={{ mb: 1.5 }}>
+        <Typography
+            sx={{ fontSize: 30 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            variant="h2"
+            gutterBottom
+          >
             {stock}
           </Typography>
-          <Typography variant="h5">Ending Value: ${BTendRes}</Typography>
-          <Typography variant="h6">
+          <Typography
+            sx={{ ml: 5, fontSize: 22 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Ending Value: ${BTendRes}
+          </Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 22 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
             PnL Percentage: {BTPnLPer.toString().substring(0, 4)}%
           </Typography>
-          <Typography variant="h6">Started with: ${BTstart}</Typography>
+          <Typography
+            sx={{ ml: 5, fontSize: 22 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="400"
+            variant="h2"
+            gutterBottom
+          >
+            Started with: ${BTstart}          
+          </Typography>
         </CardContent>
       </Card>
       <img src={`${urls}`}></img>
@@ -342,13 +413,16 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 type="search"
                 id="outlined-search"
                 label="Stock"
+                sx={{ input: { color: validTicker ? 'black' : 'red' } }}
                 inputProps={{ maxLength: 9 }}
               />
             </Tooltip>
-            {/* <Stack sx={{ my: 1, mr: 5 }}direction="row" spacing={1}>
-            <Chip id="chp1" label="Deletable" onDelete={handleDelete} />
-            <Chip label="Deletable" onDelete={handleDelete}/>
-          </Stack> */}
+            <Typography
+              variant="caption"
+              color="red"
+            >
+              {validTicker ? null : "INVALID TICKER"}
+            </Typography>
           </FormControl>
         </div>
         <div>
@@ -387,46 +461,62 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             >
               <MenuItem value={"NONE"}>None</MenuItem>
               <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-              <MenuItem value={"ADXR"}>
-                ADXR - Average Directional Index Rating
-              </MenuItem>
-              <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+              <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
+              <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
+              <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
+              <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
+              <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
               <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"EMA"}>
-                EMA - Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"DEMA"}>
-                DEMA - Double Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"KAMA"}>
-                KAMA - Kaufman Adaptive Moving Average
-              </MenuItem>
-              <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-              <MenuItem value={"MACD"}>
-                MACD- Moving Average Convergence Divergence
-              </MenuItem>
-              <MenuItem value={"PPO"}>
-                PPO - Percentage Price Oscilator
-              </MenuItem>
+              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
+              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+              <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
+              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+              <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
+              <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
+               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
+               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
+              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
+              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
+              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
+              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+              <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
+              <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
+              <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
+              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
+              <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
+              <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
+              <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
+              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
+              <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
+              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
+              <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
+              <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
+              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
+              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
+              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
+              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
+              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
+              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
               <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+              <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
+              <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
               <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-              <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-              <MenuItem value={"SAREXT"}>
-                SAREXT - Parabolic SAR - Extended
-              </MenuItem>
-              <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-              <MenuItem value={"T3"}>
-                T3 - Triple Exponential Moving Average
-              </MenuItem>
+              <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
+              <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
+              <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
+              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
               <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-              <MenuItem value={"TEMA"}>
-                TEMA - Triple Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"ULTIMATE"}>
-                ULTIMATE - Ultimate Oscilator
-              </MenuItem>
-              <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+              <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
+              <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
+              <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
+              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
+              <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
               <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
+              <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
             </Select>
             {/* </Tooltip> */}
           </FormControl>
@@ -447,8 +537,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                   setComparator1(e.target.value)
                 }}
               >
-                <MenuItem value={"Above"}>Goes Above</MenuItem>
-                <MenuItem value={"Below"}>Goes Below</MenuItem>
+                <MenuItem value={"above"}>Goes Above</MenuItem>
+                <MenuItem value={"below"}>Goes Below</MenuItem>
               </Select>
             </Tooltip>
           </FormControl>
@@ -467,48 +557,64 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 setIndicator2(e.target.value)
               }}
             >
-              <MenuItem value={"NONE"}>None</MenuItem>
+             <MenuItem value={"NONE"}>None</MenuItem>
               <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-              <MenuItem value={"ADXR"}>
-                ADXR - Average Directional Index Rating
-              </MenuItem>
-              <MenuItem value={"AROON"}>AROON - Aroon</MenuItem>
+              <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
+              <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
+              <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
+              <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
+              <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
               <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"EMA"}>
-                EMA - Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"DEMA"}>
-                DEMA - Double Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"KAMA"}>
-                KAMA - Kaufman Adaptive Moving Average
-              </MenuItem>
-              <MenuItem value={"MA"}>MA - Moving average</MenuItem>
-              <MenuItem value={"MACD"}>
-                MACD- Moving Average Convergence Divergence
-              </MenuItem>
-              <MenuItem value={"PPO"}>
-                PPO - Percentage Price Oscilator
-              </MenuItem>
+              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
+              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+              <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
+              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+              <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
+              <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
+               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
+               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
+              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
+              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
+              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
+              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+              <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
+              <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
+              <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
+              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
+              <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
+              <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
+              <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
+              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
+              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
+              <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
+              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
+              <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
+              <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
+              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
+              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
+              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
+              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
+              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
+              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
               <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+              <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
+              <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
               <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-              <MenuItem value={"SAR"}>SAR - Parabolic SAR</MenuItem>
-              <MenuItem value={"SAREXT"}>
-                SAREXT - Parabolic SAR - Extended
-              </MenuItem>
-              <MenuItem value={"STOC"}>STOC - Stochastic</MenuItem>
-              <MenuItem value={"T3"}>
-                T3 - Triple Exponential Moving Average
-              </MenuItem>
+              <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
+              <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
+              <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
+              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
               <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-              <MenuItem value={"TEMA"}>
-                TEMA - Triple Exponential Moving Average
-              </MenuItem>
-              <MenuItem value={"ULTIMATE"}>
-                ULTIMATE - Ultimate Oscilator
-              </MenuItem>
-              <MenuItem value={"WILLIAMSR"}>WILLIAMSR - williamsr</MenuItem>
+              <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
+              <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
+              <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
+              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
+              <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
               <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
+              <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
             </Select>
             {/* </Tooltip> */}
           </FormControl>
@@ -604,21 +710,55 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </AccordionDetails>
         </Accordion>
       </div>
-      <div id="BackTestButton">
-        <Button
-          disabled={!stock}
-          type="submit"
-          variant="contained"
-          sx={{ my: 2, mr: 5, minWidth: 300 }}
-          onClick={handleBacktest}
+      <Divider sx={{ mt: 5, mb:2 }} />
+      <h4>Backtesting</h4>
+
+      <Stack direction="row" sx={{mb: 3}}>
+        <Typography
+          sx={{mr: 1, pt:1}}
         >
-          BackTest
-        </Button>
-        <Typography color="red" hidden={stock != ""} fontSize={16}>
-          Please fill out a Stock Ticker before BackTesting
+          Start Date:
         </Typography>
-        {showSpinner ? <CircularProgress color="inherit" /> : null}
-      </div>
+        <Box sx={{mr: 10}}>
+          <input type="date" id="start" name="startDate" value={startDate} onChange={e => {setStartDate(e.target.value)}} max={yesterdaysDate}></input>
+        </Box>
+        <Typography
+          sx={{mr: 1, pt:1}}
+        >
+          End Date:
+        </Typography>   
+
+        <input type="date" id="end" name="endDate" value={endDate} onChange={e => {setEndDate(e.target.value)}} max={todaysDate}></input>
+      </Stack>
+      <FormControl sx={{ m: 1 }}>
+          <TextField
+            id="outlined-search"
+            label="Starting Amount"
+            value={startingAmount}
+            inputProps={{ maxLength: 7 }}
+            onChange={e => {setStartingAmount(parseInt(e.target.value))}}
+            >
+          </TextField>
+      </FormControl>
+      <Stack direction="row">
+        <div id="BackTestButton">
+          <Button
+            disabled={!stock}
+            type="submit"
+            variant="contained"
+            sx={{ my: 2, mr: 5, minWidth: 300 }}
+            onClick={handleBacktest}
+          >
+            BackTest
+          </Button>
+          <Typography color="red" hidden={stock != ""} fontSize={16}>
+            Please fill out a Stock Ticker before BackTesting
+          </Typography>
+        </div>
+        {showSpinner ? <CircularProgress sx={{marginLeft:5, marginTop:2}} color="inherit" />: null}
+
+      </Stack>
+      
 
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
     </Layout>

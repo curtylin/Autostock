@@ -15,6 +15,7 @@ import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
 import Logo from "../images/AutostockLogo_black_small.png"
+import PersonIcon from '@mui/icons-material/Person';
 
 interface HeaderProps {
   siteTitle: string
@@ -165,7 +166,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               style={{ color: "black", textDecoration: "none" }}
               className="autostock-link"
             >
-              {siteTitle}
+              Autostock
             </Link>
           </Typography>
 
@@ -236,9 +237,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 onClose={handleCloseCompMenu}
               >
                 <MenuItem onClick={competitionsRoute}>
-                  Current Competitions
-                </MenuItem>
-                <MenuItem onClick={competitionsRoute}>
                   {/* ------------------------UPDATE TO MY COMPETITIONS----------------------- */}
                   Competitions
                 </MenuItem>
@@ -304,10 +302,11 @@ const Header = ({ siteTitle }: HeaderProps) => {
               {username == "" ? <></> : <>Hi, {username}</>}
             </Typography>
           </Box>
+          {isLoggedIn() ?
           <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src="" />
+                <PersonIcon fontSize="large"/>
               </IconButton>
             </Tooltip>
             <Menu
@@ -329,7 +328,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
               <MenuItem onClick={QSGRoute}>Quick Start Guide</MenuItem>
               <MenuItem onClick={ProfileRoute}>Profile</MenuItem>
               <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
-              <MenuItem onClick={LoginRoute}>Login</MenuItem>
               <MenuItem
                 onClick={event => {
                   event.preventDefault()
@@ -340,6 +338,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
               </MenuItem>
             </Menu>
           </Box>
+           : null}
         </Toolbar>
       </Container>
     </AppBar>

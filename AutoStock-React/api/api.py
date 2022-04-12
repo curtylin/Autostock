@@ -49,9 +49,13 @@ comments_ref = db.collection('comments')
 
 
 @app.errorhandler(404)
-def not_found(error):
-    # return app.send_static_file('index.html')
-    return error
+@app.route('/', defaults={'e_path': ''})
+@app.route('/<path:e_path>')
+def catch_all_error(e_path):
+    if e_path == "":
+        return app.send_static_file('index.html')
+    else:
+        return send_from_directory(app.static_folder + '/app/[...]/', 'index.html')
 
 
 @app.route('/', defaults={'u_path': ''})
@@ -79,14 +83,13 @@ def backtest():
 
 
 def strategyFactory(entryObj):
-    print(entryObj)
 
     class strategy(bt.Strategy):
 
         def log(self, txt, dt=None):
             ''' Logging function for this strategy'''
             dt = dt or self.datas[0].datetime.date(0)
-            print('%s, %s' % (dt.isoformat(), txt))
+           # print('%s, %s' % (dt.isoformat(), txt))
 
         def __init__(self):
             # Set a value inside the time series
@@ -94,9 +97,76 @@ def strategyFactory(entryObj):
 
             self.sma = bt.indicators.SMA(self.datas[0].close)
             self.ema = bt.indicators.EMA(self.datas[0].close)
+            self.accum = bt.indicators.Accum(self.datas[0].close)
+            self.ama = bt.indicators.AdaptiveMovingAverage(self.datas[0].close)
+            self.alln = bt.indicators.AllN(self.datas[0].close)
+            self.anyn = bt.indicators.AnyN(self.datas[0].close)
+            self.average = bt.indicators.Average(self.datas[0].close)
+            self.bbands = bt.indicators.BollingerBands(self.datas[0].close)
+            self.bbandspct = bt.indicators.BollingerBandsPct(self.datas[0].close)
+            self.dpo = bt.indicators.DetrendedPriceOscillator(self.datas[0].close)
+            self.dma = bt.indicators.DicksonMovingAverage(self.datas[0].close)
+            self.dema = bt.indicators.DoubleExponentialMovingAverage(self.datas[0].close)
+            self.downday = bt.indicators.DownDay(self.datas[0].close)
+            self.downdaybool = bt.indicators.DownDayBool(self.datas[0].close)
+            self.downmove = bt.indicators.DownMove(self.datas[0].close)
+            self.envelope = bt.indicators.Envelope(self.datas[0].close)  
+            self.expsmoothing = bt.indicators.ExponentialSmoothing(self.datas[0].close)
+            self.ffih = bt.indicators.FindFirstIndexHighest(self.datas[0].close)
+            self.ffil = bt.indicators.FindFirstIndexLowest(self.datas[0].close)
+            self.flih = bt.indicators.FindLastIndexHighest(self.datas[0].close)
+            self.flil = bt.indicators.FindLastIndexLowest(self.datas[0].close)
+            self.highest = bt.indicators.Highest(self.datas[0].close)
+            self.hull = bt.indicators.HullMovingAverage(self.datas[0].close)
+            self.hurst = bt.indicators.HurstExponent(self.datas[0].close)
+            self.kst = bt.indicators.KnowSureThing(self.datas[0].close)
+            self.LAGF = bt.indicators.LaguerreFilter(self.datas[0].close)
+            self.LRSI = bt.indicators.LaguerreRSI(self.datas[0].close)
+            self.low = bt.indicators.Lowest(self.datas[0].close)
+            self.macd = bt.indicators.MACD(self.datas[0].close)
+            self.macdhisto = bt.indicators.MACDHisto(self.datas[0].close)
+            self.meanDev = bt.indicators.MeanDeviation(self.datas[0].close)
+            self.momentum = bt.indicators.MomentumOscillator(self.datas[0].close)
+            self.pctchange= bt.indicators.PercentChange(self.datas[0].close)
+            self.pctrank = bt.indicators.PercentRank(self.datas[0].close)
+            self.ppo = bt.indicators.PercentagePriceOscillator(self.datas[0].close)
+            self.pposhort = bt.indicators.PercentagePriceOscillatorShort(self.datas[0].close)
+            self.priceosc = bt.indicators.PriceOscillator(self.datas[0].close)
+            self.rsiema = bt.indicators.RSI_EMA(self.datas[0].close)
+            self.rsisma = bt.indicators.RSI_SMA(self.datas[0].close)
+            self.rsisafe = bt.indicators.RSI_Safe(self.datas[0].close)
+            self.roc = bt.indicators.RateOfChange(self.datas[0].close)
+            self.roc100 = bt.indicators.RateOfChange100(self.datas[0].close)
+            self.rmi = bt.indicators.RelativeMomentumIndex(self.datas[0].close)
+            self.rsi = bt.indicators.RelativeStrengthIndex(self.datas[0].close)
+            self.smooth = bt.indicators.SmoothedMovingAverage(self.datas[0].close)
+            self.stddev = bt.indicators.StandardDeviation(self.datas[0].close)
+            self.sumn = bt.indicators.SumN(self.datas[0].close)
+            self.trema = bt.indicators.TripleExponentialMovingAverage(self.datas[0].close)
+            self.trix = bt.indicators.Trix(self.datas[0].close)
+            self.trixsignal = bt.indicators.TrixSignal(self.datas[0].close)
+            self.tsi = bt.indicators.TrueStrengthIndicator(self.datas[0].close)
+            self.upday = bt.indicators.UpDay(self.datas[0].close)
+            self.updaybool = bt.indicators.UpDayBool(self.datas[0].close)
+            self.wa = bt.indicators.WeightedAverage(self.datas[0].close)
+            self.wma = bt.indicators.WeightedMovingAverage(self.datas[0].close)
+            self.zlema = bt.indicators.ZeroLagExponentialMovingAverage(self.datas[0].close)
+            self.zlind = bt.indicators.ZeroLagIndicator(self.datas[0].close)
+
+
 
             self.indicatorDict = {"NONE": None,
-                                  "SMA": self.sma, "EMA": self.ema}
+                                  "SMA": self.sma , "EMA": self.ema , "ACCUM": self.accum, "AMA": self.ama, "ALLN": self.alln, "ANYN": self.anyn, "AVERAGE": self.average 
+                                   , "BBANDS": self.bbands,"BBANDSPCT": self.bbandspct, "DPO": self.dpo, "DMA": self.dma, "DEMA": self.dema, "DOWND": self.downday,
+                                  "DOWNDB": self.downdaybool, "DOWNM": self.downmove, "EVE": self.envelope,"EXPSMOOTH": self.expsmoothing,"FFIH": self.ffih, "FFIL": self.ffil,
+                                  "FLIH": self.flih, "FLIL": self.flil, "MAXN": self.highest, "HMA": self.hull, "HURST": self.hurst
+                                  , "KST": self.kst, "LAGF": self.LAGF, "LRSI": self.LRSI, "MINN": self.LRSI, "MACD": self.macd, "MACDHISTO": self.macdhisto,
+                                  "MEANDEV": self.meanDev, "MOMENTUMOSC": self.momentum, "PCTCHANGE": self.pctchange, "PCTRANK": self.pctrank, "PPO": self.ppo
+                                  ,"PPOSHORT": self.pposhort, "PRICEOSC": self.priceosc, "RSIEMA":self.rsiema, "RSISMA":self.rsisma, "RSISAFE":self.rsisafe,
+                                  "ROC":self.roc, "ROC100":self.roc100,  "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
+                                  "SUMN":self.sumn, "TEMA": self.trema, "TRIX": self.trix, "TRIXSIGNAL": self.trixsignal, "TSI": self.tsi, "UPDAY": self.upday,
+                                  "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema}
+                                 
 
         def buySell(self, action):
             if action == "buy":
@@ -1309,8 +1379,7 @@ def enterBotsIntoComps():
     competitions = active_comps_list_driver()
     botsList = bots_list_driver()
 
-    # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
-    indicators = ["NONE", "SMA", "EMA"]
+    indicators = ["NONE", "SMA", "EMA", "ACCUM", "AMA", "ALLN", "ANYN", "AVERAGE", "BBANDS", "BBANDSPCT", "DPO", "DMA", "DEMA", "DOWND", "DOWNDB", "DOWNM", "EVE", "EXPSMOOTH", "FFIH", "FFIL", "FLIH", "FLIL", "MAXN", "HMA", "HURST", "KST", "LAGF", "LRSI", "MINN", "MACD", "MACDHISTO", "MEANDEV", "MOMENTUMOSC", "PCTCHANGE", "PCTRANK", "PPO", "PPOSHORT", "PRICEOSC", "RSIEMA", "RSISMA", "RSISAFE", "ROC", "ROC100", "RMI", "RSI", "SMMA", "STDDEV", "SUMN", "TEMA", "TRIX", "TRIXSIGNAL", "TSI", "UPDAY", "UPDAYBOOL", "WA", "WMA", "ZLEMA", "ZLIND"]
     actions = ["buy", "sell"]
     comparators = ["above", "below"]
     newCompetitionsEntered = []

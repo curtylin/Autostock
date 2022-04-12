@@ -37,7 +37,9 @@ import CommentDialog from "../commentDialog"
 import { TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
 
+
 const Competition = () => {
+  const [snackOpenSubmit, setSnackOpenSubmit] = useState(false)
   const [snackOpen, setSnackOpen] = useState(false)
   const [algorithms, setAlgorithms] = useState([])
   const [competitiorID, setCompetitiorID] = useState("")
@@ -87,7 +89,7 @@ const Competition = () => {
         }
       })
   }
-
+  
   const getThreadsDB = async () => {
     fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
       headers: {
@@ -186,6 +188,7 @@ const Competition = () => {
     }
 
     setSnackOpen(false)
+    setSnackOpenSubmit(false)
   }
 
   const handleExpand = (event: any) => {
@@ -247,6 +250,7 @@ const Competition = () => {
     fetch("http://127.0.0.1:5000/enter-competition", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
+        
       })
       .then(text => {
         // text is the response body
@@ -256,7 +260,10 @@ const Competition = () => {
         // error in e.message
       })
     event.preventDefault()
-    window.location.reload()
+    getCurrentAlgorithm()
+    setSnackOpenSubmit(true)
+
+    // window.location.reload()
   }
 
   const handleResubmit = (event: any) => {
@@ -351,10 +358,8 @@ const Competition = () => {
       .then(text => {
         setNewThreadTitle("")
         setNewThreadDescription("")
-        console.log("RELOAD")
-        // setTimeout(function(){
-        // },1000);
-        window.location.reload()
+        getThreadsDB()
+        setOpenBackdrop(false)
       })
   }
 
@@ -434,7 +439,7 @@ const Competition = () => {
             variant="h2"
             gutterBottom
           >
-            Starting Balance: {competition.startingBalance}
+            Starting Balance: ${competition.startingBalance}
           </Typography>
         </CardContent>
       </Card>
@@ -468,7 +473,7 @@ const Competition = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ mb: 2 }}>
+      <Accordion sx={{ mb: 3 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -492,12 +497,12 @@ const Competition = () => {
       </Accordion>
 
       {new Date(competition.endDate) > new Date() ? (
-        <h2>Submissions Open</h2>
+        <h2>Submissions <span className="openText">Open</span></h2>
       ) : (
-        <h2>Submissions Closed</h2>
+        <h2>Submissions <span className="closedText">Closed</span></h2>
       )}
       {new Date(competition.endDate) > new Date() ? (
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
+        <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }}>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm
           </InputLabel>
@@ -518,8 +523,9 @@ const Competition = () => {
             })}
           </Select>
         </FormControl>
-      ) : (
-        <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }} disabled>
+      ) : 
+      (
+        <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }} disabled>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm
           </InputLabel>
@@ -540,7 +546,9 @@ const Competition = () => {
             })}
           </Select>
         </FormControl>
-      )}
+      )
+
+      }
 
       <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
         {/* maybe change size to match menuItem */}
@@ -608,6 +616,12 @@ const Competition = () => {
         autoHideDuration={4000}
         onClose={handleSnackClose}
         message="Thread submitted!"
+      />
+       <Snackbar
+        open={snackOpenSubmit}
+        autoHideDuration={4000}
+        onClose={handleSnackClose}
+        message="Algorithm submitted!"
       />
       <Backdrop sx={{ color: "#fff" }} open={openBackdrop}>
         <CircularProgress color="inherit" />
