@@ -1353,7 +1353,7 @@ def generateCompetitions():
             "endDate": str(close_time),
             "description": f"Submit your algorithm before {str(competition_lock_date)} and compete for the largest gains!",
             "duration": time_diff,
-            "name": f"{ticker} {time_diff.split(' ')[0]} Day Competition",
+            "name": f"{ticker} {time_diff.split(' ')[0]} Day Comp",
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
             "leaderboard": [],  # Should be a list of algorithmIDs, sorted by highest value first
