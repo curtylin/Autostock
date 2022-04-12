@@ -218,8 +218,8 @@ def backtest_driver(req):
 
     response = {}
     response["startingValue"] = cerebro.broker.getvalue()
-    print("line 222")
     cerebro.run()
+    print("line 222")
     response["EndingValue"] = cerebro.broker.getvalue()
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
@@ -1458,6 +1458,7 @@ def findBestUsers():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+    today = date.today()
     # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
 
@@ -1467,12 +1468,14 @@ def findBestUsers():
         endDate = competition["endDate"]
         startingCash = competition["startingBalance"]
 
+        print(startDate)
         competitors = competitors_ref.where("competition", "==", competitionId).get()
         competitorsList = []
         for competitor in competitors:
             competitorDict = competitor.to_dict()
             competitorDict["id"] = competitor.id
             competitorsList.append(competitorDict)
+        
 
         leaderboardsPair = []
         for competitor_obj in competitorsList:
@@ -1482,7 +1485,7 @@ def findBestUsers():
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
                 algo_dict["startDate"] = startDate
-                algo_dict["endDate"] = endDate
+                algo_dict["endDate"] = str(today)
             except Exception as e:
                 return f"An Error Occurred: {e}"
 
@@ -1501,7 +1504,7 @@ def findBestUsers():
         comp_update_active_driver(competitionId, {"leaderboard": newLeaderBoard})
 
         # Check out of date competitions and set them as stale
-        today = date.today()
+        
         closeDate = parse(competition["endDate"])
         if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)
