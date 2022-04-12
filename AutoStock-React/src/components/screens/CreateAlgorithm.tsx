@@ -27,6 +27,7 @@ import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
 import { Link, navigate } from "gatsby"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import Entries from "./../entries"
 
 let jsConfetti: any
 
@@ -85,10 +86,15 @@ const CreateAlgorithm = () => {
   const [startingAmount, setStartingAmount] = useState(1000)
   const [validTicker, setValidTicker] = useState(true)
 
+  const [entryList, setEntryList] = useState([])
+
   useEffect(() => {
     jsConfetti = new JSConfetti()
   })
 
+  const onAddBtnClick = (event:any) => {
+    setEntryList(entryList.concat(<Entries key = {entryList.length}/>))
+  }
   const loadStocks = () => {
     fetch("https://api.iextrading.com/1.0/ref-data/symbols")
       .then(res => res.json())
@@ -569,9 +575,11 @@ const CreateAlgorithm = () => {
             </FormControl>
           </div>
           <div>
-            <Button sx={{ borderRadius: 1000 }}>
+            {/* <Button onClick sx={{ borderRadius: 1000 }}>
               <AddIcon /> Add Condition
-            </Button>
+            </Button> */}
+            <Button onClick = {onAddBtnClick}> Add Condition</Button> 
+            entryList
           </div>
         </div>
         <div>

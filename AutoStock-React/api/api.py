@@ -209,7 +209,7 @@ def backtest_driver(req):
     cerebro.broker.setcash(dataDict['cash'])
     cerebro.broker.setcommission(commission=0.0)
     cerebro.addstrategy(strategy)
-
+    
     financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']),
                                             todate=parse(dataDict['endDate']))
 
