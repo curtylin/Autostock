@@ -408,7 +408,7 @@ const Competition = () => {
             variant="h2"
             gutterBottom
           >
-            Submissions Close: {competition.endDate}
+            Submissions Close: {competition.startDate}
           </Typography>
           <Typography
             sx={{ ml: 5, fontSize: 18 }}
@@ -496,12 +496,12 @@ const Competition = () => {
         </AccordionDetails>
       </Accordion>
 
-      {new Date(competition.endDate) > new Date() ? (
+      {new Date(competition.startDate) > new Date() ? (
         <h2>Submissions <span className="openText">Open</span></h2>
       ) : (
         <h2>Submissions <span className="closedText">Closed</span></h2>
       )}
-      {new Date(competition.endDate) > new Date() ? (
+      {new Date(competition.startDate) > new Date() ? (
         <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }}>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm

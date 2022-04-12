@@ -1332,7 +1332,7 @@ def generateCompetitions():
     amount_competitions = 5
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
-    randomTimes = [today + timedelta(days=random.randint(3, 30)) for _ in range(amount_competitions)]
+    randomTimes = [today + timedelta(days=random.randint(140, 365)) for _ in range(amount_competitions)]
     randomInitialStarting = [int(f"1{random.randint(3, 7) * '0'}") for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
