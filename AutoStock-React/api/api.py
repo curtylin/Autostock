@@ -212,6 +212,7 @@ def backtest_driver(req):
 
     financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']),
                                             todate=parse(dataDict['endDate']))
+    
 
     cerebro.adddata(financeData)
 
@@ -536,6 +537,25 @@ def comp_list_all():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+## Returns all competitions
+@cross_origin()
+@app.route('/list-ongoing-competitions', methods=['GET'])
+def comp_list_ongoing():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return all competitions.
+    """
+    try:
+        activeComps = activeCompetitions_ref.where("competitionLockDate", "<=", str(date.today())).get()
+        competitions = []
+        for comp in activeComps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = True
+            competitions.append(compDict)
+        return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 ## Returns all active competitions
 @cross_origin()
@@ -1322,28 +1342,37 @@ def uploadPhoto(filename):
 randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP',
                    'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
 
+@app.route('/generate_comps', methods=['PUT'])
+def genComps():
+    generateCompetitions()
+    return "Competitions Generated Successfully", 200
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
     today = date.today()
 
-    amount_competitions = 5
+
+    amount_competitions = 2
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
-    randomTimes = [today + timedelta(days=random.randint(3, 30)) for _ in range(amount_competitions)]
+    randomEndTimes = [today + timedelta(days=random.randint(22, 50)) for _ in range(amount_competitions)]
+    randomStartTimes = list(map(lambda x: x-timedelta(days=random.randint(220, 420)), randomEndTimes))
     randomInitialStarting = [int(f"1{random.randint(3, 7) * '0'}") for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
-        close_time = randomTimes[i]
+        close_time = randomEndTimes[i]
+        start_time = randomStartTimes[i]
         ticker = randomSubsetTicker[i]
-        time_diff = str(close_time - today)
+        competition_lock_date = today + timedelta(days=random.randint(7, 21))
+        time_diff = str(competition_lock_date - close_time)[1:]
 
         comp_obj = {
-            "startDate": str(today),
+            "competitionLockDate" : str(competition_lock_date), 
+            "startDate": str(start_time),
             "endDate": str(close_time),
-            "description": f"Submit your algorithm before {str(close_time)} and compete for the largest gains!",
+            "description": f"Submit your algorithm before {str(competition_lock_date)} and compete for the largest gains!",
             "duration": time_diff,
-            "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
+            "name": f"{ticker} {time_diff.split(' ')[0]} Day Comp",
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
             "leaderboard": [],  # Should be a list of algorithmIDs, sorted by highest value first
@@ -1411,12 +1440,13 @@ def enterBotsIntoComps():
                         "public": True,
                         "runningTime": "30",
                         "userID": bot['userID'],
-                        "PnL": 0,
+                        "PnLPercentage": 0,
                         "entry": entries
                     }
                     algoID = (bot['userID'] + comp['ticker'])
                     algo_create_driver(algo, algoID)
                     newAlgosCreated += 1
+                    newCompetitionsEntered.append(algoName + " into " + comp['name'])
                 else:
                     algoID = algo[0].id
                     reusedAlgos += 1
@@ -1426,7 +1456,6 @@ def enterBotsIntoComps():
                     "algorithm": algoID
                 }
                 comp_enter_user_driver(competitor_obj)
-                newCompetitionsEntered.append(algoName + " into " + comp['name'])
                 newBots.append(bot['username'])
 
     newCompsEnteredString = "\n"
@@ -1456,8 +1485,11 @@ def findBestUsers():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+    today = date.today()
     # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
+        if parse(competition['competitionLockDate']).date() > today:
+            continue
 
         competitionId = competition["id"]
         leaderboardList = competition["leaderboard"]
@@ -1465,33 +1497,42 @@ def findBestUsers():
         endDate = competition["endDate"]
         startingCash = competition["startingBalance"]
 
+        competitors = competitors_ref.where("competition", "==", competitionId).get()
+        competitorsList = []
+        for competitor in competitors:
+            competitorDict = competitor.to_dict()
+            competitorDict["id"] = competitor.id
+            competitorsList.append(competitorDict)
+        
+
         leaderboardsPair = []
-        for leader_obj in leaderboardList:
+        for competitor_obj in competitorsList:
             try:
-                algo = algorithms_ref.document(leader_obj["algorithmID"]).get()
+                algo = algorithms_ref.document(competitor_obj["algorithm"]).get()
                 algo_dict = algo.to_dict()
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
                 algo_dict["startDate"] = startDate
-                algo_dict["endDate"] = endDate
+                algo_dict["endDate"] = str(today)
             except Exception as e:
                 return f"An Error Occurred: {e}"
 
-            backtestResults = {"PnL": 0}
+            backtestResults = {"PnLPercent": 0}
             try:
                 backtestResults = backtest_driver(algo_dict)
-                update_algo_after_bt(algo_dict["id"], {"PnL": backtestResults["PnL"]})
+                update_algo_after_bt(algo_dict["id"], {"PnLPercent": backtestResults["PnLPercent"]})
             except Exception as e:
                 print(e)
-
-            leaderboardsPair.append((leader_obj, backtestResults["PnL"]))
+            
+            competitor_obj["PnLPercent"] = backtestResults["PnLPercent"]
+            leaderboardsPair.append((competitor_obj, backtestResults["PnLPercent"]))
         # Update competition with sorted best players
-        leaderboardsPair.sort(key=lambda tup: tup[1])
+        leaderboardsPair.sort(key=lambda tup: tup[1], reverse=True)
         newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
         comp_update_active_driver(competitionId, {"leaderboard": newLeaderBoard})
 
         # Check out of date competitions and set them as stale
-        today = date.today()
+        
         closeDate = parse(competition["endDate"])
         if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)
