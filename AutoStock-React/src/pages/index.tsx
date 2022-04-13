@@ -18,7 +18,7 @@ import { CardActionArea, Divider } from "@mui/material";
 import stockPic1 from "../images/maxim-hopman.jpg"
 import stockPic2 from "../images/wance-paleri.jpg"
 import stockPic3 from "../images/jason-briscoe.jpg"
-
+import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Button, { ButtonProps } from '@mui/material/Button';
 
@@ -163,7 +163,7 @@ const IndexPage = () => {
             fontWeight="600"
             component="div"
             textAlign="center"
-            sx={{ display: { xs: "none", md: "flex" }, mb: 5 }}
+            sx={{ display: { xs: "flex", md: "flex" }, mb: 5 }}
             style={{ color: "#059a76" }}
           >
             Start your journey with Autostock today!
@@ -218,8 +218,8 @@ const IndexPage = () => {
             </ColorButton>        
             </div>
         <Divider sx={{mb: 5}}/>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+        <Grid sx={{mt:2}} direction={{xs:'column', md:'row'}} container spacing={2} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}}>
+          <Grid item sm={12} md={4} lg={4} justifyContent="center">
             <Card  sx={{ maxWidth: 345 }}>
               <CardActionArea onClick={isLoggedIn() ? () => navigate(`/app/createalgorithm`) : () => navigate('/app/login')}>
               <CardMedia
@@ -248,7 +248,7 @@ const IndexPage = () => {
             </CardActionArea>
           </Card>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item sm={12} md={4} lg={4} justifyContent="center">
             <Card sx={{ maxWidth: 345 }}>
             <CardActionArea onClick={isLoggedIn() ? () => navigate(`/app/competitions`) : () => navigate('/app/login')}>
             <CardMedia
@@ -276,7 +276,7 @@ const IndexPage = () => {
             </CardActionArea>
           </Card>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item sm={12} md={4} lg={4} justifyContent="center">
             <Card sx={{ maxWidth: 345 }}>
             <CardActionArea onClick={isLoggedIn() ? () => navigate(`/app/publicalgorithms`) : () => navigate('/app/login')}>
             <CardMedia
@@ -305,7 +305,104 @@ const IndexPage = () => {
           </Card>
           </Grid>
         </Grid>
-        
+        </Container>
+
+        <Container sx={{ }} maxWidth="md">
+        <Divider sx={{mb: 5,mt:0}}/>
+        <Typography
+          fontSize={40}
+          fontWeight="500"
+          sx={{mb:5}}
+        >
+            The Autostock Team
+          </Typography>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+          
+          <Stack direction="column">
+            <Grid sx={{mb:10}}direction={{xs:'column', md:'row'}} container spacing={12} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}}>
+              <Grid item sm={12} md={4} lg={4} justifyContent="center" alignItems={"center"}>
+
+                <Card style={{ maxWidth:200, maxHeight:200, borderRadius: '50%'}} >
+                  <CardMedia >
+                    <img
+                      src="https://media-exp1.licdn.com/dms/image/C4E03AQGi-_LJJPb3Uw/profile-displayphoto-shrink_200_200/0/1587842235640?e=1654128000&v=beta&t=mISNSvknyptico7TEqa9hth2e4s98q2HxmInKCZaS8o"
+                      alt="Albert Zhang portrait"
+                      width="250"
+                    ></img>                  
+                  </CardMedia>
+                </Card>
+                <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Albert Zhang</Typography>
+                <Typography sx={{display: "flex",textAlign: "center",justifyContent: "center",}} fontWeight="500" fontSize="22px" noWrap>Back End</Typography>
+
+              </Grid>
+              <Grid item sm={12} md={4} lg={4} justifyContent="center">
+
+              <Card style={{ maxWidth:200, maxHeight:200, borderRadius: '50%'}} >
+                <CardMedia >
+                    <img
+                      src="https://media-exp1.licdn.com/dms/image/C4D03AQGa2YqdqowjTg/profile-displayphoto-shrink_200_200/0/1626983303468?e=1654128000&v=beta&t=BbviMuehzZhurC__h_R9HOiyZQx4RIL_ku1yGUqgXt4"
+                      alt="Brandon Nham portrait"
+                      width="250"
+                    ></img>                  
+                  </CardMedia>
+                </Card>
+                <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Brandon Nham</Typography>
+                <Typography sx={{display: "flex",textAlign: "center",justifyContent: "center",}} fontWeight="500" fontSize="22px" noWrap>Front End</Typography>
+
+              </Grid>
+              <Grid item sm={12} md={4} lg={4} justifyContent="center">
+
+              <Card style={{ maxWidth:200, maxHeight:200, borderRadius: '50%'}} >
+                <CardMedia >
+                  <img
+                    src="https://media-exp1.licdn.com/dms/image/C5603AQHwwK5bJU13AA/profile-displayphoto-shrink_200_200/0/1591376666560?e=1654128000&v=beta&t=7YdhOkopgDn31-WMuTt6bkYEcnG2xM0c2PM0Ne710-o"
+                    alt="Curtis Lin portrait"
+                    width="250"
+                  ></img>                  
+                </CardMedia>
+              </Card>
+              <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Curtis Lin</Typography>
+              <Typography sx={{display: "flex",textAlign: "center",justifyContent: "center",}} fontWeight="500" fontSize="22px" noWrap>Full Stack</Typography>
+              </Grid>
+            </Grid>
+
+            <Grid sx={{mb:5}} direction={{xs:'column', md:'row'}} container spacing={12} justifyContent="center" alignContent={{xs:'center',sm:'flex', md:'flex'}}>
+             <Grid item sm={12} md={4} lg={4} justifyContent="center">
+
+                <Card style={{ maxWidth:200, maxHeight:200, borderRadius: '50%'}} >
+                  <CardMedia >
+                    <img
+                      src="https://i.imgur.com/63zNA4E.jpg"
+                      alt="Jonathan Fairbanks portrait"
+                      width="250"
+                    ></img>                  
+                  </CardMedia>
+                </Card>
+                <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Jonny Fairbanks</Typography>
+                <Typography sx={{display: "flex",textAlign: "center",justifyContent: "center",}} fontWeight="500" fontSize="22px" noWrap>Back End</Typography>
+              </Grid>
+              <Grid item sm={12} md={4} lg={4} justifyContent="center">
+                <Card style={{ maxWidth:200, maxHeight:200, borderRadius: '50%'}} >
+                  <CardMedia >
+                    <img
+                      src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho"
+                      alt="Nick Mountz portrait"
+                      width="250"
+                    ></img>                  
+                  </CardMedia>
+                </Card>
+                <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Nick Mountz</Typography>
+                <Typography sx={{display: "flex",textAlign: "center",justifyContent: "center",}} fontWeight="500" fontSize="22px" noWrap>Front End</Typography>
+              </Grid>
+            </Grid>
+          </Stack>
+        </div>
 
         </Container>
       </main>
