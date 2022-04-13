@@ -1,7 +1,6 @@
 from itertools import chain
 from queue import Empty
 import random
-from re import S
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
