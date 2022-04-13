@@ -315,23 +315,49 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "action": "${action}",
       "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicatorTwo": "${indicator2}",
-      "paramsOne": {},
-      "paramsTwo": {}
+      "indicatorTwo": "${indicator2}"
+    }`
+ 
+  let entry2 = `
+    {
+      "chain" : "${chain}",
+      "action": "${actionchain}",
+      "indicatorOne": "${indicatorchain1}",
+      "comparator": "${comparatorchain1}",
+      "indicatorTwo": "${indicatorchain2}"
     }`
 
-    let body = `{
-      "name": "${algoName}",
-      "ticker": "${stock}",
-      "action": "${action}",
-      "description": "${AlgoDescription}",
-      "runtime": "${runningTime}",
-      "public": false,
-      "userID": "${getUser().uid}",
-      "entry": [
-        ${entry}
-      ]
-    }`
+    var body;
+
+    if(moreConditionals){
+       body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "runtime": "${runningTime}",
+        "PnL": 0.0,
+        "public": false,
+        "userID": "${getUser().uid}",
+        "description": "${AlgoDescription}",
+        "entry": [
+          ${entry},
+          ${entry2}
+        ]
+      }`
+    }
+    else{
+      body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "runtime": "${runningTime}",
+        "PnL": 0.0,
+        "public": false,
+        "userID": "${getUser().uid}",
+        "description": "${AlgoDescription}",
+        "entry": [
+          ${entry}
+        ]
+      }`
+    }
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
@@ -418,13 +444,13 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       <div>
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
-              Indicator 1 (Today's Value)
+              Chain
           </InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            label="Indicator 1 (Today's Value)"
+            label="Chain"
             value={chain}
             onChange={e => {
               setChain(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
