@@ -19,6 +19,7 @@ export default function Calendar({stock}: any) {
 
   return (
     <div>
+      <h5>Calendar</h5>
       <InternalCalendar data={dates} from={dates[0]} to={dates[dates.length-1]}/>
     </div>
   )

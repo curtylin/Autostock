@@ -1195,7 +1195,35 @@ def get_quart_earnings_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         # Returns back in unix time
-        return ticker_info.quarterly_earnings.to_json()
+
+        tickerData = json.loads(ticker_info.quarterly_earnings.to_json())
+
+        tickerRevenue = tickerData["Revenue"]
+        tickerEarnings = tickerData["Earnings"]
+
+        print(tickerRevenue)
+        print(tickerEarnings)
+
+
+        data = {
+            "labels": list(tickerRevenue.keys()),
+            "datasets": [
+                {
+                    "label": "Revenue",
+                    "data": list(tickerRevenue.values()),
+                    "borderColor": 'rgb(255, 99, 132)',
+                    "backgroundColor": 'rgba(255, 99, 132, 0.5)'
+                },
+                {
+                    "label": "Earnings",
+                    "data": list(tickerEarnings.values()),
+                    "borderColor": 'rgb(53, 162, 235)',
+                    "backgroundColor": 'rgba(53, 162, 235, 0.5)'
+                }
+            ]
+        }
+
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
