@@ -37,10 +37,9 @@ const HighChart = ({ stock, stockData }: any) => {
         outerWidth: "100%",
       },
     ],
-
     series: [
       {
-        type: "line",
+        type: "candlestick",
         data: stockData,
         yAxis: 0,
         tooltip: {
