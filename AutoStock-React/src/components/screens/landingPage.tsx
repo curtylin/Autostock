@@ -278,9 +278,8 @@ export default function LandingPage() {
           </Card>
           </Grid>
         </Grid>
-        
+        </Container>   
 
-        </Container>
       </main>
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
