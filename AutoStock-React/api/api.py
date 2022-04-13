@@ -1446,6 +1446,7 @@ def enterBotsIntoComps():
                     algoID = (bot['userID'] + comp['ticker'])
                     algo_create_driver(algo, algoID)
                     newAlgosCreated += 1
+                    newCompetitionsEntered.append(algoName + " into " + comp['name'])
                 else:
                     algoID = algo[0].id
                     reusedAlgos += 1
@@ -1455,7 +1456,6 @@ def enterBotsIntoComps():
                     "algorithm": algoID
                 }
                 comp_enter_user_driver(competitor_obj)
-                newCompetitionsEntered.append(algoName + " into " + comp['name'])
                 newBots.append(bot['username'])
 
     newCompsEnteredString = "\n"
