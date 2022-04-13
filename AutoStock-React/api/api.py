@@ -1085,8 +1085,13 @@ def get_stock_splits(ticker):
 def get_stock_splits_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
+        tickerData = json.loads(ticker_info.splits.to_json())
+        dataArray = []
+        for dataTime, split in tickerData.items():
+            dataArray.append({"name": str(datetime.fromtimestamp(int(dataTime)/1000)), "value": split})
+
         # Returns back in unix time
-        return ticker_info.splits.to_json()
+        return jsonify(dataArray)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
