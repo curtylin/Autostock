@@ -100,7 +100,13 @@ const CreateAlgorithm = () => {
   }
 
   const onAddBtnClick = (event:any) => {
-    // setEntryList(entryList.concat(<Entries key = {entryList.length}/>))
+    setEntryList(entryList.push(<Entries updateEntries = {updateEntries} key = {entryList.length}/>)) 
+    console.log(entryList)
+  }
+
+  const onRemoveBtnClick = (event:any) => {
+    setEntryList(entryList.pop())
+    console.log(entryList)
   }
   const loadStocks = () => {
     fetch("https://api.iextrading.com/1.0/ref-data/symbols")
@@ -381,17 +387,15 @@ const CreateAlgorithm = () => {
 
         <h4>Indicators</h4>
         <Entries updateEntries={updateEntries}/>
-          <Typography>
-            {indicator1} {comparator1} {indicator2}{action}
-          </Typography>
-
+        //{entryList}
         <div>
           <div>
             {/* <Button onClick sx={{ borderRadius: 1000 }}>
               <AddIcon /> Add Condition
-            </Button> */}
-            <Button onClick = {onAddBtnClick}> Add Condition</Button> 
+            </Button> */}    
+            <Button onClick = {()=>{onAddBtnClick()}}> Add Condition</Button> 
           </div>
+            <Button onClick = {()=>{onRemoveBtnClick()}}> Remove Condition</Button>   
         </div>
         <div>
           <Divider sx={{ my: 2, mb: 2 }} />
