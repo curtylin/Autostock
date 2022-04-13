@@ -55,7 +55,7 @@ const CreateAlgorithm = () => {
     yesterdaysDay = "" + yesterday.getDate()
   }
   const [algoName, setAlgoName] = useState("Bill Gate's SMA EMA TRIX BBANDS Ferrari algo")
-  const [stock, setStocks] = useState("RACE")
+  const [stock, setStocks] = useState("SPY")
   const [indicator1, setIndicator1] = useState("SMA")
   const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("EMA")
@@ -74,7 +74,7 @@ const CreateAlgorithm = () => {
   const [BTstart, setBTstart] = useState("")
   const [newAlgoDescription, setAlgoDescription] = useState("I am Bill Gates and I have a cool Ferrari Algo that made me all my money.")
   const [startDate, setStartDate] = useState(
-    `${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`
+    `${currDate.getFullYear() - 2}-${currentMonth}-${currentDate}`
   )
   const [endDate, setEndDate] = useState(
     `${currDate.getFullYear()}-${currentMonth}-${currentDate}`
