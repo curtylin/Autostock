@@ -36,7 +36,7 @@ const AboutUs = () => {
             <h1>Our Team</h1>
 
             <hr></hr>
-            <img src="https://media-exp1.licdn.com/dms/image/C4E03AQGi-_LJJPb3Uw/profile-displayphoto-shrink_200_200/0/1587842235640?e=1654128000&v=beta&t=mISNSvknyptico7TEqa9hth2e4s98q2HxmInKCZaS8o" alt="Albert Zhang portrait" width="250"></img>
+            <img src="https://i.imgur.com/8MdBMaS.jpg" alt="Albert Zhang portrait" width="250"></img>
             <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
                 <Typography
                     fontSize={28}
@@ -57,7 +57,7 @@ const AboutUs = () => {
                  </p>
 
             <hr></hr>
-            <img src="https://media-exp1.licdn.com/dms/image/C4D03AQGa2YqdqowjTg/profile-displayphoto-shrink_200_200/0/1626983303468?e=1654128000&v=beta&t=BbviMuehzZhurC__h_R9HOiyZQx4RIL_ku1yGUqgXt4" alt="Brandon Nham portrait" width="250"></img>
+            <img src="https://i.imgur.com/dcHhpSR.jpg" alt="Brandon Nham portrait" width="250"></img>
             
             <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
                 <Typography
@@ -116,7 +116,7 @@ const AboutUs = () => {
             <p>I like Hotdog. I am quite the hotdog connoisseur- the best ones are grilled. For this project, I did everything relating to the backend including generating new competitions and calculating all of the earnings an algorithm has. </p>
 
             <hr></hr>
-            <img src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho" alt="Nick Mountz portrait" width="250"></img>
+            <img src="https://i.imgur.com/hJrdDDM.jpg" alt="Nick Mountz portrait" width="250"></img>
             <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
                 <Typography
                     fontSize={28}

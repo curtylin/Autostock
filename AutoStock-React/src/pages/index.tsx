@@ -372,7 +372,7 @@ const IndexPage = () => {
                     >
                       <CardMedia>
                         <img
-                          src="https://media-exp1.licdn.com/dms/image/C4E03AQGi-_LJJPb3Uw/profile-displayphoto-shrink_200_200/0/1587842235640?e=1654128000&v=beta&t=mISNSvknyptico7TEqa9hth2e4s98q2HxmInKCZaS8o"
+                          src="https://i.imgur.com/8MdBMaS.jpg"
                           alt="Albert Zhang portrait"
                           width="250"
                         ></img>
@@ -416,7 +416,7 @@ const IndexPage = () => {
                     >
                       <CardMedia>
                         <img
-                          src="https://media-exp1.licdn.com/dms/image/C4D03AQGa2YqdqowjTg/profile-displayphoto-shrink_200_200/0/1626983303468?e=1654128000&v=beta&t=BbviMuehzZhurC__h_R9HOiyZQx4RIL_ku1yGUqgXt4"
+                          src="https://i.imgur.com/dcHhpSR.jpg"
                           alt="Brandon Nham portrait"
                           width="250"
                         ></img>
@@ -460,7 +460,7 @@ const IndexPage = () => {
                     >
                       <CardMedia>
                         <img
-                          src="https://media-exp1.licdn.com/dms/image/C5603AQHwwK5bJU13AA/profile-displayphoto-shrink_200_200/0/1591376666560?e=1654128000&v=beta&t=7YdhOkopgDn31-WMuTt6bkYEcnG2xM0c2PM0Ne710-o"
+                          src="https://i.imgur.com/854jut8.jpg"
                           alt="Curtis Lin portrait"
                           width="250"
                         ></img>
@@ -558,7 +558,7 @@ const IndexPage = () => {
                     >
                       <CardMedia>
                         <img
-                          src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho"
+                          src="https://i.imgur.com/hJrdDDM.jpg"
                           alt="Nick Mountz portrait"
                           width="250"
                         ></img>
