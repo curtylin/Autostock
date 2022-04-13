@@ -305,7 +305,8 @@ const CreateAlgorithm = () => {
               setIndicator1(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
             }}
           >
-            <MenuItem value="RSI">RSI</MenuItem>
+            <MenuItem value="OR">or</MenuItem>
+            <MenuItem value="AND">AND</MenuItem>
             </Select>
         </FormControl>
       </div>
