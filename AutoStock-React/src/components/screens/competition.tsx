@@ -57,6 +57,7 @@ const Competition = () => {
   const [openBackdrop, setOpenBackdrop] = useState(false)
   const [done, setDone] = useState(false)
   const [allAlgos, setAllAlgos] = useState(new Map<string, string>())
+  const [showSpinner, setShowSpinner] = useState(true)
 
   useEffect(() => {
     ;(async function () {
@@ -71,6 +72,7 @@ const Competition = () => {
       await getThreadsDB()
       await getUsersDB()
       setDone(true)
+      setShowSpinner(false)
       console.log("algorithms"+algorithms)
     })()
   }, [chosenAlgorithm])
@@ -506,7 +508,7 @@ const Competition = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ mb: 3 }}>
+      <Accordion sx={{}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -528,7 +530,7 @@ const Competition = () => {
           <HighChart stock={competition.ticker} stockData={data} />
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{}}>
+      <Accordion sx={{mb: 3}}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -546,6 +548,7 @@ const Competition = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
+       
           <table className="mdc-data-table__table" aria-label="my-algorithms">
             <thead>
               <tr className="mdc-data-table__header-row">
@@ -566,6 +569,7 @@ const Competition = () => {
                 </th>
               </tr>
             </thead>
+            {showSpinner ? <CircularProgress sx={{mt:1}} color="inherit" /> :
             <tbody className="mdc-data-table__content">
               {!done
                 ? null
@@ -598,7 +602,7 @@ const Competition = () => {
                       </tr>
                     )
                   })}
-            </tbody>
+            </tbody>}
           </table>
         </AccordionDetails>
       </Accordion>
