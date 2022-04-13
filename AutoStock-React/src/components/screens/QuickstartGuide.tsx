@@ -69,7 +69,7 @@ const QuickStartGuide = () => {
         a better yield.
       </p>
       <br></br>
-      <img src="https://i.imgur.com/rvqOhoM.gif"></img>
+      <img src="https://i.imgur.com/ZxRKzHu.gif"></img>
       <br></br>
 
       <h2>3. Save your algorithm</h2>
@@ -82,8 +82,8 @@ const QuickStartGuide = () => {
         have submitted your algorithm to an active competition. Otherwise,
         please use the backtest function in the edit algorithm page.
       </p>
-      <img src="https://i.imgur.com/HFqAOBv.gif"></img>
-      <img src="https://i.imgur.com/2NZRo09.gif"></img>
+      <img src="https://i.imgur.com/UssANTa.gif"></img>
+      <img src="https://i.imgur.com/oqUJRs0.gif"></img>
       <br></br>
 
       <h2>4. View other people's algorithms for inspiration</h2>
@@ -91,7 +91,7 @@ const QuickStartGuide = () => {
         Once your algorithm is shared with the world, and it can be viewed under
         the "<Link to="/app/publicalgorithms">Public Algorithms</Link>" page.
       </p>
-      <img src="https://i.imgur.com/rTw7ljU.gif"></img>
+      <img src="https://i.imgur.com/2rYPA2r.gif"></img>
       <br></br>
 
       <h2>5. Enter your algorithm into a competition</h2>
@@ -102,7 +102,7 @@ const QuickStartGuide = () => {
         submit your algorithm before the closing date of the competition. You
         are able to change the algorithm you submit anytime until the closing
         date.
-        <img src="https://i.imgur.com/OcvTZa5.gif"></img>
+        <img src="https://i.imgur.com/w7pDLKL.gif"></img>
         <br></br>
         Note: Make sure your algorithm's ticker is the same as the ticker of the
         competition.
