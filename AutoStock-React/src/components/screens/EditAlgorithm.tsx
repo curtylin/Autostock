@@ -71,6 +71,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
+  
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
@@ -92,6 +93,12 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [validTicker, setValidTicker] = useState(true)
   const [moreConditionals, setMoreConditionals] = useState(false)
   const [updateAddButton, setUpdateAddButton] = useState(true)
+
+  const [indicatorchain1, setChainIndicator1] = useState("NONE")
+  const [comparatorchain1, setChainComparator1] = useState("above")
+  const [indicatorchain2, setChainIndicator2] = useState("NONE")
+  const [actionchain, setChainAction] = useState("buy")
+  const [chain, setChain] = useState("OR")
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -194,7 +201,32 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "indicatorTwo": "${indicator2}"
     }`
 
-    let body = `{
+    let entry2 = `{
+      "chain" : "${chain}",
+      "action": "${actionchain}",
+      "indicatorOne": "${indicatorchain1}",
+      "comparator": "${comparatorchain1}",
+      "indicatorTwo": "${indicatorchain2}"
+    }`
+
+    var body;
+
+    if(moreConditionals){
+       body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "cash": ${startingAmount},
+        "startDate": "${startDate}",
+        "endDate": "${endDate}",
+        "runtime": "${runningTime}",
+        "entry": [
+          ${entry},
+          ${entry2}
+        ]
+      }`
+    }
+    else{
+     body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": ${startingAmount},
@@ -205,7 +237,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         ${entry}
       ]
     }`
-
+  }
     let init = {
       method: "POST",
       headers,
@@ -266,6 +298,14 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           setRunningTime(result.runtime)
           setAlgorithm(result)
           setAlgoDescription(result.description)
+          if(result.entry[1] != null)
+          {
+            setMoreConditionals(true)
+            setChainIndicator1(result.entry[1].indicatorOne)
+            setChainComparator1(result.entry[1].comparator)
+            setChainIndicator2(result.entry[1].indicatorTwo)
+            setChainAction(result.entry[1].action)
+          }
         })
     }
   }
@@ -385,12 +425,12 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             label="Indicator 1 (Today's Value)"
-            value={indicator1}
+            value={chain}
             onChange={e => {
-              setIndicator1(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
-            }}
-          >
-            <MenuItem value="RSI">RSI</MenuItem>
+              setChain(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
+            }}       >
+            <MenuItem value="OR">Or</MenuItem>
+            <MenuItem value="AND">And</MenuItem>
             </Select>
         </FormControl>
       </div>
@@ -403,10 +443,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Indicator 1 (Today's Value)"
-              value={indicator1}
+              label="Chain"
+              value={indicatorchain1}
               onChange={e => {
-                setIndicator1(e.target.value)
+                setChainIndicator1(e.target.value)
               }}
             >
               <MenuItem value={"NONE"}>None</MenuItem>
@@ -481,9 +521,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 label="Comparator"
-                value={comparator1}
+                value={comparatorchain1}
                 onChange={e => {
-                  setComparator1(e.target.value)
+                  setChainComparator1(e.target.value)
                 }}
               >
                 <MenuItem value={"above"}>Goes Above</MenuItem>
@@ -501,9 +541,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               label="Indicator 2 (Yesterday's Value)"
-              value={indicator2}
+              value={indicatorchain2}
               onChange={e => {
-                setIndicator2(e.target.value)
+                setChainIndicator2(e.target.value)
               }}
             >
               <MenuItem value={"NONE"}>None</MenuItem>
@@ -577,9 +617,9 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   label="Action"
-                  value={action}
+                  value={actionchain}
                   onChange={e => {
-                    setAction(e.target.value)
+                    setChainAction(e.target.value)
                   }}
                 >
                   <MenuItem value={"buy"}>Buy</MenuItem>

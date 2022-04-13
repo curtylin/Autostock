@@ -282,10 +282,11 @@ const CreateAlgorithm = () => {
          body = `{
           "name": "${algoName}",
           "ticker": "${stock}",
-          "cash": ${startingAmount},
-          "startDate": "${startDate}",
-          "endDate": "${endDate}",
           "runtime": "${runningTime}",
+          "PnL": 0.0,
+          "public": false,
+          "userID": "${getUser().uid}",
+          "description": "${newAlgoDescription}",
           "entry": [
             ${entry},
             ${entry2}
@@ -293,17 +294,18 @@ const CreateAlgorithm = () => {
         }`
       }
       else{
-       body = `{
-        "name": "${algoName}",
-        "ticker": "${stock}",
-        "cash": ${startingAmount},
-        "startDate": "${startDate}",
-        "endDate": "${endDate}",
-        "runtime": "${runningTime}",
-        "entry": [
-          ${entry}
-        ]
-      }`
+        body = `{
+          "name": "${algoName}",
+          "ticker": "${stock}",
+          "runtime": "${runningTime}",
+          "PnL": 0.0,
+          "public": false,
+          "userID": "${getUser().uid}",
+          "description": "${newAlgoDescription}",
+          "entry": [
+            ${entry}
+          ]
+        }`
       }
 
     const headers = new Headers()
