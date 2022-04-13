@@ -627,7 +627,7 @@ const Competition = () => {
               setChosenAlgorithm(e.target.value)
             }}
           >
-            {algorithms.map((algorithm: any, key: any) => {
+            {Array.from(algorithms).map((algorithm: any, key: any) => {
               return (
                 <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
               )
