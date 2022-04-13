@@ -4,8 +4,7 @@ import { Tooltip } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
 import Calendar from './data_components/Calendar'
-import Cashflow from './data_components/Cashflow'
-import Institutionalholders from './data_components/Institutionalholders'
+// import Institutionalholders from './data_components/Institutionalholders'
 import QuartEarnings from './data_components/QuartEarnings'
 import Recommendations from './data_components/Recommendations'
 import Stockbalancesheets from './data_components/Stockbalancesheets'
@@ -82,9 +81,6 @@ export default function Analysis() {
         </Grid>
         <Grid item xs={8} sx={{border:1}}>
           <Calendar stock={updatedStock}/>
-        </Grid>
-        <Grid item xs={4} sx={{border:1}}> 
-          <Cashflow stock={updatedStock}/>
         </Grid>
         <Grid item xs={4} sx={{border:1}}> 
           <Stockmajorholders stock={updatedStock}/>
