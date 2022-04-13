@@ -10,7 +10,7 @@ import Tooltip from "@mui/material/Tooltip"
 import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
-import HighChart from "../highChart"
+import BacktestHighChart from "../backtestHighChart"
 import {
   Grid,
   CircularProgress,
@@ -610,7 +610,7 @@ const CreateAlgorithm = () => {
             <Typography>Historical Data</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <HighChart stock={stock} stockData={data} />
+            <BacktestHighChart stock={stock} stockData={data} />
           </AccordionDetails>
         </Accordion>
       </div>
