@@ -1,4 +1,3 @@
-from itertools import chain
 from queue import Empty
 import random
 
@@ -17,6 +16,7 @@ import os
 import uuid
 import atexit
 import math
+import json
 
 # TODO: Move scheduler to another flask service
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -154,10 +154,10 @@ def strategyFactory(entryObj):
             self.wma = bt.indicators.WeightedMovingAverage(self.datas[0].close)
             self.zlema = bt.indicators.ZeroLagExponentialMovingAverage(self.datas[0].close)
             self.zlind = bt.indicators.ZeroLagIndicator(self.datas[0].close)
-        
+
             self.buylist = []
             self.selllist = []
-            
+
             if len(entryObj) > 1:
                 self.chain = entryObj[1]['chain']
             else:
@@ -173,9 +173,9 @@ def strategyFactory(entryObj):
                                   ,"PPOSHORT": self.pposhort, "PRICEOSC": self.priceosc, "RSIEMA":self.rsiema, "RSISMA":self.rsisma, "RSISAFE":self.rsisafe,
                                   "ROC":self.roc, "ROC100":self.roc100,  "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
                                   "SUMN":self.sumn, "TEMA": self.trema, "TRIX": self.trix, "TRIXSIGNAL": self.trixsignal, "TSI": self.tsi, "UPDAY": self.upday,
-                                  "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema} 
+                                  "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema}
 
-            
+
 
         def buySell(self, action):
             if action == "buy":
@@ -191,7 +191,7 @@ def strategyFactory(entryObj):
                 else:
                     self.selllist.append(1)
                     self.buylist.append(0)
-                
+
 
         def next(self):
             for buyOrSell in entryObj:
@@ -211,7 +211,7 @@ def strategyFactory(entryObj):
                     self.buySell(action)
             if(self.chain == "and"):
                 if math.prod(self.buylist) == 1:
-                    self.buy()         
+                    self.buy()
                 if math.prod(self.selllist) == 1:
                     self.sell
             elif(self.chain == "or"):
@@ -1022,12 +1022,14 @@ def get_highchart_data():
 
         dates = data['Close'].index.tolist()
         closes = list(map(lambda x: round(x, 2), data['Close'].tolist()))
+        opens = list(map(lambda x: round(x, 2), data['Open'].tolist()))
+        high = list(map(lambda x: round(x, 2), data['High'].tolist()))
+        low = list(map(lambda x: round(x, 2), data['Low'].tolist()))
 
         unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
         unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
-        dataList = [[i, j] for i, j in zip(unixDatesWithMS, closes)]
-
+        dataList = list(zip(unixDatesWithMS, closes, opens, high, low))
         return jsonify(dataList)
     except Exception as e:
         return f"An Error Occurred: {e}"
@@ -1085,16 +1087,41 @@ def get_stock_recommendations(ticker):
 def get_stock_recommendations_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
-
-        ticker_info.recommendations.to_json()
-
         recommendationDF = ticker_info.recommendations
         # We can add a From Grade if we wanted to
-        firm = recommendationDF['Firm'].tolist()
+        # firm = recommendationDF['Firm'].tolist()
         recommendation = recommendationDF['To Grade'].tolist()
-        recommendationResult = dict(zip(firm, recommendation))
+        # recommendationResult = list(zip(firm, recommendation))
 
-        return jsonify(recommendationResult)
+        Buy = recommendation.count('Buy')
+        Hold = recommendation.count('Hold')
+        Equal_Weight = recommendation.count('Equal-Weight')
+        Long_Term_Buy = recommendation.count('Long-Term Buy')
+        Market_Perform = recommendation.count('Market Perform')
+        Neutral = recommendation.count('Neutral')
+        Outperform = recommendation.count('Outperform')
+        Overweight = recommendation.count('Overweight')
+        Perform = recommendation.count('Perform')
+        Sector_Perform = recommendation.count('Sector Perform')
+        Sell = recommendation.count('Sell')
+        Strong_Buy = recommendation.count('Strong Buy')
+        Underperform = recommendation.count('Underperform')
+        Underweight = recommendation.count('Underweight')
+
+        result = {
+            "labels": ['Buy','Equal-Weight','Hold','Long-Term Buy','Market Perform','Neutral','Outperform','Overweight','Perform','Sector Perform','Sell','Strong Buy','Underperform','Underweight'],
+            "datasets": [
+                {
+                    "label": "Recommendations",
+                    "data": [Buy, Equal_Weight, Hold, Long_Term_Buy, Market_Perform, Neutral, Outperform, Overweight, Perform, Sector_Perform, Sell, Strong_Buy, Underperform, Underweight],
+                    "backgroundColor": 'rgba(255, 99, 132, 0.2)',
+                    "borderColor": 'rgba(255, 99, 132, 1)',
+                    "borderWidth": 1,
+                }
+            ],
+        }
+
+        return jsonify(result)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1107,8 +1134,13 @@ def get_stock_splits(ticker):
 def get_stock_splits_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
+        tickerData = json.loads(ticker_info.splits.to_json())
+        dataArray = []
+        for dataTime, split in tickerData.items():
+            dataArray.append({"name": str(datetime.fromtimestamp(int(dataTime)/1000)), "value": split})
+
         # Returns back in unix time
-        return ticker_info.splits.to_json()
+        return jsonify(dataArray)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1177,8 +1209,34 @@ def get_quart_financials(ticker):
 def get_quart_financials_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
-        # Returns back in unix time
-        return ticker_info.quarterly_financials.to_json()
+
+        tickerData = json.loads(ticker_info.quarterly_financials.to_json())
+
+        labelsUnix = list(tickerData.keys())
+        labels = [str(datetime.fromtimestamp(int(unixTime)/1000)) for unixTime in labelsUnix]
+
+        datasets = []
+        nameDict = {}
+
+        nameEntries = list(list(tickerData.values())[0].keys())
+        for name in nameEntries:
+            nameDict[name] = []
+
+        for financial in tickerData.values():
+            for name, value in financial.items():
+                nameDict[name].append(value if value is not None else 0)
+        for label in nameDict.keys():
+            datasets.append({
+                    "label": label,
+                    "data": nameDict[label],
+                    "backgroundColor": "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+                })
+        data = {
+            "labels": labels,
+            "datasets": datasets
+        }
+
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1192,7 +1250,31 @@ def get_quart_earnings_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         # Returns back in unix time
-        return ticker_info.quarterly_earnings.to_json()
+
+        tickerData = json.loads(ticker_info.quarterly_earnings.to_json())
+
+        tickerRevenue = tickerData["Revenue"]
+        tickerEarnings = tickerData["Earnings"]
+
+        data = {
+            "labels": list(tickerRevenue.keys()),
+            "datasets": [
+                {
+                    "label": "Revenue",
+                    "data": list(tickerRevenue.values()),
+                    "borderColor": 'rgb(255, 99, 132)',
+                    "backgroundColor": 'rgba(255, 99, 132, 0.5)'
+                },
+                {
+                    "label": "Earnings",
+                    "data": list(tickerEarnings.values()),
+                    "borderColor": 'rgb(53, 162, 235)',
+                    "backgroundColor": 'rgba(53, 162, 235, 0.5)'
+                }
+            ]
+        }
+
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1205,8 +1287,38 @@ def get_major_holders(ticker):
 def get_major_holders_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
-        # Returns back in unix time
-        return ticker_info.major_holders.to_json()
+
+        tickerData = json.loads(ticker_info.major_holders.to_json())
+        tickerPercents = tickerData["0"]
+        tickerValues = tickerData["1"]
+
+        percents = [float(percent.replace("%","")) for _, percent in tickerPercents.items()]
+        values = [content for _, content in tickerValues.items()]
+
+        data = {
+            "labels": values,
+            "datasets": [
+                {
+                    "label": "Major Holders",
+                    "data": percents,
+                    "backgroundColor": [
+                        "#36A2EB",
+                        "#A0df84",
+                        "#8708C8",
+                        "#FF6384",
+                    ],
+                    "borderColor": [
+                        "#36A2EB",
+                        "#A0df84",
+                        "#8708C8",
+                        "#FF6384",
+                    ],
+                    "borderWidth": 1
+                }
+            ]
+        }
+
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1299,12 +1411,29 @@ def get_earnings_driver(ticker):
 def get_sustainability(ticker):
     return get_sustainability_driver(ticker)
 
+def typeChekcer(x):
+    if x is None:
+        return "N/A"
+    if isinstance(x, str):
+        return x
+    if isinstance(x, bool):
+        return "Yes" if x else "No"
+    else:
+        return "N/A"
 
 def get_sustainability_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         # Returns back in unix time
-        return ticker_info.sustainability.to_json()
+
+        tickerJson = ticker_info.sustainability.to_json()
+        tickerDict = json.loads(tickerJson)["Value"]
+
+        rows = []
+        for key, value in tickerDict.items():
+            rows.append({"name":key ,"value": typeChekcer(value)})
+        return json.dumps(rows)
+
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1318,7 +1447,7 @@ def get_isin_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         # Returns back in unix time
-        return ticker_info.sustainability.to_json()
+        return ticker_info.isin
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1331,8 +1460,12 @@ def get_options(ticker):
 def get_options_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
+        data = []
+        for optionDate in list(ticker_info.options):
+            data.append({"value": optionDate, "day": optionDate})
+
         # Returns back in unix time
-        return jsonify(ticker_info.options)
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
