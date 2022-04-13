@@ -272,7 +272,7 @@ const Competition = () => {
   const handleSubmit = (event: any) => {
     let body = `{
         "algorithm": "${chosenAlgorithm}",
-        "competition": "${competition.id}",
+        "competition": "${competitionID}",
         "userID": "${getUser().uid}"
         }
         `
@@ -721,6 +721,7 @@ const Competition = () => {
             threadDescription: thread.threadDescription,
             threadCreator: thread.userID,
             users: users,
+            competitionID: competitionID
           }
           return <Threads key={index} {...threadProps} />
         })}
