@@ -1182,8 +1182,34 @@ def get_quart_financials(ticker):
 def get_quart_financials_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
-        # Returns back in unix time
-        return ticker_info.quarterly_financials.to_json()
+
+        tickerData = json.loads(ticker_info.quarterly_financials.to_json())
+
+        labelsUnix = list(tickerData.keys())
+        labels = [str(datetime.fromtimestamp(int(unixTime)/1000)) for unixTime in labelsUnix]
+
+        datasets = []
+        nameDict = {}
+
+        nameEntries = list(list(tickerData.values())[0].keys())
+        for name in nameEntries:
+            nameDict[name] = []
+
+        for financial in tickerData.values():
+            for name, value in financial.items():
+                nameDict[name].append(value if value is not None else 0)
+        for label in nameDict.keys():
+            datasets.append({
+                    "label": label,
+                    "data": nameDict[label],
+                    "backgroundColor": "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+                })
+        data = {
+            "labels": labels,
+            "datasets": datasets
+        }
+
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1202,10 +1228,6 @@ def get_quart_earnings_driver(ticker):
 
         tickerRevenue = tickerData["Revenue"]
         tickerEarnings = tickerData["Earnings"]
-
-        print(tickerRevenue)
-        print(tickerEarnings)
-
 
         data = {
             "labels": list(tickerRevenue.keys()),

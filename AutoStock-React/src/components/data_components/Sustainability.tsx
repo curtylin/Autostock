@@ -22,7 +22,7 @@ export default function Sustainability({stock}: any) {
   return (
     <div>
       <h5>Sustainability</h5>
-      <TableContainer component = {Paper}>
+      <TableContainer component = {Paper} sx={{maxHeight: 500}}>
         <Table aria-label="simple table">
 
           <TableHead>
