@@ -264,7 +264,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         setBTPnLNum(text.PnL)
         setBTPnLPer(text.PnLPercent)
         setBTstart(text.startingValue)
-        setUrl(text.url)
+        // setUrl(text.url)
         noShowSpin()
       })
       .catch(e => {
