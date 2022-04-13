@@ -149,7 +149,7 @@ const Home = () => {
             )
           })}
           {enteredComps.length < 3 ? 
-          <Button variant="outlined" onClick={event => {navigate(`/app/notenteredcompetitions`)}} startIcon={<AddIcon/>} sx={{ minWidth:340,maxWidth:340, ml:{xs:3, lg:3}, mt: 1}}>Enter Competitions</Button>
+          <Button variant="outlined" onClick={event => {navigate(`/app/notenteredcompetitions`)}} startIcon={<AddIcon/>} sx={{ minWidth:300,maxWidth:300, ml:{xs:1, lg:1}, mt: 1}}>Enter Competitions</Button>
           : null}
         </Grid>
         <Button
