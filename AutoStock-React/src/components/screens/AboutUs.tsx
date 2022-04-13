@@ -113,7 +113,8 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Back End</h4>
-            <p>I like Hotdog. I am quite the hotdog connoisseur- the best ones are grilled. For this project, I did everything relating to the backend including generating new competitions and calculating all of the earnings an algorithm has. </p>
+            <p>Hello, I am Jonathan Fairbanks I am currently a full stack devloper and also a computer science student at the University of Utah. In my free time I enjoy building keyboards and making hot dogs. For this project I was primarily responsible for the backend as well as many of the devops operations,
+                 includes backtesting and competitions. My personal contributions was adding an analysis page so a user can see more data about a stock, and make the best algorithms that they can!  </p>
 
             <hr></hr>
             <img src="https://i.imgur.com/hJrdDDM.jpg" alt="Nick Mountz portrait" width="250"></img>
