@@ -147,7 +147,9 @@ const Leaderboards = () => {
                                 "Private Algorithm"
                               )}
                             </td>
-                            <td className="table_data">{Number(algorithm.PnLPercent).toFixed(5)}%</td>
+                            <td className="table_data">
+                              {Number(algorithm.PnLPercent).toFixed(5)}%
+                            </td>
                             <td className="table_data">
                               {users.has(algorithm.userID)
                                 ? users.get(algorithm.userID)

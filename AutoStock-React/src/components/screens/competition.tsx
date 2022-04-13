@@ -73,7 +73,7 @@ const Competition = () => {
       await getUsersDB()
       setDone(true)
       setShowSpinner(false)
-      console.log("algorithms"+algorithms)
+      console.log("algorithms" + algorithms)
     })()
   }, [chosenAlgorithm])
 
@@ -530,7 +530,7 @@ const Competition = () => {
           <HighChart stock={competition.ticker} stockData={data} />
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{mb: 3}}>
+      <Accordion sx={{ mb: 3 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -548,7 +548,6 @@ const Competition = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-       
           <table className="mdc-data-table__table" aria-label="my-algorithms">
             <thead>
               <tr className="mdc-data-table__header-row">
@@ -569,40 +568,43 @@ const Competition = () => {
                 </th>
               </tr>
             </thead>
-            {showSpinner ? <CircularProgress sx={{mt:1}} color="inherit" /> :
-            <tbody className="mdc-data-table__content">
-              {!done
-                ? null
-                : competition.leaderboard.map((algorithm: any, key: any) => {
-                    return (
-                      <tr className="table_row" key={key}>
-                        <td className="table_data" scope="row">
-                          {allAlgos.has(algorithm.algorithm) ? (
-                            <Link
-                              to="/app/algorithm"
-                              state={{
-                                id: algorithm.algorithm,
-                                userID: algorithm.userID,
-                              }}
-                            >
-                              {allAlgos.get(algorithm.algorithm)}
-                            </Link>
-                          ) : (
-                            "Private Algorithm"
-                          )}
-                        </td>
-                        <td className="table_data">
-                          {Number(algorithm.PnLPercent).toFixed(5)}%
-                        </td>
-                        <td className="table_data">
-                          {users.has(algorithm.userID)
-                            ? users.get(algorithm.userID)
-                            : algorithm.userID}
-                        </td>
-                      </tr>
-                    )
-                  })}
-            </tbody>}
+            {showSpinner ? (
+              <CircularProgress sx={{ mt: 1 }} color="inherit" />
+            ) : (
+              <tbody className="mdc-data-table__content">
+                {!done
+                  ? null
+                  : competition.leaderboard.map((algorithm: any, key: any) => {
+                      return (
+                        <tr className="table_row" key={key}>
+                          <td className="table_data" scope="row">
+                            {allAlgos.has(algorithm.algorithm) ? (
+                              <Link
+                                to="/app/algorithm"
+                                state={{
+                                  id: algorithm.algorithm,
+                                  userID: algorithm.userID,
+                                }}
+                              >
+                                {allAlgos.get(algorithm.algorithm)}
+                              </Link>
+                            ) : (
+                              "Private Algorithm"
+                            )}
+                          </td>
+                          <td className="table_data">
+                            {Number(algorithm.PnLPercent).toFixed(5)}%
+                          </td>
+                          <td className="table_data">
+                            {users.has(algorithm.userID)
+                              ? users.get(algorithm.userID)
+                              : algorithm.userID}
+                          </td>
+                        </tr>
+                      )
+                    })}
+              </tbody>
+            )}
           </table>
         </AccordionDetails>
       </Accordion>
