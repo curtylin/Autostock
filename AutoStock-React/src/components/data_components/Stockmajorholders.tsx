@@ -1,10 +1,14 @@
+// @ts-nocheck
 import React from 'react'
 import { useEffect } from 'react'
-import { InternalPieCanvas } from './nivo/InternalPieCanvas'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Stockmajorholders({stock}: any) {
 
-  const [majorHolders, setMajorHolders] = React.useState([])
+  const [majorHolders, setMajorHolders] = React.useState(null)
   useEffect(() => {
     if(stock !== '') {
       fetch(`http://localhost:5000/getMajorHolders/${stock}`)
@@ -18,12 +22,10 @@ export default function Stockmajorholders({stock}: any) {
 
 
   return (
-    <div style={{position: 'relative'}}>
-      <div style={{position: 'absolute', width: '100%', height: '100%' }}>
-        <InternalPieCanvas data={majorHolders} />
-      </div>
+    <div>
+      <h5>Major Holders</h5>
+      {majorHolders !== null ? <Pie data={majorHolders}/> : null}
     </div>
-    // <div>{}</div>
   )
 }
 

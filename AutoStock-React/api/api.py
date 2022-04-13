@@ -1193,18 +1193,32 @@ def get_major_holders_driver(ticker):
         tickerPercents = tickerData["0"]
         tickerValues = tickerData["1"]
 
-        percents = [percent for _, percent in tickerPercents.items()]
+        percents = [float(percent.replace("%","")) for _, percent in tickerPercents.items()]
         values = [content for _, content in tickerValues.items()]
 
-        percentValue = list(zip(percents, values))
+        data = {
+            "labels": values,
+            "datasets": [
+                {
+                    "label": "Major Holders",
+                    "data": percents,
+                    "backgroundColor": [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#F0CE56",
+                        "#FF6384",
+                    ],
+                    "borderColor": [
+                        "#FF6384",
+                        "#36A2EB",
+                        "#F0CE56",
+                        "#FF6384",
+                    ],
+                    "borderWidth": 1
+                }
+            ]
+        }
 
-        data = []
-        for percent, val in percentValue:
-            data.append({
-                "id" : val,
-                "label" : val,
-                "value" : float(percent[0:-1])
-            })
         return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
