@@ -5,7 +5,8 @@ import React from 'react'
 import { useState } from 'react'
 import Calendar from './data_components/Calendar'
 import Cashflow from './data_components/Cashflow'
-import Earnings from './data_components/Earnings'
+import Institutionalholders from './data_components/Institutionalholders'
+import QuartEarnings from './data_components/QuartEarnings'
 import Recommendations from './data_components/Recommendations'
 import Stockbalancesheets from './data_components/Stockbalancesheets'
 import Stockfinancials from './data_components/Stockfinancials'
@@ -92,9 +93,6 @@ export default function Analysis() {
           <Recommendations stock={updatedStock} />
         </Grid>
         <Grid item xs={3} sx={{border:1}}> 
-          <Earnings stock={updatedStock}/>
-        </Grid>
-        <Grid item xs={3} sx={{border:1}}> 
           <Stockbalancesheets stock={updatedStock}/>
         </Grid>
         <Grid item xs={5} sx={{border:1}}> 
@@ -106,6 +104,12 @@ export default function Analysis() {
         <Grid item xs={4} sx={{border:1}}> 
           <Sustainability stock={updatedStock}/>
         </Grid>
+        <Grid item xs={4} sx={{border:1}}> 
+          <QuartEarnings stock={updatedStock}/>
+        </Grid>
+        {/* <Grid item xs={4} sx={{border:1}}> 
+          <Institutionalholders stock={updatedStock}/>
+        </Grid> */}
       </Grid>
     </div>
 
