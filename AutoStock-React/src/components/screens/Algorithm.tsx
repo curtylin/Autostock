@@ -170,16 +170,6 @@ const Algorithm = () => {
           >
             Ticker: <span className="stockTickName"> {algorithm.ticker}</span>
           </Typography>
-          <Typography
-            sx={{ ml: 5, fontSize: 18 }}
-            justifyContent="center"
-            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
-            fontWeight="400"
-            variant="h2"
-            gutterBottom
-          >
-            Algorithm Runtime: {algorithm.runtime} Days
-          </Typography>
         </CardContent>
       </Card>
       {entries.map((entry: any, key: any) => {
@@ -196,6 +186,17 @@ const Algorithm = () => {
               >
                 Indicators:
               </Typography>
+              {entry.chain == undefined? "" : <Typography
+                sx={{ ml: 5, fontSize: 18 }}
+                justifyContent="center"
+                fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+                fontWeight="400"
+                variant="h2"
+                gutterBottom
+              >
+                Chain:{" "}
+                <span className="dataToRight">{entry.chain}</span>
+              </Typography>}
               <Typography
                 sx={{ ml: 5, fontSize: 18 }}
                 justifyContent="center"

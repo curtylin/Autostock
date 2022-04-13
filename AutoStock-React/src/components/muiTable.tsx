@@ -240,7 +240,7 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
                     align="left"
                     style={{ paddingRight: 4, paddingLeft: 5 }}
                   >
-                    {row.PnL == undefined ? "--" : row.PnL + "%"}
+                    {row.PnLPercent == undefined ? "--" : row.PnLPercent + "%"}
                   </TableCell>
 
                   {myAlg ? (
