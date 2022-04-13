@@ -101,7 +101,7 @@ export default function Analysis() {
           <Stocksplits stock={updatedStock}/>
         </Grid>
         <Grid item xs={4}> 
-          <Recommendations stock={updatedStock}/>
+          <Recommendations stock={updatedStock}   style={{border: '2px solid black'}}/>
         </Grid>
         <Grid item xs={4}> 
           <Sustainability stock={updatedStock}/>

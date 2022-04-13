@@ -21,6 +21,7 @@ export default function Sustainability({stock}: any) {
 
   return (
     <div>
+      <h5>Sustainability</h5>
       <TableContainer component = {Paper}>
         <Table aria-label="simple table">
 

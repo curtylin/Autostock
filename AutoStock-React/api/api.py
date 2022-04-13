@@ -1040,18 +1040,39 @@ def get_stock_recommendations_driver(ticker):
         ticker_info = yf.Ticker(ticker)
         recommendationDF = ticker_info.recommendations
         # We can add a From Grade if we wanted to
-        firm = recommendationDF['Firm'].tolist()
+        # firm = recommendationDF['Firm'].tolist()
         recommendation = recommendationDF['To Grade'].tolist()
-        recommendationResult = list(zip(firm, recommendation))
-        print(recommendationResult)
+        # recommendationResult = list(zip(firm, recommendation))
 
-        recommendationList = []
-        for firmName, recommendationName in recommendationResult:
-            recommendationList.append(
-                {"name": firmName, "value": recommendationName}
-            )
+        Buy = recommendation.count('Buy')
+        Hold = recommendation.count('Hold')
+        Equal_Weight = recommendation.count('Equal-Weight')
+        Long_Term_Buy = recommendation.count('Long-Term Buy')
+        Market_Perform = recommendation.count('Market Perform')
+        Neutral = recommendation.count('Neutral')
+        Outperform = recommendation.count('Outperform')
+        Overweight = recommendation.count('Overweight')
+        Perform = recommendation.count('Perform')
+        Sector_Perform = recommendation.count('Sector Perform')
+        Sell = recommendation.count('Sell')
+        Strong_Buy = recommendation.count('Strong Buy')
+        Underperform = recommendation.count('Underperform')
+        Underweight = recommendation.count('Underweight')
 
-        return jsonify(recommendationList)
+        result = {
+            "labels": ['Buy','Equal-Weight','Hold','Long-Term Buy','Market Perform','Neutral','Outperform','Overweight','Perform','Sector Perform','Sell','Strong Buy','Underperform','Underweight'],
+            "datasets": [
+                {
+                    "label": "Recommendations",
+                    "data": [Buy, Equal_Weight, Hold, Long_Term_Buy, Market_Perform, Neutral, Outperform, Overweight, Perform, Sector_Perform, Sell, Strong_Buy, Underperform, Underweight],
+                    "backgroundColor": 'rgba(255, 99, 132, 0.2)',
+                    "borderColor": 'rgba(255, 99, 132, 1)',
+                    "borderWidth": 1,
+                }
+            ],
+        }
+
+        return jsonify(result)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
