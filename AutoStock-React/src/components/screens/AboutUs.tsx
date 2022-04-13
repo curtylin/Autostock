@@ -13,6 +13,7 @@ const AboutUs = () => {
         <Layout>
             <br></br>
             <img style={{marginBottom:"auto", marginRight:"auto", marginLeft:"auto", display:"block"}} width={250} src={Logo}></img>
+            {/* <img style={{marginBottom:"auto", marginRight:"auto", marginLeft:"auto", display:"block"}} width={250} src={"https://logos-world.net/wp-content/uploads/2021/08/Among-Us-Logo.png"}></img> */}
 
             <h1>Overview</h1>
             <p>Autostock is an algo trading platform that will allow users to have a more simplified experience when trading algorithmically. 
@@ -44,7 +45,7 @@ const AboutUs = () => {
                 >
                     Albert Zhang
                 </Typography>
-                <IconButton aria-label="linkedIn" href="https://www.linkedin.com">
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com/in/albertzhang1/">
                     <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
                 </IconButton>
             </Stack>
@@ -107,12 +108,12 @@ const AboutUs = () => {
                 >
                     Jonathan Fairbanks
                 </Typography>
-                <IconButton aria-label="linkedIn" href="https://www.linkedin.com">
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com/in/jonathan-a-fairbanks/">
                     <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
                 </IconButton>
             </Stack>
             <h4>Back End</h4>
-            <p>I like Hotdog.</p>
+            <p>I like Hotdog. I am quite the hotdog connoisseur- the best ones are grilled. For this project, I did everything relating to the backend including generating new competitions and calculating all of the earnings an algorithm has. </p>
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQGxsLrwpvSVyA/profile-displayphoto-shrink_200_200/0/1621444830519?e=1654128000&v=beta&t=0za5UikHUTBDNvYiZY39Hsi7rN9nGz3Kgvj1c0FvBho" alt="Nick Mountz portrait" width="250"></img>
@@ -124,12 +125,12 @@ const AboutUs = () => {
                 >
                     Nick Mountz
                 </Typography>
-                <IconButton aria-label="linkedIn" href="https://www.linkedin.com">
+                <IconButton aria-label="linkedIn" href="https://www.linkedin.com/in/nicholasmountz/">
                     <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
                 </IconButton>
             </Stack>
-            <h4>Front end</h4>
-            <p>Nick's BIO HERE</p>
+            <h4>Front End</h4>
+            <p>Nick is a fullstack developer and senior at the University of Utah studying Computer Science. He is very passionate about engineering and problem solving. Nick can be found designing and building new (and old) applications in his free time. </p>
             <br></br>
 
 

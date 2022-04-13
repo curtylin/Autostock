@@ -306,7 +306,8 @@ const Header = ({ siteTitle }: HeaderProps) => {
           <Box sx={{ flexGrow: 0, display: {} }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <PersonIcon fontSize="large"/>
+              <img style={{marginBottom:"auto", marginRight:"auto", marginLeft:"auto", display:"block"}} width={70} src={"https://logos-world.net/wp-content/uploads/2021/08/Among-Us-Logo.png"}></img>
+                {/* <PersonIcon fontSize="large"/> */}
               </IconButton>
             </Tooltip>
             <Menu
