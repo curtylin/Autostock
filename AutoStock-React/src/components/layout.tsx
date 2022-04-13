@@ -22,7 +22,7 @@ function Copyright() {
       {"Copyright © "}
       {"Autostock "}
       {new Date().getFullYear()}
-      {"."}
+      {''}
     </Typography>
   )
 }
