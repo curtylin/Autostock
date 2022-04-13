@@ -12,7 +12,7 @@ export default function Stockmajorholders({stock}: any) {
   const [majorHolders, setMajorHolders] = React.useState(null)
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getMajorHolders/${stock}`)
+      fetch(`http://34.106.176.23:5000/getMajorHolders/${stock}`)
         .then(res => res.json())
         .then(result => {
           setMajorHolders(result)

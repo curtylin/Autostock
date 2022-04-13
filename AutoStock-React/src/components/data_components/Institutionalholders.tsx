@@ -6,7 +6,7 @@ export default function Institutionalholders({stock}: any) {
 
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getInstHolders/${stock}`)
+      fetch(`http://34.106.176.23:5000/getInstHolders/${stock}`)
         .then(res => res.json())
         .then(result => {
           setinstHolders(result)

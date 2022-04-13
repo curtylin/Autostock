@@ -48,7 +48,7 @@ export default function Analysis() {
         body,
       }
   
-      fetch("http://localhost:5000/gethighchartdata ", init)
+      fetch("http://34.106.176.23:5000/gethighchartdata ", init)
         .then(res => {
           return res.json()
         })

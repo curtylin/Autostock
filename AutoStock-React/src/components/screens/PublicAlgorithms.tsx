@@ -16,8 +16,8 @@ const PublicAlgorithms = () => {
   }, [])
 
   const getAlgorithmsDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/list-algorithm", {
+    //fetch post to 34.106.176.23
+    fetch("http://34.106.176.23:5000/list-algorithm", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -33,8 +33,8 @@ const PublicAlgorithms = () => {
   }
 
   const getUsersDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/list-user", {
+    //fetch post to 34.106.176.23
+    fetch("http://34.106.176.23:5000/list-user", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

@@ -9,7 +9,7 @@ export default function Stocksplits({stock}: any) {
 
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getStockSplits/${stock}`)
+      fetch(`http://34.106.176.23:5000/getStockSplits/${stock}`)
         .then(res => res.json())
         .then(result => {
           setSplits(result)

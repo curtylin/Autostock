@@ -138,7 +138,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("http://34.106.176.23:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -166,7 +166,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       headers,
       body,
     }
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("http://34.106.176.23:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -250,7 +250,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/backtest", init)
+    fetch("http://34.106.176.23:5000/backtest", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -281,7 +281,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const getAlgoDB = () => {
     if (isBrowser) {
       fetch(
-        `http://localhost:5000/get-algorithm/${window.history.state.algorithm.id}`,
+        `http://34.106.176.23:5000/get-algorithm/${window.history.state.algorithm.id}`,
         {
           headers: {
             Accept: "application/json",
@@ -371,7 +371,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     }
     console.log("sending api call")
     fetch(
-      `http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`,
+      `http://34.106.176.23:5000/update-algorithm/${window.history.state.algorithm.id}`,
       init
     )
       .then(response => {

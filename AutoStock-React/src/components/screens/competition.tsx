@@ -78,8 +78,8 @@ const Competition = () => {
   }, [chosenAlgorithm])
 
   const getUsersDB = async () => {
-    //fetch post to localhost
-    await fetch("http://localhost:5000/list-user", {
+    //fetch post to 34.106.176.23
+    await fetch("http://34.106.176.23:5000/list-user", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -99,8 +99,8 @@ const Competition = () => {
   }
 
   const getAllAlgorithmsDB = () => {
-    //fetch post to localhost
-    fetch("http://localhost:5000/list-algorithm", {
+    //fetch post to 34.106.176.23
+    fetch("http://34.106.176.23:5000/list-algorithm", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -121,7 +121,7 @@ const Competition = () => {
 
   const getThreadsDB = async () => {
     await fetch(
-      `http://localhost:5000/get-threads/${window.history.state.id}`,
+      `http://34.106.176.23:5000/get-threads/${window.history.state.id}`,
       {
         headers: {
           Accept: "application/json",
@@ -140,7 +140,7 @@ const Competition = () => {
 
   const getDiscussionsDB = async () => {
     await fetch(
-      `http://localhost:5000/get-discussions/${window.history.state.id}`,
+      `http://34.106.176.23:5000/get-discussions/${window.history.state.id}`,
       {
         headers: {
           Accept: "application/json",
@@ -158,9 +158,9 @@ const Competition = () => {
   }
 
   const getCompDB = async () => {
-    //fetch post to localhost
+    //fetch post to 34.106.176.23
     await fetch(
-      `http://localhost:5000/get-competition/${window.history.state.id}`,
+      `http://34.106.176.23:5000/get-competition/${window.history.state.id}`,
       {
         headers: {
           Accept: "application/json",
@@ -179,8 +179,8 @@ const Competition = () => {
   }
 
   const getAlgorithmsDB = async () => {
-    //fetch post to localhost
-    await fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
+    //fetch post to 34.106.176.23
+    await fetch(`http://34.106.176.23:5000/list-algorithm/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -198,8 +198,8 @@ const Competition = () => {
   }
 
   const getCurrentAlgorithm = async () => {
-    //fetch post to localhost
-    await fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
+    //fetch post to 34.106.176.23
+    await fetch(`http://34.106.176.23:5000/list-competition/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -251,7 +251,7 @@ const Competition = () => {
       body,
     }
 
-    await fetch("http://localhost:5000/gethighchartdata ", init)
+    await fetch("http://34.106.176.23:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -283,7 +283,7 @@ const Competition = () => {
       headers,
       body,
     }
-    fetch("http://127.0.0.1:5000/enter-competition", init)
+    fetch("http://34.106.176.23:5000/enter-competition", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -314,7 +314,7 @@ const Competition = () => {
       body,
     }
     fetch(
-      `http://localhost:5000/edit-competition-algorithm/${competitiorID}`,
+      `http://34.106.176.23:5000/edit-competition-algorithm/${competitiorID}`,
       init
     )
       .then(response => {
@@ -386,7 +386,7 @@ const Competition = () => {
       headers,
       body,
     }
-    fetch("http://localhost:5000/create-thread", init)
+    fetch("http://34.106.176.23:5000/create-thread", init)
       .then(response => {
         return response.json()
       })

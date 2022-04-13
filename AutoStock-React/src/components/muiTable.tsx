@@ -54,7 +54,7 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
       body,
     }
 
-    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://34.106.176.23:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         console.log(response)
         if (response.status === 200) {
@@ -83,7 +83,7 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
       headers,
       body,
     }
-    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`http://34.106.176.23:5000/update-algorithm/${event.target.id}`, init)
       .then(response => {
         console.log(response)
         if (response.status === 200) {
@@ -112,7 +112,7 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
     }
     console.log(event.target.id)
 
-    fetch(`http://localhost:5000/delete-algorithm/${event.target.id}`, init)
+    fetch(`http://34.106.176.23:5000/delete-algorithm/${event.target.id}`, init)
       .then(response => {
         window.location.reload() // or .text() or .blob() ...
         event.preventDefault()
@@ -240,7 +240,7 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
                     align="left"
                     style={{ paddingRight: 4, paddingLeft: 5 }}
                   >
-                    {row.PnLPercent == undefined ? "--" : row.PnLPercent + "%"}
+                    {row.PnLPercent == undefined ? "--" : Number(row.PnLPercent).toFixed(5) + "%"}
                   </TableCell>
 
                   {myAlg ? (

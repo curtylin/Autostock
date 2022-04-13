@@ -128,7 +128,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("http://34.106.176.23:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -156,7 +156,7 @@ const CreateAlgorithm = () => {
       headers,
       body,
     }
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("http://34.106.176.23:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -231,7 +231,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/backtest", init)
+    fetch("http://34.106.176.23:5000/backtest", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -311,7 +311,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/create-algorithm", init)
+    fetch("http://34.106.176.23:5000/create-algorithm", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })

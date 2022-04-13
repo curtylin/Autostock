@@ -51,7 +51,7 @@ const AboutUs = () => {
             </Stack>
             <h4>Weekend</h4>
             <p> On AutoStock I focused mainly on the backend specifically the backtesting portion. I spent most of the time testing 
-                and implementing new strategies as well as a couple front end features.For my personal portion of the project I added the chained feature in the edit and create algorithm.
+                and implementing new strategies as well as a couple front end features. For my personal portion of the project I added the chained feature in the edit and create algorithm.
                 This project has been a great experience with me as it gave me the opportunity to learn a lot about web dev and algo trading. In my free time I like to swim, ski, play video games
                 and the piano. 
                  </p>
