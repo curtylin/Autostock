@@ -995,12 +995,14 @@ def get_highchart_data():
 
         dates = data['Close'].index.tolist()
         closes = list(map(lambda x: round(x, 2), data['Close'].tolist()))
+        opens = list(map(lambda x: round(x, 2), data['Open'].tolist()))
+        high = list(map(lambda x: round(x, 2), data['High'].tolist()))
+        low = list(map(lambda x: round(x, 2), data['Low'].tolist()))
 
         unixDates = [(time.mktime(parse(str(i)).timetuple())) for i in dates]
         unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
-        dataList = [[i, j] for i, j in zip(unixDatesWithMS, closes)]
-
+        dataList = list(zip(unixDatesWithMS, closes, opens, high, low))
         return jsonify(dataList)
     except Exception as e:
         return f"An Error Occurred: {e}"
