@@ -1253,15 +1253,15 @@ def get_major_holders_driver(ticker):
                     "label": "Major Holders",
                     "data": percents,
                     "backgroundColor": [
-                        "#FF6384",
                         "#36A2EB",
-                        "#F0CE56",
+                        "#A0df84",
+                        "#8708C8",
                         "#FF6384",
                     ],
                     "borderColor": [
-                        "#FF6384",
                         "#36A2EB",
-                        "#F0CE56",
+                        "#A0df84",
+                        "#8708C8",
                         "#FF6384",
                     ],
                     "borderWidth": 1
@@ -1411,8 +1411,12 @@ def get_options(ticker):
 def get_options_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
+        data = []
+        for optionDate in list(ticker_info.options):
+            data.append({"value": optionDate, "day": optionDate})
+
         # Returns back in unix time
-        return jsonify(ticker_info.options)
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 

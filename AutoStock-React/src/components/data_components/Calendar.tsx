@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { ResponsiveCalendar } from '@nivo/calendar'
+import { ResponsiveCalendarCanvas  } from '@nivo/calendar'
 
 // We get stock options as well as earnings date
 
@@ -18,13 +18,15 @@ export default function Calendar({stock}: any) {
   },[stock])
 
   return (
-    <div>
-      <h5>Calendar</h5>
+    <div style={{height: 500}}>
+      <h5>Options Calendar</h5>
       {/* <InternalCalendar data={dates} from={dates[0]} to={dates[dates.length-1]}/> */}
-      <ResponsiveCalendar
+      {
+        dates.length > 0 ? 
+        <ResponsiveCalendarCanvas
         data={dates}
-        from={dates[0]}
-        to={dates[dates[dates.length-1]]}
+        from={dates[0]["day"]}
+        to={dates[dates.length-1]["day"]}
         emptyColor="#eeeeee"
         colors={[ '#61cdbb', '#97e3d5', '#e8c1a0', '#f47560' ]}
         margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
@@ -44,7 +46,9 @@ export default function Calendar({stock}: any) {
                 itemDirection: 'right-to-left'
             }
         ]}
-    />
+    /> : []
+      }
+
 
 
     </div>
