@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from itertools import chain
 from queue import Empty
 import random
@@ -159,7 +158,7 @@ def strategyFactory(entryObj):
             self.buylist = []
             self.selllist = []
             
-            if entryObj[1] is not NULL:
+            if len(entryObj) > 1:
                 self.chain = entryObj[1]['chain']
             else:
                 self.chain = 'NONE'
