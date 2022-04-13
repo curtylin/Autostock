@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../layout'
 import Stepper from '@mui/material/Stepper'
-import { StepButton, StepLabel } from "@mui/material"
+import { StepButton } from "@mui/material"
 import { Step } from "@mui/material"
 import AlgoPanel from '../algoPanel'
 import Analysis from '../Analysis'
