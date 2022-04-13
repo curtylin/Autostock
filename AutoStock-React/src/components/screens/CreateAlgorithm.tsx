@@ -518,9 +518,6 @@ const CreateAlgorithm = () => {
       setUpdateAddButton(true)
       // set indicators back to ""
     }
-    
-    
-
   }
 
   return (
@@ -809,12 +806,12 @@ const CreateAlgorithm = () => {
             {moreConditionals ?  <IndicatorsPart/>: null}
           </div>
           <div>
-            {updateAddButton ?  <Button onClick={conditionalClick} sx={{ borderRadius: 1000 }}>
-              <AddIcon /> Add Condition
+            {updateAddButton ?  <Button startIcon={<AddIcon />} onClick={conditionalClick} sx={{ borderRadius: 1000 }}>
+              Add Condition
             </Button>
             : 
-            <Button onClick={conditionalClick} sx={{ borderRadius: 1000 }}>
-            <AddIcon /> Remove Condition
+            <Button startIcon={<RemoveIcon/>} onClick={conditionalClick} sx={{ borderRadius: 1000 }}>
+            Remove Condition
           </Button>}
            
           </div>
