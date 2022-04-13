@@ -9,8 +9,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft"
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight"
 import SwipeableViews from "react-swipeable-views"
 import { autoPlay } from "react-swipeable-views-utils"
-import Link from '@mui/material/Link';
-
+import Link from "@mui/material/Link"
 
 function SwipeableTextMobileStepper() {
   const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
@@ -77,50 +76,50 @@ function SwipeableTextMobileStepper() {
             <div key={article.index}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <div>
-
-                <Box
-                display="flex" 
-                alignItems="center"
-                justifyContent="center">
-                  <Typography
-                    sx={{
-                      display: "-webkit-box",
-                      overflow: "hidden",
-                      WebkitBoxOrient: "vertical",
-                      WebkitLineClamp: 1,
-                      margin:"auto",
-                      mb:2
-                    }}
-                    style={{
-                      color: "#059a76"
-                    }}
-                    fontWeight="550"
-                    fontSize="20px"
-                    variant="body2"
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
                   >
-                    {article.title}
-                  </Typography>
-                </Box>
-                <Box
-                display="flex" 
-                alignItems="center"
-                justifyContent="center">
-                <Typography
-                  sx={{
-                    display: "-webkit-box",
-                    overflow: "hidden",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 1,
-                  }}
-                  variant="body2"
-                >
-                  <Link href={article.link} variant="body2">
-                    {article.publisher}
-                  </Link>
-                </Typography>
-                </Box>
-              </div>
-                
+                    <Typography
+                      sx={{
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 1,
+                        margin: "auto",
+                        mb: 2,
+                      }}
+                      style={{
+                        color: "#059a76",
+                      }}
+                      fontWeight="550"
+                      fontSize="20px"
+                      variant="body2"
+                    >
+                      {article.title}
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Typography
+                      sx={{
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 1,
+                      }}
+                      variant="body2"
+                    >
+                      <Link href={article.link} variant="body2">
+                        {article.publisher}
+                      </Link>
+                    </Typography>
+                  </Box>
+                </div>
               ) : // component="img"
               // sx={{
               //   height: 1080,
