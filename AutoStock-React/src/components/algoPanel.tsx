@@ -12,6 +12,7 @@ import Seo from "./seo"
 import JSConfetti from "js-confetti"
 import HighChart from "./highChart"
 import {
+  Grid,
   CircularProgress,
   Card,
   CardContent,
@@ -245,7 +246,7 @@ const CreateAlgorithm = () => {
         setBTPnLPer(text.PnLPercent)
         setBTstart(text.startingValue)
 
-        setUrl(text.url)
+        // setUrl(text.url)
         noShowSpin()
       })
       .catch(e => {
