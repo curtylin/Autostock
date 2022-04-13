@@ -153,29 +153,53 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   return (
-    <Paper sx={{ width: "100%", mb: 2 }}>
+    <Paper
+      sx={{
+        width: "100%",
+        mb: 2,
+        display: "flex",
+        marginTop: "25px",
+        overflowX: "hide",
+      }}
+    >
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table
+          style={{ tableLayout: "fixed", minWidth: 340 }}
+          sx={{ minWidth: 650 }}
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow>
-              <TableCell align="left">
+              <TableCell
+                align="left"
+                style={{ paddingRight: 4, paddingLeft: 5 }}
+              >
                 <text style={{ fontWeight: "bold", fontSize: "20px" }}>
                   Algorithm Name
                 </text>
               </TableCell>
-              <TableCell align="left">
+              <TableCell
+                align="left"
+                style={{ paddingRight: 4, paddingLeft: 5 }}
+              >
                 <text style={{ fontWeight: "bold", fontSize: "20px" }}>
                   Day Gain (%)
                 </text>
               </TableCell>
               {myAlg ? (
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  style={{ paddingRight: 4, paddingLeft: 5 }}
+                >
                   <text style={{ fontWeight: "bold", fontSize: "20px" }}>
                     Options
                   </text>
                 </TableCell>
               ) : (
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  style={{ paddingRight: 4, paddingLeft: 5 }}
+                >
                   <text style={{ fontWeight: "bold", fontSize: "20px" }}>
                     Creator
                   </text>
@@ -189,11 +213,19 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
               .map((row: any) => (
                 <TableRow key={row.name} hover={true}>
                   {myAlg ? (
-                    <TableCell align="left" width="50%">
+                    <TableCell
+                      align="left"
+                      width="50%"
+                      style={{ paddingRight: 4, paddingLeft: 5 }}
+                    >
                       {row.name}
                     </TableCell>
                   ) : (
-                    <TableCell align="left" width="50%">
+                    <TableCell
+                      align="left"
+                      width="50%"
+                      style={{ paddingRight: 4, paddingLeft: 5 }}
+                    >
                       <Link
                         className="table_links"
                         to="/app/algorithm"
@@ -204,12 +236,18 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
                     </TableCell>
                   )}
 
-                  <TableCell align="left">
+                  <TableCell
+                    align="left"
+                    style={{ paddingRight: 4, paddingLeft: 5 }}
+                  >
                     {row.PnL == undefined ? "--" : row.PnL + "%"}
                   </TableCell>
 
                   {myAlg ? (
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{ paddingRight: 4, paddingLeft: 5 }}
+                    >
                       <Button
                         size="small"
                         className="mdc-button mdc-button--raised"
@@ -269,7 +307,10 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
                       </Button>
                     </TableCell>
                   ) : (
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      style={{ paddingRight: 4, paddingLeft: 5 }}
+                    >
                       {users.has(row.userID)
                         ? users.get(row.userID)
                         : row.userID}
@@ -288,16 +329,16 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
             )}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
       <Snackbar
         open={open}
         autoHideDuration={6000}
