@@ -27,6 +27,7 @@ import { getUser } from "../../services/auth"
 import AddIcon from "@mui/icons-material/Add"
 import { Link, navigate } from "gatsby"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import RemoveIcon from '@mui/icons-material/Remove';
 
 let jsConfetti: any
 
@@ -86,6 +87,12 @@ const CreateAlgorithm = () => {
   const [validTicker, setValidTicker] = useState(true)
   const [moreConditionals, setMoreConditionals] = useState(false)
   const [updateAddButton, setUpdateAddButton] = useState(true)
+
+  const [indicatorchain1, setChainIndicator1] = useState("NONE")
+  const [comparatorchain1, setChainComparator1] = useState("above")
+  const [indicatorchain2, setChainIndicator2] = useState("NONE")
+  const [actionchain, setChainAction] = useState("buy")
+  const [chain, setChain] = useState("OR")
 
   useEffect(() => {
     jsConfetti = new JSConfetti()
@@ -178,8 +185,34 @@ const CreateAlgorithm = () => {
       "comparator": "${comparator1}",
       "indicatorTwo": "${indicator2}"
     }`
+   
 
-    let body = `{
+    let entry2 = `{
+      "chain" : "${chain}",
+      "action": "${actionchain}",
+      "indicatorOne": "${indicatorchain1}",
+      "comparator": "${comparatorchain1}",
+      "indicatorTwo": "${indicatorchain2}"
+    }`
+
+    var body;
+
+    if(moreConditionals){
+       body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "cash": ${startingAmount},
+        "startDate": "${startDate}",
+        "endDate": "${endDate}",
+        "runtime": "${runningTime}",
+        "entry": [
+          ${entry},
+          ${entry2}
+        ]
+      }`
+    }
+    else{
+     body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": ${startingAmount},
@@ -190,6 +223,11 @@ const CreateAlgorithm = () => {
         ${entry}
       ]
     }`
+  }
+    
+
+
+    
 
     let init = {
       method: "POST",
@@ -228,19 +266,46 @@ const CreateAlgorithm = () => {
         "comparator": "${comparator1}",
         "indicatorTwo": "${indicator2}"
       }`
+   
+    let entry2 = `
+      {
+        "chain" : "${chain}",
+        "action": "${actionchain}",
+        "indicatorOne": "${indicatorchain1}",
+        "comparator": "${comparatorchain1}",
+        "indicatorTwo": "${indicatorchain2}"
+      }`
 
-    let body = `{
-      "name": "${algoName}",
-      "ticker": "${stock}",
-      "runtime": "${runningTime}",
-      "PnL": 0.0,
-      "public": false,
-      "userID": "${getUser().uid}",
-      "description": "${newAlgoDescription}",
-      "entry": [
-        ${entry}
-      ]
-    }`
+      var body;
+
+      if(moreConditionals){
+         body = `{
+          "name": "${algoName}",
+          "ticker": "${stock}",
+          "cash": ${startingAmount},
+          "startDate": "${startDate}",
+          "endDate": "${endDate}",
+          "runtime": "${runningTime}",
+          "entry": [
+            ${entry},
+            ${entry2}
+          ]
+        }`
+      }
+      else{
+       body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "cash": ${startingAmount},
+        "startDate": "${startDate}",
+        "endDate": "${endDate}",
+        "runtime": "${runningTime}",
+        "entry": [
+          ${entry}
+        ]
+      }`
+      }
+
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
@@ -293,20 +358,20 @@ const CreateAlgorithm = () => {
       <div>
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
           <InputLabel id="demo-simple-select-standard-label">
-              Indicator 1 (Today's Value)
+              Chain
           </InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             label="Indicator 1 (Today's Value)"
-            value={indicator1}
+            value={chain}
             onChange={e => {
-              setIndicator1(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
+              setChain(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
             }}
           >
-            <MenuItem value="OR">or</MenuItem>
-            <MenuItem value="AND">AND</MenuItem>
+            <MenuItem value="OR">Or</MenuItem>
+            <MenuItem value="AND">And</MenuItem>
             </Select>
         </FormControl>
       </div>
@@ -320,9 +385,9 @@ const CreateAlgorithm = () => {
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               label="Indicator 1 (Today's Value)"
-              value={indicator1}
+              value={indicatorchain1}
               onChange={e => {
-                setIndicator1(e.target.value)
+                setChainIndicator1(e.target.value)
               }}
             >
               <MenuItem value={"NONE"}>None</MenuItem>
@@ -397,9 +462,9 @@ const CreateAlgorithm = () => {
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 label="Comparator"
-                value={comparator1}
+                value={comparatorchain1}
                 onChange={e => {
-                  setComparator1(e.target.value)
+                  setChainComparator1(e.target.value)
                 }}
               >
                 <MenuItem value={"above"}>Goes Above</MenuItem>
@@ -417,9 +482,9 @@ const CreateAlgorithm = () => {
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               label="Indicator 2 (Yesterday's Value)"
-              value={indicator2}
+              value={indicatorchain2}
               onChange={e => {
-                setIndicator2(e.target.value)
+                setChainIndicator2(e.target.value)
               }}
             >
               <MenuItem value={"NONE"}>None</MenuItem>
@@ -493,9 +558,9 @@ const CreateAlgorithm = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   label="Action"
-                  value={action}
+                  value={actionchain}
                   onChange={e => {
-                    setAction(e.target.value)
+                    setChainAction(e.target.value)
                   }}
                 >
                   <MenuItem value={"buy"}>Buy</MenuItem>
@@ -512,6 +577,7 @@ const CreateAlgorithm = () => {
     if (moreConditionals == false){
       setMoreConditionals(true)
       setUpdateAddButton(false)
+      
     }
     else{
       setMoreConditionals(false)
