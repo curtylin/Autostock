@@ -60,13 +60,13 @@ const CreateAlgorithm = () => {
   } else {
     yesterdaysDay = "" + yesterday.getDate()
   }
-  const [algoName, setAlgoName] = useState("")
-  const [stock, setStocks] = useState("")
-  const [indicator1, setIndicator1] = useState("NONE")
+  const [algoName, setAlgoName] = useState("Bill Gate's SMA EMA TRIX BBANDS Ferrari algo")
+  const [stock, setStocks] = useState("RACE")
+  const [indicator1, setIndicator1] = useState("SMA")
   const [comparator1, setComparator1] = useState("above")
-  const [indicator2, setIndicator2] = useState("NONE")
+  const [indicator2, setIndicator2] = useState("EMA")
   const [action, setAction] = useState("buy")
-  const [runningTime, setRunningTime] = useState("")
+  const [runningTime, setRunningTime] = useState("7")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
   const [data, setStockData] = useState([])
@@ -78,7 +78,7 @@ const CreateAlgorithm = () => {
   const [BTPnLPer, setBTPnLPer] = useState("")
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
-  const [newAlgoDescription, setAlgoDescription] = useState("")
+  const [newAlgoDescription, setAlgoDescription] = useState("I am Bill Gates and I have a cool Ferrari Algo that made me all my money.")
   const [startDate, setStartDate] = useState(
     `${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`
   )
@@ -93,12 +93,12 @@ const CreateAlgorithm = () => {
   )
   const [startingAmount, setStartingAmount] = useState(1000)
   const [validTicker, setValidTicker] = useState(true)
-  const [moreConditionals, setMoreConditionals] = useState(false)
+  const [moreConditionals, setMoreConditionals] = useState(true)
   const [updateAddButton, setUpdateAddButton] = useState(true)
 
-  const [indicatorchain1, setChainIndicator1] = useState("NONE")
+  const [indicatorchain1, setChainIndicator1] = useState("TRIX")
   const [comparatorchain1, setChainComparator1] = useState("above")
-  const [indicatorchain2, setChainIndicator2] = useState("NONE")
+  const [indicatorchain2, setChainIndicator2] = useState("BBANDS")
   const [actionchain, setChainAction] = useState("buy")
   const [chain, setChain] = useState("OR")
 
@@ -655,6 +655,7 @@ const CreateAlgorithm = () => {
           <Tooltip title="Give it a name!" placement="left" arrow>
             <TextField
               required
+              value={algoName}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAlgoName(e.target.value)
               }}
@@ -676,6 +677,7 @@ const CreateAlgorithm = () => {
               <TextField
                 onBlur={handleBlur}
                 required
+                value={stock}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setStocks(e.target.value)
                 }}
