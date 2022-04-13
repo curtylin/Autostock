@@ -209,12 +209,12 @@ def strategyFactory(entryObj):
 
                 elif comparator == "below" and (todayValue < yesterdayValue):
                     self.buySell(action)
-            if(self.chain == "and"):
+            if(self.chain == "AND"):
                 if math.prod(self.buylist) == 1:
                     self.buy()
                 if math.prod(self.selllist) == 1:
                     self.sell
-            elif(self.chain == "or"):
+            elif(self.chain == "OR"):
                 if sum(self.buylist) == 1:
                     self.buy()
                 if sum(self.selllist) == 1:
