@@ -56,6 +56,7 @@ const Competition = () => {
   const [users, setUsers] = useState(new Map<string, string>())
   const [openBackdrop, setOpenBackdrop] = useState(false)
   const [done, setDone] = useState(false)
+  const [allAlgos, setAllAlgos] = useState(new Map<string, string>())
 
   useEffect(() => {
     ;(async function () {
@@ -65,11 +66,12 @@ const Competition = () => {
         }
       })
       await getAlgorithmsDB()
+      await getAllAlgorithmsDB()
       await getDiscussionsDB()
       await getThreadsDB()
       await getUsersDB()
       setDone(true)
-      console.log(algorithms)
+      console.log("algorithms"+algorithms)
     })()
   }, [chosenAlgorithm])
 
@@ -89,6 +91,27 @@ const Competition = () => {
         for (let i = 0; i < result.length; i++) {
           setUsers(
             prev => new Map([...prev, [result[i].userID, result[i].username]])
+          )
+        }
+      })
+  }
+
+  const getAllAlgorithmsDB = () => {
+    //fetch post to localhost
+    fetch("http://localhost:5000/list-algorithm", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then(res => {
+        return res.json()
+      })
+      .then(result => {
+        for (let i = 0; i < result.length; i++) {
+          setAllAlgos(
+            prev => new Map([...prev, [result[i].id, result[i].name]])
           )
         }
       })
@@ -547,11 +570,10 @@ const Competition = () => {
               {!done
                 ? null
                 : competition.leaderboard.map((algorithm: any, key: any) => {
-                    console.log(algorithm, algorithms)
                     return (
                       <tr className="table_row" key={key}>
                         <td className="table_data" scope="row">
-                          {algorithms.has(algorithm.algorithm) ? (
+                          {allAlgos.has(algorithm.algorithm) ? (
                             <Link
                               to="/app/algorithm"
                               state={{
@@ -559,7 +581,7 @@ const Competition = () => {
                                 userID: algorithm.userID,
                               }}
                             >
-                              {algorithms.get(algorithm.algorithm)}
+                              {allAlgos.get(algorithm.algorithm)}
                             </Link>
                           ) : (
                             "Private Algorithm"
