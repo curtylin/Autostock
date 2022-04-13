@@ -205,7 +205,7 @@ const MyAlgorithm = () => {
                       {algorithm.name}
                     </td>
                     <td className="table_data">
-                      {algorithm.PnL == undefined ? "--" : algorithm.PnL + "%"}
+                    {(algorithm.PnLPercent == undefined || algorithm.PnLPercent == 0) ? "--" : Number(algorithm.PnLPercent.toFixed(5)) + "%"}
                     </td>
                     <td className="table_data">
                       <Button

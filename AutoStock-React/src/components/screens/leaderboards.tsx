@@ -22,7 +22,7 @@ const Leaderboards = () => {
     getAlgorithmsDB()
     getUsersDB()
     console.log(algorithms)
-    fetch("http://localhost:5000/list-competitions")
+    fetch("http://localhost:5000//list-ongoing-competitions")
       .then(res => {
         return res.json()
       })
@@ -133,21 +133,21 @@ const Leaderboards = () => {
                         return (
                           <tr className="table_row" key={key}>
                             <td className="table_data" scope="row">
-                              {algorithms.has(algorithm.algorithmID) ? (
+                              {algorithms.has(algorithm.algorithm) ? (
                                 <Link
                                   to="/app/algorithm"
                                   state={{
-                                    id: algorithm.algorithmID,
+                                    id: algorithm.algorithm,
                                     userID: algorithm.userID,
                                   }}
                                 >
-                                  {algorithms.get(algorithm.algorithmID)}
+                                  {algorithms.get(algorithm.algorithm)}
                                 </Link>
                               ) : (
                                 "Private Algorithm"
                               )}
                             </td>
-                            <td className="table_data">{algorithm.profit}</td>
+                            <td className="table_data">{Number(algorithm.PnLPercent).toFixed(5)}%</td>
                             <td className="table_data">
                               {users.has(algorithm.userID)
                                 ? users.get(algorithm.userID)
