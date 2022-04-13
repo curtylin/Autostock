@@ -234,7 +234,7 @@ def backtest_driver(req):
     # else:
     #     print("The file does not exist")
 
-    response["url"] = "https://i.imgur.com/854jut8.jpg"
+    # response["url"] = "https://i.imgur.com/854jut8.jpg"
 
     return response
 

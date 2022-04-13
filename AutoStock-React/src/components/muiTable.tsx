@@ -271,6 +271,8 @@ const MuiTable = ({ algorithm, myAlg, users }: any) => {
                           size="small"
                           className="mdc-button mdc-button--raised"
                           id={row.id}
+                          variant="contained"
+                          color="secondary"
                           onClick={handleUnshare}
                         >
                           <span id={row.id} className="mdc-button__label">
