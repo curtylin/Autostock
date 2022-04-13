@@ -10,7 +10,7 @@ import Layout from "../layout"
 import Seo from "../seo"
 import JSConfetti from "js-confetti"
 import HighChart from "../highChart"
-import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveIcon from "@mui/icons-material/Remove"
 import {
   Accordion,
   AccordionSummary,
@@ -41,28 +41,27 @@ const handleDelete = () => {
   console.info("You clicked the delete icon.")
 }
 
-
 const EditAlgorithm = ({ location }: { location: any }) => {
   var currDate = new Date()
   var yesterday = new Date()
   yesterday.setDate(currDate.getDate() - 1)
   var currentMonth = ""
   if (currDate.getMonth() < 10) {
-    currentMonth = "0" + (currDate.getMonth()+ 1)
+    currentMonth = "0" + (currDate.getMonth() + 1)
   } else {
-    currentMonth = "" + (currDate.getMonth()+ 1)
+    currentMonth = "" + (currDate.getMonth() + 1)
   }
   var currentDate = ""
-  if ((currDate.getDate()) < 10) {
-    currentDate = "0" + (currDate.getDate())
+  if (currDate.getDate() < 10) {
+    currentDate = "0" + currDate.getDate()
   } else {
-    currentDate = "" + (currDate.getDate())
+    currentDate = "" + currDate.getDate()
   }
   var yesterdaysDay = ""
-  if ((yesterday.getDate()) < 10) {
-    yesterdaysDay = "0" + (yesterday.getDate())
+  if (yesterday.getDate() < 10) {
+    yesterdaysDay = "0" + yesterday.getDate()
   } else {
-    yesterdaysDay = "" + (yesterday.getDate())
+    yesterdaysDay = "" + yesterday.getDate()
   }
   const [algoName, setAlgoName] = useState("")
   const [stock, setStocks] = useState("")
@@ -71,7 +70,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [comparator1, setComparator1] = useState("above")
   const [indicator2, setIndicator2] = useState("NONE")
   const [action, setAction] = useState("buy")
-  
+
   const [runningTime, setRunningTime] = useState("")
   const [showBT, setShowBT] = useState(false)
   const show = () => setShowBT(true)
@@ -85,10 +84,18 @@ const EditAlgorithm = ({ location }: { location: any }) => {
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
   const [AlgoDescription, setAlgoDescription] = useState("")
-  const [startDate, setStartDate] = useState(`${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`)
-  const [endDate, setEndDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
-  const [todaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${currentDate}`)
-  const [yesterdaysDate] = useState(`${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`)
+  const [startDate, setStartDate] = useState(
+    `${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`
+  )
+  const [endDate, setEndDate] = useState(
+    `${currDate.getFullYear()}-${currentMonth}-${currentDate}`
+  )
+  const [todaysDate] = useState(
+    `${currDate.getFullYear()}-${currentMonth}-${currentDate}`
+  )
+  const [yesterdaysDate] = useState(
+    `${currDate.getFullYear()}-${currentMonth}-${yesterdaysDay}`
+  )
   const [startingAmount, setStartingAmount] = useState(1000)
   const [validTicker, setValidTicker] = useState(true)
   const [moreConditionals, setMoreConditionals] = useState(false)
@@ -209,10 +216,10 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "indicatorTwo": "${indicatorchain2}"
     }`
 
-    var body;
+    var body
 
-    if(moreConditionals){
-       body = `{
+    if (moreConditionals) {
+      body = `{
         "name": "${algoName}",
         "ticker": "${stock}",
         "cash": ${startingAmount},
@@ -224,9 +231,8 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           ${entry2}
         ]
       }`
-    }
-    else{
-     body = `{
+    } else {
+      body = `{
       "name": "${algoName}",
       "ticker": "${stock}",
       "cash": ${startingAmount},
@@ -237,7 +243,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
         ${entry}
       ]
     }`
-  }
+    }
     let init = {
       method: "POST",
       headers,
@@ -298,8 +304,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           setRunningTime(result.runtime)
           setAlgorithm(result)
           setAlgoDescription(result.description)
-          if(result.entry[1] != null)
-          {
+          if (result.entry[1] != null) {
             setMoreConditionals(true)
             setChainIndicator1(result.entry[1].indicatorOne)
             setChainComparator1(result.entry[1].comparator)
@@ -315,23 +320,48 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       "action": "${action}",
       "indicatorOne": "${indicator1}",
       "comparator": "${comparator1}",
-      "indicatorTwo": "${indicator2}",
-      "paramsOne": {},
-      "paramsTwo": {}
+      "indicatorTwo": "${indicator2}"
     }`
 
-    let body = `{
-      "name": "${algoName}",
-      "ticker": "${stock}",
-      "action": "${action}",
-      "description": "${AlgoDescription}",
-      "runtime": "${runningTime}",
-      "public": false,
-      "userID": "${getUser().uid}",
-      "entry": [
-        ${entry}
-      ]
+    let entry2 = `
+    {
+      "chain" : "${chain}",
+      "action": "${actionchain}",
+      "indicatorOne": "${indicatorchain1}",
+      "comparator": "${comparatorchain1}",
+      "indicatorTwo": "${indicatorchain2}"
     }`
+
+    var body
+
+    if (moreConditionals) {
+      body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "runtime": "${runningTime}",
+        "PnL": 0.0,
+        "public": false,
+        "userID": "${getUser().uid}",
+        "description": "${AlgoDescription}",
+        "entry": [
+          ${entry},
+          ${entry2}
+        ]
+      }`
+    } else {
+      body = `{
+        "name": "${algoName}",
+        "ticker": "${stock}",
+        "runtime": "${runningTime}",
+        "PnL": 0.0,
+        "public": false,
+        "userID": "${getUser().uid}",
+        "description": "${AlgoDescription}",
+        "entry": [
+          ${entry}
+        ]
+      }`
+    }
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let init = {
@@ -368,7 +398,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       <h2>Backtesting Data: {algoName}</h2>
       <Card variant="outlined" sx={{ minWidth: 275, mb: 5 }}>
         <CardContent>
-        <Typography
+          <Typography
             sx={{ fontSize: 30 }}
             justifyContent="center"
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
@@ -406,7 +436,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             variant="h2"
             gutterBottom
           >
-            Started with: ${BTstart}          
+            Started with: ${BTstart}
           </Typography>
         </CardContent>
       </Card>
@@ -417,227 +447,273 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     <div>
       <div>
         <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-          <InputLabel id="demo-simple-select-standard-label">
-              Indicator 1 (Today's Value)
-          </InputLabel>
+          <InputLabel id="demo-simple-select-standard-label">Chain</InputLabel>
           {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            label="Indicator 1 (Today's Value)"
+            label="Chain"
             value={chain}
             onChange={e => {
               setChain(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
-            }}       >
+            }}
+          >
             <MenuItem value="OR">Or</MenuItem>
             <MenuItem value="AND">And</MenuItem>
-            </Select>
+          </Select>
         </FormControl>
       </div>
-       {/* Indicator */}
-       <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Indicator 1 (Today's Value)
-            </InputLabel>
-            {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Chain"
-              value={indicatorchain1}
-              onChange={e => {
-                setChainIndicator1(e.target.value)
-              }}
-            >
-              <MenuItem value={"NONE"}>None</MenuItem>
-              <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-              <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
-              <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
-              <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
-              <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
-              <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
-              <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
-              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
-              <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
-              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
-              <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
-              <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
-               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
-               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
-               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
-               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
-              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
-              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
-              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
-              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
-              <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
-              <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
-              <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
-              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
-              <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
-              <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
-              <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
-              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
-              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
-              <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
-              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
-              <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
-              <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
-              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
-              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
-              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
-              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
-              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
-              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
-              <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
-              <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
-              <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
-              <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-              <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
-              <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
-              <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
-              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
-              <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-              <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
-              <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
-              <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
-              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
-              <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
-              <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
-              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
-              <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
-            </Select>
-          </FormControl>
-          {/* Comparator 1 */}
-          <FormControl
-            sx={{ ml: { sm: 0, md: 0 }, my: 2, mr: 5, minWidth: 200 }}
+      {/* Indicator */}
+      <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+        <InputLabel id="demo-simple-select-standard-label">
+          Indicator 1 (Today's Value)
+        </InputLabel>
+        {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
+        <Select
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+          label="Chain"
+          value={indicatorchain1}
+          onChange={e => {
+            setChainIndicator1(e.target.value)
+          }}
+        >
+          <MenuItem value={"NONE"}>None</MenuItem>
+          <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+          <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
+          <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
+          <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
+          <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
+          <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
+          <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+          <MenuItem value={"BBANDSPCT"}>
+            BBANDSPCT - Bollinger Band PCT
+          </MenuItem>
+          <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+          <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
+          <MenuItem value={"DEMA"}>
+            DEMA - Double Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
+          <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
+          <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+          <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+          <MenuItem value={"EMA"}> EMA - Exponential Moving Average</MenuItem>
+          <MenuItem value={"EXPSMOOTH"}>
+            {" "}
+            EXPSMOOTH - Exponetial Smoothing{" "}
+          </MenuItem>
+          <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
+          <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
+          <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
+          <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+          <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
+          <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
+          <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
+          <MenuItem value={"KST"}> KST - Know Sure Thing</MenuItem>
+          <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
+          <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
+          <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
+          <MenuItem value={"MACD"}>
+            MACD- Moving Average Convergence Divergence
+          </MenuItem>
+          <MenuItem value={"MACDHISTO"}>
+            MACDHISTO- Moving Average Convergence Divergence Histogram{" "}
+          </MenuItem>
+          <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
+          <MenuItem value={"MOMENTUMOSC"}>
+            MOMENTUMOSC- Momentum Oscillator
+          </MenuItem>
+          <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
+          <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
+          <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
+          <MenuItem value={"PPOSHORT"}>
+            {" "}
+            PPOSHORT - Percentage Price Oscilator Short
+          </MenuItem>
+          <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
+          <MenuItem value={"RSIEMA"}>
+            RSIEMA - Relative Strength Index Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"RSISMA"}>
+            RSISMA - Relative Strength Index Simple Moving Average
+          </MenuItem>
+          <MenuItem value={"RSISAFE"}>
+            RSISAFE - Relative Strength Index Safe
+          </MenuItem>
+          <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+          <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
+          <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
+          <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
+          <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
+          <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
+          <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
+          <MenuItem value={"TEMA"}>
+            {" "}
+            TEMA - Triple Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+          <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
+          <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
+          <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
+          <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>
+          <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
+          <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+          <MenuItem value={"ZLEMA"}>
+            ZLEMA - Zero Lag Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
+        </Select>
+      </FormControl>
+      {/* Comparator 1 */}
+      <FormControl sx={{ ml: { sm: 0, md: 0 }, my: 2, mr: 5, minWidth: 200 }}>
+        <InputLabel id="demo-simple-select-standard-label">
+          Comparator
+        </InputLabel>
+        <Tooltip title="Comparator" placement="left" arrow>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            label="Comparator"
+            value={comparatorchain1}
+            onChange={e => {
+              setChainComparator1(e.target.value)
+            }}
           >
-            <InputLabel id="demo-simple-select-standard-label">
-              Comparator
-            </InputLabel>
-            <Tooltip title="Comparator" placement="left" arrow>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                label="Comparator"
-                value={comparatorchain1}
-                onChange={e => {
-                  setChainComparator1(e.target.value)
-                }}
-              >
-                <MenuItem value={"above"}>Goes Above</MenuItem>
-                <MenuItem value={"below"}>Goes Below</MenuItem>
-              </Select>
-            </Tooltip>
-          </FormControl>
-          <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
-            <InputLabel id="demo-simple-select-standard-label">
-              Indicator 2 (Yeterday's Value)
-            </InputLabel>
-            {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
+            <MenuItem value={"above"}>Goes Above</MenuItem>
+            <MenuItem value={"below"}>Goes Below</MenuItem>
+          </Select>
+        </Tooltip>
+      </FormControl>
+      <FormControl sx={{ my: 2, mr: 5, minWidth: 200, maxWidth: 200 }}>
+        <InputLabel id="demo-simple-select-standard-label">
+          Indicator 2 (Yeterday's Value)
+        </InputLabel>
+        {/* <Tooltip title="Which Indicator?" placement="left" arrow> */}
+        <Select
+          required
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+          label="Indicator 2 (Yesterday's Value)"
+          value={indicatorchain2}
+          onChange={e => {
+            setChainIndicator2(e.target.value)
+          }}
+        >
+          <MenuItem value={"NONE"}>None</MenuItem>
+          <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
+          <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
+          <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
+          <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
+          <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
+          <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
+          <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
+          <MenuItem value={"BBANDSPCT"}>
+            BBANDSPCT - Bollinger Band PCT
+          </MenuItem>
+          <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+          <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
+          <MenuItem value={"DEMA"}>
+            DEMA - Double Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
+          <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
+          <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+          <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+          <MenuItem value={"EMA"}> EMA - Exponential Moving Average</MenuItem>
+          <MenuItem value={"EXPSMOOTH"}>
+            {" "}
+            EXPSMOOTH - Exponetial Smoothing{" "}
+          </MenuItem>
+          <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
+          <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
+          <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
+          <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+          <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
+          <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
+          <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
+          <MenuItem value={"KST"}> KST - Know Sure Thing</MenuItem>
+          <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
+          <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
+          <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
+          <MenuItem value={"MACD"}>
+            MACD- Moving Average Convergence Divergence
+          </MenuItem>
+          <MenuItem value={"MACDHISTO"}>
+            MACDHISTO- Moving Average Convergence Divergence Histogram{" "}
+          </MenuItem>
+          <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
+          <MenuItem value={"MOMENTUMOSC"}>
+            MOMENTUMOSC- Momentum Oscillator
+          </MenuItem>
+          <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
+          <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
+          <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
+          <MenuItem value={"PPOSHORT"}>
+            {" "}
+            PPOSHORT - Percentage Price Oscilator Short
+          </MenuItem>
+          <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
+          <MenuItem value={"RSIEMA"}>
+            RSIEMA - Relative Strength Index Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"RSISMA"}>
+            RSISMA - Relative Strength Index Simple Moving Average
+          </MenuItem>
+          <MenuItem value={"RSISAFE"}>
+            RSISAFE - Relative Strength Index Safe
+          </MenuItem>
+          <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
+          <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
+          <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
+          <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
+          <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
+          <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
+          <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
+          <MenuItem value={"TEMA"}>
+            {" "}
+            TEMA - Triple Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
+          <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
+          <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
+          <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
+          <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>
+          <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
+          <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
+          <MenuItem value={"ZLEMA"}>
+            ZLEMA - Zero Lag Exponential Moving Average
+          </MenuItem>
+          <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
+        </Select>
+        {/* </Tooltip> */}
+      </FormControl>
+      <div>
+        <FormControl sx={{ my: 2, minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-standard-label">Action</InputLabel>
+          <Tooltip title="Buy or Sell" placement="right" arrow>
             <Select
-              required
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              label="Indicator 2 (Yesterday's Value)"
-              value={indicatorchain2}
+              label="Action"
+              value={actionchain}
               onChange={e => {
-                setChainIndicator2(e.target.value)
+                setChainAction(e.target.value)
               }}
             >
-              <MenuItem value={"NONE"}>None</MenuItem>
-              <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
-              <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
-              <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
-              <MenuItem value={"ALLN"}>ALLN - AllN</MenuItem>
-              <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
-              <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
-              <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
-              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
-              <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
-              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
-              <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
-              <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
-               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
-               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
-               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
-               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
-              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
-              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
-              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
-              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
-              <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
-              <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
-              <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
-              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
-              <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
-              <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
-              <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
-              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
-              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
-              <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
-              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
-              <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
-              <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
-              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
-              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
-              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
-              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
-              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
-              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
-              <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
-              <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
-              <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
-              <MenuItem value={"RSI"}>RSI - Relative Strength Index</MenuItem>
-              <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
-              <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
-              <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
-              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
-              <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
-              <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
-              <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
-              <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
-              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
-              <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
-              <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
-              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
-              <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
+              <MenuItem value={"buy"}>Buy</MenuItem>
+              <MenuItem value={"sell"}>Sell</MenuItem>
             </Select>
-            {/* </Tooltip> */}
-          </FormControl>
-          <div>
-            <FormControl sx={{ my: 2, minWidth: 200 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Action
-              </InputLabel>
-              <Tooltip title="Buy or Sell" placement="right" arrow>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  label="Action"
-                  value={actionchain}
-                  onChange={e => {
-                    setChainAction(e.target.value)
-                  }}
-                >
-                  <MenuItem value={"buy"}>Buy</MenuItem>
-                  <MenuItem value={"sell"}>Sell</MenuItem>
-                </Select>
-              </Tooltip>
-            </FormControl>
-            </div>
-
-          
+          </Tooltip>
+        </FormControl>
+      </div>
     </div>
   )
-  const conditionalClick = (e:any) => {
-    if (moreConditionals == false){
+  const conditionalClick = (e: any) => {
+    if (moreConditionals == false) {
       setMoreConditionals(true)
       setUpdateAddButton(false)
-    }
-    else{
+    } else {
       setMoreConditionals(false)
       setUpdateAddButton(true)
       // set indicators back to ""
@@ -685,14 +761,11 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 type="search"
                 id="outlined-search"
                 label="Stock"
-                sx={{ input: { color: validTicker ? 'black' : 'red' } }}
+                sx={{ input: { color: validTicker ? "black" : "red" } }}
                 inputProps={{ maxLength: 9 }}
               />
             </Tooltip>
-            <Typography
-              variant="caption"
-              color="red"
-            >
+            <Typography variant="caption" color="red">
               {validTicker ? null : "INVALID TICKER"}
             </Typography>
           </FormControl>
@@ -739,39 +812,84 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
               <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
               <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
-              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+              <MenuItem value={"BBANDSPCT"}>
+                BBANDSPCT - Bollinger Band PCT
+              </MenuItem>
+              <MenuItem value={"DPO"}>
+                DPO - Detrended Price Oscilliator
+              </MenuItem>
               <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
-              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+              <MenuItem value={"DEMA"}>
+                DEMA - Double Exponential Moving Average
+              </MenuItem>
               <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
               <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
-               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
-               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
-               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
-               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
-              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
-              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
-              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
-              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+              <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+              <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+              <MenuItem value={"EMA"}>
+                {" "}
+                EMA - Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"EXPSMOOTH"}>
+                {" "}
+                EXPSMOOTH - Exponetial Smoothing{" "}
+              </MenuItem>
+              <MenuItem value={"FFIH"}>
+                {" "}
+                FFIH - Find First Index Highest
+              </MenuItem>
+              <MenuItem value={"FFIL"}>
+                {" "}
+                FLIL - Find First Index Lowest
+              </MenuItem>
+              <MenuItem value={"FLIH"}>
+                {" "}
+                FFIH - Find Last Index Highest
+              </MenuItem>
+              <MenuItem value={"FLIL"}>
+                {" "}
+                FFIH - Find Last Index Lowest{" "}
+              </MenuItem>
               <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
               <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
               <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
-              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
+              <MenuItem value={"KST"}> KST - Know Sure Thing</MenuItem>
               <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
               <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
               <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
-              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
-              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
+              <MenuItem value={"MACD"}>
+                MACD- Moving Average Convergence Divergence
+              </MenuItem>
+              <MenuItem value={"MACDHISTO"}>
+                MACDHISTO- Moving Average Convergence Divergence Histogram{" "}
+              </MenuItem>
               <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
-              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
+              <MenuItem value={"MOMENTUMOSC"}>
+                MOMENTUMOSC- Momentum Oscillator
+              </MenuItem>
               <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
               <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
-              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
-              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
-              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
-              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
-              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
-              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
+              <MenuItem value={"PPO"}>
+                {" "}
+                PPO - Percentage Price Oscilator
+              </MenuItem>
+              <MenuItem value={"PPOSHORT"}>
+                {" "}
+                PPOSHORT - Percentage Price Oscilator Short
+              </MenuItem>
+              <MenuItem value={"PRICEOSC"}>
+                {" "}
+                PRICEOSC - Price Oscilator
+              </MenuItem>
+              <MenuItem value={"RSIEMA"}>
+                RSIEMA - Relative Strength Index Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"RSISMA"}>
+                RSISMA - Relative Strength Index Simple Moving Average
+              </MenuItem>
+              <MenuItem value={"RSISAFE"}>
+                RSISAFE - Relative Strength Index Safe
+              </MenuItem>
               <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
               <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
               <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
@@ -779,15 +897,20 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
               <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
               <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
-              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
+              <MenuItem value={"TEMA"}>
+                {" "}
+                TEMA - Triple Exponential Moving Average
+              </MenuItem>
               <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
               <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
               <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
               <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
-              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
+              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>
               <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
               <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
-              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
+              <MenuItem value={"ZLEMA"}>
+                ZLEMA - Zero Lag Exponential Moving Average
+              </MenuItem>
               <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
             </Select>
             {/* </Tooltip> */}
@@ -829,7 +952,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
                 setIndicator2(e.target.value)
               }}
             >
-             <MenuItem value={"NONE"}>None</MenuItem>
+              <MenuItem value={"NONE"}>None</MenuItem>
               <MenuItem value={"SMA"}>SMA - Simple Moving Average</MenuItem>
               <MenuItem value={"ACCUM"}>ACCUM - Cumulative Sum</MenuItem>
               <MenuItem value={"AMA"}>AMA - Adaptive Moving Average</MenuItem>
@@ -837,39 +960,84 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               <MenuItem value={"ANYN"}>ANYN - AnyN</MenuItem>
               <MenuItem value={"AVERAGE"}>AVERAGE - Average</MenuItem>
               <MenuItem value={"BBANDS"}>BBANDS - Bollinger Bands</MenuItem>
-              <MenuItem value={"BBANDSPCT"}>BBANDSPCT - Bollinger Band PCT</MenuItem>
-              <MenuItem value={"DPO"}>DPO - Detrended Price Oscilliator</MenuItem>
+              <MenuItem value={"BBANDSPCT"}>
+                BBANDSPCT - Bollinger Band PCT
+              </MenuItem>
+              <MenuItem value={"DPO"}>
+                DPO - Detrended Price Oscilliator
+              </MenuItem>
               <MenuItem value={"DMA"}>DMA - Dickson Moving Average</MenuItem>
-              <MenuItem value={"DEMA"}>DEMA - Double Exponential Moving Average</MenuItem>
+              <MenuItem value={"DEMA"}>
+                DEMA - Double Exponential Moving Average
+              </MenuItem>
               <MenuItem value={"DOWND"}>DOWND - Down Day</MenuItem>
               <MenuItem value={"DOWNDB"}>DOWNDB - Down Day Bool </MenuItem>
-               <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
-               <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
-               <MenuItem value={"EMA"}>  EMA - Exponential Moving Average</MenuItem>
-               <MenuItem value={"EXPSMOOTH"}> EXPSMOOTH - Exponetial Smoothing </MenuItem>
-              <MenuItem value={"FFIH"}> FFIH - Find First Index Highest</MenuItem>
-              <MenuItem value={"FFIL"}> FLIL - Find First Index Lowest</MenuItem>
-              <MenuItem value={"FLIH"}> FFIH - Find Last Index Highest</MenuItem>
-              <MenuItem value={"FLIL"}> FFIH - Find Last Index Lowest </MenuItem>
+              <MenuItem value={"DOWNM"}>DOWNM - Down Move</MenuItem>
+              <MenuItem value={"EVE"}>EVE - Envelope </MenuItem>
+              <MenuItem value={"EMA"}>
+                {" "}
+                EMA - Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"EXPSMOOTH"}>
+                {" "}
+                EXPSMOOTH - Exponetial Smoothing{" "}
+              </MenuItem>
+              <MenuItem value={"FFIH"}>
+                {" "}
+                FFIH - Find First Index Highest
+              </MenuItem>
+              <MenuItem value={"FFIL"}>
+                {" "}
+                FLIL - Find First Index Lowest
+              </MenuItem>
+              <MenuItem value={"FLIH"}>
+                {" "}
+                FFIH - Find Last Index Highest
+              </MenuItem>
+              <MenuItem value={"FLIL"}>
+                {" "}
+                FFIH - Find Last Index Lowest{" "}
+              </MenuItem>
               <MenuItem value={"MAXN"}> MAXN - Highest</MenuItem>
               <MenuItem value={"HMA"}> HMA - Hull Moving Average</MenuItem>
               <MenuItem value={"HURST"}> HURST - HURST EXPONENT</MenuItem>
-              <MenuItem value={"KST"}> KST -  Know Sure Thing</MenuItem>
+              <MenuItem value={"KST"}> KST - Know Sure Thing</MenuItem>
               <MenuItem value={"LAGF"}> LAGF - Laguerre Filter</MenuItem>
               <MenuItem value={"LRSI"}> LRSI - Laguerre RSI</MenuItem>
               <MenuItem value={"MINN"}> MINN - Lowest</MenuItem>
-              <MenuItem value={"MACD"}>MACD- Moving Average Convergence Divergence</MenuItem>
-              <MenuItem value={"MACDHISTO"}>MACDHISTO- Moving Average Convergence Divergence Histogram </MenuItem>
+              <MenuItem value={"MACD"}>
+                MACD- Moving Average Convergence Divergence
+              </MenuItem>
+              <MenuItem value={"MACDHISTO"}>
+                MACDHISTO- Moving Average Convergence Divergence Histogram{" "}
+              </MenuItem>
               <MenuItem value={"MEANDEV"}>MEANDEV- Mean Deviation</MenuItem>
-              <MenuItem value={"MOMENTUMOSC"}>MOMENTUMOSC- Momentum Oscillator</MenuItem>
+              <MenuItem value={"MOMENTUMOSC"}>
+                MOMENTUMOSC- Momentum Oscillator
+              </MenuItem>
               <MenuItem value={"PCTCHANGE"}>PCTCHANGE- Percent Change</MenuItem>
               <MenuItem value={"PCTRANK"}>PCTRANK- Percent Rank</MenuItem>
-              <MenuItem value={"PPO"}> PPO - Percentage Price Oscilator</MenuItem>
-              <MenuItem value={"PPOSHORT"}> PPOSHORT - Percentage Price Oscilator Short</MenuItem>
-              <MenuItem value={"PRICEOSC"}> PRICEOSC - Price Oscilator</MenuItem>
-              <MenuItem value={"RSIEMA"}>RSIEMA - Relative Strength Index Exponential Moving Average</MenuItem>
-              <MenuItem value={"RSISMA"}>RSISMA - Relative Strength Index Simple Moving Average</MenuItem>
-              <MenuItem value={"RSISAFE"}>RSISAFE - Relative Strength Index Safe</MenuItem>
+              <MenuItem value={"PPO"}>
+                {" "}
+                PPO - Percentage Price Oscilator
+              </MenuItem>
+              <MenuItem value={"PPOSHORT"}>
+                {" "}
+                PPOSHORT - Percentage Price Oscilator Short
+              </MenuItem>
+              <MenuItem value={"PRICEOSC"}>
+                {" "}
+                PRICEOSC - Price Oscilator
+              </MenuItem>
+              <MenuItem value={"RSIEMA"}>
+                RSIEMA - Relative Strength Index Exponential Moving Average
+              </MenuItem>
+              <MenuItem value={"RSISMA"}>
+                RSISMA - Relative Strength Index Simple Moving Average
+              </MenuItem>
+              <MenuItem value={"RSISAFE"}>
+                RSISAFE - Relative Strength Index Safe
+              </MenuItem>
               <MenuItem value={"ROC"}>ROC - Rate of Change</MenuItem>
               <MenuItem value={"ROC100"}>ROC100 - Rate of Change 100</MenuItem>
               <MenuItem value={"RMI"}>RMI - Relative Momentum Index</MenuItem>
@@ -877,15 +1045,20 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               <MenuItem value={"SMMA"}>SMMA - Smoothed Moving Average</MenuItem>
               <MenuItem value={"STDDEV"}>STDDEV - StAndardDeviation</MenuItem>
               <MenuItem value={"SUMN"}>SUMN - SumN</MenuItem>
-              <MenuItem value={"TEMA"}> TEMA - Triple Exponential Moving Average</MenuItem>
+              <MenuItem value={"TEMA"}>
+                {" "}
+                TEMA - Triple Exponential Moving Average
+              </MenuItem>
               <MenuItem value={"TRIX"}>TRIX - Trix</MenuItem>
               <MenuItem value={"TRIXSIGNAL"}>TRIXSIGNAL - Trix Signal</MenuItem>
               <MenuItem value={"TSI"}>TSI - True Strength Indicator</MenuItem>
               <MenuItem value={"UPDAY"}>UPDAY - UpDay</MenuItem>
-              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>           
+              <MenuItem value={"UPDAYBOOL"}>UPDAYBOOL - UpDay Bool</MenuItem>
               <MenuItem value={"WA"}>WA - Weighted Average</MenuItem>
               <MenuItem value={"WMA"}>WMA - Weighted Moving Average</MenuItem>
-              <MenuItem value={"ZLEMA"}>ZLEMA - Zero Lag Exponential Moving Average</MenuItem>
+              <MenuItem value={"ZLEMA"}>
+                ZLEMA - Zero Lag Exponential Moving Average
+              </MenuItem>
               <MenuItem value={"ZLIND"}>ZLIND - Zero Lag Indicator</MenuItem>
             </Select>
             {/* </Tooltip> */}
@@ -912,18 +1085,25 @@ const EditAlgorithm = ({ location }: { location: any }) => {
               </Select>
             </Tooltip>
           </FormControl>
+          <div>{moreConditionals ? <IndicatorsPart /> : null}</div>
           <div>
-            {moreConditionals ?  <IndicatorsPart/>: null}
-          </div>
-          <div>
-            {updateAddButton ?  <Button startIcon={<AddIcon />} onClick={conditionalClick} sx={{ borderRadius: 1000 }}>
-              Add Condition
-            </Button>
-            : 
-            <Button startIcon={<RemoveIcon/>} onClick={conditionalClick} sx={{ borderRadius: 1000 }}>
-            Remove Condition
-          </Button>}
-           
+            {updateAddButton ? (
+              <Button
+                startIcon={<AddIcon />}
+                onClick={conditionalClick}
+                sx={{ borderRadius: 1000 }}
+              >
+                Add Condition
+              </Button>
+            ) : (
+              <Button
+                startIcon={<RemoveIcon />}
+                onClick={conditionalClick}
+                sx={{ borderRadius: 1000 }}
+              >
+                Remove Condition
+              </Button>
+            )}
           </div>
         </div>
         <div>
@@ -990,35 +1170,46 @@ const EditAlgorithm = ({ location }: { location: any }) => {
           </AccordionDetails>
         </Accordion>
       </div>
-      <Divider sx={{ mt: 5, mb:2 }} />
+      <Divider sx={{ mt: 5, mb: 2 }} />
       <h4>Backtesting</h4>
 
-      <Stack direction="row" sx={{mb: 3}}>
-        <Typography
-          sx={{mr: 1, pt:1}}
-        >
-          Start Date:
-        </Typography>
-        <Box sx={{mr: 10}}>
-          <input type="date" id="start" name="startDate" value={startDate} onChange={e => {setStartDate(e.target.value)}} max={yesterdaysDate}></input>
+      <Stack direction="row" sx={{ mb: 3 }}>
+        <Typography sx={{ mr: 1, pt: 1 }}>Start Date:</Typography>
+        <Box sx={{ mr: 10 }}>
+          <input
+            type="date"
+            id="start"
+            name="startDate"
+            value={startDate}
+            onChange={e => {
+              setStartDate(e.target.value)
+            }}
+            max={yesterdaysDate}
+          ></input>
         </Box>
-        <Typography
-          sx={{mr: 1, pt:1}}
-        >
-          End Date:
-        </Typography>   
+        <Typography sx={{ mr: 1, pt: 1 }}>End Date:</Typography>
 
-        <input type="date" id="end" name="endDate" value={endDate} onChange={e => {setEndDate(e.target.value)}} max={todaysDate}></input>
+        <input
+          type="date"
+          id="end"
+          name="endDate"
+          value={endDate}
+          onChange={e => {
+            setEndDate(e.target.value)
+          }}
+          max={todaysDate}
+        ></input>
       </Stack>
       <FormControl sx={{ m: 1 }}>
-          <TextField
-            id="outlined-search"
-            label="Starting Amount"
-            value={startingAmount}
-            inputProps={{ maxLength: 7 }}
-            onChange={e => {setStartingAmount(parseInt(e.target.value))}}
-            >
-          </TextField>
+        <TextField
+          id="outlined-search"
+          label="Starting Amount"
+          value={startingAmount}
+          inputProps={{ maxLength: 7 }}
+          onChange={e => {
+            setStartingAmount(parseInt(e.target.value))
+          }}
+        ></TextField>
       </FormControl>
       <Stack direction="row">
         <div id="BackTestButton">
@@ -1035,10 +1226,13 @@ const EditAlgorithm = ({ location }: { location: any }) => {
             Please fill out a Stock Ticker before BackTesting
           </Typography>
         </div>
-        {showSpinner ? <CircularProgress sx={{marginLeft:5, marginTop:2}} color="inherit" />: null}
-
+        {showSpinner ? (
+          <CircularProgress
+            sx={{ marginLeft: 5, marginTop: 2 }}
+            color="inherit"
+          />
+        ) : null}
       </Stack>
-      
 
       <div id="backtesting">{showBT ? <BackTestingPart /> : null}</div>
     </Layout>
