@@ -15,6 +15,7 @@ import yfinance as yf
 import os
 import uuid
 import atexit
+import math
 import json
 
 # TODO: Move scheduler to another flask service
@@ -154,7 +155,13 @@ def strategyFactory(entryObj):
             self.zlema = bt.indicators.ZeroLagExponentialMovingAverage(self.datas[0].close)
             self.zlind = bt.indicators.ZeroLagIndicator(self.datas[0].close)
 
+            self.buylist = []
+            self.selllist = []
 
+            if len(entryObj) > 1:
+                self.chain = entryObj[1]['chain']
+            else:
+                self.chain = 'NONE'
 
             self.indicatorDict = {"NONE": None,
                                   "SMA": self.sma , "EMA": self.ema , "ACCUM": self.accum, "AMA": self.ama, "ALLN": self.alln, "ANYN": self.anyn, "AVERAGE": self.average 
@@ -167,18 +174,27 @@ def strategyFactory(entryObj):
                                   "ROC":self.roc, "ROC100":self.roc100,  "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
                                   "SUMN":self.sumn, "TEMA": self.trema, "TRIX": self.trix, "TRIXSIGNAL": self.trixsignal, "TSI": self.tsi, "UPDAY": self.upday,
                                   "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema}
-                                 
+
+
 
         def buySell(self, action):
             if action == "buy":
-                self.buy()
+                if self.chain == 'NONE':
+                    self.buy()
+                else:
+                    self.buylist.append(1)
+                    self.selllist.append(0)
             elif action == "sell":
-                self.sell()
+                #self.sell()
+                if self.chain == 'NONE':
+                    self.sell()
+                else:
+                    self.selllist.append(1)
+                    self.buylist.append(0)
+
 
         def next(self):
-
             for buyOrSell in entryObj:
-
                 comparator = buyOrSell["comparator"]
                 indicatorOne = buyOrSell["indicatorOne"]
                 indicatorTwo = buyOrSell["indicatorTwo"]
@@ -193,6 +209,17 @@ def strategyFactory(entryObj):
 
                 elif comparator == "below" and (todayValue < yesterdayValue):
                     self.buySell(action)
+            if(self.chain == "and"):
+                if math.prod(self.buylist) == 1:
+                    self.buy()
+                if math.prod(self.selllist) == 1:
+                    self.sell
+            elif(self.chain == "or"):
+                if sum(self.buylist) == 1:
+                    self.buy()
+                if sum(self.selllist) == 1:
+                    self.sell()
+
 
     return strategy
 
@@ -200,7 +227,7 @@ def strategyFactory(entryObj):
 def backtest_driver(req):
     dataDict = req
 
-    print(dataDict)
+    #print(dataDict)
     entry = dataDict["entry"]
     if entry is None or len(entry) == 0:
         return "Entry is None", 400
