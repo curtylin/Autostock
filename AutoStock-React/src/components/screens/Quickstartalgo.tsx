@@ -8,7 +8,14 @@ const QuickStartGuide = () => {
     <Layout>
       <h1>I want to create an algorithm... where should I start?</h1>
       <br></br>
-      <img src="https://i.imgur.com/ZGZ7EXP.png"></img>
+      <img src="https://i.imgur.com/Mm6YIb7.png"></img>
+
+      <h2>0. Research your Ticker!</h2>
+      <img src="https://i.imgur.com/947hjMu.png"></img>
+      <p>
+        We included a page called Analysis on the top right corner of the create algorithm page. Just put in a ticker and this allows you to get more information about the company you would want to research. This breaks down a company visually by showing you information such as Major Share holders, Options calendars to get you up to speed, and Recommendations whether to buy or sell. We also give information about quarterly earnings showing the performance of the company in the last year. {" "}
+      </p>
+      <br></br>
 
       <h2>1. Name your algorithm</h2>
       <p>
@@ -26,10 +33,9 @@ const QuickStartGuide = () => {
       {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
       <br></br>
 
-      <h2>3. Pick a time interval you'd want your algorithm to run for.</h2>
+      <h2>3. Write a brief description about your algorithm</h2>
       <p>
-        For example, a "1 Hour" interval means that your algorithm would check
-        every hour to check the comparators.
+        This will be shown to people if you choose to make your algorithm public. 
       </p>
       {/* <img src="https://i.imgur.com/vYtuZIC.gif"></img> */}
       <br></br>
@@ -64,22 +70,7 @@ const QuickStartGuide = () => {
       </p>
       <br></br>
 
-      <h2>5. Select the Period 1.</h2>
-      <p>
-        {" "}
-        While different indicators take in different inputs, the most common
-        indicators belong to the moving average family. Moving averages take in
-        an input known as periods. The smaller the period the more sensative it
-        will be to price changes. For Moving Averages a period will average the
-        prices for the input period ammount and add the price on the previous
-        day. While periods are common for many algotrading strategies they will
-        change in more complicated strategies. It is recommend to play arround
-        with periods respect to moving averages.
-      </p>
-
-      <br></br>
-
-      <h2>6. Select the Indicator 2/Comparator.</h2>
+      <h2>5. Select the Indicator 2/Comparator.</h2>
       <p>
         Next portion of the entry is to give it another indicator or strategy to
         compare to. This will determine the different entry rules on when to buy
@@ -91,16 +82,7 @@ const QuickStartGuide = () => {
 
       <br></br>
 
-      <h2>7. Select the Period 2.</h2>
-      <p>
-        {" "}
-        Similar to period 1, Period 2 works as the period for the second
-        indicator to complete the entry rules.{" "}
-      </p>
-
-      <br></br>
-
-      <h2>8. Select Buy or Sell.</h2>
+      <h2>6. Select Buy or Sell.</h2>
       <p>
         You are given an action that will perform when the conditions that are
         meant in the Entry/Entries are met. <br></br>
@@ -109,17 +91,9 @@ const QuickStartGuide = () => {
         </Link>
         .{" "}
       </p>
-
-      <h2>9. Select the algorithm running time.</h2>
-      <p>
-        This will determine how long your algorithm will run for. Strategies
-        especially indicators will be more effective depending on the length ran
-        for.{" "}
-      </p>
-
       <br></br>
 
-      <h2>10. Add additional paramters.</h2>
+      <h2>7. Add additional paramters.</h2>
       <p>
         You may chainlink different entries together in order to form a new
         strategy. This is not recommended for beginners and we recommend playing
@@ -128,18 +102,36 @@ const QuickStartGuide = () => {
 
       <br></br>
 
-      <h2>11. When you are somewhat happy with your algorithm, Backtest!</h2>
+      <h2>8. And/Or For the Chained Entry.</h2>
+      <p>
+        When you have multiple entries, you can add an "And" or "Or" to compare your entry 1 to entry 2 fields. {" "}
+      </p>
+
+      <br></br>
+
+      <h2>9. Select Buy or Sell.</h2>
+      <p>
+        You are given an action that will perform when the conditions that are
+        meant in the Entry/Entries are met. <br></br>
+        <Link to="https://www.investopedia.com/terms/s/sma.asp">
+          For more information about buy and sell orders
+        </Link>
+        .{" "}
+      </p>
+      <br></br>
+
+      <h2>10-12. When you are somewhat happy with your algorithm, Backtest!</h2>
       <p>
         You don't have to fully be satisfied with the algorithm at this point.
         Backtest your algorithm on historical data to see how well it would've
         done. Afterwards, you can repeat steps 2-10 until you feel like you are
         satisfied. Not only will it tell you how much money your algorithm
         would've made, it also tells you where your buy/sell orders were
-        executed by the algorithm.{" "}
+        executed by the algorithm. Your start date is the starting point of where you will test your algorithm. Your end date is where your backtest will end. {" "}
       </p>
       <br></br>
 
-      <h2>12. Save your algorithm</h2>
+      <h2>13. Save your algorithm</h2>
       <p>
         After you have backtested and feel your algorithm is ready, make sure to
         save your algorithm! This would allow you to enter your algorithm into a
