@@ -1,19 +1,47 @@
-import { TableContainer, Table} from '@mui/material'
+import { Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Paper} from '@mui/material'
 import React from 'react'
-import {useState} from 'react'
+import { useEffect } from 'react'
 
-
-//React hook to get the data from the API
-
-// [recommendations, SetRecommendations] = useState([])
 
 
 export default function Recommendations({stock}: any) {
-  return (
-    <TableContainer>
-      <Table>
 
-      </Table>
-    </TableContainer>
+  const [stockRecommendations, setStockRecommendations] = React.useState([])
+
+
+  useEffect(() => {
+    if(stock !== '') {
+      fetch(`http://localhost:5000/getSustainability/${stock}`)
+        .then(res => res.json())
+        .then(result => {
+          setStockRecommendations(result)
+        })
+      }
+  },[stock])
+
+  return (
+    <div>
+      <TableContainer component = {Paper}>
+        <Table aria-label="simple table">
+
+          <TableHead>
+            <TableRow>
+              <TableCell>Institution</TableCell>
+              <TableCell>Recommendation</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {stockRecommendations.map((sustainability: any) => (
+              <TableRow key={sustainability.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableCell>{sustainability.name}</TableCell>
+                <TableCell>{sustainability.value}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+
+        </Table>
+      </TableContainer>
+    </div>
   )
 }

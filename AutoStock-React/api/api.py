@@ -1038,16 +1038,20 @@ def get_stock_recommendations(ticker):
 def get_stock_recommendations_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
-
-        ticker_info.recommendations.to_json()
-
         recommendationDF = ticker_info.recommendations
         # We can add a From Grade if we wanted to
         firm = recommendationDF['Firm'].tolist()
         recommendation = recommendationDF['To Grade'].tolist()
-        recommendationResult = dict(zip(firm, recommendation))
+        recommendationResult = list(zip(firm, recommendation))
+        print(recommendationResult)
 
-        return jsonify(recommendationResult)
+        recommendationList = []
+        for firmName, recommendationName in recommendationResult:
+            recommendationList.append(
+                {"name": firmName, "value": recommendationName}
+            )
+
+        return jsonify(recommendationList)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1158,8 +1162,24 @@ def get_major_holders(ticker):
 def get_major_holders_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
-        # Returns back in unix time
-        return ticker_info.major_holders.to_json()
+
+        tickerData = json.loads(ticker_info.major_holders.to_json())
+        tickerPercents = tickerData["0"]
+        tickerValues = tickerData["1"]
+
+        percents = [percent for _, percent in tickerPercents.items()]
+        values = [content for _, content in tickerValues.items()]
+
+        percentValue = list(zip(percents, values))
+
+        data = []
+        for percent, val in percentValue:
+            data.append({
+                "id" : val,
+                "label" : val,
+                "value" : float(percent[0:-1])
+            })
+        return jsonify(data)
     except Exception as e:
         return f"An Error Occurred: {e}"
 

@@ -9,6 +9,7 @@ import Earnings from './data_components/Earnings'
 import Recommendations from './data_components/Recommendations'
 import Stockbalancesheets from './data_components/Stockbalancesheets'
 import Stockfinancials from './data_components/Stockfinancials'
+import Stockmajorholders from './data_components/Stockmajorholders'
 import Stocksplits from './data_components/Stocksplits'
 import Sustainability from './data_components/Sustainability'
 import HighChart from "./highChart"
@@ -74,7 +75,7 @@ export default function Analysis() {
           inputProps={{ maxLength: 9 }}
         />
       </Tooltip>
-      <Grid container spacing={2} sx={{my:5}}>
+      <Grid container spacing={2}>
         <Grid item xs={12} >
           <HighChart stock={stock} stockData={stockData} />
         </Grid>
@@ -84,11 +85,11 @@ export default function Analysis() {
         <Grid item xs={3}> 
           <Cashflow stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
-          <Earnings stock={updatedStock}/>
+        <Grid item xs={3} > 
+          <Stockmajorholders stock={updatedStock}/>
         </Grid>
         <Grid item xs={3}> 
-          <Recommendations stock={updatedStock}/>
+          <Earnings stock={updatedStock}/>
         </Grid>
         <Grid item xs={3}> 
           <Stockbalancesheets stock={updatedStock}/>
@@ -98,6 +99,9 @@ export default function Analysis() {
         </Grid>
         <Grid item xs={3}> 
           <Stocksplits stock={updatedStock}/>
+        </Grid>
+        <Grid item xs={4}> 
+          <Recommendations stock={updatedStock}/>
         </Grid>
         <Grid item xs={4}> 
           <Sustainability stock={updatedStock}/>
