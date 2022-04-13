@@ -378,13 +378,13 @@ const IndexPage = () => {
                 <Card style={{ maxWidth:200, maxHeight:200, borderRadius: '50%'}} >
                   <CardMedia >
                     <img
-                      src="https://firebasestorage.googleapis.com/v0/b/autostock-fef22.appspot.com/o/jony.png?alt=media&token=d99b5016-45cc-4b4f-90cd-eba7dc57f37f"
+                      src="https://i.imgur.com/63zNA4E.jpg"
                       alt="Jonathan Fairbanks portrait"
                       width="250"
                     ></img>                  
                   </CardMedia>
                 </Card>
-                <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Jon Fairbanks</Typography>
+                <Typography sx={{mt: 1, mb:0, display: "flex",textAlign: "center",justifyContent: "center",}} color="#1098f6" fontWeight="600" fontSize="25px" noWrap>Jonny Fairbanks</Typography>
                 <Typography sx={{display: "flex",textAlign: "center",justifyContent: "center",}} fontWeight="500" fontSize="22px" noWrap>Back End</Typography>
               </Grid>
               <Grid item sm={12} md={4} lg={4} justifyContent="center">
