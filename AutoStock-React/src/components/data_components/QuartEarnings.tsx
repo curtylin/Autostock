@@ -20,7 +20,7 @@ ChartJS.register(
     Tooltip,
     Legend
   );
-  
+import { CircularProgress } from '@mui/material'
 
 
 export default function QuartEarnings({stock}: any) {
@@ -55,7 +55,7 @@ export default function QuartEarnings({stock}: any) {
   return (
     <div>
         <h5>Quarterly Earnings</h5>
-        {earningsData !== null  ?  <Line options={options} data={earningsData} /> : null}
+        {earningsData !== null  ?  <Line options={options} data={earningsData} /> : <CircularProgress sx={{ mt: 1 }} color="inherit" />}
     </div>
   )
 }

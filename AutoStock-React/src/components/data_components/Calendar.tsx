@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { ResponsiveCalendarCanvas  } from '@nivo/calendar'
+import { CircularProgress } from '@mui/material'
 
 // We get stock options as well as earnings date
 
@@ -46,7 +47,7 @@ export default function Calendar({stock}: any) {
                 itemDirection: 'right-to-left'
             }
         ]}
-    /> : []
+    /> : <CircularProgress sx={{ mt: 1 }} color="inherit" />
       }
 
 

@@ -12,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
+import { CircularProgress } from '@mui/material'
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -22,12 +22,15 @@ ChartJS.register(
   Legend
 );
 
+
+
 export default function Recommendations({stock}: any) {
 
   const [stockRecommendations, setStockRecommendations] = React.useState(null)
-
+  const [spinner, setSpinner] = React.useState(false)
 
   useEffect(() => {
+    setSpinner(true)
     if(stock !== '') {
       fetch(`http://localhost:5000/getRecommendations/${stock}`)
         .then(res => res.json())
@@ -40,7 +43,7 @@ export default function Recommendations({stock}: any) {
   return (
     <div>
       <h5>Recommendations</h5>
-      {stockRecommendations !== null  ? <Radar data={stockRecommendations}/> : null}
+      {stockRecommendations !== null  ? <Radar data={stockRecommendations}/> : <CircularProgress sx={{ mt: 1 }} color="inherit" /> }
     </div>
   )
 }

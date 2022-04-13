@@ -88,20 +88,20 @@ export default function Analysis() {
         <Grid item xs={4} sx={{border:1}}> 
           <Recommendations stock={updatedStock} />
         </Grid>
-        <Grid item xs={3} sx={{border:1}}> 
-          <Stockbalancesheets stock={updatedStock}/>
+        <Grid item xs={8} sx={{border:1}}> 
+          <QuartEarnings stock={updatedStock}/>
         </Grid>
-        <Grid item xs={5} sx={{border:1}}> 
+        <Grid item xs={12} sx={{border:1}}> 
           <Stockfinancials stock={updatedStock}/>
         </Grid>
-        <Grid item xs={4} sx={{border:1}}> 
+        {/* <Grid item xs={3} sx={{border:1}}> 
+          <Stockbalancesheets stock={updatedStock}/>
+        </Grid> */}
+        <Grid item xs={6} sx={{border:1}}> 
           <Stocksplits stock={updatedStock}/>
         </Grid>
-        <Grid item xs={4} sx={{border:1}}> 
+        <Grid item xs={6} sx={{border:1}}> 
           <Sustainability stock={updatedStock}/>
-        </Grid>
-        <Grid item xs={4} sx={{border:1}}> 
-          <QuartEarnings stock={updatedStock}/>
         </Grid>
         {/* <Grid item xs={4} sx={{border:1}}> 
           <Institutionalholders stock={updatedStock}/>
