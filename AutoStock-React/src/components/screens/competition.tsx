@@ -36,6 +36,7 @@ import Dialog from "@mui/material/Dialog"
 import CommentDialog from "../commentDialog"
 import { TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
+import { Link } from "gatsby"
 
 
 const Competition = () => {
@@ -43,7 +44,7 @@ const Competition = () => {
   const [snackOpen, setSnackOpen] = useState(false)
   const [algorithms, setAlgorithms] = useState([])
   const [competitiorID, setCompetitiorID] = useState("")
-  const [competition, setCompetition] = useState({})
+  const [competition, setCompetition] = useState({leaderboard: []})
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   const [competitionID, setCompetitionID] = useState(window.history.state.id)
   const [discussions, setDiscussions] = useState([])
@@ -197,10 +198,6 @@ const Competition = () => {
     d.setFullYear(d.getFullYear() - 1)
 
     let lastYear = d.toISOString().slice(0, 10)
-
-    console.log(today)
-    console.log(lastYear)
-    console.log(competition.ticker)
 
     let body = `{
       "ticker": "${competition.ticker}",
@@ -495,6 +492,86 @@ const Competition = () => {
           <HighChart stock={competition.ticker} stockData={data} />
         </AccordionDetails>
       </Accordion>
+      <Accordion sx={{}}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography
+            sx={{ fontSize: 20 }}
+            justifyContent="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            variant="h2"
+            gutterBottom
+          >
+            Leaderboard
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <table className="mdc-data-table__table" aria-label="my-algorithms">
+            <thead>
+              <tr className="mdc-data-table__header-row">
+                <th
+                  className="table_header"
+                  role="columnheader"
+                  scope="col"
+                  align="center"
+                >
+                  Algorithm Name
+                </th>
+                <th
+                  className="table_header"
+                  role="columnheader"
+                  scope="col"
+                >
+                  Profit
+                </th>
+                <th
+                  className="table_header"
+                  role="columnheader"
+                  scope="col"
+                >
+                  {" "}
+                  Creator{" "}
+                </th>
+              </tr>
+            </thead>
+            <tbody className="mdc-data-table__content">
+              {competition.leaderboard.map((algorithm: any, key: any) => {
+                return (
+                  <tr className="table_row" key={key}>
+                    <td className="table_data" scope="row">
+                      {algorithms.has(algorithm.algorithm) ? (
+                        <Link
+                          to="/app/algorithm"
+                          state={{
+                            id: algorithm.algorithm,
+                            userID: algorithm.userID,
+                          }}
+                        >
+                          {algorithms.get(algorithm.algorithm)}
+                        </Link>
+                      ) : (
+                        "Private Algorithm"
+                      )}
+                    </td>
+                    <td className="table_data">{Number(algorithm.PnLPercent).toFixed(5)}%</td>
+                    <td className="table_data">
+                      {users.has(algorithm.userID)
+                        ? users.get(algorithm.userID)
+                        : algorithm.userID}
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </AccordionDetails>
+      </Accordion>
+
+      
 
       {new Date(competition.competitionLockDate) > new Date() ? (
         <h2>Submissions <span className="openText">Open</span></h2>
