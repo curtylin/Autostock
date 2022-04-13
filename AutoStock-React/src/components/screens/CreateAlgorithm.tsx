@@ -366,7 +366,7 @@ const CreateAlgorithm = () => {
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            label="Indicator 1 (Today's Value)"
+            label="Chain"
             value={chain}
             onChange={e => {
               setChain(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
