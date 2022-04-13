@@ -18,25 +18,6 @@ const Comments = ({ id, commentText, commentUser, allUsers }: any) => {
     // getUsersDB()
   }, [])
 
-  // const getUsersDB = () => {
-  //   //fetch post to localhost
-  //   fetch("http://localhost:5000/list-user", {
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     method: "GET",
-  //   })
-  //     .then(res => {
-  //       return res.json()
-  //     })
-  //     .then(result => {
-  //       for(let i = 0; i < result.length; i++){
-  //         setUsers(prev => new Map([...prev, [result[i].userID, result[i].username]]))
-  //       }
-  //     })
-  // }
-
   return (
     <div>
       <AccordionDetails sx={{ ml: 3 }}>

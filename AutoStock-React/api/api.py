@@ -49,9 +49,13 @@ comments_ref = db.collection('comments')
 
 
 @app.errorhandler(404)
-def not_found(error):
-    # return app.send_static_file('index.html')
-    return error
+@app.route('/', defaults={'e_path': ''})
+@app.route('/<path:e_path>')
+def catch_all_error(e_path):
+    if e_path == "":
+        return app.send_static_file('index.html')
+    else:
+        return send_from_directory(app.static_folder + '/app/[...]/', 'index.html')
 
 
 @app.route('/', defaults={'u_path': ''})
@@ -79,14 +83,13 @@ def backtest():
 
 
 def strategyFactory(entryObj):
-    print(entryObj)
 
     class strategy(bt.Strategy):
 
         def log(self, txt, dt=None):
             ''' Logging function for this strategy'''
             dt = dt or self.datas[0].datetime.date(0)
-            print('%s, %s' % (dt.isoformat(), txt))
+           # print('%s, %s' % (dt.isoformat(), txt))
 
         def __init__(self):
             # Set a value inside the time series
@@ -94,9 +97,76 @@ def strategyFactory(entryObj):
 
             self.sma = bt.indicators.SMA(self.datas[0].close)
             self.ema = bt.indicators.EMA(self.datas[0].close)
+            self.accum = bt.indicators.Accum(self.datas[0].close)
+            self.ama = bt.indicators.AdaptiveMovingAverage(self.datas[0].close)
+            self.alln = bt.indicators.AllN(self.datas[0].close)
+            self.anyn = bt.indicators.AnyN(self.datas[0].close)
+            self.average = bt.indicators.Average(self.datas[0].close)
+            self.bbands = bt.indicators.BollingerBands(self.datas[0].close)
+            self.bbandspct = bt.indicators.BollingerBandsPct(self.datas[0].close)
+            self.dpo = bt.indicators.DetrendedPriceOscillator(self.datas[0].close)
+            self.dma = bt.indicators.DicksonMovingAverage(self.datas[0].close)
+            self.dema = bt.indicators.DoubleExponentialMovingAverage(self.datas[0].close)
+            self.downday = bt.indicators.DownDay(self.datas[0].close)
+            self.downdaybool = bt.indicators.DownDayBool(self.datas[0].close)
+            self.downmove = bt.indicators.DownMove(self.datas[0].close)
+            self.envelope = bt.indicators.Envelope(self.datas[0].close)  
+            self.expsmoothing = bt.indicators.ExponentialSmoothing(self.datas[0].close)
+            self.ffih = bt.indicators.FindFirstIndexHighest(self.datas[0].close)
+            self.ffil = bt.indicators.FindFirstIndexLowest(self.datas[0].close)
+            self.flih = bt.indicators.FindLastIndexHighest(self.datas[0].close)
+            self.flil = bt.indicators.FindLastIndexLowest(self.datas[0].close)
+            self.highest = bt.indicators.Highest(self.datas[0].close)
+            self.hull = bt.indicators.HullMovingAverage(self.datas[0].close)
+            self.hurst = bt.indicators.HurstExponent(self.datas[0].close)
+            self.kst = bt.indicators.KnowSureThing(self.datas[0].close)
+            self.LAGF = bt.indicators.LaguerreFilter(self.datas[0].close)
+            self.LRSI = bt.indicators.LaguerreRSI(self.datas[0].close)
+            self.low = bt.indicators.Lowest(self.datas[0].close)
+            self.macd = bt.indicators.MACD(self.datas[0].close)
+            self.macdhisto = bt.indicators.MACDHisto(self.datas[0].close)
+            self.meanDev = bt.indicators.MeanDeviation(self.datas[0].close)
+            self.momentum = bt.indicators.MomentumOscillator(self.datas[0].close)
+            self.pctchange= bt.indicators.PercentChange(self.datas[0].close)
+            self.pctrank = bt.indicators.PercentRank(self.datas[0].close)
+            self.ppo = bt.indicators.PercentagePriceOscillator(self.datas[0].close)
+            self.pposhort = bt.indicators.PercentagePriceOscillatorShort(self.datas[0].close)
+            self.priceosc = bt.indicators.PriceOscillator(self.datas[0].close)
+            self.rsiema = bt.indicators.RSI_EMA(self.datas[0].close)
+            self.rsisma = bt.indicators.RSI_SMA(self.datas[0].close)
+            self.rsisafe = bt.indicators.RSI_Safe(self.datas[0].close)
+            self.roc = bt.indicators.RateOfChange(self.datas[0].close)
+            self.roc100 = bt.indicators.RateOfChange100(self.datas[0].close)
+            self.rmi = bt.indicators.RelativeMomentumIndex(self.datas[0].close)
+            self.rsi = bt.indicators.RelativeStrengthIndex(self.datas[0].close)
+            self.smooth = bt.indicators.SmoothedMovingAverage(self.datas[0].close)
+            self.stddev = bt.indicators.StandardDeviation(self.datas[0].close)
+            self.sumn = bt.indicators.SumN(self.datas[0].close)
+            self.trema = bt.indicators.TripleExponentialMovingAverage(self.datas[0].close)
+            self.trix = bt.indicators.Trix(self.datas[0].close)
+            self.trixsignal = bt.indicators.TrixSignal(self.datas[0].close)
+            self.tsi = bt.indicators.TrueStrengthIndicator(self.datas[0].close)
+            self.upday = bt.indicators.UpDay(self.datas[0].close)
+            self.updaybool = bt.indicators.UpDayBool(self.datas[0].close)
+            self.wa = bt.indicators.WeightedAverage(self.datas[0].close)
+            self.wma = bt.indicators.WeightedMovingAverage(self.datas[0].close)
+            self.zlema = bt.indicators.ZeroLagExponentialMovingAverage(self.datas[0].close)
+            self.zlind = bt.indicators.ZeroLagIndicator(self.datas[0].close)
+
+
 
             self.indicatorDict = {"NONE": None,
-                                  "SMA": self.sma, "EMA": self.ema}
+                                  "SMA": self.sma , "EMA": self.ema , "ACCUM": self.accum, "AMA": self.ama, "ALLN": self.alln, "ANYN": self.anyn, "AVERAGE": self.average 
+                                   , "BBANDS": self.bbands,"BBANDSPCT": self.bbandspct, "DPO": self.dpo, "DMA": self.dma, "DEMA": self.dema, "DOWND": self.downday,
+                                  "DOWNDB": self.downdaybool, "DOWNM": self.downmove, "EVE": self.envelope,"EXPSMOOTH": self.expsmoothing,"FFIH": self.ffih, "FFIL": self.ffil,
+                                  "FLIH": self.flih, "FLIL": self.flil, "MAXN": self.highest, "HMA": self.hull, "HURST": self.hurst
+                                  , "KST": self.kst, "LAGF": self.LAGF, "LRSI": self.LRSI, "MINN": self.LRSI, "MACD": self.macd, "MACDHISTO": self.macdhisto,
+                                  "MEANDEV": self.meanDev, "MOMENTUMOSC": self.momentum, "PCTCHANGE": self.pctchange, "PCTRANK": self.pctrank, "PPO": self.ppo
+                                  ,"PPOSHORT": self.pposhort, "PRICEOSC": self.priceosc, "RSIEMA":self.rsiema, "RSISMA":self.rsisma, "RSISAFE":self.rsisafe,
+                                  "ROC":self.roc, "ROC100":self.roc100,  "RMI":self.rmi, "RSI":self.rsi, "SMMA":self.smooth, "STDDEV":self.stddev,
+                                  "SUMN":self.sumn, "TEMA": self.trema, "TRIX": self.trix, "TRIXSIGNAL": self.trixsignal, "TSI": self.tsi, "UPDAY": self.upday,
+                                  "UPDAYBOOL": self.updaybool, "WA": self.wa, "WMA": self.wma, "ZLEMA": self.zlema, "ZLIND": self.zlema}
+                                 
 
         def buySell(self, action):
             if action == "buy":
@@ -142,6 +212,7 @@ def backtest_driver(req):
 
     financeData = bt.feeds.YahooFinanceData(dataname=dataDict['ticker'], fromdate=parse(dataDict['startDate']),
                                             todate=parse(dataDict['endDate']))
+    
 
     cerebro.adddata(financeData)
 
@@ -152,17 +223,17 @@ def backtest_driver(req):
     response["PnL"] = response["EndingValue"] - response["startingValue"]
     response["PnLPercent"] = (response["PnL"] / response["startingValue"]) * 100
 
-    randFileName = f"{str(uuid.uuid4())[:8]}.png"
+    # randFileName = f"{str(uuid.uuid4())[:8]}.png"
 
-    cerebro.plot()[0][0].savefig(randFileName)
-    url = uploadPhoto(randFileName)
+    # cerebro.plot()[0][0].savefig(randFileName)
+    # url = uploadPhoto(randFileName)
 
-    if os.path.exists(randFileName):
-        os.remove(randFileName)
-    else:
-        print("The file does not exist")
+    # if os.path.exists(randFileName):
+    #     os.remove(randFileName)
+    # else:
+    #     print("The file does not exist")
 
-    response["url"] = url
+    response["url"] = "https://i.imgur.com/854jut8.jpg"
 
     return response
 
@@ -466,6 +537,25 @@ def comp_list_all():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+## Returns all competitions
+@cross_origin()
+@app.route('/list-ongoing-competitions', methods=['GET'])
+def comp_list_ongoing():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return all competitions.
+    """
+    try:
+        activeComps = activeCompetitions_ref.where("competitionLockDate", "<=", str(date.today())).get()
+        competitions = []
+        for comp in activeComps:
+            compDict = comp.to_dict()
+            compDict['id'] = comp.id
+            compDict['active'] = True
+            competitions.append(compDict)
+        return jsonify(competitions), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 ## Returns all active competitions
 @cross_origin()
@@ -1252,28 +1342,37 @@ def uploadPhoto(filename):
 randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP',
                    'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
 
+@app.route('/generate_comps', methods=['PUT'])
+def genComps():
+    generateCompetitions()
+    return "Competitions Generated Successfully", 200
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
     today = date.today()
 
-    amount_competitions = 5
+
+    amount_competitions = 2
 
     randomSubsetTicker = [random.choice(randomStockList) for _ in range(amount_competitions)]
-    randomTimes = [today + timedelta(days=random.randint(3, 30)) for _ in range(amount_competitions)]
+    randomEndTimes = [today + timedelta(days=random.randint(22, 50)) for _ in range(amount_competitions)]
+    randomStartTimes = list(map(lambda x: x-timedelta(days=random.randint(220, 420)), randomEndTimes))
     randomInitialStarting = [int(f"1{random.randint(3, 7) * '0'}") for _ in range(amount_competitions)]
 
     for i in range(amount_competitions):
-        close_time = randomTimes[i]
+        close_time = randomEndTimes[i]
+        start_time = randomStartTimes[i]
         ticker = randomSubsetTicker[i]
-        time_diff = str(close_time - today)
+        competition_lock_date = today + timedelta(days=random.randint(7, 21))
+        time_diff = str(competition_lock_date - close_time)[1:]
 
         comp_obj = {
-            "startDate": str(today),
+            "competitionLockDate" : str(competition_lock_date), 
+            "startDate": str(start_time),
             "endDate": str(close_time),
-            "description": f"Submit your algorithm before {str(close_time)} and compete for the largest gains!",
+            "description": f"Submit your algorithm before {str(competition_lock_date)} and compete for the largest gains!",
             "duration": time_diff,
-            "name": f"{ticker} {time_diff.split(' ')[0]} Day Battle",
+            "name": f"{ticker} {time_diff.split(' ')[0]} Day Comp",
             "startingBalance": randomInitialStarting[i],
             "ticker": ticker,
             "leaderboard": [],  # Should be a list of algorithmIDs, sorted by highest value first
@@ -1309,10 +1408,9 @@ def enterBotsIntoComps():
     competitions = active_comps_list_driver()
     botsList = bots_list_driver()
 
-    # indicators = ["None", "SMA", "ADXR", "AROON", "BBANDS", "EMA", "DEMA", "KAMA", "MA", "MACD", "PPO", "ROC" , "RSI" , "SAR" , "SAREXT" , "STOC" , "T3" , "TRIX" , "TEMA" , "ULTIMATE" , "WILLIAMSR" , "WMA"]
-    indicators = ["NONE", "SMA", "EMA"]
+    indicators = ["NONE", "SMA", "EMA", "ACCUM", "AMA", "ALLN", "ANYN", "AVERAGE", "BBANDS", "BBANDSPCT", "DPO", "DMA", "DEMA", "DOWND", "DOWNDB", "DOWNM", "EVE", "EXPSMOOTH", "FFIH", "FFIL", "FLIH", "FLIL", "MAXN", "HMA", "HURST", "KST", "LAGF", "LRSI", "MINN", "MACD", "MACDHISTO", "MEANDEV", "MOMENTUMOSC", "PCTCHANGE", "PCTRANK", "PPO", "PPOSHORT", "PRICEOSC", "RSIEMA", "RSISMA", "RSISAFE", "ROC", "ROC100", "RMI", "RSI", "SMMA", "STDDEV", "SUMN", "TEMA", "TRIX", "TRIXSIGNAL", "TSI", "UPDAY", "UPDAYBOOL", "WA", "WMA", "ZLEMA", "ZLIND"]
     actions = ["buy", "sell"]
-    comparators = ["Above", "Below"]
+    comparators = ["above", "below"]
     newCompetitionsEntered = []
     newAlgosCreated = 0
     reusedAlgos = 0
@@ -1331,11 +1429,9 @@ def enterBotsIntoComps():
                     for i in range(random.randint(1, 3)):
                         entry = {
                             "action": random.choice(actions),
-                            "indicator1": random.choice(indicators),
+                            "indicatorOne": random.choice(indicators),
                             "comparator": random.choice(comparators),
-                            "indicator2": random.choice(indicators),
-                            "paramsOne": {},
-                            "paramsTwo": {}
+                            "indicatorTwo": random.choice(indicators)
                         }
                         entries.append(entry)
                     algo = {
@@ -1344,11 +1440,13 @@ def enterBotsIntoComps():
                         "public": True,
                         "runningTime": "30",
                         "userID": bot['userID'],
+                        "PnLPercentage": 0,
                         "entry": entries
                     }
                     algoID = (bot['userID'] + comp['ticker'])
                     algo_create_driver(algo, algoID)
                     newAlgosCreated += 1
+                    newCompetitionsEntered.append(algoName + " into " + comp['name'])
                 else:
                     algoID = algo[0].id
                     reusedAlgos += 1
@@ -1358,7 +1456,6 @@ def enterBotsIntoComps():
                     "algorithm": algoID
                 }
                 comp_enter_user_driver(competitor_obj)
-                newCompetitionsEntered.append(algoName + " into " + comp['name'])
                 newBots.append(bot['username'])
 
     newCompsEnteredString = "\n"
@@ -1388,8 +1485,11 @@ def findBestUsers():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+    today = date.today()
     # For every active competition go through the list of users and find the best performing players
     for competition in competitions:
+        if parse(competition['competitionLockDate']).date() > today:
+            continue
 
         competitionId = competition["id"]
         leaderboardList = competition["leaderboard"]
@@ -1397,33 +1497,42 @@ def findBestUsers():
         endDate = competition["endDate"]
         startingCash = competition["startingBalance"]
 
+        competitors = competitors_ref.where("competition", "==", competitionId).get()
+        competitorsList = []
+        for competitor in competitors:
+            competitorDict = competitor.to_dict()
+            competitorDict["id"] = competitor.id
+            competitorsList.append(competitorDict)
+        
+
         leaderboardsPair = []
-        for leader_obj in leaderboardList:
+        for competitor_obj in competitorsList:
             try:
-                algo = algorithms_ref.document(leader_obj["algorithmID"]).get()
+                algo = algorithms_ref.document(competitor_obj["algorithm"]).get()
                 algo_dict = algo.to_dict()
                 algo_dict["cash"] = startingCash
                 algo_dict["id"] = algo.id
                 algo_dict["startDate"] = startDate
-                algo_dict["endDate"] = endDate
+                algo_dict["endDate"] = str(today)
             except Exception as e:
                 return f"An Error Occurred: {e}"
 
-            backtestResults = {"PnL": 0}
+            backtestResults = {"PnLPercent": 0}
             try:
                 backtestResults = backtest_driver(algo_dict)
-                update_algo_after_bt(algo_dict["id"], {"PnL": backtestResults["PnL"]})
+                update_algo_after_bt(algo_dict["id"], {"PnLPercent": backtestResults["PnLPercent"]})
             except Exception as e:
                 print(e)
-
-            leaderboardsPair.append((leader_obj, backtestResults["PnL"]))
+            
+            competitor_obj["PnLPercent"] = backtestResults["PnLPercent"]
+            leaderboardsPair.append((competitor_obj, backtestResults["PnLPercent"]))
         # Update competition with sorted best players
-        leaderboardsPair.sort(key=lambda tup: tup[1])
+        leaderboardsPair.sort(key=lambda tup: tup[1], reverse=True)
         newLeaderBoard = list(map(lambda x: x[0], leaderboardsPair))
         comp_update_active_driver(competitionId, {"leaderboard": newLeaderBoard})
 
         # Check out of date competitions and set them as stale
-        today = date.today()
+        
         closeDate = parse(competition["endDate"])
         if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)

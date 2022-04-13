@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Box, Button, Grid, Typography } from "@mui/material"
+import { Box, Button, Divider, Grid, Typography } from "@mui/material"
 import CompCard from "../compCard"
 import Layout from "../layout"
 import MediaCompCard from "../mediaCompCard"
@@ -52,7 +52,7 @@ const Competitions = () => {
         justifyContent="left"
         alignContent={{ xs: "center", sm: "flex", md: "flex" }}
         container
-        spacing={3}
+        spacing={1}
         sx={{ mb: 1 }}
       >
         {notEnteredComps.slice(0, 3).map((comp: any, index: number) => {
@@ -75,7 +75,6 @@ const Competitions = () => {
       <Box sx={{ width: 1 }}>
         <Button
           style={{ float: "right" }}
-          sx={{ mt: 0, pt: 0 }}
           className="mdc-button mdc-button--raised"
           onClick={event => {
             navigate(`/app/notenteredcompetitions`)
@@ -86,6 +85,8 @@ const Competitions = () => {
         </Button>
       </Box>
 
+      <Divider sx={{ mt: 6 }} />
+
       <Box sx={{ mt: 3 }}>
         <h3>Your Competitions</h3>
       </Box>
@@ -95,7 +96,7 @@ const Competitions = () => {
           justifyContent="left"
           alignContent={{ xs: "center", sm: "flex", md: "flex" }}
           container
-          spacing={3}
+          spacing={1}
           sx={{ mb: 1 }}
         >
           {enteredComps.slice(0, 3).map((comp: any, index: number) => {
@@ -143,6 +144,8 @@ const Competitions = () => {
           </Button>
         </Box>
       ) : null}
+      <Divider sx={{ mt: 6 }} />
+
       <Box sx={{ mt: 3 }}>
         <h3>All Competitions</h3>
       </Box>
@@ -151,7 +154,7 @@ const Competitions = () => {
         justifyContent="left"
         alignContent={{ xs: "center", sm: "flex", md: "flex" }}
         container
-        spacing={3}
+        spacing={1}
         sx={{ mb: 1 }}
       >
         {competitions.slice(0, 3).map((comp: any, index: number) => {
