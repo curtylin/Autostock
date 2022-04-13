@@ -84,7 +84,6 @@ const Threads = ({
         getCommentsDB(id)
         setOpenBackdrop(false)
       })
-
   }
 
   const handleClickOpen = () => {

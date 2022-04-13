@@ -11,8 +11,7 @@ import { useStaticQuery, graphql, Link } from "gatsby"
 import Header from "./header"
 import "./layout_landing.css"
 import { Box, Typography } from "@mui/material"
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 interface LayoutProps {
   children: React.ReactNode
@@ -21,15 +20,14 @@ interface LayoutProps {
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-        {'Autostock '}
+      {"Copyright © "}
+      {"Autostock "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
-  );
+  )
 }
-const theme = createTheme();
-
+const theme = createTheme()
 
 const LayoutLanding = ({ children }: LayoutProps) => {
   const siteTitle: string = "Autostock"
@@ -40,17 +38,17 @@ const LayoutLanding = ({ children }: LayoutProps) => {
       <div className="layout_body" style={{}}>
         <main>{children}</main>
         <ThemeProvider theme={theme}>
-                  {/* Footer */}
-            <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-            
+          {/* Footer */}
+          <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
             <Typography variant="body2" color="text.secondary" align="center">
-              <Link className="aboutUsLink" to="/app/aboutus" >About us</Link>
+              <Link className="aboutUsLink" to="/app/aboutus">
+                About us
+              </Link>
             </Typography>
             <Copyright />
           </Box>
           {/* End footer */}
-      </ThemeProvider>
-            
+        </ThemeProvider>
       </div>
     </>
   )

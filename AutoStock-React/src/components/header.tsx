@@ -15,7 +15,7 @@ import { Link, navigate } from "gatsby"
 import { getUser, isLoggedIn, logout } from "../services/auth"
 import TemporaryDrawer from "../components/drawer"
 import Logo from "../images/AutostockLogo_black_small.png"
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person"
 
 interface HeaderProps {
   siteTitle: string
@@ -302,43 +302,43 @@ const Header = ({ siteTitle }: HeaderProps) => {
               {username == "" ? <></> : <>Hi, {username}</>}
             </Typography>
           </Box>
-          {isLoggedIn() ?
-          <Box sx={{ flexGrow: 0, display: {} }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <img style={{marginBottom:"auto", marginRight:"auto", marginLeft:"auto", display:"block"}} width={70} src={"https://logos-world.net/wp-content/uploads/2021/08/Among-Us-Logo.png"}></img>
-                {/* <PersonIcon fontSize="large"/> */}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem onClick={QSGRoute}>Quick Start Guide</MenuItem>
-              <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
-              <MenuItem
-                onClick={event => {
-                  event.preventDefault()
-                  logout(() => navigate(`/app/login`))
+          {isLoggedIn() ? (
+            <Box sx={{ flexGrow: 0, display: {} }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <PersonIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
                 }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                Logout
-              </MenuItem>
-            </Menu>
-          </Box>
-           : null}
+                <MenuItem onClick={QSGRoute}>Quick Start Guide</MenuItem>
+                <MenuItem onClick={ProfileRoute}>Profile</MenuItem>
+                <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
+                <MenuItem
+                  onClick={event => {
+                    event.preventDefault()
+                    logout(() => navigate(`/app/login`))
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : null}
         </Toolbar>
       </Container>
     </AppBar>
