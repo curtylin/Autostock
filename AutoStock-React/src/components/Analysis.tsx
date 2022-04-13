@@ -75,35 +75,35 @@ export default function Analysis() {
           inputProps={{ maxLength: 9 }}
         />
       </Tooltip>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
         <Grid item xs={12} >
           <HighChart stock={stock} stockData={stockData} />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={8} sx={{border:1}}>
           <Calendar stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
+        <Grid item xs={4} sx={{border:1}}> 
           <Cashflow stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3} > 
+        <Grid item xs={3} sx={{border:1}}> 
           <Stockmajorholders stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
+        <Grid item xs={3} sx={{border:1}}> 
           <Earnings stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
+        <Grid item xs={3} sx={{border:1}}> 
           <Stockbalancesheets stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
+        <Grid item xs={3} sx={{border:1}}> 
           <Stockfinancials stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
+        <Grid item xs={4} sx={{border:1}}> 
           <Stocksplits stock={updatedStock}/>
         </Grid>
-        <Grid item xs={4}> 
-          <Recommendations stock={updatedStock}   style={{border: '2px solid black'}}/>
+        <Grid item xs={4} sx={{border:1}}> 
+          <Recommendations stock={updatedStock} />
         </Grid>
-        <Grid item xs={4}> 
+        <Grid item xs={4} sx={{border:1}}> 
           <Sustainability stock={updatedStock}/>
         </Grid>
       </Grid>
