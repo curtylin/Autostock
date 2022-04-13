@@ -43,7 +43,7 @@ export default function Recommendations({stock}: any) {
   return (
     <div>
       <h5>Recommendations</h5>
-      {stockRecommendations !== null  ? <Radar data={stockRecommendations}/> : <CircularProgress sx={{ mt: 1 }} color="inherit" /> }
+      {stockRecommendations !== null  ? <Radar data={stockRecommendations}/> : spinner ? <CircularProgress sx={{ mt: 1 }} color="inherit" /> : null }
     </div>
   )
 }

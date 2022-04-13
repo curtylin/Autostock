@@ -20,7 +20,7 @@ export default function Stocksplits({stock}: any) {
   return (
     <div>
       <h5>Stock Splits</h5>
-      <TableContainer component = {Paper}>
+      <TableContainer component = {Paper} sx={{maxHeight: 500}}>
         <Table aria-label="simple table">
 
           <TableHead>
