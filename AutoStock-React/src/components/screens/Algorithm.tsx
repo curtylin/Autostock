@@ -205,7 +205,7 @@ const Algorithm = () => {
                 gutterBottom
               >
                 Indicator 1:{" "}
-                <span className="dataToRight">{entry.indicator1}</span>
+                <span className="dataToRight">{entry.indicatorOne}</span>
               </Typography>
               <Typography
                 sx={{ ml: 5, fontSize: 18 }}
@@ -226,7 +226,7 @@ const Algorithm = () => {
                 gutterBottom
               >
                 Indicator 2:{" "}
-                <span className="dataToRight">{entry.indicator2}</span>
+                <span className="dataToRight">{entry.indicatorTwo}</span>
               </Typography>
               <Typography
                 sx={{ ml: 5, fontSize: 18 }}
