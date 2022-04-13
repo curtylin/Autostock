@@ -17,7 +17,7 @@ import HighChart from "./highChart"
 
 
 export default function Analysis() {
-  const [stock, setStock] = useState('')
+  const [stock, setStock] = useState('MSFT')
   const [updatedStock, setUpdatedStock] = useState('')
   const [stockData, setStockData] = useState([])
 
