@@ -34,17 +34,16 @@ import "./screens.css"
 import AddIcon from "@mui/icons-material/Add"
 import Dialog from "@mui/material/Dialog"
 import CommentDialog from "../commentDialog"
-import { TextSnippetOutlined } from "@mui/icons-material"
+import { Co2Sharp, Sd, TextSnippetOutlined } from "@mui/icons-material"
 import { useForceUpdate } from "@chakra-ui/react"
 import { Link } from "gatsby"
-
 
 const Competition = () => {
   const [snackOpenSubmit, setSnackOpenSubmit] = useState(false)
   const [snackOpen, setSnackOpen] = useState(false)
-  const [algorithms, setAlgorithms] = useState([])
+  const [algorithms, setAlgorithms] = useState(new Set())
   const [competitiorID, setCompetitiorID] = useState("")
-  const [competition, setCompetition] = useState({leaderboard: []})
+  const [competition, setCompetition] = useState({})
   const [chosenAlgorithm, setChosenAlgorithm] = useState("")
   const [competitionID, setCompetitionID] = useState(window.history.state.id)
   const [discussions, setDiscussions] = useState([])
@@ -56,23 +55,27 @@ const Competition = () => {
   const [newThreadTitle, setNewThreadTitle] = useState("")
   const [users, setUsers] = useState(new Map<string, string>())
   const [openBackdrop, setOpenBackdrop] = useState(false)
+  const [done, setDone] = useState(false)
 
   useEffect(() => {
-    getCompDB().then(() => {
-      if (chosenAlgorithm == "") {
-        getCurrentAlgorithm()
-      }
-      getAlgorithmsDB()
-
-      getDiscussionsDB()
-      getThreadsDB()
-      getUsersDB()
-    })
+    ;(async function () {
+      await getCompDB().then(async () => {
+        if (chosenAlgorithm == "") {
+          await getCurrentAlgorithm()
+        }
+      })
+      await getAlgorithmsDB()
+      await getDiscussionsDB()
+      await getThreadsDB()
+      await getUsersDB()
+      setDone(true)
+      console.log(algorithms)
+    })()
   }, [chosenAlgorithm])
 
-  const getUsersDB = () => {
+  const getUsersDB = async () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/list-user", {
+    await fetch("http://localhost:5000/list-user", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -90,15 +93,18 @@ const Competition = () => {
         }
       })
   }
-  
+
   const getThreadsDB = async () => {
-    fetch(`http://localhost:5000/get-threads/${window.history.state.id}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
+    await fetch(
+      `http://localhost:5000/get-threads/${window.history.state.id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      }
+    )
       .then(res => {
         return res.json()
       })
@@ -108,13 +114,16 @@ const Competition = () => {
   }
 
   const getDiscussionsDB = async () => {
-    fetch(`http://localhost:5000/get-discussions/${window.history.state.id}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
+    await fetch(
+      `http://localhost:5000/get-discussions/${window.history.state.id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      }
+    )
       .then(res => {
         return res.json()
       })
@@ -125,13 +134,16 @@ const Competition = () => {
 
   const getCompDB = async () => {
     //fetch post to localhost
-    fetch(`http://localhost:5000/get-competition/${window.history.state.id}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
+    await fetch(
+      `http://localhost:5000/get-competition/${window.history.state.id}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      }
+    )
       .then(res => {
         return res.json()
       })
@@ -141,26 +153,28 @@ const Competition = () => {
       })
   }
 
-  const getAlgorithmsDB = () => {
+  const getAlgorithmsDB = async () => {
     //fetch post to localhost
-    fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
+    await fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       method: "GET",
     })
-      .then(res => {
-        return res.json()
+      .then(async res => {
+        let out = await res.json()
+        return out
       })
       .then(result => {
-        setAlgorithms(result)
+        console.log(result)
+        setAlgorithms(new Set(result))
       })
   }
 
-  const getCurrentAlgorithm = () => {
+  const getCurrentAlgorithm = async () => {
     //fetch post to localhost
-    fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
+    await fetch(`http://localhost:5000/list-competition/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -192,7 +206,7 @@ const Competition = () => {
     setSnackOpenSubmit(false)
   }
 
-  const handleExpand = (event: any) => {
+  const handleExpand = async (event: any) => {
     let today = new Date().toISOString().slice(0, 10)
     const d = new Date()
     d.setFullYear(d.getFullYear() - 1)
@@ -212,7 +226,7 @@ const Competition = () => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    await fetch("http://localhost:5000/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -247,7 +261,6 @@ const Competition = () => {
     fetch("http://127.0.0.1:5000/enter-competition", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
-        
       })
       .then(text => {
         // text is the response body
@@ -510,7 +523,7 @@ const Competition = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <table className="mdc-data-table__table" aria-label="my-algorithms">
+          <table className="mdc-data-table__table" aria-label="my-algorithms">
             <thead>
               <tr className="mdc-data-table__header-row">
                 <th
@@ -521,62 +534,61 @@ const Competition = () => {
                 >
                   Algorithm Name
                 </th>
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                >
+                <th className="table_header" role="columnheader" scope="col">
                   Profit
                 </th>
-                <th
-                  className="table_header"
-                  role="columnheader"
-                  scope="col"
-                >
+                <th className="table_header" role="columnheader" scope="col">
                   {" "}
                   Creator{" "}
                 </th>
               </tr>
             </thead>
             <tbody className="mdc-data-table__content">
-              {competition.leaderboard.map((algorithm: any, key: any) => {
-                return (
-                  <tr className="table_row" key={key}>
-                    <td className="table_data" scope="row">
-                      {algorithms.has(algorithm.algorithm) ? (
-                        <Link
-                          to="/app/algorithm"
-                          state={{
-                            id: algorithm.algorithm,
-                            userID: algorithm.userID,
-                          }}
-                        >
-                          {algorithms.get(algorithm.algorithm)}
-                        </Link>
-                      ) : (
-                        "Private Algorithm"
-                      )}
-                    </td>
-                    <td className="table_data">{Number(algorithm.PnLPercent).toFixed(5)}%</td>
-                    <td className="table_data">
-                      {users.has(algorithm.userID)
-                        ? users.get(algorithm.userID)
-                        : algorithm.userID}
-                    </td>
-                  </tr>
-                )
-              })}
+              {!done
+                ? null
+                : competition.leaderboard.map((algorithm: any, key: any) => {
+                    console.log(algorithm, algorithms)
+                    return (
+                      <tr className="table_row" key={key}>
+                        <td className="table_data" scope="row">
+                          {algorithms.has(algorithm.algorithm) ? (
+                            <Link
+                              to="/app/algorithm"
+                              state={{
+                                id: algorithm.algorithm,
+                                userID: algorithm.userID,
+                              }}
+                            >
+                              {algorithms.get(algorithm.algorithm)}
+                            </Link>
+                          ) : (
+                            "Private Algorithm"
+                          )}
+                        </td>
+                        <td className="table_data">
+                          {Number(algorithm.PnLPercent).toFixed(5)}%
+                        </td>
+                        <td className="table_data">
+                          {users.has(algorithm.userID)
+                            ? users.get(algorithm.userID)
+                            : algorithm.userID}
+                        </td>
+                      </tr>
+                    )
+                  })}
             </tbody>
           </table>
         </AccordionDetails>
       </Accordion>
 
-      
-
       {new Date(competition.competitionLockDate) > new Date() ? (
-        <h2>Submissions <span className="openText">Open</span></h2>
+        <h2>
+          Submissions <span className="openText">Open</span>
+        </h2>
       ) : (
-        <h2>Submissions <span className="closedText">Closed</span></h2>
+        <h2>
+          Submissions <span className="closedText">Closed</span>
+        </h2>
       )}
       {new Date(competition.competitionLockDate) > new Date() ? (
         <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }}>
@@ -600,8 +612,7 @@ const Competition = () => {
             })}
           </Select>
         </FormControl>
-      ) : 
-      (
+      ) : (
         <FormControl sx={{ my: 0, mr: 5, minWidth: 300 }} disabled>
           <InputLabel required id="demo-simple-select-standard-label">
             Choose an Algorithm
@@ -616,16 +627,14 @@ const Competition = () => {
               setChosenAlgorithm(e.target.value)
             }}
           >
-            {algorithms.map((algorithm: any, key: any) => {
+            {Array.from(algorithms).map((algorithm: any, key: any) => {
               return (
                 <MenuItem value={`${algorithm.id}`}>{algorithm.name}</MenuItem>
               )
             })}
           </Select>
         </FormControl>
-      )
-
-      }
+      )}
 
       <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
         {/* maybe change size to match menuItem */}
@@ -694,7 +703,7 @@ const Competition = () => {
         onClose={handleSnackClose}
         message="Thread submitted!"
       />
-       <Snackbar
+      <Snackbar
         open={snackOpenSubmit}
         autoHideDuration={4000}
         onClose={handleSnackClose}
