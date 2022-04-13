@@ -26,7 +26,11 @@ const ComplexCompCard = ({
   logo,
 }: any) => {
   return (
-    <Card variant="outlined" className="compCard" sx={{ minWidth: 340, maxWidth: 340 }}>
+    <Card
+      variant="outlined"
+      className="compCard"
+      sx={{ minWidth: 340, maxWidth: 340 }}
+    >
       <CardActionArea
         id={id}
         onClick={event => {
@@ -42,28 +46,31 @@ const ComplexCompCard = ({
           title={compTicker}
           subheader={compLength}
         /> */}
-        <CardContent sx={{pb:0}}>
-        <Typography
+        <CardContent sx={{ pb: 0 }}>
+          <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="600"
             fontSize="28px"
             variant="h4"
             noWrap
             component="div"
-            sx={{display: { xs: "flex", md: "flex" } }}
+            sx={{ display: { xs: "flex", md: "flex" } }}
             style={{ color: "black" }}
-          >{compTicker}</Typography>
+          >
+            {compTicker}
+          </Typography>
         </CardContent>
         <CardContent>
-        <Typography
+          <Typography
             fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
             fontWeight="400"
             fontSize="20px"
             variant="h4"
             noWrap
             component="div"
-            sx={{ mb:0, pb:0 ,display: { xs: "flex", md: "flex" } }}
-          >{compLength}
+            sx={{ mb: 0, pb: 0, display: { xs: "flex", md: "flex" } }}
+          >
+            {compLength}
           </Typography>
         </CardContent>
         <CardMedia
@@ -79,13 +86,9 @@ const ComplexCompCard = ({
           alt="Ticker logo"
           sx={{ mb: 0 }}
         ></CardMedia>
-        <CardContent>
-         
-        </CardContent>
-        
+        <CardContent></CardContent>
       </CardActionArea>
     </Card>
   )
 }
 export default ComplexCompCard
-
