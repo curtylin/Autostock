@@ -49,7 +49,11 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Weekend</h4>
-            <p>Albert's BIO HERE</p>
+            <p> On AutoStock I focused mainly on the backend specifically the backtesting portion. I spent most of the time testing 
+                and implementing new strategies as well as a couple front end features.For my personal portion of the project I added the chained feature in the edit and create algorithm.
+                This project has been a great experience with me as it gave me the opportunity to learn a lot about web dev and algo trading. In my free time I like to swim, ski, play video games
+                and the piano. 
+                 </p>
 
             <hr></hr>
             <img src="https://media-exp1.licdn.com/dms/image/C4D03AQGa2YqdqowjTg/profile-displayphoto-shrink_200_200/0/1626983303468?e=1654128000&v=beta&t=BbviMuehzZhurC__h_R9HOiyZQx4RIL_ku1yGUqgXt4" alt="Brandon Nham portrait" width="250"></img>
