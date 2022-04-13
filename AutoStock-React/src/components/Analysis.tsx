@@ -75,7 +75,6 @@ export default function Analysis() {
         />
       </Tooltip>
       <Grid container spacing={2} sx={{my:5}}>
-
         <Grid item xs={12} >
           <HighChart stock={stock} stockData={stockData} />
         </Grid>
@@ -100,7 +99,7 @@ export default function Analysis() {
         <Grid item xs={3}> 
           <Stocksplits stock={updatedStock}/>
         </Grid>
-        <Grid item xs={3}> 
+        <Grid item xs={4}> 
           <Sustainability stock={updatedStock}/>
         </Grid>
       </Grid>

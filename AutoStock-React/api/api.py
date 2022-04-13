@@ -15,6 +15,7 @@ import yfinance as yf
 import os
 import uuid
 import atexit
+import json
 
 # TODO: Move scheduler to another flask service
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -1251,12 +1252,29 @@ def get_earnings_driver(ticker):
 def get_sustainability(ticker):
     return get_sustainability_driver(ticker)
 
+def typeChekcer(x):
+    if x is None:
+        return "N/A"
+    if isinstance(x, str):
+        return x
+    if isinstance(x, bool):
+        return "Yes" if x else "No"
+    else:
+        return "N/A"
 
 def get_sustainability_driver(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         # Returns back in unix time
-        return ticker_info.sustainability.to_json()
+
+        tickerJson = ticker_info.sustainability.to_json()
+        tickerDict = json.loads(tickerJson)["Value"]
+
+        rows = []
+        for key, value in tickerDict.items():
+            rows.append({"name":key ,"value": typeChekcer(value)})
+        return json.dumps(rows)
+
     except Exception as e:
         return f"An Error Occurred: {e}"
 
