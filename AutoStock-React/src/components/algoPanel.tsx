@@ -54,7 +54,7 @@ const CreateAlgorithm = () => {
   } else {
     yesterdaysDay = "" + yesterday.getDate()
   }
-  const [algoName, setAlgoName] = useState("Bill Gate's SMA EMA TRIX BBANDS Ferrari algo")
+  const [algoName, setAlgoName] = useState("Bill Gate's SMA EMA TRIX BBANDS SPY algo")
   const [stock, setStocks] = useState("SPY")
   const [indicator1, setIndicator1] = useState("SMA")
   const [comparator1, setComparator1] = useState("above")
@@ -72,7 +72,7 @@ const CreateAlgorithm = () => {
   const [BTPnLPer, setBTPnLPer] = useState("")
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
-  const [newAlgoDescription, setAlgoDescription] = useState("I am Bill Gates and I have a cool Ferrari Algo that made me all my money.")
+  const [newAlgoDescription, setAlgoDescription] = useState("I am Bill Gates and I have a cool SPY Algo that made me all my money.")
   const [startDate, setStartDate] = useState(
     `${currDate.getFullYear() - 2}-${currentMonth}-${currentDate}`
   )
