@@ -58,6 +58,7 @@ export default function Analysis() {
             setStockData(result)
             setValidTicker(true)
           }else{
+            setStockData([])
             setValidTicker(false)
           }
         })
@@ -82,9 +83,14 @@ export default function Analysis() {
           sx={{ input: { color: validTicker ? "black" : "red" } }}
         />
       </Tooltip>
-      <Typography variant="caption" color="red">
+      <Typography variant="caption" color="red" sx={{ml:5}}>
               {validTicker ? null : "INVALID TICKER"}
       </Typography>
+      <Typography variant="caption" color="gray" sx={{ml:5}}>
+              {stock !== ''  ? null : "Please enter a ticker in the text box"}
+      </Typography>
+
+      {stock !== '' ?
       <Grid container spacing={2} >
         <Grid item xs={12} >
           <HighChart stock={stock} stockData={stockData} />
@@ -117,6 +123,7 @@ export default function Analysis() {
           <Institutionalholders stock={updatedStock}/>
         </Grid> */}
       </Grid>
+      : null}
     </div>
 
   )

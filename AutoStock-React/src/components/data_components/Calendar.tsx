@@ -9,6 +9,7 @@ export default function Calendar({stock}: any) {
   const [dates, setDates] = React.useState([])
 
   useEffect(() => {
+    setDates([])
     if(stock !== '') {
       fetch(`/api/getOptions/${stock}`)
         .then(res => res.json())
