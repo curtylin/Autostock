@@ -1,8 +1,8 @@
 import { Grid, TextField } from '@mui/material'
-import { Tooltip } from '@mui/material'
+import { Tooltip , Typography} from '@mui/material'
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Calendar from './data_components/Calendar'
 // import Institutionalholders from './data_components/Institutionalholders'
 import QuartEarnings from './data_components/QuartEarnings'
@@ -20,6 +20,16 @@ export default function Analysis() {
   const [stock, setStock] = useState('')
   const [updatedStock, setUpdatedStock] = useState('')
   const [stockData, setStockData] = useState([])
+  const [validTicker, setValidTicker] = useState(true)
+
+  useEffect(() => {
+    setValidTicker(true)
+    const timeOutId = setTimeout(() => {
+      setUpdatedStock(stock)
+      getHighChartData(stock)
+    }, 1000);
+    return () => clearTimeout(timeOutId);
+  }, [stock]);
 
   const handleBlur = () => {
     console.log(stock)
@@ -48,12 +58,18 @@ export default function Analysis() {
         body,
       }
   
-      fetch("http://localhost:5000/gethighchartdata ", init)
+      fetch("/api/gethighchartdata", init)
         .then(res => {
           return res.json()
         })
         .then(result => {
-          setStockData(result)
+          if(result.length > 0) {
+            setStockData(result)
+            setValidTicker(true)
+          }else{
+            setStockData([])
+            setValidTicker(false)
+          }
         })
     }
   }
@@ -71,10 +87,18 @@ export default function Analysis() {
           label="Stock"
           value={stock}
           onChange={handleChange}
-          onBlur={handleBlur}
           inputProps={{ maxLength: 9 }}
+          sx={{ input: { color: validTicker ? "black" : "red" } }}
         />
       </Tooltip>
+      <Typography variant="caption" color="red" sx={{ml:5}}>
+              {validTicker ? null : "INVALID TICKER"}
+      </Typography>
+      <Typography variant="caption" color="gray" sx={{ml:5}}>
+              {stock !== ''  ? null : "Please enter a ticker in the text box"}
+      </Typography>
+
+      {stock !== '' ?
       <Grid container spacing={2} >
         <Grid item xs={12} >
           <HighChart stock={stock} stockData={stockData} />
@@ -107,6 +131,7 @@ export default function Analysis() {
           <Institutionalholders stock={updatedStock}/>
         </Grid> */}
       </Grid>
+      : null}
     </div>
 
   )

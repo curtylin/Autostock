@@ -1,6 +1,8 @@
 import { Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Paper} from '@mui/material'
 import React from 'react'
 import { useEffect } from 'react'
+import { CircularProgress } from '@mui/material'
+
 
 export default function Sustainability({stock}: any) {
 
@@ -8,8 +10,9 @@ export default function Sustainability({stock}: any) {
 
 
   useEffect(() => {
+    setSustainability([])
     if(stock !== '') {
-      fetch(`http://localhost:5000/getSustainability/${stock}`)
+      fetch(`/api/getSustainability/${stock}`)
         .then(res => res.json())
         .then(result => {
           setSustainability(result)
@@ -22,6 +25,7 @@ export default function Sustainability({stock}: any) {
   return (
     <div>
       <h5>Sustainability</h5>
+      {sustainability.length > 0 ? 
       <TableContainer component = {Paper} sx={{maxHeight: 500}}>
         <Table aria-label="simple table">
 
@@ -43,6 +47,7 @@ export default function Sustainability({stock}: any) {
 
         </Table>
       </TableContainer>
+      : <CircularProgress sx={{ mt: 1 }} color="inherit" /> }
     </div>
   )
 }

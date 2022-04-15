@@ -14,7 +14,7 @@ const Competitions = () => {
   const [notEnteredComps, setNotEnteredCompetitions] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/list-competitions")
+    fetch("/api/list-competitions")
       .then(res => {
         return res.json()
       })
@@ -22,7 +22,7 @@ const Competitions = () => {
         setCompetitions(result)
       })
 
-    fetch(`http://localhost:5000/list-entered-competitions/${getUser().uid}`)
+    fetch(`/api/list-entered-competitions/${getUser().uid}`)
       .then(res => {
         return res.json()
       })
@@ -31,7 +31,7 @@ const Competitions = () => {
       })
 
     fetch(
-      `http://localhost:5000/list-nonregisted-competitions/${getUser().uid}`
+      `/api/list-nonregisted-competitions/${getUser().uid}`
     )
       .then(res => {
         return res.json()

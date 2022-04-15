@@ -11,8 +11,9 @@ export default function Stockmajorholders({stock}: any) {
 
   const [majorHolders, setMajorHolders] = React.useState(null)
   useEffect(() => {
+    setMajorHolders(null)
     if(stock !== '') {
-      fetch(`http://localhost:5000/getMajorHolders/${stock}`)
+      fetch(`/api/getMajorHolders/${stock}`)
         .then(res => res.json())
         .then(result => {
           setMajorHolders(result)

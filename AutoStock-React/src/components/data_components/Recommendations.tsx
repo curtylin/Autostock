@@ -27,12 +27,10 @@ ChartJS.register(
 export default function Recommendations({stock}: any) {
 
   const [stockRecommendations, setStockRecommendations] = React.useState(null)
-  const [spinner, setSpinner] = React.useState(false)
-
   useEffect(() => {
-    setSpinner(true)
+    setStockRecommendations(null)
     if(stock !== '') {
-      fetch(`http://localhost:5000/getRecommendations/${stock}`)
+      fetch(`/api/getRecommendations/${stock}`)
         .then(res => res.json())
         .then(result => {
           setStockRecommendations(result)
@@ -43,7 +41,7 @@ export default function Recommendations({stock}: any) {
   return (
     <div>
       <h5>Recommendations</h5>
-      {stockRecommendations !== null  ? <Radar data={stockRecommendations}/> : spinner ? <CircularProgress sx={{ mt: 1 }} color="inherit" /> : null }
+      {stockRecommendations !== null  ? <Radar data={stockRecommendations}/> :<CircularProgress sx={{ mt: 1 }} color="inherit" /> }
     </div>
   )
 }
