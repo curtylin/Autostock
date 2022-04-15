@@ -1462,7 +1462,7 @@ def get_options_driver(ticker):
         ticker_info = yf.Ticker(ticker)
         data = []
         for optionDate in list(ticker_info.options):
-            data.append({"value": optionDate, "day": optionDate})
+            data.append({"value": 0, "day": optionDate})
 
         # Returns back in unix time
         return jsonify(data)

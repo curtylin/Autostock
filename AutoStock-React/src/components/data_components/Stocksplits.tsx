@@ -8,6 +8,7 @@ export default function Stocksplits({stock}: any) {
   const [splits, setSplits] = React.useState([])
 
   useEffect(() => {
+    setSplits([])
     if(stock !== '') {
       fetch(`/api/getStockSplits/${stock}`)
         .then(res => res.json())
