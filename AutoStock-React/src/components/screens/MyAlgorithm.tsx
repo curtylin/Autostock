@@ -33,7 +33,7 @@ const MyAlgorithm = () => {
       body,
     }
 
-    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`/api/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -57,7 +57,7 @@ const MyAlgorithm = () => {
       headers,
       body,
     }
-    fetch(`http://localhost:5000/update-algorithm/${event.target.id}`, init)
+    fetch(`/api/update-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -83,7 +83,7 @@ const MyAlgorithm = () => {
     }
     console.log(event.target.id)
 
-    fetch(`http://localhost:5000/delete-algorithm/${event.target.id}`, init)
+    fetch(`/api/delete-algorithm/${event.target.id}`, init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -103,7 +103,7 @@ const MyAlgorithm = () => {
 
   const getAlgorithmsDB = () => {
     //fetch post to localhost
-    fetch(`http://localhost:5000/list-algorithm/${getUser().uid}`, {
+    fetch(`/api/list-algorithm/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

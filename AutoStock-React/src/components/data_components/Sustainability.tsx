@@ -9,7 +9,7 @@ export default function Sustainability({stock}: any) {
 
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getSustainability/${stock}`)
+      fetch(`/api/getSustainability/${stock}`)
         .then(res => res.json())
         .then(result => {
           setSustainability(result)
