@@ -274,7 +274,7 @@ def test():
 @app.route('/api/list-user', methods=['GET'])
 def user_list():
     """
-        id : is the user id. Gets all algorithms by this user id.
+        Gets all users from the database
         read() : Fetches documents from Firestore collection as JSON.
         algorithm : Return document that matches query ID.
     """
@@ -290,7 +290,7 @@ def user_list():
 @app.route('/api/get-user/<id>', methods=['GET'])
 def user_read(id):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        id : returns all user information based on the user ID
         read() : Fetches documents from Firestore collection as JSON.
         algorithm : Return document that matches query ID.
     """
@@ -306,7 +306,7 @@ def user_read(id):
 @app.route('/api/check-user/<name>', methods=['GET'])
 def user_dupe_check(name):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        Checks if username exists in the database
         read() : Fetches documents from Firestore collection as JSON.
         algorithm : Return document that matches query ID.
     """
@@ -340,7 +340,7 @@ def user_update(id):
 @app.route('/api/create-user', methods=['POST'])
 def user_create():
     """
-        update() : Update document in Firestore collection with request body.
+        Creates a new user in the database using the ID given.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
@@ -600,6 +600,10 @@ def comp_list_all_active():
 
 
 def active_comps_list_driver():
+    """
+        read() : Fetches documents from Firestore collection as JSON.
+        competitions : Return all competitions.
+    """
     comps = activeCompetitions_ref.stream()
     competitions = []
     for comp in comps:
@@ -658,7 +662,7 @@ def comp_info_read_user_id(id):
 @app.route('/api/list-entered-competitions/<id>', methods=['GET'])
 def comp_read_user_id(id):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        id : is the user id. Gets all competitions entered by this user id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
@@ -688,7 +692,7 @@ def comp_read_user_id(id):
 @app.route('/api/list-nonregisted-competitions/<id>', methods=['GET'])
 def comp_read_notRegistered_user_id(id):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        id : is the user id. Gets all competitions not entered by this user id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
@@ -712,29 +716,11 @@ def comp_read_notRegistered_user_id(id):
         return f"An Error Occurred: {e}"
 
 
-# ## gives the list of competitions that the user has entered themselves
-# @app.route('/get-competition-user/<id>', methods=['GET'])
-# def competition_read_user_id(id):
-#     """
-#         id : is the user id. Gets all algorithms by this user id.
-#         read() : Fetches documents from Firestore collection as JSON.
-#         competitions : Return document(s) that matches query userID.
-#     """
-#     try:
-#         # Check if ID was passed to URL query
-#         # id = request.args.get('id')
-#         userID = id
-#         competitions = [doc.to_dict() for doc in competitors_ref.where("userID", "==", userID).stream()]
-#         # competitions = [doc.to_dict() for doc in competitiors_ref.stream()]
-#         return jsonify(competitions), 200
-#     except Exception as e:
-#         return f"An Error Occurred: {e}"
-
 ## Be sure to pass in the competition id in the url
 @app.route('/api/get-competition/<id>', methods=['GET'])
 def comp_read(id):
     """
-        id : is the competition id. Gets all algorithms by this competition id.
+        id : is the competition id. Gets all information about competition by this competition id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document that matches query ID.
     """
@@ -758,7 +744,7 @@ def comp_read(id):
 @app.route('/api/get-discussions/<id>', methods=['GET'])
 def disc_read(id):
     """
-         id : is the competition id. Gets all algorithms by this competition id.
+         id : is the competition id. Gets all discussions by this competition id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document that matches query ID.
     """
@@ -875,7 +861,6 @@ def comp_update_stale(id):
         return f"An Error Occurred: {e}"
 
 
-## Might be legacy code.. will probably delete since deleting through URL is probably easier.
 @app.route('/api/delete-active-competition', methods=['GET', 'DELETE'])
 def comp_delete():
     """
@@ -919,11 +904,10 @@ def comp_delete_stale_id(id):
         return f"An Error Occurred: {e}"
 
 
-## enters user into competition
 @app.route('/api/enter-competition', methods=['POST'])
 def comp_enter_user():
     """
-        id : is the user id. Gets all algorithms by this user id.
+        Enters user into competition
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
@@ -942,7 +926,7 @@ def comp_enter_user_driver(req_obj):
 @app.route('/api/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
 def comp_edit_algorithm(id):
     """
-        id : is the user id. Gets all algorithms by this user id.
+        id : is the competitior id. Edits the competitior information by this competitor id.
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
