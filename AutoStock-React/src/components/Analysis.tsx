@@ -2,7 +2,7 @@ import { Grid, TextField } from '@mui/material'
 import { Tooltip , Typography} from '@mui/material'
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Calendar from './data_components/Calendar'
 // import Institutionalholders from './data_components/Institutionalholders'
 import QuartEarnings from './data_components/QuartEarnings'
@@ -21,6 +21,15 @@ export default function Analysis() {
   const [updatedStock, setUpdatedStock] = useState('')
   const [stockData, setStockData] = useState([])
   const [validTicker, setValidTicker] = useState(true)
+
+  useEffect(() => {
+    setValidTicker(true)
+    const timeOutId = setTimeout(() => {
+      setUpdatedStock(stock)
+      getHighChartData(stock)
+    }, 1000);
+    return () => clearTimeout(timeOutId);
+  }, [stock]);
 
   const handleBlur = () => {
     console.log(stock)
@@ -78,7 +87,6 @@ export default function Analysis() {
           label="Stock"
           value={stock}
           onChange={handleChange}
-          onBlur={handleBlur}
           inputProps={{ maxLength: 9 }}
           sx={{ input: { color: validTicker ? "black" : "red" } }}
         />
