@@ -51,7 +51,7 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/list-competitions")
+    fetch("/api/list-competitions")
       .then(res => {
         return res.json()
       })
@@ -59,7 +59,7 @@ const Home = () => {
         setCompetitions(result)
       })
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("/api/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -67,7 +67,7 @@ const Home = () => {
         setStockData(result)
       })
 
-    fetch(`http://localhost:5000/list-entered-competitions/${getUser().uid}`)
+    fetch(`/api/list-entered-competitions/${getUser().uid}`)
       .then(res => {
         return res.json()
       })
@@ -75,7 +75,7 @@ const Home = () => {
         setEnteredComps(result)
       })
 
-    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+    fetch(`/api/get-user/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

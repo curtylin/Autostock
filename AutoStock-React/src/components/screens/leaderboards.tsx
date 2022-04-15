@@ -22,7 +22,7 @@ const Leaderboards = () => {
     getAlgorithmsDB()
     getUsersDB()
     console.log(algorithms)
-    fetch("http://localhost:5000//list-ongoing-competitions")
+    fetch("/api//list-ongoing-competitions")
       .then(res => {
         return res.json()
       })
@@ -32,7 +32,7 @@ const Leaderboards = () => {
   }, [])
   const getAlgorithmsDB = () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/list-algorithm", {
+    fetch("/api/list-algorithm", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const Leaderboards = () => {
   }
   const getUsersDB = () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/list-user", {
+    fetch("/api/list-user", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

@@ -44,8 +44,9 @@ export default function Stockfinancials({stock}: any) {
   const [stockFinancials, setStockFinancials] = React.useState(null)
 
   useEffect(() => {
+    setStockFinancials(null)
     if(stock !== '') {
-      fetch(`http://localhost:5000/getQuartFinancials/${stock}`)
+      fetch(`/api/getQuartFinancials/${stock}`)
         .then(res => res.json())
         .then(result => {
           setStockFinancials(result)

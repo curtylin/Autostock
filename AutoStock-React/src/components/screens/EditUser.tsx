@@ -21,7 +21,7 @@ const EditUser = () => {
 
   const getUserDB = () => {
     //fetch post to localhost
-    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+    fetch(`/api/get-user/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const EditUser = () => {
 
   const handleSubmit = (event: any) => {
     console.log("Saving user")
-    fetch(`http://localhost:5000/check-user/${username}`, {
+    fetch(`/api/check-user/${username}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const EditUser = () => {
             headers,
             body,
           }
-          fetch(`http://localhost:5000/create-user`, init)
+          fetch(`/api/create-user`, init)
             .then(response => {
               return response.json() // or .text() or .blob() ...
             })
@@ -88,7 +88,7 @@ const EditUser = () => {
   }
 
   const handleUpdateUser = (event: any) => {
-    fetch(`http://localhost:5000/check-user/${username}`, {
+    fetch(`/api/check-user/${username}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -115,7 +115,7 @@ const EditUser = () => {
             headers,
             body,
           }
-          fetch(`http://localhost:5000/update-user/${getUser().uid}`, init)
+          fetch(`/api/update-user/${getUser().uid}`, init)
             .then(response => {
               return response.json() // or .text() or .blob() ...
             })

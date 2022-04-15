@@ -75,7 +75,7 @@ def catch_all(u_path):
 # return send_from_directory(app.static_folder+'/app/[...]/', 'index.html')
 
 @cross_origin()
-@app.route('/backtest', methods=['POST'])
+@app.route('/api/backtest', methods=['POST'])
 def backtest():
     try:
         return backtest_driver(request.json)
@@ -266,12 +266,12 @@ def backtest_driver(req):
     return response
 
 
-@app.route('/test')
+@app.route('/api/test')
 def test():
     return "this works"
 
 
-@app.route('/list-user', methods=['GET'])
+@app.route('/api/list-user', methods=['GET'])
 def user_list():
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -287,7 +287,7 @@ def user_list():
 
 
 ## Be sure to pass in the user id in the url
-@app.route('/get-user/<id>', methods=['GET'])
+@app.route('/api/get-user/<id>', methods=['GET'])
 def user_read(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -303,7 +303,7 @@ def user_read(id):
 
 
 ## Be sure to pass in the user id in the url
-@app.route('/check-user/<name>', methods=['GET'])
+@app.route('/api/check-user/<name>', methods=['GET'])
 def user_dupe_check(name):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -323,7 +323,7 @@ def user_dupe_check(name):
 
 
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
-@app.route('/update-user/<id>', methods=['POST', 'PUT'])
+@app.route('/api/update-user/<id>', methods=['POST', 'PUT'])
 def user_update(id):
     """
         update() : Update document in Firestore collection with request body.
@@ -337,7 +337,7 @@ def user_update(id):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/create-user', methods=['POST'])
+@app.route('/api/create-user', methods=['POST'])
 def user_create():
     """
         update() : Update document in Firestore collection with request body.
@@ -354,7 +354,7 @@ def user_create():
 ## Start CRUD algorithm block
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
-@app.route('/create-algorithm', methods=['POST'])
+@app.route('/api/create-algorithm', methods=['POST'])
 def algo_create():
     """
         create() : Add document to Firestore collection with request body.
@@ -377,7 +377,7 @@ def algo_create_driver(req_obj, id=None):
 
 ## Returns all public algorithms
 @cross_origin()
-@app.route('/list-algorithm', methods=['GET'])
+@app.route('/api/list-algorithm', methods=['GET'])
 def algo_read_public():
     """
         read() : Fetches documents from Firestore collection as JSON.
@@ -396,7 +396,7 @@ def algo_read_public():
 
 
 ## Be sure to pass in the user id in the url
-@app.route('/list-algorithm/<id>', methods=['GET'])
+@app.route('/api/list-algorithm/<id>', methods=['GET'])
 def algo_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -419,7 +419,7 @@ def algo_read_user_id(id):
 
 
 ## Be sure to pass in the user id in the url
-@app.route('/get-algorithm/<id>', methods=['GET'])
+@app.route('/api/get-algorithm/<id>', methods=['GET'])
 def algo_read(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -437,7 +437,7 @@ def algo_read(id):
 
 
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
-@app.route('/update-algorithm/<id>', methods=['POST', 'PUT'])
+@app.route('/api/update-algorithm/<id>', methods=['POST', 'PUT'])
 def algo_update(id):
     try:
         algorithms_ref.document(id).update(request.json)
@@ -460,7 +460,7 @@ def update_algo_after_bt(id, req):
 
 
 ## Be sure to pass in the algorithm id in the url
-@app.route('/delete-algorithm/<id>', methods=['GET', 'DELETE'])
+@app.route('/api/delete-algorithm/<id>', methods=['GET', 'DELETE'])
 def algo_delete_id(id):
     """
         delete() : Delete a document from Firestore collection.
@@ -496,7 +496,7 @@ def comp_unregister_competition_algorithm(algoID):
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
 # make sure to have body content type to application/json
-@app.route('/create-competition', methods=['POST'])
+@app.route('/api/create-competition', methods=['POST'])
 def comp_create():
     """
         create() : Add document to Firestore collection with request body.
@@ -522,7 +522,7 @@ def stale_comp_create_driver(id, req_obj):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/active-to-stale-competition/<id>', methods=['PUT'])
+@app.route('/api/active-to-stale-competition/<id>', methods=['PUT'])
 def active_to_stale_comp(id):
     return active_to_stale_comp_driver(id)
 
@@ -541,7 +541,7 @@ def active_to_stale_comp_driver(id):
 
 ## Returns all competitions
 @cross_origin()
-@app.route('/list-competitions', methods=['GET'])
+@app.route('/api/list-competitions', methods=['GET'])
 def comp_list_all():
     """
         read() : Fetches documents from Firestore collection as JSON.
@@ -567,7 +567,7 @@ def comp_list_all():
 
 ## Returns all competitions
 @cross_origin()
-@app.route('/list-ongoing-competitions', methods=['GET'])
+@app.route('/api/list-ongoing-competitions', methods=['GET'])
 def comp_list_ongoing():
     """
         read() : Fetches documents from Firestore collection as JSON.
@@ -587,7 +587,7 @@ def comp_list_ongoing():
 
 ## Returns all active competitions
 @cross_origin()
-@app.route('/list-active-competitions', methods=['GET'])
+@app.route('/api/list-active-competitions', methods=['GET'])
 def comp_list_all_active():
     """
         read() : Fetches documents from Firestore collection as JSON.
@@ -612,7 +612,7 @@ def active_comps_list_driver():
 
 ## Returns all stale competitions
 @cross_origin()
-@app.route('/list-stale-competitions', methods=['GET'])
+@app.route('/api/list-stale-competitions', methods=['GET'])
 def comp_list_all_stale():
     """
         read() : Fetches documents from Firestore collection as JSON.
@@ -632,7 +632,7 @@ def comp_list_all_stale():
 
 
 ## gives the list of competitions that the user has entered themselves
-@app.route('/list-competition/<id>', methods=['GET'])
+@app.route('/api/list-competition/<id>', methods=['GET'])
 def comp_info_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -655,7 +655,7 @@ def comp_info_read_user_id(id):
 
 
 ## gives the list of competitions that the user has entered themselves
-@app.route('/list-entered-competitions/<id>', methods=['GET'])
+@app.route('/api/list-entered-competitions/<id>', methods=['GET'])
 def comp_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -685,7 +685,7 @@ def comp_read_user_id(id):
 
 
 ## gives the list of competitions that the user have not entered
-@app.route('/list-nonregisted-competitions/<id>', methods=['GET'])
+@app.route('/api/list-nonregisted-competitions/<id>', methods=['GET'])
 def comp_read_notRegistered_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -731,7 +731,7 @@ def comp_read_notRegistered_user_id(id):
 #         return f"An Error Occurred: {e}"
 
 ## Be sure to pass in the competition id in the url
-@app.route('/get-competition/<id>', methods=['GET'])
+@app.route('/api/get-competition/<id>', methods=['GET'])
 def comp_read(id):
     """
         id : is the competition id. Gets all algorithms by this competition id.
@@ -755,7 +755,7 @@ def comp_read(id):
 
 
 ##
-@app.route('/get-discussions/<id>', methods=['GET'])
+@app.route('/api/get-discussions/<id>', methods=['GET'])
 def disc_read(id):
     """
          id : is the competition id. Gets all algorithms by this competition id.
@@ -775,7 +775,7 @@ def disc_read(id):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/get-threads/<id>', methods=['GET'])
+@app.route('/api/get-threads/<id>', methods=['GET'])
 def thread_read(id):
     """
         id : is the thread id.
@@ -794,7 +794,7 @@ def thread_read(id):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/get-comments/<id>', methods=['GET'])
+@app.route('/api/get-comments/<id>', methods=['GET'])
 def comm_read(id):
     """
         id : is the thread id.
@@ -813,7 +813,7 @@ def comm_read(id):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/add-comment', methods=['POST'])
+@app.route('/api/add-comment', methods=['POST'])
 def comm_create():
     """
         create() : Add document to Firestore collection with request body.
@@ -827,7 +827,7 @@ def comm_create():
         return f"An Error Occurred: {e}"
 
 
-@app.route('/create-thread', methods=['POST'])
+@app.route('/api/create-thread', methods=['POST'])
 def thr_create():
     """
         create() : Add document to Firestore collection with request body.
@@ -843,7 +843,7 @@ def thr_create():
 
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.
-@app.route('/update-active-competition/<id>', methods=['POST', 'PUT'])
+@app.route('/api/update-active-competition/<id>', methods=['POST', 'PUT'])
 def comp_update_active(id):
     """
         update() : Update document in Firestore collection with request body.
@@ -861,7 +861,7 @@ def comp_update_active_driver(id, req):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/update-stale-competition/<id>', methods=['POST', 'PUT'])
+@app.route('/api/update-stale-competition/<id>', methods=['POST', 'PUT'])
 def comp_update_stale(id):
     """
         update() : Update document in Firestore collection with request body.
@@ -876,7 +876,7 @@ def comp_update_stale(id):
 
 
 ## Might be legacy code.. will probably delete since deleting through URL is probably easier.
-@app.route('/delete-active-competition', methods=['GET', 'DELETE'])
+@app.route('/api/delete-active-competition', methods=['GET', 'DELETE'])
 def comp_delete():
     """
         delete() : Delete a document from Firestore collection.
@@ -891,7 +891,7 @@ def comp_delete():
 
 
 ## Be sure to pass in the competition id in the url
-@app.route('/delete-active-competition/<id>', methods=['GET', 'DELETE'])
+@app.route('/api/delete-active-competition/<id>', methods=['GET', 'DELETE'])
 def comp_delete_active_id(id):
     """
         delete() : Delete a document from Firestore collection.
@@ -905,7 +905,7 @@ def comp_delete_active_id(id):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/delete-stale-competition/<id>', methods=['GET', 'DELETE'])
+@app.route('/api/delete-stale-competition/<id>', methods=['GET', 'DELETE'])
 def comp_delete_stale_id(id):
     """
         delete() : Delete a document from Firestore collection.
@@ -920,7 +920,7 @@ def comp_delete_stale_id(id):
 
 
 ## enters user into competition
-@app.route('/enter-competition', methods=['POST'])
+@app.route('/api/enter-competition', methods=['POST'])
 def comp_enter_user():
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -939,7 +939,7 @@ def comp_enter_user_driver(req_obj):
 
 
 ## edits user submitted algorithm in competition
-@app.route('/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
+@app.route('/api/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
 def comp_edit_algorithm(id):
     """
         id : is the user id. Gets all algorithms by this user id.
@@ -954,7 +954,7 @@ def comp_edit_algorithm(id):
 
 
 ## Be sure to pass in the competition id in the url
-@app.route('/unregister-competition/<id>', methods=['GET', 'DELETE'])
+@app.route('/api/unregister-competition/<id>', methods=['GET', 'DELETE'])
 def comp_unregister_competition(id):
     """
         delete() : Delete a document from Firestore collection.
@@ -971,7 +971,7 @@ def comp_unregister_competition(id):
 ## End comp CRUD Block
 
 ## Start Bot CRUD Block
-@app.route('/create-bot', methods=['POST'])
+@app.route('/api/create-bot', methods=['POST'])
 def bot_create():
     """
         create() : Add document to Firestore collection with request body.
@@ -990,7 +990,7 @@ def bot_create_driver(req_obj):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/list-bots', methods=['GET'])
+@app.route('/api/list-bots', methods=['GET'])
 def bots_list():
     """
         Gets all bots in the collection.
@@ -1013,7 +1013,7 @@ def bots_list_driver():
 
 
 ## Beginning of yahoo Finance information
-@app.route('/gethighchartdata', methods=['POST'])
+@app.route('/api/gethighchartdata', methods=['POST'])
 def get_highchart_data():
     dataDict = request.json
 
@@ -1035,7 +1035,7 @@ def get_highchart_data():
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getNews/<ticker>', methods=['GET'])
+@app.route('/api/getNews/<ticker>', methods=['GET'])
 def get_yahoo_news(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
@@ -1051,7 +1051,7 @@ def get_yahoo_news(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getLogo/<ticker>', methods=['GET'])
+@app.route('/api/getLogo/<ticker>', methods=['GET'])
 def get_stock_logo(ticker):
     try:
         return get_stock_logo_driver(ticker)
@@ -1066,7 +1066,7 @@ def get_stock_logo_driver(ticker):
     return ticker_info.info['logo_url']
 
 
-@app.route('/getInfo/<ticker>', methods=['GET'])
+@app.route('/api/getInfo/<ticker>', methods=['GET'])
 def get_stock_info(ticker):
     return get_stock_info_driver(ticker)
 
@@ -1079,7 +1079,7 @@ def get_stock_info_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getRecommendations/<ticker>')
+@app.route('/api/getRecommendations/<ticker>')
 def get_stock_recommendations(ticker):
     return get_stock_recommendations_driver(ticker)
 
@@ -1126,7 +1126,7 @@ def get_stock_recommendations_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getStockSplits/<ticker>', methods=['GET'])
+@app.route('/api/getStockSplits/<ticker>', methods=['GET'])
 def get_stock_splits(ticker):
     return get_stock_splits_driver(ticker)
 
@@ -1145,7 +1145,7 @@ def get_stock_splits_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getStockCalendar/<ticker>', methods=['GET'])
+@app.route('/api/getStockCalendar/<ticker>', methods=['GET'])
 def get_stock_calendar(ticker):
     return get_stock_calendar_driver(ticker)
 
@@ -1159,7 +1159,7 @@ def get_stock_calendar_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getStockFinancials/<ticker>', methods=['GET'])
+@app.route('/api/getStockFinancials/<ticker>', methods=['GET'])
 def get_stock_financials(ticker):
     return get_stock_financials_driver(ticker)
 
@@ -1173,7 +1173,7 @@ def get_stock_financials_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getStockActions/<ticker>', methods=['GET'])
+@app.route('/api/getStockActions/<ticker>', methods=['GET'])
 def get_stock_actions(ticker):
     return get_stock_actions_driver(ticker)
 
@@ -1187,7 +1187,7 @@ def get_stock_actions_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getStockDividends/<ticker>', methods=['GET'])
+@app.route('/api/getStockDividends/<ticker>', methods=['GET'])
 def get_stock_dividends(ticker):
     return get_stock_dividends_driver(ticker)
 
@@ -1201,7 +1201,7 @@ def get_stock_dividends_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getQuartFinancials/<ticker>', methods=['GET'])
+@app.route('/api/getQuartFinancials/<ticker>', methods=['GET'])
 def get_quart_financials(ticker):
     return get_quart_financials_driver(ticker)
 
@@ -1241,7 +1241,7 @@ def get_quart_financials_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getQuartEarnings/<ticker>', methods=['GET'])
+@app.route('/api/getQuartEarnings/<ticker>', methods=['GET'])
 def get_quart_earnings(ticker):
     return get_quart_earnings_driver(ticker)
 
@@ -1279,7 +1279,7 @@ def get_quart_earnings_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getMajorHolders/<ticker>', methods=['GET'])
+@app.route('/api/getMajorHolders/<ticker>', methods=['GET'])
 def get_major_holders(ticker):
     return get_major_holders_driver(ticker)
 
@@ -1302,16 +1302,16 @@ def get_major_holders_driver(ticker):
                     "label": "Major Holders",
                     "data": percents,
                     "backgroundColor": [
-                        "#36A2EB",
-                        "#A0df84",
-                        "#8708C8",
-                        "#FF6384",
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
                     ],
                     "borderColor": [
-                        "#36A2EB",
-                        "#A0df84",
-                        "#8708C8",
-                        "#FF6384",
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
+                        "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]),
                     ],
                     "borderWidth": 1
                 }
@@ -1323,7 +1323,7 @@ def get_major_holders_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getInstHolders/<ticker>', methods=['GET'])
+@app.route('/api/getInstHolders/<ticker>', methods=['GET'])
 def get_institutional_holders(ticker):
     return get_institutional_holders_driver(ticker)
 
@@ -1337,7 +1337,7 @@ def get_institutional_holders_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getBalanceSheet/<ticker>', methods=['GET'])
+@app.route('/api/getBalanceSheet/<ticker>', methods=['GET'])
 def get_balance_sheet(ticker):
     return get_balance_sheet_driver(ticker)
 
@@ -1351,7 +1351,7 @@ def get_balance_sheet_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getQuartBalanceSheet/<ticker>', methods=['GET'])
+@app.route('/api/getQuartBalanceSheet/<ticker>', methods=['GET'])
 def get_quartery_balance_sheet(ticker):
     return get_quartery_balance_sheet_driver(ticker)
 
@@ -1365,7 +1365,7 @@ def get_quartery_balance_sheet_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getCashflow/<ticker>', methods=['GET'])
+@app.route('/api/getCashflow/<ticker>', methods=['GET'])
 def get_cashflow(ticker):
     return get_cashflow_driver(ticker)
 
@@ -1379,7 +1379,7 @@ def get_cashflow_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getQuartCashflow/<ticker>', methods=['GET'])
+@app.route('/api/getQuartCashflow/<ticker>', methods=['GET'])
 def get_quart_cashflow(ticker):
     return get_quart_cashflow_driver(ticker)
 
@@ -1393,7 +1393,7 @@ def get_quart_cashflow_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getEarnings/<ticker>', methods=['GET'])
+@app.route('/api/getEarnings/<ticker>', methods=['GET'])
 def get_earnings(ticker):
     return get_earnings_driver(ticker)
 
@@ -1407,7 +1407,7 @@ def get_earnings_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getSustainability/<ticker>', methods=['GET'])
+@app.route('/api/getSustainability/<ticker>', methods=['GET'])
 def get_sustainability(ticker):
     return get_sustainability_driver(ticker)
 
@@ -1438,7 +1438,7 @@ def get_sustainability_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getIsin/<ticker>', methods=['GET'])
+@app.route('/api/getIsin/<ticker>', methods=['GET'])
 def get_isin(ticker):
     return get_isin_driver(ticker)
 
@@ -1452,7 +1452,7 @@ def get_isin_driver(ticker):
         return f"An Error Occurred: {e}"
 
 
-@app.route('/getOptions/<ticker>', methods=['GET'])
+@app.route('/api/getOptions/<ticker>', methods=['GET'])
 def get_options(ticker):
     return get_options_driver(ticker)
 
@@ -1462,7 +1462,7 @@ def get_options_driver(ticker):
         ticker_info = yf.Ticker(ticker)
         data = []
         for optionDate in list(ticker_info.options):
-            data.append({"value": optionDate, "day": optionDate})
+            data.append({"value": 0, "day": optionDate})
 
         # Returns back in unix time
         return jsonify(data)
@@ -1503,7 +1503,7 @@ def uploadPhoto(filename):
 randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 'BABA', 'NVDA', 'COIN', 'BYND', 'SHOP',
                    'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
 
-@app.route('/generate_comps', methods=['PUT'])
+@app.route('/api/generate_comps', methods=['PUT'])
 def genComps():
     generateCompetitions()
     return "Competitions Generated Successfully", 200
@@ -1555,12 +1555,12 @@ def generateBot():
     return ("Bot Created: " + username), 200
 
 
-@app.route('/generate_bot', methods=['PUT'])
+@app.route('/api/generate_bot', methods=['PUT'])
 def generateBotAPI():
     return generateBot()
 
 
-@app.route('/enterBotsComp', methods=['PUT'])
+@app.route('/api/enterBotsComp', methods=['PUT'])
 def enterBotsCompAPI():
     return enterBotsIntoComps()
 
@@ -1628,7 +1628,7 @@ def enterBotsIntoComps():
         len(newCompetitionsEntered))), 200
 
 
-@app.route('/findBestUsers', methods=['PUT'])
+@app.route('/api/findBestUsers', methods=['PUT'])
 def findBestUsersAPI():
     findBestUsers()
     return "Successfully Ran Competitions", 200

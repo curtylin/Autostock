@@ -28,7 +28,7 @@ const Algorithm = () => {
   }, [])
 
   const getAlgoDB = () => {
-    fetch(`http://localhost:5000/get-algorithm/${window.history.state.id}`, {
+    fetch(`/api/get-algorithm/${window.history.state.id}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const Algorithm = () => {
   }
 
   const getUserDB = () => {
-    fetch(`http://localhost:5000/get-user/${window.history.state.userID}`, {
+    fetch(`/api/get-user/${window.history.state.userID}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const Algorithm = () => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("/api/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })

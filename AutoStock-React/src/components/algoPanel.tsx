@@ -100,13 +100,17 @@ const CreateAlgorithm = () => {
     jsConfetti = new JSConfetti()
   })
 
-  const loadStocks = () => {
-    fetch("https://api.iextrading.com/1.0/ref-data/symbols")
-      .then(res => res.json())
-      .then(data => {
-        setStocks(data)
-      })
-  }
+  useEffect(() => {
+    setValidTicker(true)
+    const timeOutId = setTimeout(() => {
+      getHighChartData(stock)
+    }, 1000);
+    return () => clearTimeout(timeOutId);
+  }, [stock])
+
+  const handleChange = (event: any) => {
+    setStocks(event.target.value);
+  };
 
   const handleExpand = (event: any) => {
     let today = new Date().toISOString().slice(0, 10)
@@ -128,7 +132,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("/api/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -137,7 +141,8 @@ const CreateAlgorithm = () => {
       })
   }
 
-  const handleBlur = () => {
+
+  const getHighChartData = (stock: string) => {
     const headers = new Headers()
     headers.append("content-type", "application/json")
     let today = new Date().toISOString().slice(0, 10)
@@ -156,7 +161,7 @@ const CreateAlgorithm = () => {
       headers,
       body,
     }
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("/api/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -171,7 +176,9 @@ const CreateAlgorithm = () => {
       .catch(e => {
         // error in e.message
       })
+
   }
+
 
   const [urls, setUrl] = useState("")
 
@@ -668,11 +675,8 @@ const CreateAlgorithm = () => {
           <FormControl sx={{ my: 2, minWidth: 300, maxWidth: 300 }}>
             <Tooltip title="E.g. AAPL or TSLA" placement="left" arrow>
               <TextField
-                onBlur={handleBlur}
                 required
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setStocks(e.target.value)
-                }}
+                onChange={handleChange}
                 type="search"
                 id="outlined-search"
                 label="Stock "
