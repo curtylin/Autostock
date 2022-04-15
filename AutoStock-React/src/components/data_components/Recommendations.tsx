@@ -32,7 +32,7 @@ export default function Recommendations({stock}: any) {
   useEffect(() => {
     setSpinner(true)
     if(stock !== '') {
-      fetch(`http://localhost:5000/getRecommendations/${stock}`)
+      fetch(`/api/getRecommendations/${stock}`)
         .then(res => res.json())
         .then(result => {
           setStockRecommendations(result)

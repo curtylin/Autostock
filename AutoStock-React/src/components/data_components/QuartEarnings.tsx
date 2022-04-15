@@ -43,7 +43,7 @@ export default function QuartEarnings({stock}: any) {
 
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getQuartEarnings/${stock}`)
+      fetch(`/api/getQuartEarnings/${stock}`)
         .then(res => res.json())
         .then(result => {
           setearningsData(result)

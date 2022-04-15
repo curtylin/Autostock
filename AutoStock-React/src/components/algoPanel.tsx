@@ -128,7 +128,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("/api/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })
@@ -156,7 +156,7 @@ const CreateAlgorithm = () => {
       headers,
       body,
     }
-    fetch("http://localhost:5000/gethighchartdata ", init)
+    fetch("/api/gethighchartdata ", init)
       .then(res => {
         return res.json()
       })

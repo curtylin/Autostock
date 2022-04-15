@@ -45,7 +45,7 @@ export default function Stockfinancials({stock}: any) {
 
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getQuartFinancials/${stock}`)
+      fetch(`/api/getQuartFinancials/${stock}`)
         .then(res => res.json())
         .then(result => {
           setStockFinancials(result)

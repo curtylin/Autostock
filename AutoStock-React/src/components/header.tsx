@@ -104,7 +104,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:5000/get-user/${getUser().uid}`, {
+    fetch(`/api/get-user/${getUser().uid}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

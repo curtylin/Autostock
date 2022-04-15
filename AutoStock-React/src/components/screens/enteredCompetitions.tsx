@@ -11,7 +11,7 @@ const Competitions = () => {
   const [competitions, setCompetitions] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/list-entered-competitions/${getUser().uid}`)
+    fetch(`/api/list-entered-competitions/${getUser().uid}`)
       .then(res => {
         return res.json()
       })

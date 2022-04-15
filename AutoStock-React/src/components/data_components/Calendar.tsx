@@ -10,7 +10,7 @@ export default function Calendar({stock}: any) {
 
   useEffect(() => {
     if(stock !== '') {
-      fetch(`http://localhost:5000/getOptions/${stock}`)
+      fetch(`/api/getOptions/${stock}`)
         .then(res => res.json())
         .then(result => {
           setDates(result)

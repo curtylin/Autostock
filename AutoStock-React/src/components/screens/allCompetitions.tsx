@@ -10,7 +10,7 @@ const Competitions = () => {
   const [competitions, setCompetitions] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/list-competitions")
+    fetch("/api/list-competitions")
       .then(res => {
         return res.json()
       })

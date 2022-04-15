@@ -22,7 +22,7 @@ function SwipeableTextMobileStepper() {
 
   const getArticles = () => {
     //fetch post to localhost
-    fetch("http://localhost:5000/getNews/AAPL", {
+    fetch("/api/getNews/AAPL", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
