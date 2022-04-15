@@ -29,7 +29,6 @@ export default function Recommendations({stock}: any) {
   const [stockRecommendations, setStockRecommendations] = React.useState(null)
   useEffect(() => {
     setStockRecommendations(null)
-    setSpinner(true)
     if(stock !== '') {
       fetch(`/api/getRecommendations/${stock}`)
         .then(res => res.json())
