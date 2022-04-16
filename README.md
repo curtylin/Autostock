@@ -30,13 +30,7 @@ run the following code in the WSL terminal (MAKE SURE YOU ARE IN THE auto-stock 
 First run `npm install` to install the necessary packages. 
 
 to start a session navigate to the autostock-react directory and run the command 
-`yarn start` or `yarn start` to start up the project, following which you can run a 
-`yarn start-api` or `npm run start-api` to start the backend in another terminal 
-
-Both of these processes will watch for changes that happen and will update themselves so you don't have to restart anything, so leave those terminals up
-
-To build a project run 
-`yarn build` or `npm build`
+`yarn start` or `yarn start` to start up the project
 
 
 
@@ -45,5 +39,10 @@ To build a project run
 If the following causes you troubles in the WSL terminal:
 
 `npm install` usually fixes most of them, or you need to delete node_modules and redo that command. 
+
+
+# Building project
+To build a project run 
+`yarn build` or `npm build`
 
 
