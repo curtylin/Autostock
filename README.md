@@ -1,3 +1,16 @@
+# Running on Docker: (NOTE: These are all run on WSL/Linux.. make sure you have docker preinstalled there.)
+To build a docker image run the following command: (keep in mind, this will take a while to load ~5 minutes.. so we recommend running it on development.)
+```
+docker build -f Dockerfile.SingleCombined -t autostock-react .
+```
+
+To run the docker image run 
+```
+docker run --rm -p 5000:5000 autostock-react 
+```
+Which will run on http://localhost:5000/ from there you can see the application running
+
+
 # Running Development Frontend
 run the following code in the WSL terminal (MAKE SURE YOU ARE IN THE auto-stock DIRECTORY !! VERY IMPORTANT)
 
