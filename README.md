@@ -20,8 +20,9 @@ following which you can run
 `. venv/bin/activate`
 afterwards you install all the dependencies by running 
 `pip install -U pip` and then
-`pip install -r requirements.txt`  (also need to do it once) 
-at which point you can run 
+`pip install -r requirements.txt`  
+
+Once all of that is done, run this command in the terminal:
 `yarn start-api` or `npm run start-api` to run the backend
 
 ## Then in another terminal, to get the frontend packages installed and running: 
