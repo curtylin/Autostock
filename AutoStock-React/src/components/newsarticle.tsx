@@ -11,7 +11,7 @@ import SwipeableViews from "react-swipeable-views"
 import { autoPlay } from "react-swipeable-views-utils"
 import Link from "@mui/material/Link"
 
-function SwipeableTextMobileStepper() {
+function SwipeableTextMobileStepper({stock}: any) {
   const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
   const [articles, setArticles] = useState([])
@@ -22,7 +22,7 @@ function SwipeableTextMobileStepper() {
 
   const getArticles = () => {
     //fetch post to localhost
-    fetch("/api/getNews/AAPL", {
+    fetch(`/api/getNews/${stock}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
