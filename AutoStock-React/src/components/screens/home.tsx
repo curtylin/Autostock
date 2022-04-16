@@ -23,34 +23,40 @@ import "./screens.css"
 import AddIcon from "@mui/icons-material/Add"
 import Container from "@mui/material/Container"
 
+const getRandomStock = () => {
+  const randTick = ["AAPL", "TSLA", "MSFT", "GOOG"]
+  return randTick[Math.floor(Math.random() * randTick.length)]
+}
+
+const randVal = getRandomStock()
+
 const Home = () => {
   const [competitions, setCompetitions] = useState([])
   const [data, setStockData] = useState([])
   const [username, setUsername] = useState("")
   const [enteredComps, setEnteredComps] = useState([])
 
-  let randTick = ["AAPL", "TSLA", "MSFT", "GOOG"]
-  let randChoice = randTick[Math.floor(Math.random() * randTick.length)]
-  console.log(randChoice)
-  let today = new Date().toISOString().slice(0, 10)
-  const d = new Date()
-  d.setFullYear(d.getFullYear() - 1)
-  let lastYear = d.toISOString().slice(0, 10)
-
-  let body = `{
-    "ticker": "${randChoice}" ,
-    "startDate": "${lastYear}",
-    "endDate": "${today.toString()}"
-  }`
-  const headers = new Headers()
-  headers.append("content-type", "application/json")
-  let init = {
-    method: "POST",
-    headers,
-    body,
-  }
-
+  
+  
+  
   useEffect(() => {
+    let today = new Date().toISOString().slice(0, 10)
+    const d = new Date()
+    d.setFullYear(d.getFullYear() - 1)
+    let lastYear = d.toISOString().slice(0, 10)
+  
+    let body = `{
+      "ticker": "${randVal}" ,
+      "startDate": "${lastYear}",
+      "endDate": "${today.toString()}"
+    }`
+    const headers = new Headers()
+    headers.append("content-type", "application/json")
+    let init = {
+      method: "POST",
+      headers,
+      body,
+    }
     fetch("/api/list-competitions")
       .then(res => {
         return res.json()
@@ -138,7 +144,7 @@ const Home = () => {
       </Box>
 
       <h2>Today's Top Headlines:</h2>
-      <News />
+      <News stock={randVal}/>
       <Divider sx={{ my: 3 }} />
       {enteredComps.length > 0 ? (
         <div>
@@ -220,9 +226,9 @@ const Home = () => {
 
       <div id="chart" style={{ marginTop: 25, marginBottom: 25 }}>
         <h2>
-          Featured Stock:<span className="stockTickName"> {randChoice}</span>
+          Featured Stock:<span className="stockTickName"> {randVal}</span>
         </h2>
-        <HighChart stock={randChoice} stockData={data} />
+        <HighChart stock={randVal} stockData={data} />
       </div>
       <Divider sx={{ my: 3 }} />
 
