@@ -22,6 +22,9 @@ const AboutUs = () => {
                 where users can go head to head and test/compare their strategies.</p>
             <br></br>
 
+            <h2>Architecture Diagram</h2>
+            <img style={{marginBottom:"auto", marginRight:"auto", marginLeft:"auto", display:"block"}} width={600} src={"https://cdn.discordapp.com/attachments/888161914419552306/966098359603564564/Copy_of_Untitled_Diagram.drawio.png"}></img>
+            <br></br>
             <h1>Our Story</h1>
             <p>We are currently in our final year of completion of the Computer Science B.S. Program at the University of Utah. This is our senior capstone project. We hope you like it, we do.</p>
             <br></br>
