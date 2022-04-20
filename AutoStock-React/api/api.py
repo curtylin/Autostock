@@ -17,6 +17,8 @@ import uuid
 import atexit
 import math
 import json
+import asyncio
+
 
 # TODO: Move scheduler to another flask service
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -76,9 +78,9 @@ def catch_all(u_path):
 
 @cross_origin()
 @app.route('/api/backtest', methods=['POST'])
-def backtest():
+async def backtest():
     try:
-        return backtest_driver(request.json)
+        return await backtest_driver(request.json)
     except Exception as e:
         return f"An Error Occurred: {e}"
     # return backtest_driver(request.json)
@@ -267,12 +269,12 @@ def backtest_driver(req):
 
 
 @app.route('/api/test')
-def test():
-    return "this works"
+async def test():
+    return await "this works"
 
 
 @app.route('/api/list-user', methods=['GET'])
-def user_list():
+async def user_list():
     """
         Gets all users from the database
         read() : Fetches documents from Firestore collection as JSON.
@@ -281,14 +283,14 @@ def user_list():
     try:
         # Check if ID was passed to URL query
         users = [doc.to_dict() for doc in users_ref.stream()]
-        return jsonify(users), 200
+        return await jsonify(users), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
 
 ## Be sure to pass in the user id in the url
 @app.route('/api/get-user/<id>', methods=['GET'])
-def user_read(id):
+async def user_read(id):
     """
         id : returns all user information based on the user ID
         read() : Fetches documents from Firestore collection as JSON.
@@ -297,14 +299,14 @@ def user_read(id):
     try:
         # Check if ID was passed to URL query
         user = users_ref.document(id).get()
-        return jsonify(user.to_dict()), 200
+        return await jsonify(user.to_dict()), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the user id in the url
 @app.route('/api/check-user/<name>', methods=['GET'])
-def user_dupe_check(name):
+async def user_dupe_check(name):
     """
         Checks if username exists in the database
         read() : Fetches documents from Firestore collection as JSON.
@@ -315,16 +317,16 @@ def user_dupe_check(name):
         user = users_ref.where('username', '==', name).stream()
         users = [doc.to_dict() for doc in user]
         if users == []:
-            return jsonify({"dupe": False}), 200
+            return await jsonify({"dupe": False}), 200
         else:
-            return jsonify({"dupe": True}), 200
+            return await jsonify({"dupe": True}), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
 
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/api/update-user/<id>', methods=['POST', 'PUT'])
-def user_update(id):
+async def user_update(id):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
@@ -332,13 +334,13 @@ def user_update(id):
     """
     try:
         users_ref.document(id).update(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/create-user', methods=['POST'])
-def user_create():
+async def user_create():
     """
         Creates a new user in the database using the ID given.
         Ensure you pass a custom ID as part of json body in post request,
@@ -346,7 +348,7 @@ def user_create():
     """
     try:
         users_ref.document(request.json["userID"]).set(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -355,13 +357,13 @@ def user_create():
 ## Source code from: https://cloud.google.com/community/tutorials/building-flask-api-with-cloud-firestore-and-deploying-to-cloud-run
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
 @app.route('/api/create-algorithm', methods=['POST'])
-def algo_create():
+async def algo_create():
     """
         create() : Add document to Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
-    return algo_create_driver(request.json)
+    return await algo_create_driver(request.json)
 
 
 def algo_create_driver(req_obj, id=None):
@@ -378,7 +380,7 @@ def algo_create_driver(req_obj, id=None):
 ## Returns all public algorithms
 @cross_origin()
 @app.route('/api/list-algorithm', methods=['GET'])
-def algo_read_public():
+async def algo_read_public():
     """
         read() : Fetches documents from Firestore collection as JSON.
         algorithms : Return all public algorithms.
@@ -390,14 +392,14 @@ def algo_read_public():
             algoDict = algo.to_dict()
             algoDict["id"] = algo.id
             algorithms.append(algoDict)
-        return jsonify(algorithms), 200
+        return await jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the user id in the url
 @app.route('/api/list-algorithm/<id>', methods=['GET'])
-def algo_read_user_id(id):
+async def algo_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -413,14 +415,14 @@ def algo_read_user_id(id):
             algoDict = algo.to_dict()
             algoDict['id'] = algo.id
             algorithms.append(algoDict)
-        return jsonify(algorithms), 200
+        return await jsonify(algorithms), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the user id in the url
 @app.route('/api/get-algorithm/<id>', methods=['GET'])
-def algo_read(id):
+async def algo_read(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -431,17 +433,17 @@ def algo_read(id):
         algo = algorithms_ref.document(id).get()
         algoDict = algo.to_dict()
         algoDict["id"] = algo.id
-        return jsonify(algoDict), 200
+        return await jsonify(algoDict), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the algorithm id in the url with the algorithm info you want to change in the JSON that you pass into the body.
 @app.route('/api/update-algorithm/<id>', methods=['POST', 'PUT'])
-def algo_update(id):
+async def algo_update(id):
     try:
         algorithms_ref.document(id).update(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -461,7 +463,7 @@ def update_algo_after_bt(id, req):
 
 ## Be sure to pass in the algorithm id in the url
 @app.route('/api/delete-algorithm/<id>', methods=['GET', 'DELETE'])
-def algo_delete_id(id):
+async def algo_delete_id(id):
     """
         delete() : Delete a document from Firestore collection.
     """
@@ -472,7 +474,7 @@ def algo_delete_id(id):
 
         if not comp_unregister_competition_algorithm(id):
             raise Exception("Could not unregister algorithm from competition")
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -497,13 +499,13 @@ def comp_unregister_competition_algorithm(algoID):
 ## https://dev.to/alexmercedcoder/basics-of-building-a-crud-api-with-flask-or-fastapi-4h70
 # make sure to have body content type to application/json
 @app.route('/api/create-competition', methods=['POST'])
-def comp_create():
+async def comp_create():
     """
         create() : Add document to Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
-    return active_comp_create_driver(request.json)
+    return await active_comp_create_driver(request.json)
 
 
 def active_comp_create_driver(req_obj):
@@ -523,8 +525,8 @@ def stale_comp_create_driver(id, req_obj):
 
 
 @app.route('/api/active-to-stale-competition/<id>', methods=['PUT'])
-def active_to_stale_comp(id):
-    return active_to_stale_comp_driver(id)
+async def active_to_stale_comp(id):
+    return await active_to_stale_comp_driver(id)
 
 
 def active_to_stale_comp_driver(id):
@@ -542,7 +544,7 @@ def active_to_stale_comp_driver(id):
 ## Returns all competitions
 @cross_origin()
 @app.route('/api/list-competitions', methods=['GET'])
-def comp_list_all():
+async def comp_list_all():
     """
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return all competitions.
@@ -561,14 +563,14 @@ def comp_list_all():
             compDict['id'] = comp.id
             compDict['active'] = False
             competitions.append(compDict)
-        return jsonify(competitions), 200
+        return await jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 ## Returns all competitions
 @cross_origin()
 @app.route('/api/list-ongoing-competitions', methods=['GET'])
-def comp_list_ongoing():
+async def comp_list_ongoing():
     """
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return all competitions.
@@ -581,20 +583,20 @@ def comp_list_ongoing():
             compDict['id'] = comp.id
             compDict['active'] = True
             competitions.append(compDict)
-        return jsonify(competitions), 200
+        return await jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 ## Returns all active competitions
 @cross_origin()
 @app.route('/api/list-active-competitions', methods=['GET'])
-def comp_list_all_active():
+async def comp_list_all_active():
     """
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return all competitions.
     """
     try:
-        return jsonify(active_comps_list_driver()), 200
+        return await jsonify(active_comps_list_driver()), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -617,7 +619,7 @@ def active_comps_list_driver():
 ## Returns all stale competitions
 @cross_origin()
 @app.route('/api/list-stale-competitions', methods=['GET'])
-def comp_list_all_stale():
+async def comp_list_all_stale():
     """
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return all competitions.
@@ -630,14 +632,14 @@ def comp_list_all_stale():
             compDict['id'] = comp.id
             compDict['active'] = False
             competitions.append(compDict)
-        return jsonify(competitions), 200
+        return await jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## gives the list of competitions that the user has entered themselves
 @app.route('/api/list-competition/<id>', methods=['GET'])
-def comp_info_read_user_id(id):
+async def comp_info_read_user_id(id):
     """
         id : is the user id. Gets all algorithms by this user id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -653,14 +655,14 @@ def comp_info_read_user_id(id):
             compDict = comp.to_dict()
             compDict['id'] = comp.id
             competitions.append(compDict)
-        return jsonify(competitions), 200
+        return await jsonify(competitions), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## gives the list of competitions that the user has entered themselves
 @app.route('/api/list-entered-competitions/<id>', methods=['GET'])
-def comp_read_user_id(id):
+async def comp_read_user_id(id):
     """
         id : is the user id. Gets all competitions entered by this user id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -683,14 +685,14 @@ def comp_read_user_id(id):
                 compDict['active'] = True
                 activeComps.append(compDict)
 
-        return jsonify(activeComps), 200
+        return await jsonify(activeComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## gives the list of competitions that the user have not entered
 @app.route('/api/list-nonregisted-competitions/<id>', methods=['GET'])
-def comp_read_notRegistered_user_id(id):
+async def comp_read_notRegistered_user_id(id):
     """
         id : is the user id. Gets all competitions not entered by this user id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -711,14 +713,14 @@ def comp_read_notRegistered_user_id(id):
                 compDict = comp.to_dict()
                 compDict['id'] = comp.id
                 notEnteredComps.append(compDict)
-        return jsonify(notEnteredComps), 200
+        return await jsonify(notEnteredComps), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the competition id in the url
 @app.route('/api/get-competition/<id>', methods=['GET'])
-def comp_read(id):
+async def comp_read(id):
     """
         id : is the competition id. Gets all information about competition by this competition id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -735,14 +737,14 @@ def comp_read(id):
         compDict['id'] = id
         compDict['competitiors'] = len(
             [doc.to_dict() for doc in competitors_ref.where("competition", "==", id).stream()])
-        return jsonify(compDict), 200
+        return await jsonify(compDict), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ##
 @app.route('/api/get-discussions/<id>', methods=['GET'])
-def disc_read(id):
+async def disc_read(id):
     """
          id : is the competition id. Gets all discussions by this competition id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -756,13 +758,13 @@ def disc_read(id):
             disc_Dict = d.to_dict()
             disc_Dict["id"] = d.id
             discussions.append(disc_Dict)
-        return jsonify(discussions), 200
+        return await jsonify(discussions), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/get-threads/<id>', methods=['GET'])
-def thread_read(id):
+async def thread_read(id):
     """
         id : is the thread id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -775,13 +777,13 @@ def thread_read(id):
             thread_Dict = t.to_dict()
             thread_Dict["id"] = t.id
             thr.append(thread_Dict)
-        return jsonify(thr), 200
+        return await jsonify(thr), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/get-comments/<id>', methods=['GET'])
-def comm_read(id):
+async def comm_read(id):
     """
         id : is the thread id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -794,13 +796,13 @@ def comm_read(id):
             comm_Dict = c.to_dict()
             comm_Dict["id"] = c.id
             comments.append(comm_Dict)
-        return jsonify(comments), 200
+        return await jsonify(comments), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/add-comment', methods=['POST'])
-def comm_create():
+async def comm_create():
     """
         create() : Add document to Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
@@ -808,13 +810,13 @@ def comm_create():
     """
     try:
         comments_ref.document().set(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/create-thread', methods=['POST'])
-def thr_create():
+async def thr_create():
     """
         create() : Add document to Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
@@ -822,7 +824,7 @@ def thr_create():
     """
     try:
         threads_ref.document().set(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -830,13 +832,13 @@ def thr_create():
 # make sure to have body content type to application/json
 ## Be sure to pass in the competition id in the url with the competition info you want to change in the JSON that you pass into the body.
 @app.route('/api/update-active-competition/<id>', methods=['POST', 'PUT'])
-def comp_update_active(id):
+async def comp_update_active(id):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post today'}
     """
-    return comp_update_active_driver(id, request.json)
+    return await comp_update_active_driver(id, request.json)
 
 
 def comp_update_active_driver(id, req):
@@ -848,7 +850,7 @@ def comp_update_active_driver(id, req):
 
 
 @app.route('/api/update-stale-competition/<id>', methods=['POST', 'PUT'])
-def comp_update_stale(id):
+async def comp_update_stale(id):
     """
         update() : Update document in Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
@@ -856,13 +858,13 @@ def comp_update_stale(id):
     """
     try:
         staleCompetitions_ref.document(id).update(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/delete-active-competition', methods=['GET', 'DELETE'])
-def comp_delete():
+async def comp_delete():
     """
         delete() : Delete a document from Firestore collection.
     """
@@ -870,14 +872,14 @@ def comp_delete():
         # Check for ID in URL query
         competition_id = request.args.get('id')
         competitions_ref.document(competition_id).delete()
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the competition id in the url
 @app.route('/api/delete-active-competition/<id>', methods=['GET', 'DELETE'])
-def comp_delete_active_id(id):
+async def comp_delete_active_id(id):
     """
         delete() : Delete a document from Firestore collection.
     """
@@ -885,13 +887,13 @@ def comp_delete_active_id(id):
         # Check for ID in URL query
         competition_id = id
         activeCompetitions_ref.document(competition_id).delete()
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/delete-stale-competition/<id>', methods=['GET', 'DELETE'])
-def comp_delete_stale_id(id):
+async def comp_delete_stale_id(id):
     """
         delete() : Delete a document from Firestore collection.
     """
@@ -899,19 +901,19 @@ def comp_delete_stale_id(id):
         # Check for ID in URL query
         competition_id = id
         staleCompetitions_ref.document(competition_id).delete()
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/enter-competition', methods=['POST'])
-def comp_enter_user():
+async def comp_enter_user():
     """
         Enters user into competition
         read() : Fetches documents from Firestore collection as JSON.
         competitions : Return document(s) that matches query userID.
     """
-    return comp_enter_user_driver(request.json)
+    return await comp_enter_user_driver(request.json)
 
 
 def comp_enter_user_driver(req_obj):
@@ -924,7 +926,7 @@ def comp_enter_user_driver(req_obj):
 
 ## edits user submitted algorithm in competition
 @app.route('/api/edit-competition-algorithm/<id>', methods=['POST', 'PUT'])
-def comp_edit_algorithm(id):
+async def comp_edit_algorithm(id):
     """
         id : is the competitior id. Edits the competitior information by this competitor id.
         read() : Fetches documents from Firestore collection as JSON.
@@ -932,14 +934,14 @@ def comp_edit_algorithm(id):
     """
     try:
         competitors_ref.document(id).update(request.json)
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 ## Be sure to pass in the competition id in the url
 @app.route('/api/unregister-competition/<id>', methods=['GET', 'DELETE'])
-def comp_unregister_competition(id):
+async def comp_unregister_competition(id):
     """
         delete() : Delete a document from Firestore collection.
     """
@@ -947,7 +949,7 @@ def comp_unregister_competition(id):
         # Check for ID in URL query
         competition_id = id
         competitors_ref.document(competition_id).delete()
-        return jsonify({"success": True}), 200
+        return await jsonify({"success": True}), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -956,13 +958,13 @@ def comp_unregister_competition(id):
 
 ## Start Bot CRUD Block
 @app.route('/api/create-bot', methods=['POST'])
-def bot_create():
+async def bot_create():
     """
         create() : Add document to Firestore collection with request body.
         Ensure you pass a custom ID as part of json body in post request,
         e.g. json={'id': '1', 'title': 'Write a blog post'}
     """
-    return bot_create_driver(request.json)
+    return await bot_create_driver(request.json)
 
 
 def bot_create_driver(req_obj):
@@ -975,13 +977,13 @@ def bot_create_driver(req_obj):
 
 
 @app.route('/api/list-bots', methods=['GET'])
-def bots_list():
+async def bots_list():
     """
         Gets all bots in the collection.
         read() : Fetches documents from Firestore collection as JSON.
     """
     try:
-        return jsonify(bots_list_driver()), 200
+        return await jsonify(bots_list_driver()), 200
     except Exception as e:
         return f"An Error Occured: {e}"
 
@@ -998,7 +1000,7 @@ def bots_list_driver():
 
 ## Beginning of yahoo Finance information
 @app.route('/api/gethighchartdata', methods=['POST'])
-def get_highchart_data():
+async def get_highchart_data():
     dataDict = request.json
 
     try:
@@ -1014,13 +1016,13 @@ def get_highchart_data():
         unixDatesWithMS = [int(f"{str(i)[:-2]}000") for i in unixDates]
 
         dataList = list(zip(unixDatesWithMS, closes, opens, high, low))
-        return jsonify(dataList)
+        return await jsonify(dataList)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/getNews/<ticker>', methods=['GET'])
-def get_yahoo_news(ticker):
+async def get_yahoo_news(ticker):
     try:
         ticker_info = yf.Ticker(ticker)
         listOfNews = []
@@ -1030,15 +1032,15 @@ def get_yahoo_news(ticker):
             newDict["publisher"] = i["publisher"]
             newDict["link"] = i["link"]
             listOfNews.append(newDict)
-        return jsonify(listOfNews)
+        return await jsonify(listOfNews)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
 
 @app.route('/api/getLogo/<ticker>', methods=['GET'])
-def get_stock_logo(ticker):
+async def get_stock_logo(ticker):
     try:
-        return get_stock_logo_driver(ticker)
+        return await get_stock_logo_driver(ticker)
     except Exception as e:
         return f"An Error Occurred: {e}"
 
@@ -1051,8 +1053,8 @@ def get_stock_logo_driver(ticker):
 
 
 @app.route('/api/getInfo/<ticker>', methods=['GET'])
-def get_stock_info(ticker):
-    return get_stock_info_driver(ticker)
+async def get_stock_info(ticker):
+    return await get_stock_info_driver(ticker)
 
 
 def get_stock_info_driver(ticker):
@@ -1064,8 +1066,8 @@ def get_stock_info_driver(ticker):
 
 
 @app.route('/api/getRecommendations/<ticker>')
-def get_stock_recommendations(ticker):
-    return get_stock_recommendations_driver(ticker)
+async def get_stock_recommendations(ticker):
+    return await get_stock_recommendations_driver(ticker)
 
 
 def get_stock_recommendations_driver(ticker):
@@ -1111,8 +1113,8 @@ def get_stock_recommendations_driver(ticker):
 
 
 @app.route('/api/getStockSplits/<ticker>', methods=['GET'])
-def get_stock_splits(ticker):
-    return get_stock_splits_driver(ticker)
+async def get_stock_splits(ticker):
+    return await get_stock_splits_driver(ticker)
 
 
 def get_stock_splits_driver(ticker):
@@ -1130,8 +1132,8 @@ def get_stock_splits_driver(ticker):
 
 
 @app.route('/api/getStockCalendar/<ticker>', methods=['GET'])
-def get_stock_calendar(ticker):
-    return get_stock_calendar_driver(ticker)
+async def get_stock_calendar(ticker):
+    return await get_stock_calendar_driver(ticker)
 
 
 def get_stock_calendar_driver(ticker):
@@ -1144,8 +1146,8 @@ def get_stock_calendar_driver(ticker):
 
 
 @app.route('/api/getStockFinancials/<ticker>', methods=['GET'])
-def get_stock_financials(ticker):
-    return get_stock_financials_driver(ticker)
+async def get_stock_financials(ticker):
+    return await get_stock_financials_driver(ticker)
 
 
 def get_stock_financials_driver(ticker):
@@ -1158,8 +1160,8 @@ def get_stock_financials_driver(ticker):
 
 
 @app.route('/api/getStockActions/<ticker>', methods=['GET'])
-def get_stock_actions(ticker):
-    return get_stock_actions_driver(ticker)
+async def get_stock_actions(ticker):
+    return await get_stock_actions_driver(ticker)
 
 
 def get_stock_actions_driver(ticker):
@@ -1172,8 +1174,8 @@ def get_stock_actions_driver(ticker):
 
 
 @app.route('/api/getStockDividends/<ticker>', methods=['GET'])
-def get_stock_dividends(ticker):
-    return get_stock_dividends_driver(ticker)
+async def get_stock_dividends(ticker):
+    return await get_stock_dividends_driver(ticker)
 
 
 def get_stock_dividends_driver(ticker):
@@ -1186,8 +1188,8 @@ def get_stock_dividends_driver(ticker):
 
 
 @app.route('/api/getQuartFinancials/<ticker>', methods=['GET'])
-def get_quart_financials(ticker):
-    return get_quart_financials_driver(ticker)
+async def get_quart_financials(ticker):
+    return await get_quart_financials_driver(ticker)
 
 
 def get_quart_financials_driver(ticker):
@@ -1226,8 +1228,8 @@ def get_quart_financials_driver(ticker):
 
 
 @app.route('/api/getQuartEarnings/<ticker>', methods=['GET'])
-def get_quart_earnings(ticker):
-    return get_quart_earnings_driver(ticker)
+async def get_quart_earnings(ticker):
+    return await get_quart_earnings_driver(ticker)
 
 
 def get_quart_earnings_driver(ticker):
@@ -1264,8 +1266,8 @@ def get_quart_earnings_driver(ticker):
 
 
 @app.route('/api/getMajorHolders/<ticker>', methods=['GET'])
-def get_major_holders(ticker):
-    return get_major_holders_driver(ticker)
+async def get_major_holders(ticker):
+    return await get_major_holders_driver(ticker)
 
 
 def get_major_holders_driver(ticker):
@@ -1308,8 +1310,8 @@ def get_major_holders_driver(ticker):
 
 
 @app.route('/api/getInstHolders/<ticker>', methods=['GET'])
-def get_institutional_holders(ticker):
-    return get_institutional_holders_driver(ticker)
+async def get_institutional_holders(ticker):
+    return await get_institutional_holders_driver(ticker)
 
 
 def get_institutional_holders_driver(ticker):
@@ -1322,8 +1324,8 @@ def get_institutional_holders_driver(ticker):
 
 
 @app.route('/api/getBalanceSheet/<ticker>', methods=['GET'])
-def get_balance_sheet(ticker):
-    return get_balance_sheet_driver(ticker)
+async def get_balance_sheet(ticker):
+    return await get_balance_sheet_driver(ticker)
 
 
 def get_balance_sheet_driver(ticker):
@@ -1336,8 +1338,8 @@ def get_balance_sheet_driver(ticker):
 
 
 @app.route('/api/getQuartBalanceSheet/<ticker>', methods=['GET'])
-def get_quartery_balance_sheet(ticker):
-    return get_quartery_balance_sheet_driver(ticker)
+async def get_quartery_balance_sheet(ticker):
+    return await get_quartery_balance_sheet_driver(ticker)
 
 
 def get_quartery_balance_sheet_driver(ticker):
@@ -1350,8 +1352,8 @@ def get_quartery_balance_sheet_driver(ticker):
 
 
 @app.route('/api/getCashflow/<ticker>', methods=['GET'])
-def get_cashflow(ticker):
-    return get_cashflow_driver(ticker)
+async def get_cashflow(ticker):
+    return await get_cashflow_driver(ticker)
 
 
 def get_cashflow_driver(ticker):
@@ -1364,8 +1366,8 @@ def get_cashflow_driver(ticker):
 
 
 @app.route('/api/getQuartCashflow/<ticker>', methods=['GET'])
-def get_quart_cashflow(ticker):
-    return get_quart_cashflow_driver(ticker)
+async def get_quart_cashflow(ticker):
+    return await get_quart_cashflow_driver(ticker)
 
 
 def get_quart_cashflow_driver(ticker):
@@ -1378,8 +1380,8 @@ def get_quart_cashflow_driver(ticker):
 
 
 @app.route('/api/getEarnings/<ticker>', methods=['GET'])
-def get_earnings(ticker):
-    return get_earnings_driver(ticker)
+async def get_earnings(ticker):
+    return await get_earnings_driver(ticker)
 
 
 def get_earnings_driver(ticker):
@@ -1392,8 +1394,8 @@ def get_earnings_driver(ticker):
 
 
 @app.route('/api/getSustainability/<ticker>', methods=['GET'])
-def get_sustainability(ticker):
-    return get_sustainability_driver(ticker)
+async def get_sustainability(ticker):
+    return await get_sustainability_driver(ticker)
 
 def typeChekcer(x):
     if x is None:
@@ -1423,8 +1425,8 @@ def get_sustainability_driver(ticker):
 
 
 @app.route('/api/getIsin/<ticker>', methods=['GET'])
-def get_isin(ticker):
-    return get_isin_driver(ticker)
+async def get_isin(ticker):
+    return await get_isin_driver(ticker)
 
 
 def get_isin_driver(ticker):
@@ -1437,8 +1439,8 @@ def get_isin_driver(ticker):
 
 
 @app.route('/api/getOptions/<ticker>', methods=['GET'])
-def get_options(ticker):
-    return get_options_driver(ticker)
+async def get_options(ticker):
+    return await get_options_driver(ticker)
 
 
 def get_options_driver(ticker):
@@ -1488,9 +1490,9 @@ randomStockList = ['AAPL', 'TSLA', 'MSFT', 'MRNA', 'MMM', 'GOOG', 'FB', 'AMZN', 
                    'GME', 'AMC', 'NFLX', 'DIS', 'PTON', 'SPY', 'VOO', 'HLF']
 
 @app.route('/api/generate_comps', methods=['PUT'])
-def genComps():
+async def genComps():
     generateCompetitions()
-    return "Competitions Generated Successfully", 200
+    return await "Competitions Generated Successfully", 200
 
 def generateCompetitions():
     # Datetime is in this format "2020-11-9" "YYYY-MM-DD"
@@ -1540,13 +1542,13 @@ def generateBot():
 
 
 @app.route('/api/generate_bot', methods=['PUT'])
-def generateBotAPI():
-    return generateBot()
+async def generateBotAPI():
+    return await generateBot()
 
 
 @app.route('/api/enterBotsComp', methods=['PUT'])
-def enterBotsCompAPI():
-    return enterBotsIntoComps()
+async def enterBotsCompAPI():
+    return await enterBotsIntoComps()
 
 
 def enterBotsIntoComps():
@@ -1613,9 +1615,9 @@ def enterBotsIntoComps():
 
 
 @app.route('/api/findBestUsers', methods=['PUT'])
-def findBestUsersAPI():
+async def findBestUsersAPI():
     findBestUsers()
-    return "Successfully Ran Competitions", 200
+    return await "Successfully Ran Competitions", 200
 
 
 def findBestUsers():
