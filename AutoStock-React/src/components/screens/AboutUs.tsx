@@ -95,6 +95,7 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Full Stack</h4>
+            <a href = "mailto:curtylin@gmail.com">Send Email</a>
             <p>I am proud to have joined Autostock for the capstone project as the guy for full stack engineering. For this project, I did everything relating to the database including competitions, algorithms, and users. For my rank 3, I realized there was a need for bots for each competition to boost the competitiveness. This is my first time working on React and I am proud of what I have done. 
                 In my freetime, I love experiencing new flavors and places. I also take plenty of pictures to document all of my experiences.
                 <br></br>
