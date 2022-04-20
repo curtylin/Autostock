@@ -52,7 +52,8 @@ const AboutUs = () => {
                     <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
                 </IconButton>
             </Stack>
-            <h4>Weekend</h4>
+            <h4>Backend</h4>
+            <a href = "mailto:albert.zhang8@gmail.com">albert.zhang8@gmail.com</a>
             <p> On AutoStock I focused mainly on the backend specifically the backtesting portion. I spent most of the time testing 
                 and implementing new strategies as well as a couple front end features.For my personal portion of the project I added the chained feature in the edit and create algorithm.
                 This project has been a great experience with me as it gave me the opportunity to learn a lot about web dev and algo trading. In my free time I like to swim, ski, play video games
@@ -75,7 +76,7 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Front End</h4>
-            
+            <a href = "mailto:brandon.nham@gmail.com">brandon.nham@gmail.com</a>
             <p>With Autostock, I focused on the front end of the project. For my personal feature, the discussion boards, I was able to dip my toes into the back end. For me, this project has 
                 given me the opportunity to work closely with a team on new skills that I have found to enjoy. I also enjoy learning new skills outside of class like cooking and playing the guitar, even though 
                 I am not very good at either. </p>
@@ -95,7 +96,7 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Full Stack</h4>
-            <a href = "mailto:curtylin@gmail.com">Send Email</a>
+            <a href = "mailto:curtylin@gmail.com">curtylin@gmail.com</a>
             <p>I am proud to have joined Autostock for the capstone project as the guy for full stack engineering. For this project, I did everything relating to the database including competitions, algorithms, and users. For my rank 3, I realized there was a need for bots for each competition to boost the competitiveness. This is my first time working on React and I am proud of what I have done. 
                 In my freetime, I love experiencing new flavors and places. I also take plenty of pictures to document all of my experiences.
                 <br></br>
@@ -117,6 +118,7 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Back End</h4>
+            <a href = "mailto:jfairbanks.ames@gmail.com">jfairbanks.ames@gmail.com</a>
             <p>Hello, I am Jonathan Fairbanks I am currently an Software Engineering Intern at MasterControl and also a computer science student at the University of Utah. In my free time I enjoy building keyboards and making hot dogs. For this project I was primarily responsible for the backend as well as many of the devops operations,
                  including backtesting and competitions. My personal contributions was adding an analysis page so a user can see more data about a stock, and make the best algorithms that they can!  </p>
 
@@ -135,6 +137,7 @@ const AboutUs = () => {
                 </IconButton>
             </Stack>
             <h4>Front End</h4>
+            <a href = "mailto:nickmountz16@gmail.com">nickmountz16@gmail.com</a>
             <p>Nick is a fullstack developer and senior at the University of Utah studying Computer Science. He is very passionate about engineering and problem solving. Nick can be found designing and building new (and old) applications in his free time. </p>
             <br></br>
 
