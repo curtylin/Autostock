@@ -318,7 +318,7 @@ const CreateAlgorithm = () => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/create-algorithm", init)
+    fetch("/api/create-algorithm", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })

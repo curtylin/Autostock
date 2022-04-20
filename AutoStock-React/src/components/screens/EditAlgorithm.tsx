@@ -250,7 +250,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
       body,
     }
 
-    fetch("http://127.0.0.1:5000/backtest", init)
+    fetch("/api/backtest", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
@@ -371,7 +371,7 @@ const EditAlgorithm = ({ location }: { location: any }) => {
     }
     console.log("sending api call")
     fetch(
-      `http://127.0.0.1:5000/update-algorithm/${window.history.state.algorithm.id}`,
+      `/api/update-algorithm/${window.history.state.algorithm.id}`,
       init
     )
       .then(response => {
