@@ -283,7 +283,7 @@ const Competition = () => {
       headers,
       body,
     }
-    fetch("http://127.0.0.1:5000/enter-competition", init)
+    fetch("/api/enter-competition", init)
       .then(response => {
         return response.json() // or .text() or .blob() ...
       })
