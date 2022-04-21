@@ -330,7 +330,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 <MenuItem
                   onClick={event => {
                     event.preventDefault()
-                    logout(() => navigate(`/app/login`))
+                    logout(() => navigate(`/`))
                   }}
                 >
                   Logout
