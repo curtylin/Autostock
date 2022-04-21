@@ -222,16 +222,6 @@ export default function createAccountSide() {
                 id="password"
                 autoComplete="current-password"
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="Username"
-                label="Username"
-                type="Username"
-                id="Username"
-                autoComplete="Username"
-              />
               <Button
                 type="submit"
                 fullWidth
