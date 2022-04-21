@@ -129,7 +129,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* hamburger menu */}
-          <Box sx={{ mr: 0, display: { lg: "none", md: "flex", sm: "flex" } }}>
+          <Box sx={{ mr: 0, display: { lg: "flex", md: "flex", sm: "flex" } }}>
             <TemporaryDrawer></TemporaryDrawer>
           </Box>
 

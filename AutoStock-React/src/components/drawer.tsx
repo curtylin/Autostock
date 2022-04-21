@@ -12,7 +12,11 @@ import Accordion from "@mui/material/Accordion"
 import AccordionSummary from "@mui/material/AccordionSummary"
 import AccordionDetails from "@mui/material/AccordionDetails"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import GroupsIcon from '@mui/icons-material/Groups';
 import GroupIcon from "@mui/icons-material/Group"
+import Logo from "../images/AutostockLogo_greenandblack.jpg"
+import FlightLandIcon from '@mui/icons-material/FlightLand';
+
 
 import "../components/header.css"
 
@@ -33,6 +37,15 @@ export default function TemporaryDrawer() {
     left: false,
   })
 
+  const LandingPage = (
+    <Link
+      to="/"
+      style={{ textDecoration: "none"}}
+      className="drawerItem"
+    >
+      Landing Page
+    </Link>
+  )
   const CompPage = (
     <Link
       to="/app/competitions"
@@ -60,6 +73,16 @@ export default function TemporaryDrawer() {
       className="drawerItem"
     >
       Quick Start Guide
+    </Link>
+  )
+
+  const AboutUsPage = (
+    <Link 
+      to="/app/aboutus"
+      style={{ textDecoration: "none" }}
+      className="drawerItem"
+    > 
+      About Us
     </Link>
   )
 
@@ -109,6 +132,26 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+        <Box>
+        <Link
+            to="/app/home"
+            style={{ color: "black", textDecoration: "none" }}
+            className="autostock-link"
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              <img
+                style={{ marginBottom: 0, marginRight: 5 }}
+                width={50}
+                src={Logo}
+              ></img>
+            </div>
+          </Link>
         <Typography
           fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
           fontWeight="Bold"
@@ -127,13 +170,14 @@ export default function TemporaryDrawer() {
             Autostock
           </Link>
         </Typography>
+        </Box>
 
         {pages.map((text, index) => (
           <ListItem>
             <ListItemIcon>
-              {index == 0 && <CreateIcon />}
-              {index == 1 && <ShowChartIcon />}
-              {index == 2 && <GroupIcon />}
+              {index == 0 && <CreateIcon  style={{color:"#059a76"}}/>}
+              {index == 1 && <ShowChartIcon  style={{color:"#059a76"}}/>}
+              {index == 2 && <GroupIcon style={{color:"#059a76"}} />}
             </ListItemIcon>
             <Typography
               textAlign="center"
@@ -150,7 +194,7 @@ export default function TemporaryDrawer() {
 
         <ListItem>
           <ListItemIcon>
-            <EmojiEventsIcon />
+            <EmojiEventsIcon  style={{color:"#059a76"}}/>
           </ListItemIcon>
           <Typography
             textAlign="center"
@@ -166,7 +210,7 @@ export default function TemporaryDrawer() {
         {/* <Divider /> */}
         <ListItem>
           <ListItemIcon>
-            <LeaderboardIcon />
+            <LeaderboardIcon  style={{color:"#059a76"}}/>
           </ListItemIcon>
           <Typography
             textAlign="center"
@@ -181,7 +225,7 @@ export default function TemporaryDrawer() {
         {/* <Divider /> */}
         <ListItem>
           <ListItemIcon>
-            <ShowChartIcon />
+            <ShowChartIcon  style={{color:"#059a76"}}/>
           </ListItemIcon>
           <Typography
             textAlign="center"
@@ -191,6 +235,34 @@ export default function TemporaryDrawer() {
             component="div"
           >
             {QuickStartGuide}
+          </Typography>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <GroupsIcon  style={{color:"#059a76"}}/>
+          </ListItemIcon>
+          <Typography
+            textAlign="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            align="right"
+            component="div"
+          >
+            {AboutUsPage}
+          </Typography>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <FlightLandIcon style={{color:"#059a76"}}/>
+          </ListItemIcon>
+          <Typography
+            textAlign="center"
+            fontFamily="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif"
+            fontWeight="medium"
+            align="right"
+            component="div"
+          >
+            {LandingPage}
           </Typography>
         </ListItem>
       </List>

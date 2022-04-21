@@ -548,7 +548,7 @@ const Competition = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <table className="mdc-data-table__table" aria-label="my-algorithms">
+          <table className="mdc-data-table__table" aria-label="my-algorithms" style={{tableLayout: "fixed", width: "100%"}}>
             <thead>
               <tr className="mdc-data-table__header-row">
                 <th
