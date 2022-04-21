@@ -52,7 +52,7 @@ const AboutUs = () => {
                     <LinkedInIcon fontSize="large" style={{color:"#007FFF"}}/>
                 </IconButton>
             </Stack>
-            <h4>Backend</h4>
+            <h4>Back End</h4>
             <a href = "mailto:albert.zhang8@gmail.com">albert.zhang8@gmail.com</a>
             <p> On AutoStock I focused mainly on the backend specifically the backtesting portion. I spent most of the time testing 
                 and implementing new strategies as well as a couple front end features.For my personal portion of the project I added the chained feature in the edit and create algorithm.
