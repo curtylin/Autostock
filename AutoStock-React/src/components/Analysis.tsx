@@ -99,32 +99,32 @@ export default function Analysis() {
       </Typography>
 
       {stock !== '' ?
-      <Grid container spacing={2} >
-        <Grid item xs={12} >
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
           <HighChart stock={stock} stockData={stockData} />
         </Grid>
-        <Grid item xs={8} sx={{border:1}}>
+        <Grid item xs={12} md={8} sx={{border:1, marginLeft:{xs:2, md:0}}}>
           <Calendar stock={updatedStock}/>
         </Grid>
-        <Grid item xs={4} sx={{border:1}}> 
+        <Grid item xs={12} md={4} sx={{border:1, marginLeft:{xs:2, md:0}}}> 
           <Stockmajorholders stock={updatedStock}/>
         </Grid>
-        <Grid item xs={4} sx={{border:1}}> 
+        <Grid item xs={12} md={4} sx={{border:1, marginLeft:{xs:2, md:0}}}> 
           <Recommendations stock={updatedStock} />
         </Grid>
-        <Grid item xs={8} sx={{border:1}}> 
+        <Grid item xs={12} md={8} sx={{border:1, marginLeft:{xs:2, md:0}}}> 
           <QuartEarnings stock={updatedStock}/>
         </Grid>
-        <Grid item xs={12} sx={{border:1}}> 
+        <Grid item xs={12} sx={{border:1, marginLeft:{xs:2, md:0}}} display={{xs:"none", md:"block"}}> 
           <Stockfinancials stock={updatedStock}/>
         </Grid>
         {/* <Grid item xs={3} sx={{border:1}}> 
           <Stockbalancesheets stock={updatedStock}/>
         </Grid> */}
-        <Grid item xs={6} sx={{border:1}}> 
+        <Grid item xs={12} md={6} sx={{border:1, marginLeft:{xs:2, md:0}}}> 
           <Stocksplits stock={updatedStock}/>
         </Grid>
-        <Grid item xs={6} sx={{border:1}}> 
+        <Grid item xs={12} md={6} sx={{border:1, marginLeft:{xs:2, md:0}}}> 
           <Sustainability stock={updatedStock}/>
         </Grid>
         {/* <Grid item xs={4} sx={{border:1}}> 
