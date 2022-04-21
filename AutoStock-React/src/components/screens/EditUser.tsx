@@ -152,7 +152,7 @@ const EditUser = () => {
   return (
     <Layout>
       <Seo title="Autostock" />
-      <h1>Edit Account Information</h1>
+      <h1>Set your username:</h1>
       {/*  User Name */}
       <FormControl sx={{ my: 2, mr: 5, minWidth: 300 }}>
         <Tooltip title="What do you want to be called?" placement="left" arrow>

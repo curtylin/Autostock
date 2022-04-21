@@ -326,7 +326,6 @@ const Header = ({ siteTitle }: HeaderProps) => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={QSGRoute}>Quick Start Guide</MenuItem>
-                <MenuItem onClick={ProfileRoute}>Profile</MenuItem>
                 <MenuItem onClick={EditAccountRoute}>Edit Account</MenuItem>
                 <MenuItem
                   onClick={event => {

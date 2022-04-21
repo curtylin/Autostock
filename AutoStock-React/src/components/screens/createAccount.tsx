@@ -75,7 +75,7 @@ export default function createAccountSide() {
         const user = userCredential.user
         if (isBrowser) {
           window.localStorage.setItem("currentUser", JSON.stringify(user))
-          navigate(`/app/home`)
+          navigate(`/app/edituser`)
         }
         // ...
       })
@@ -97,7 +97,7 @@ export default function createAccountSide() {
         console.log("Signed in via google as:", user.email)
         if (isBrowser) {
           window.localStorage.setItem("currentUser", JSON.stringify(user))
-          navigate(`/app/home`)
+          navigate(`/app/edituser`)
         }
       })
       .catch(error => {
