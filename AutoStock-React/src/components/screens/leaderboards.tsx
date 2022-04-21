@@ -89,7 +89,7 @@ const Leaderboards = () => {
           }
           return (
             <Stack key={index} direction="column" spacing={2}>
-              <Card key={index} variant="outlined" sx={{ minWidth: 275 }}>
+              <Card key={index} variant="outlined" sx={{ minWidth: 350 }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
                     {comp.name}
@@ -100,6 +100,7 @@ const Leaderboards = () => {
                   <table
                     className="mdc-data-table__table"
                     aria-label="my-algorithms"
+                    style={{tableLayout: "fixed", width: "100%"}}
                   >
                     <thead>
                       <tr className="mdc-data-table__header-row">
@@ -150,7 +151,7 @@ const Leaderboards = () => {
                             <td className="table_data">
                               {Number(algorithm.PnLPercent).toFixed(5)}%
                             </td>
-                            <td className="table_data">
+                            <td style={{marginRight:100}} className="table_data">
                               {users.has(algorithm.userID)
                                 ? users.get(algorithm.userID)
                                 : algorithm.userID}

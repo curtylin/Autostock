@@ -129,14 +129,16 @@ const Home = () => {
           >
             {username == "" ? (
               <>
-                Hi! Looks like you have not&nbsp;
-                <Link className="dis_UserName" to="/app/edituser">
-                  set a username.
-                </Link>
+                <Box>
+                  Hi! Looks like you have not&nbsp;
+                  <Link className="dis_UserName" to="/app/edituser">
+                    set a username.
+                  </Link>
+                </Box>
               </>
             ) : (
               <>
-                Welcome back,<span className="dis_UserName">{username}</span>!
+               <div> Welcome back,<span className="dis_UserName">{username}</span>!</div>
               </>
             )}
           </Typography>
