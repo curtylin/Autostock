@@ -1634,8 +1634,7 @@ def enterBotsIntoComps():
 
 @app.route('/api/findBestUsers', methods=['PUT'])
 def findBestUsersAPI():
-    findBestUsers()
-    return "Successfully Ran Competitions", 200
+    return findBestUsers()
 
 
 def findBestUsers():
@@ -1702,6 +1701,7 @@ def findBestUsers():
         closeDate = parse(competition["endDate"])
         if today > closeDate.date():
             active_to_stale_comp_driver(competitionId)
+    return "Successfully Ran Competitions", 200
 
 
 def scheduleTest():
