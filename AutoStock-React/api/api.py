@@ -1687,6 +1687,8 @@ def findBestUsers():
                 backtestResults = backtest_driver(algo_dict)
                 update_algo_after_bt(algo_dict["id"], {"PnLPercent": backtestResults["PnLPercent"]})
             except Exception as e:
+                print(e)
+                return f"An Error Occurred: {e}"
             
             competitor_obj["PnLPercent"] = backtestResults["PnLPercent"]
             leaderboardsPair.append((competitor_obj, backtestResults["PnLPercent"]))
