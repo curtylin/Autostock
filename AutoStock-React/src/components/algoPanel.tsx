@@ -73,6 +73,7 @@ const CreateAlgorithm = () => {
   const [BTPnLNu, setBTPnLNum] = useState("")
   const [BTstart, setBTstart] = useState("")
   const [newAlgoDescription, setAlgoDescription] = useState("")
+  const [validStartDate, setValidStartDate] = useState(true)
   const [startDate, setStartDate] = useState(
     `${currDate.getFullYear() - 1}-${currentMonth}-${currentDate}`
   )
@@ -111,6 +112,25 @@ const CreateAlgorithm = () => {
   const handleChange = (event: any) => {
     setStocks(event.target.value);
   };
+
+  const handleStartDateCheck = (event: any) => {
+    // if start date is less than 6 months ago, setValidStartDate to false
+    let today = new Date()
+    let startdate = new Date(event)
+    let sixMonthBeforeNow = new Date(today);
+    sixMonthBeforeNow.setMonth(today.getMonth() - 6);
+    console.log("startdate", startdate)
+    console.log(sixMonthBeforeNow)
+    if (startdate.toISOString().slice(0,10) > sixMonthBeforeNow.toISOString().slice(0,10)) {
+      setValidStartDate(false)
+      console.log("start date is less than 6 months ago")
+    } else {
+      setValidStartDate(true)
+      setStartDate(event)
+      console.log("start date is more than 6 months ago")
+
+    }
+  }
 
   const handleExpand = (event: any) => {
     let today = new Date().toISOString().slice(0, 10)
@@ -369,7 +389,7 @@ const CreateAlgorithm = () => {
             label="Chain"
             value={chain}
             onChange={e => {
-              setChain(e.target.value) //CHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANGE
+              setChain(e.target.value) 
             }}
           >
             <MenuItem value="OR">Or</MenuItem>
@@ -1073,7 +1093,13 @@ const CreateAlgorithm = () => {
       </div>
       <Divider sx={{ mt: 5, mb: 2 }} />
       <h4>Backtesting</h4>
-
+      <Typography
+            color="red"
+            hidden={validStartDate == true}
+            fontSize={16}
+          >
+            Please choose a start date that is at least 6 months from today
+          </Typography>
       <Stack direction="row" sx={{ mb: 3 }}>
         <Typography sx={{ mr: 1, pt: 1 }}>Start Date:</Typography>
         <Box sx={{ mr: 10 }}>
@@ -1083,7 +1109,7 @@ const CreateAlgorithm = () => {
             name="startDate"
             value={startDate}
             onChange={e => {
-              setStartDate(e.target.value)
+              handleStartDateCheck(e.target.value)
             }}
             max={yesterdaysDate}
           ></input>
