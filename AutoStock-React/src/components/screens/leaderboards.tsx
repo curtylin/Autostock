@@ -22,7 +22,7 @@ const Leaderboards = () => {
     getAlgorithmsDB()
     getUsersDB()
     console.log(algorithms)
-    fetch("/api//list-ongoing-competitions")
+    fetch("/api/list-ongoing-competitions")
       .then(res => {
         return res.json()
       })

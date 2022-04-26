@@ -1549,6 +1549,23 @@ def enterBotsCompAPI():
     return enterBotsIntoComps()
 
 
+@app.route('/api/fixBotsChaining', methods=['PUT'])
+def fixBotsAPI():
+    chains= ["AND", "OR"]
+    botsList = bots_list_driver()
+    for bot in botsList:
+        algos = algorithms_ref.where("userID", "==", bot['userID']).stream()
+        for algo in algos:
+            algoDict = algo.to_dict()
+            if len(algoDict["entry"]) == 1:
+                continue
+            else: 
+                for i in range(1, len(algoDict["entry"])):
+                    if "chain" not in algoDict["entry"][i]:
+                        algoDict["entry"][i]["chain"] = random.choice(chains)
+                algorithms_ref.document(algo.id).update(algoDict)
+    return "Bots Fixed", 200
+
 def enterBotsIntoComps():
     competitions = active_comps_list_driver()
     botsList = bots_list_driver()
@@ -1556,6 +1573,7 @@ def enterBotsIntoComps():
     indicators = ["NONE", "SMA", "EMA", "ACCUM", "AMA", "ALLN", "ANYN", "AVERAGE", "BBANDS", "BBANDSPCT", "DPO", "DMA", "DEMA", "DOWND", "DOWNDB", "DOWNM", "EVE", "EXPSMOOTH", "FFIH", "FFIL", "FLIH", "FLIL", "MAXN", "HMA", "HURST", "KST", "LAGF", "LRSI", "MINN", "MACD", "MACDHISTO", "MEANDEV", "MOMENTUMOSC", "PCTCHANGE", "PCTRANK", "PPO", "PPOSHORT", "PRICEOSC", "RSIEMA", "RSISMA", "RSISAFE", "ROC", "ROC100", "RMI", "RSI", "SMMA", "STDDEV", "SUMN", "TEMA", "TRIX", "TRIXSIGNAL", "TSI", "UPDAY", "UPDAYBOOL", "WA", "WMA", "ZLEMA", "ZLIND"]
     actions = ["buy", "sell"]
     comparators = ["above", "below"]
+    chains= ["AND", "OR"]
     newCompetitionsEntered = []
     newAlgosCreated = 0
     reusedAlgos = 0
@@ -1578,6 +1596,8 @@ def enterBotsIntoComps():
                             "comparator": random.choice(comparators),
                             "indicatorTwo": random.choice(indicators)
                         }
+                        if i > 0:
+                            entry["chain"] = random.choice(chains)
                         entries.append(entry)
                     algo = {
                         "name": algoName,
@@ -1667,7 +1687,6 @@ def findBestUsers():
                 backtestResults = backtest_driver(algo_dict)
                 update_algo_after_bt(algo_dict["id"], {"PnLPercent": backtestResults["PnLPercent"]})
             except Exception as e:
-                print(e)
             
             competitor_obj["PnLPercent"] = backtestResults["PnLPercent"]
             leaderboardsPair.append((competitor_obj, backtestResults["PnLPercent"]))
