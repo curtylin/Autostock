@@ -1,3 +1,6 @@
+# NOTE: AS OF 4/29/2022, ALL FIREBASE API KEYS HAVE BEEN REVOKED. YOU WILL NEED TO GENERATE A NEW PROJECT FOR THIS PROJECT TO RUN.
+
+
 # Running on Docker: (Easiest solution, NOTE: These are all run on WSL/Linux.. make sure you have docker preinstalled there.)
 To build a docker image run the following command: (keep in mind, this will take a while to load ~5 minutes.. so we recommend running it on development.)
 ```
